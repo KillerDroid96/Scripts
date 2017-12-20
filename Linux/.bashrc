@@ -29,9 +29,10 @@ alias grep='grep --color=auto' #Adds Color
 alias XPS15='ssh username@ip' #Starts SSH
 alias editbash='nano ~/.bashrc' #Edits Bash
 alias updatebash='source ~/.bashrc' #Updates Bash
-alias c="clear" #Clears Terminal
+alias c="clear"  #Clears Terminal
+alias r="reset" #Resets Terminal
 alias e="exit" #Exits Terminal
-alias path="pwd" #Displays File Path
+alias p="pwd" #Displays File Path
 #Fun
 alias banner='/etc/profile.d/motd.sh' #Displays MOTD & Banner
 alias busy="cat /dev/urandom | hexdump -C | grep 'ca fe'" #Busy Effect
@@ -41,7 +42,7 @@ alias tree="ls -R | grep ":$" | sed -e 's/:$//' -e 's/[^-][^\/]*\//--/g' -e 's/^
 alias intercept="sudo strace -ff -e trace=write -e write=1,2 -p" 
 alias meminfo='free -m -l -t'
 alias hs='history | grep' # hs history displays comand history, use !208 etc to repeat command
-alias fps='ps aux | grep'
+alias fps='ps aux | grep' #Usage: fps terminal, displays pid of terminals
 alias cmount="mount | column -t"
 
 ###########
