@@ -32,6 +32,7 @@ alias grep='grep --color=auto' #Adds Color
 alias XPS15='ssh username@ip' #Starts SSH
 alias sssh='ssh username@ip' #Starts SSH
 alias ssi="gnome-screenshot -a -i" #Screenshot Selected Area
+alias bl="bashlist" #Quick launch for bashlist
 alias editbash='nano ~/.bashrc' #Edits Bash
 alias updatebash='source ~/.bashrc' #Updates Bash
 alias c="clear" #Clears Terminal
