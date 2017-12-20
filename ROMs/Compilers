@@ -1,0 +1,12 @@
+#!/bin/bash
+#Build Dependecies
+ccache -V
+clang --version
+gcc -dumpversion
+gcc -dumpmachine
+ninja --version
+
+# ccache version 3.3.4
+# clang version 5.0.0 (tags/RELEASE_500/final)
+# GCC 7.2.1 x86_64-pc-linux-gnu
+# Ninja 1.8.2

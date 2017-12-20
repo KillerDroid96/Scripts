@@ -1,0 +1,19 @@
+<-----------Starting SSH------------>
+ sudo systemctl start sshd.service 
+ sudo systemctl status sshd.service 
+
+<---------Connect to Host----------->
+ssh username@ip
+.bashrc add
+alias XPS15='ssh username@ip'
+
+<--------Possible SSH Fix's--------->
+ sudo journalctl -u sshd -b -0
+ sudo iptables -L INPUT -n -v
+ sudo ufw allow ssh
+
+ eval "$(ssh-agent -s)"
+ systemctl enable sshd.service
+<----------------------------------->
+s
+https://www.digitalocean.com/community/tutorials/ssh-essentials-working-with-ssh-servers-clients-and-keys
