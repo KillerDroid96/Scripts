@@ -1,9 +1,7 @@
 # Scripts
 
-+ **bashlist** Script to display all .bashrc commands
-
 ## Linux
-
++ **bashlist** Script to Display My Aliases and Functions
 + **.bashrc:** My Aliases and Functions 
 + **motd.sh:** MOTD script (placed in /etc/profile.d and touch ~/.hushlogin to suppress last login message)
 + **banner:** Prints Droid Box when opening terminal, called by MOTD (placed in /home/user/)
