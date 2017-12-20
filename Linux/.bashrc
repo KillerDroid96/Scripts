@@ -29,7 +29,6 @@ alias ll="ls --color -al" #Adds Color
 alias grep='grep --color=auto' #Adds Color
 
 #Frequent
-alias XPS15='ssh username@ip' #Starts SSH
 alias sssh='ssh username@ip' #Starts SSH
 alias ssi="gnome-screenshot -a -i" #Screenshot Selected Area
 alias bl="bashlist" #Quick launch for bashlist
@@ -47,7 +46,7 @@ alias busy="cat /dev/urandom | hexdump -C | grep 'ca fe'" #Busy Effect
 alias matrix="cmatrix" #Matrix Effect 
 
 #Spotify (Needs AUR playerctl and spotify)
-alias spp="playerctl play-pause" #Toggle Play/Pause
+alias st="playerctl play-pause" #Toggle Play/Pause
 alias play="playerctl play"
 alias pause="playerctl pause"
 alias next="playerctl next"
