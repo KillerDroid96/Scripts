@@ -9,8 +9,8 @@
 + **SSH Config** My changes to sshd_config (placed in /etc/ssh/sshd_config)
 
 ## Linux
-+ **bashlist** Script to Display My Aliases and Functions
 + **banner:** Script Prints Droid Box when opening terminal, called by MOTD (placed in /home/user/)
++ **bashlist** Script to Display My Aliases and Functions
 + **linux:** Script to install and list my personal packages (incomplete)
 
 ## ROMs
