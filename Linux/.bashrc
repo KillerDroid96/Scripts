@@ -14,7 +14,6 @@ EDITOR=/usr/bin/nano
 #######
 #PATHS#
 #######
-PATH=$PATH:/home/killerdroid96/ROMs/Developers/MatthewKeller/Scripts/; export PATH
 PATH=$PATH:/home/killerdroid96/ROMs/Developers/MatthewKeller/Scripts/ROMs; export PATH
 PATH=$PATH:/home/killerdroid96/ROMs/Developers/MatthewKeller/Scripts/Linux; export PATH
 PATH=$PATH:/home/killerdroid96/ROMs/Developers/NathanChancellor/nscripts; export PATH
