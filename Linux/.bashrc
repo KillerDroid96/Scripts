@@ -21,22 +21,25 @@ PATH=$PATH:/home/killerdroid96/ROMs/Developers/NathanChancellor/nscripts; export
 #######
 #ALIAS#
 #######
+#Color
 alias ls="ls --color=auto" #Adds Color
 alias ll="ls --color -al" #Adds Color
 alias grep='grep --color=auto' #Adds Color
-
+#Frequent
 alias XPS15='ssh username@ip' #Starts SSH
 alias editbash='nano ~/.bashrc' #Edits Bash
 alias updatebash='source ~/.bashrc' #Updates Bash
 alias c="clear" #Clears Terminal
 alias e="exit" #Exits Terminal
 alias path="pwd" #Displays File Path
+#Fun
 alias banner='/etc/profile.d/motd.sh' #Displays MOTD & Banner
-
+alias busy="cat /dev/urandom | hexdump -C | grep 'ca fe'" #Busy Effect
+alias matrix="cmatrix" #Matrix Effect 
+#Others
 alias tree="ls -R | grep ":$" | sed -e 's/:$//' -e 's/[^-][^\/]*\//--/g' -e 's/^/   /' -e 's/-/|/'" 
 alias intercept="sudo strace -ff -e trace=write -e write=1,2 -p" 
 alias meminfo='free -m -l -t'
-alias busy="cat /dev/urandom | hexdump -C | grep 'ca fe'"
 alias hs='history | grep' # hs history displays comand history, use !208 etc to repeat command
 alias fps='ps aux | grep'
 alias cmount="mount | column -t"
@@ -82,16 +85,22 @@ note () { #Usage note test, saves to .notes
         printf "%s" > "$HOME/.notes"
     else
         # add all arguments to file
-        printf "%s\n" "$*" >> "$HOME/.notes"
+        printf "%s\n" "| $*" >> "$HOME/.notes"
     fi
 }
 
 notes () { # Displays items in .note
     echo ""
-    echo "########## Notes ##########"
+    echo "==========================="
+    echo "|          Notes          |"
+    echo "==========================="
     cat $HOME/.notes
-    echo "###########################"
+    echo "==========================="
     echo ""
+}
+
+editnotes () {
+    nano $HOME/.notes
 }
 
 numfiles() { # Usage numfiles scripts > 88 files in scripts
