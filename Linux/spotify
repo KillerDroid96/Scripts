@@ -25,7 +25,7 @@ elif ["prev || pt"]; then
 	mpris-ctl prev
 fi
 
-		  echsetto "==============================="
+		  echo "==============================="
           echo "|            Spotify          |"
           echo "==============================="
 mpris-ctl info "| Artist   : %artist_name"  

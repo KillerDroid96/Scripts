@@ -12,6 +12,7 @@
 + **banner:** Script Prints Droid Box when opening terminal, called by MOTD (placed in /home/user/)
 + **bashlist** Script to Display My Aliases and Functions
 + **linux:** Script to install and list my personal packages (incomplete)
++ **spotify** Script to Display Spotify Information and Change Song 
 
 ## ROMs
 + **compilers:** Script to list version of ccache, clang, gcc & ninja
