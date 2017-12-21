@@ -128,7 +128,7 @@ Clean(){
         tput setaf 1; echo "Building ROM for Nexus6P!" && sleep 3
         tput setaf 2
         . build/envsetup.sh 
-        brunch dumpling
+        brunch dumpling -j14
         pause
         return
 }
