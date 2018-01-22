@@ -5,18 +5,21 @@
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
-PS1='[\u@\h \W]\$ '
-# >>> BEGIN ADDED BY CNCHI INSTALLER
-BROWSER=/usr/bin/chromium
-EDITOR=/usr/bin/nano
-# <<< END ADDED BY CNCHI INSTALLER
-
 #######
 #PATHS#
 #######
-PATH=$PATH:/home/killerdroid96/ROMs/Developers/MatthewKeller/Scripts/ROMs; export PATH
-PATH=$PATH:/home/killerdroid96/ROMs/Developers/MatthewKeller/Scripts/Linux; export PATH
-PATH=$PATH:/home/killerdroid96/ROMs/Developers/NathanChancellor/nscripts; export PATH
+PATH=$PATH:/home/matt/ROMs/Developers/MatthewKeller/Scripts/ROMs; export PATH
+PATH=$PATH:/home/matt/ROMs/Developers/MatthewKeller/Scripts/Linux; export PATH
+PATH=$PATH:/home/matt/ROMs/Developers/MatthewKeller/Scripts/Files; export PATH
+PATH=$PATH:/home/matt/ROMs/Developers/NathanChancellor/nscripts; export PATH
+
+#########
+#EXPORTS#
+#########
+export LC_ALL="C"
+#export USE_CCACHE=1
+export USE_CCACHE=60
+export USE_NINJA=false
 
 #######
 #ALIAS#
@@ -25,18 +28,50 @@ PATH=$PATH:/home/killerdroid96/ROMs/Developers/NathanChancellor/nscripts; export
 alias ls="ls --color=auto" #Adds Color
 alias ll="ls --color -al" #Adds Color
 alias grep='grep --color=auto' #Adds Color
+
 #Frequent
-alias XPS15='ssh username@ip' #Starts SSH
+alias gssi="gnome-screenshot -a -i" #Screenshot Selected Area
+alias ssa="maim ~/Pictures/Screenshot_$(date +%s).png -s -m 10 | xclip -selection clipboard -t image/png" #ScreenshotShotArea(ssa)
+alias bl="bashlist" #Quick launch for bashlist
 alias editbash='nano ~/.bashrc' #Edits Bash
 alias updatebash='source ~/.bashrc' #Updates Bash
-alias c="clear"  #Clears Terminal
+alias update="pacaur -Syu"
+alias c="clear" #Clears Terminal
 alias r="reset" #Resets Terminal
 alias e="exit" #Exits Terminal
+alias et="rm -rf $HOME/.local/share/Trash/files" #Emptys Trash
+alias edt="rm -rf /home/matt/Desktop/trash.desktop"
 alias p="pwd" #Displays File Path
+alias AP='ssh matt@192.168.43.39' #Android Hotspot
+alias sp="Spotify"
+
+#Paths
+alias Scripts="cd /home/matt/ROMs/Developers/MatthewKeller/Scripts"
+alias Linux="cd /home/matt/ROMs/Developers/MatthewKeller/Scripts/Linux"
+alias Files="cd /home/matt/ROMs/Developers/MatthewKeller/Scripts/Files"
+alias ROMs="cd /home/matt/ROMs/Developers/MatthewKeller/Scripts/ROMs"
+
 #Fun
 alias banner='/etc/profile.d/motd.sh' #Displays MOTD & Banner
 alias busy="cat /dev/urandom | hexdump -C | grep 'ca fe'" #Busy Effect
 alias matrix="cmatrix" #Matrix Effect 
+
+#Spotify (Needs AUR playerctl and spotify)
+#Gnome
+alias st="playerctl play-pause" 
+alias play="playerctl play"
+alias pause="playerctl pause"
+alias next="playerctl next"
+alias previous="playerctl previous"
+alias stop="playerctl stop"
+#KDE 
+alias st="mpris-ctl pp"
+alias play="mpris-ctl play"
+alias pause="mpris-ctl pause"
+alias stop="mpris-ctl stop"
+alias next="mpris-ctl next"
+alias previous="mpris-ctl previous"
+
 #Others
 alias tree="ls -R | grep ":$" | sed -e 's/:$//' -e 's/[^-][^\/]*\//--/g' -e 's/^/   /' -e 's/-/|/'" 
 alias intercept="sudo strace -ff -e trace=write -e write=1,2 -p" 
@@ -72,7 +107,7 @@ ipif() { # lists ip, hostname, city, region, country, loc, org, postal
     echo
 }
 
-note () { #Usage note test, saves to .notes
+note () { #Usage: note test, saves test to .notes
         # if file doesn't exist, create it
     if [[ ! -f $HOME/.notes ]]; then
         touch "$HOME/.notes"
@@ -86,22 +121,22 @@ note () { #Usage note test, saves to .notes
         printf "%s" > "$HOME/.notes"
     else
         # add all arguments to file
-        printf "%s\n" "| $*" >> "$HOME/.notes"
+        printf "%s\n" " $*" >> "$HOME/.notes"
     fi
 }
 
 notes () { # Displays items in .note
-    echo ""
-    echo "==========================="
-    echo "|          Notes          |"
-    echo "==========================="
-    cat $HOME/.notes
-    echo "==========================="
-    echo ""
+	echo ""
+	echo "========================================================"
+	echo "|                       Notes                          |"
+	echo "========================================================"
+	cat $HOME/.notes
+	echo "========================================================"
+	echo ""
 }
 
 editnotes () {
-    nano $HOME/.notes
+	nano $HOME/.notes
 }
 
 numfiles() { # Usage numfiles scripts > 88 files in scripts

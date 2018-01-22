@@ -1,34 +1,44 @@
 #!/bin/bash
-# ----------------------------------
-#  variables
-# ----------------------------------
-EDITOR=vim
-PASSWD=/etc/passwd
+#
+# Copyright (C) 2017-2018 Matthew Keller
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>
+#
 RED='\033[0;41;30m'
 STD='\033[0;0;39m'
-#---------------
-# Credits
-#---------------
-# akhilnarang
-# nathanchance
-#---------------
-
-# Build an AOSP ROM with one easy script! You will need to have the repo synced
-# and configured already, use this page to help you with that:
-# https://raw.githubusercontent.com/nathanchance/Android-Tools/master/Building_AOSP.txt
-#
-# HINT: You can add the folder this is in to your PATH variable so you can
-# run it from anywhere like so:
-# $ nano ~/.bashrc
-# Add  export PATH=$PATH:<path_to_folder>  to the end of that file
-# then hit ctrl+X, Y, then Enter
-#
-# example: export PATH=$PATH:/home/<username>/scripts
-# example: export PATH=$PATH:/home/killerdroid96/ROMs/Developers/Matthew_Keller/Addons
-# Restart your terminal
+normal=$(tput sgr0)              # White
+red=$(tput setaf 1)              # Red
+green=$(tput setaf 2)            # Green
+yellow=$(tput setaf 3)           # Yellow
+blue=$(tput setaf 21)            # Blue
+violet=$(tput setaf 5)           # Violet
+cyan=$(tput setaf 6)             # Cyan
+white=$(tput setaf 7)            # White
+bldred=${txtbld}$(tput setaf 1)  # Bold Red
+bldgrn=${txtbld}$(tput setaf 2)  # Bold Green
+bldblu=${txtbld}$(tput setaf 21) # Bold Blue
+bldylw=${txtbld}$(tput setaf 3)  # Bold Yellow
+bldvlt=${txtbld}$(tput setaf 5)  # Bold Violet
+bldcya=${txtbld}$(tput setaf 6)  # Bold Cyan
+bldwht=${txtbld}$(tput setaf 7)  # Bold White
+blink=$(tput blink)              # Blink
+bold=$(tput bold)                # Bold
+reverse=$(tput smso)             # Reverse Colors
+underline=$(tput smul)           # Underline
 
 #-------------------------------------------------
-#TO DO / ADD / Notes
+#Notes
     #Add install/update dependiencies option
     #Other
     #Python: Only needed for Arch
@@ -39,16 +49,24 @@ STD='\033[0;0;39m'
     #[Neofetch] super awesome system info script
     #Install for Ubuntu: sudo apt install neofetch
     #Install for Arch: yaourt -S neofetch
-     #gnome-terminal -e "watch -n1 -d ccache -s"
-        #tilix -q -e "watch -n1 -d ccache -s"
-        #tilix -q -e "climate overview"
-        #sudo pacman -Sy python2-virtualenv
-        #virtualenv2 venv
+    #gnome-terminal -e "watch -n1 -d ccache -s"
+    #tilix -q -e "watch -n1 -d ccache -s"
+    #tilix -q -e "climate overview"
+    #sudo pacman -Sy python2-virtualenv
+    #virtualenv2 venv
+    #export JACK_SERVER_VM_ARGUMENTS="-Dfile.encoding=UTF-8 -XX:+TieredCompilation -Xmx14g"
+    #./prebuilts/sdk/tools/jack-admin kill-server
+    #./prebuilts/sdk/tools/jack-admin start-server
+    #export LC_ALL=C
+    #breakfast dumpling 
+    #make -j14
+    #or brunch dumpling
+    #
+    #DHO's cleaning rules
+    #Change-Id: I0a266580874d45bab011b2dc59387603d83cf917
+    #https://github.com/Flash-ROM/build/commit/c7efc9adb6612c8d4626b69a55983b4efdb78bbb
+    #
 #---------------------------------------------------
-
-# ----------------------------------
-# User defined function
-# ----------------------------------
 
 pause(){
   read -p "Press [Enter] key to continue..." fackEnterKey
@@ -59,7 +77,6 @@ pause0(){
 }
 
 # function to display menus
-
 function show_menus() {
     clear
     echo ""
@@ -76,7 +93,6 @@ function show_menus() {
     echo "================="
     echo "| [1] Setup     |"
     echo "| [2] Build     |"
-    echo "| [3] SSH       |"
     echo "| [e] Exit      |"
     echo "================="
     echo ""
@@ -87,7 +103,6 @@ read_options(){
     case $choice in
         1) Setup ;;
         2) Build ;;
-        3) SSH ;;
         e) exit 0;; 
         *) echo -e "${RED}Error...${STD}" && sleep 2
     esac
@@ -125,10 +140,14 @@ Clean(){
         make clean
         tput setaf 2; echo "Syncing Repo!" && sleep 2
         time repo sync --force-sync -c --no-clone-bundle --no-tags --optimized-fetch --prune
-        tput setaf 1; echo "Building ROM for Nexus6P!" && sleep 3
+        tput setaf 1; echo "Building ROM!" && sleep 3
         tput setaf 2
+        export JACK_SERVER_VM_ARGUMENTS="-Dfile.encoding=UTF-8 -XX:+TieredCompilation -Xmx14g"
+        ./prebuilts/sdk/tools/jack-admin kill-server
+        ./prebuilts/sdk/tools/jack-admin start-server
         . build/envsetup.sh 
-        brunch dumpling -j14
+        lunch du_dumpling-userdebug
+        time mka bacon -j30
         pause
         return
 }
@@ -136,28 +155,23 @@ Dirty(){
         clear
         tput setaf 2; echo "Building Dirty OnePlus 5T ROM"
         tput setaf 7;
+        virtualenv2 venv
         source venv/bin/activate
-        export LC_ALL=C
-        make dirty
+        echo ${red}"Surgical Strike Starting"${normal}
+        make burst
         time repo sync --force-broken --force-sync --no-clone
+        export JACK_SERVER_VM_ARGUMENTS="-Dfile.encoding=UTF-8 -XX:+TieredCompilation -Xmx14g"
+        ./prebuilts/sdk/tools/jack-admin kill-server
+        ./prebuilts/sdk/tools/jack-admin start-server
         . build/envsetup.sh
         tput setaf 1; echo "Building ROM!" && sleep 3 
         tput setaf 2
-        brunch dumpling
+        lunch du_dumpling-userdebug
+        time mka bacon -j16
         pause
         return
 }
 }
-
-SSH(){
-    tput setaf 2
-    echo "=================="
-    echo "|  Starting SSH  |"
-    echo "=================="
-    sudo systemctl start sshd.service 
-    sudo systemctl status sshd.service
-}
-
 Setup(){
     show_menus() {
     clear
@@ -227,9 +241,9 @@ Arch(){
         tput setaf 3; echo "Disable PGP checking from AUR" && sleep 3
         export MAKEPKG="makepkg --skippgpcheck"
         tput setaf 2;
-        yaourt -S libtinfo --noconfirm
-        yaourt -S lib32-ncurses5-compat-libs --noconfirm
-        yaourt -S ncurses5-compat-libs --noconfirm
+        pacaur -S libtinfo --noconfirm
+        pacaur -S lib32-ncurses5-compat-libs --noconfirm
+        pacaur -S ncurses5-compat-libs --noconfirm
         pause
         return
 }
@@ -266,7 +280,7 @@ Initialize_Repo(){
     pause
     echo "Initializing DirtyUnicorns"
     pause
-    repo init -u https://github.com/DirtyUnicorns/android_manifest -b o8x
+    repo init -u https://github.com/DirtyUnicorns/android_manifest -b o8x-caf
     return
 }
 Setup_CCache(){
@@ -277,14 +291,6 @@ Setup_CCache(){
 }
 }
 
-# ----------------------------------------------
-# Trap CTRL+C, CTRL+Z and quit singles
-# ----------------------------------------------
-# trap '' SIGINT SIGQUIT SIGTSTP
- 
-# -----------------------------------
-# Main logic - infinite loop
-# ------------------------------------
 while true
 do
     show_menus

@@ -1,0 +1,75 @@
+#!/bin/bash
+#
+# Copyright (C) 2017-2018 Matthew Keller
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>
+#
+# Dependencies: spotify and mpris-ctl
+# Usage       : ./spotify next(nt) or prev(pt)
+# Calls on system link to Spotify
+#
+normal=$(tput sgr0)              # White
+red=$(tput setaf 1)              # Red
+green=$(tput setaf 2)            # Green
+yellow=$(tput setaf 3)           # Yellow
+blue=$(tput setaf 21)            # Blue
+violet=$(tput setaf 5)           # Violet
+cyan=$(tput setaf 6)             # Cyan
+white=$(tput setaf 7)            # White
+bldred=${txtbld}$(tput setaf 1)  # Bold Red
+bldgrn=${txtbld}$(tput setaf 2)  # Bold Green
+bldblu=${txtbld}$(tput setaf 21) # Bold Blue
+bldylw=${txtbld}$(tput setaf 3)  # Bold Yellow
+bldvlt=${txtbld}$(tput setaf 5)  # Bold Violet
+bldcya=${txtbld}$(tput setaf 6)  # Bold Cyan
+bldwht=${txtbld}$(tput setaf 7)  # Bold White
+blink=$(tput blink)              # Blink
+bold=$(tput bold)                # Bold
+reverse=$(tput smso)             # Reverse Colors
+underline=$(tput smul)           # Underline
+		  echo ${green}""
+		  echo "==============================="
+          echo "|            Spotify          |"
+          echo "==============================="
+mpris-ctl info "| Artist   : %artist_name"  
+mpris-ctl info "| Track    : %track_name"
+mpris-ctl info "| Length   : %track_length"
+          echo "==============================="
+
+PS3='Enter Choice: ' 
+options=("Next" "Previous" ${red}"Exit"${green})
+select opt in "${options[@]}"
+do
+case $opt in
+"Next")
+	mpris-ctl next
+	clear
+	exit
+;;
+"Previous")
+	mpris-ctl prev
+	clear
+	exit
+;;
+"Toggle")
+	mpris-ctl pp
+	clear
+	exit
+;;
+"${red}Exit${green}")
+            break
+            ;;
+        *) echo invalid option;;
+    esac
+done

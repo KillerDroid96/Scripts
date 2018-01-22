@@ -24,15 +24,16 @@
 | apg                # Automated Password Generator
 | arp-scan           # Discover and Fingerprint IP
 | baobab             # Disk Usage Analyzer
+| climate            # System Information Tool
 | cloc               # Count Lines of Code
 | cmatrix            # Matrix Effect
 | devhelp            # API Documentation Browser
 | elinks             # Terminal Web Browser
 | espeak             # Text to Speech Terminal Engine
-|                    
+| 
+| trizen             # AUR Package Installer
 | pacaur             # AUR Package Installer
-| yaourt
-| climate
+| yaourt             # AUR Package Installer
 | 
 ==============================================================
 
