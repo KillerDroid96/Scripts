@@ -12,9 +12,12 @@
 + **motd.sh:** MOTD script (placed in /etc/profile.d and touch ~/.hushlogin to suppress last login message)
 + **banner:** Script Prints Droid Box when opening terminal, called by MOTD (placed in /home/user/)
 + **bashlist** Script to Display My Aliases and Functions
-+ **Ccache** Script to watch Ccache
++ **cache** Script to watch Ccache
 + **linux:** Script to install and list my personal packages (incomplete)
-+ **Spotify** Script to Display Spotify Information and Change Song 
++ **update** Script to Update Pacman and AUR 
++ **xspotify** Script to Display Spotify Information and Change Song 
++ **xssh** Script to Start SSH session.
+
 
 ## ROMs
 + **compilers** Script to list version of ccache, clang, gcc & ninja
