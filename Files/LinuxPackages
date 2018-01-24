@@ -17,7 +17,8 @@
 | rar                # Archive Tool
 | spotify            # Music Streamer
 | telegram           # Messenger Platform
-|
+| qdirstat-git       # Disk Usage
+| 
 | [Arch Packages]
 | acpi               # Prints Battery Information
 | android-tools      # Android Platform Tools
@@ -30,10 +31,12 @@
 | devhelp            # API Documentation Browser
 | elinks             # Terminal Web Browser
 | espeak             # Text to Speech Terminal Engine
-|
+| 
 | trizen             # AUR Package Installer
 | pacaur             # AUR Package Installer
-| yaourt             # AUR Package Installe
+| yaourt             # AUR Package Installer
+| yakuake            # Drop-Down Terminal Emulator by KDE
+| ocs-url			 # Package Installer for Links
 | 
 ==============================================================
 
