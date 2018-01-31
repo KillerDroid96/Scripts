@@ -1,10 +1,12 @@
-=============================================================
+i=============================================================
 |                   My Needed Packages                      |
 =============================================================
 | [AUR Packages]                                            |
 | alsi               # System Information Tool for Arch     |
 | bcompare           # Compares Folders and Text            |
+| bcompare-kde       # KDE service menus
 | clex               # Terminal Files GUI                   |
+| climate            # System Information Tool
 | cower              # AUR Package Installer                |
 | cylon              # Arch Maintenance Terminal Program    |
 | downgrader         # Package Downgrader     
@@ -14,10 +16,13 @@
 | hollywood          # Hollywood Hacking Effect
 | jp2a               # Convert from JPEG format to ASCII
 | neofetch           # System Information Tool for Linux
+| plex-media-player  # Plex Media Player
+| plex-media-server  # Plex Media Server
+| qdirstat-git       # Disk Usage
 | rar                # Archive Tool
 | spotify            # Music Streamer
 | telegram           # Messenger Platform
-| qdirstat-git       # Disk Usage
+| 
 | 
 | [Arch Packages]
 | acpi               # Prints Battery Information
@@ -25,7 +30,6 @@
 | apg                # Automated Password Generator
 | arp-scan           # Discover and Fingerprint IP
 | baobab             # Disk Usage Analyzer
-| climate            # System Information Tool
 | cloc               # Count Lines of Code
 | cmatrix            # Matrix Effect
 | devhelp            # API Documentation Browser
@@ -36,9 +40,17 @@
 | pacaur             # AUR Package Installer
 | yaourt             # AUR Package Installer
 | yakuake            # Drop-Down Terminal Emulator by KDE
-| ocs-url			 # Package Installer for Links
 | 
 ==============================================================
+
+gawk
+rar
+gdrive
+gnu-netcat
+inxi
+wavemon
+lynis
+hwinfo
 
 ==============================================================
 |                        Useful Links                        |

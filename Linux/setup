@@ -1,0 +1,47 @@
+#!/bin/bash
+#
+# Copyright (C) 2017-2018 Matthew Keller
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>
+#
+pause(){
+  tput setaf 2; read -p "Press [Enter] key to continue..." fackEnterKey
+}
+
+pause0(){
+    read -p "                        Press [Enter] key to continue..." fackEnterKey
+}
+
+        tput setaf 1; echo "Install All of My Packages"
+        pause
+        sudo pacman -Syu
+        pacaur -Syu
+        tput setaf 5; echo "Upgrading System Packages"
+        pacaur -S alsi bcompare clex climate cower cylon downgrader google-chrome grub-customizer grub2-theme-archxion hollywood jp2a neofetch rar spotify telegram-desktop qdirstat-git yakuake
+        sudo pacman -S acpi android-tools apg arp-scan baobab cloc cmatrix devhelp elinks espeak trizen pacaur yaourt
+        tput setaf 3; echo "Installing Android Dependencies" && sleep 3
+        tput setaf 2; sudo pacman -S  git gnupg flex bison gperf sdl wxgtk2 bash-completion squashfs-tools curl ncurses zlib schedtool perl-switch zip unzip libxslt python2-virtualenv bc rsync xml2 lzop pngcrush imagemagick jdk8-openjdk jdk9-openjdk repo android-tools python-networkx 
+        tput setaf 3; echo "Installing 64 bit Dependencies" && sleep 3
+        tput setaf 2; sudo pacman -S ncurses5-compat-libs lib32-ncurses5-compat-libs lib32-zlib lib32-ncurses lib32-readline
+        tput setaf 3; echo "Installing Extra Dependencies" && sleep 3
+        tput setaf 2; sudo pacman -S ca-certificates-mozilla fakeroot make pkg-config maven tmux screen w3m ncftp 
+        tput setaf 3; echo "Check & Reinstall Dependencies " && sleep 3
+        tput setaf 2; sudo pacman -S base-devel
+        tput setaf 3; echo "Disable PGP checking from AUR" && sleep 3
+        export MAKEPKG="makepkg --skippgpcheck"
+        tput setaf 2;
+        pacaur -S libtinfo --noconfirm 
+        pacaur -S lib32-ncurses5-compat-libs --noconfirm 
+        pacaur -S ncurses5-compat-libs --noconfirm
+        pause

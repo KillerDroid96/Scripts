@@ -5,33 +5,43 @@
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
-#######
-#PATHS#
-#######
+PS1='[\u@\h \W]\$ '
+
+BROWSER=/usr/bin/chromium
+EDITOR=/usr/bin/nano
+
+#######################
+#        PATHS        #
+#######################
+#Laptop
 PATH=$PATH:/home/matt/ROMs/Developers/MatthewKeller/Scripts/ROMs; export PATH
 PATH=$PATH:/home/matt/ROMs/Developers/MatthewKeller/Scripts/Linux; export PATH
 PATH=$PATH:/home/matt/ROMs/Developers/MatthewKeller/Scripts/Files; export PATH
 PATH=$PATH:/home/matt/ROMs/Developers/NathanChancellor/nscripts; export PATH
+#Desktop
+PATH=$PATH:/home/killerdroid96/Scripts/ROMs; export PATH
+PATH=$PATH:/home/killerdroid96/Scripts/Linux; export PATH
+PATH=$PATH:/home/killerdroid96/Scripts/Files; export PATH
 
-#########
-#EXPORTS#
-#########
+#######################
+#       EXPORTS       #
+#######################
 export LC_ALL="C"
 #export USE_CCACHE=1
 export USE_CCACHE=60
 export USE_NINJA=false
 
-#######
-#ALIAS#
-#######
+#######################
+#        ALIAS        #
+#######################
 #Color
 alias ls="ls --color=auto" #Adds Color
 alias ll="ls --color -al" #Adds Color
 alias grep='grep --color=auto' #Adds Color
 
 #Frequent
-alias gssi="gnome-screenshot -a -i" #Screenshot Selected Area
-alias ssa="maim ~/Pictures/Screenshot_$(date +%s).png -s -m 10 | xclip -selection clipboard -t image/png" #ScreenshotShotArea(ssa)
+alias ssa="maim ~/Pictures/Screenshot_$(date +%s).png -s -m 10 | xclip -selection clipboard -t image/png" #ScreenshotShotArea KDE
+alias gssa="gnome-screenshot -a -i" #Screenshot Selected Area on Gnome
 alias bl="bashlist" #Quick launch for bashlist
 alias editbash='nano ~/.bashrc' #Edits Bash
 alias updatebash='source ~/.bashrc' #Updates Bash
@@ -40,7 +50,7 @@ alias c="clear" #Clears Terminal
 alias r="reset" #Resets Terminal
 alias e="exit" #Exits Terminal
 alias et="rm -rf $HOME/.local/share/Trash/files" #Emptys Trash
-alias edt="rm -rf /home/matt/Desktop/trash.desktop"
+alias edt="rm -rf $HOME/Desktop/trash.desktop"
 alias p="pwd" #Displays File Path
 alias AP='ssh matt@192.168.43.39' #Android Hotspot
 alias sp="Spotify"
@@ -80,9 +90,9 @@ alias hs='history | grep' # hs history displays comand history, use !208 etc to 
 alias fps='ps aux | grep' #Usage: fps terminal, displays pid of terminals
 alias cmount="mount | column -t"
 
-###########
-#FUNCTIONS#
-###########
+#######################
+#      FUNCTIONS      #
+#######################
 cl() { # cd and ls in one
     local dir="$1"
     local dir="${dir:=$HOME}"

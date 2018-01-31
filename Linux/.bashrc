@@ -14,31 +14,48 @@ EDITOR=/usr/bin/nano
 #######
 #PATHS#
 #######
-PATH=$PATH:/home/killerdroid96/ROMs/Developers/MatthewKeller/Scripts/ROMs; export PATH
-PATH=$PATH:/home/killerdroid96/ROMs/Developers/MatthewKeller/Scripts/Linux; export PATH
-PATH=$PATH:/home/killerdroid96/ROMs/Developers/MatthewKeller/Scripts/Files; export PATH
-PATH=$PATH:/home/killerdroid96/ROMs/Developers/NathanChancellor/nscripts; export PATH
+#Laptop
+PATH=$PATH:/home/matt/ROMs/Developers/MatthewKeller/Scripts/ROMs; export PATH
+PATH=$PATH:/home/matt/ROMs/Developers/MatthewKeller/Scripts/Linux; export PATH
+PATH=$PATH:/home/matt/ROMs/Developers/MatthewKeller/Scripts/Files; export PATH
+PATH=$PATH:/home/matt/ROMs/Developers/NathanChancellor/nscripts; export PATH
+#Desktop
+PATH=$PATH:/home/killerdroid96/Scripts/ROMs; export PATH
+PATH=$PATH:/home/killerdroid96/Scripts/Linux; export PATH
+PATH=$PATH:/home/killerdroid96/Scripts/Files; export PATH
+
+#########
+#EXPORTS#
+#########
+export LC_ALL="C"
+#export USE_CCACHE=1
+export USE_CCACHE=60
+export USE_NINJA=false
 
 #######
 #ALIAS#
 #######
-
 #Color
 alias ls="ls --color=auto" #Adds Color
 alias ll="ls --color -al" #Adds Color
 alias grep='grep --color=auto' #Adds Color
 
 #Frequent
-alias sssh='ssh username@ip' #Starts SSH
-alias ssi="gnome-screenshot -a -i" #Screenshot Selected Area
+alias ssa="maim ~/Pictures/Screenshot_$(date +%s).png -s -m 10 | xclip -selection clipboard -t image/png" #ScreenshotShotArea KDE
+alias gssa="gnome-screenshot -a -i" #Screenshot Selected Area on Gnome
 alias bl="bashlist" #Quick launch for bashlist
 alias editbash='nano ~/.bashrc' #Edits Bash
 alias updatebash='source ~/.bashrc' #Updates Bash
+alias update="pacaur -Syu"
 alias c="clear" #Clears Terminal
 alias r="reset" #Resets Terminal
 alias e="exit" #Exits Terminal
 alias et="rm -rf $HOME/.local/share/Trash/files" #Emptys Trash
+alias edt="rm -rf /home/matt/Desktop/trash.desktop"
+alias edt="rm -rf /home/killerdroid96/Desktop/trash.desktop"
 alias p="pwd" #Displays File Path
+alias AP='ssh matt@192.168.43.39' #Android Hotspot
+alias sp="Spotify"
 
 #Fun
 alias banner='/etc/profile.d/motd.sh' #Displays MOTD & Banner
