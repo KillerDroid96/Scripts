@@ -9,7 +9,7 @@
 + **SSH Config** My changes to sshd_config (placed in /etc/ssh/sshd_config)
 
 ## Linux
-+ **motd.sh:** MOTD script (placed in /etc/profile.d and touch ~/.hushlogin to suppress last login message)
++ **motd.sh:** MOTD script (placed in /etc/profile.d and touch ~/.hushlogin to suppress last login message) then sudo chmod -R 755 motd.sh
 + **banner:** Script Prints Droid Box when opening terminal, called by MOTD (placed in /home/user/)
 + **bashlist** Script to Display My Aliases and Functions
 + **cache** Script to watch Ccache
