@@ -1,5 +1,10 @@
 # Scripts
 
+## Installation 
++ ** mkdir $HOME/Github
++ ** cd $HOME/Github
++ ** git clone git@github.com:KillerDroid96/Scripts.git
+
 ## Files
 + **.bashrc:** My Aliases and Functions
 + **ArchSetup:** List of packages and links for Arch (incomplete)
@@ -17,7 +22,6 @@
 + **update** Script to Update Pacman and AUR 
 + **xspotify** Script to Display Spotify Information and Change Song 
 + **xssh** Script to Start SSH session.
-
 
 ## ROMs
 + **compilers** Script to list version of ccache, clang, gcc & ninja
