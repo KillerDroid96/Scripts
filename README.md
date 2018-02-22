@@ -1,6 +1,6 @@
 # Scripts
 
-## Installation 
+## Setup 
      mkdir $HOME/Github && cd $HOME/Github && git clone git@github.com:KillerDroid96/Scripts.git && cd $HOME/Github/Scripts
      
   OR
@@ -9,6 +9,15 @@
      cd $HOME/Github
      git clone git@github.com:KillerDroid96/Scripts.git
      cd $HOME/Github/Scripts
+
+## Installation
+     cp -b $HOME/Github/Scripts/Linux/.bashrc $HOME && source ~/.bashrc && bl
+     
+   OR
+   
+     cp -b $HOME/Github/Scripts/Linux/.bashrc $HOME
+     source ~/.bashrc
+     bl
 
 ## Files
 + **.bashrc:** My Aliases and Functions
