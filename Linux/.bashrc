@@ -36,7 +36,7 @@ alias scripts="cl $HOME/Github/Scripts"
 alias linux="cl $HOME/Github/Scripts/Linux"
 alias files="cl $HOME/Github/Scripts/Files"
 alias roms="cl $HOME/Github/Scripts/ROMs"
-alias bashlist="cl $HOME/Github/Scripts/Linux/bashlist"
+alias bashlist="$HOME/Github/Scripts/Linux/./bashlist"
 
 # Windows Paths (Place w infront of usual commands)
 alias cygwin="cl C:/Toolchains/cygwin64"
@@ -58,6 +58,9 @@ alias lls='ls --color=auto --format=long'         # Adds Color & Lists Directori
 alias vls='ls --color=auto --format=single-colum' # Adds Color & Lists Directories Vertically
 alias grep='grep --color=auto'                    # Adds Color
 alias locate='whereis'                            # Finds Folder/File Location (Ex 'locate rom')
+
+# Hard Drives
+alias disk='sudo lsblk -f'                        # Lists Disk Information
 
 # Frequents (Quick Launch)
 alias ap='ssh matt@192.168.43.39'                 # Android Hotspot
