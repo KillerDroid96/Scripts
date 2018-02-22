@@ -1,11 +1,12 @@
 # Scripts
 
 ## Installation 
-+ ** mkdir $HOME/Github && cd $HOME/Github && git clone git@github.com:KillerDroid96/Scripts.git
-Or
-+ ** mkdir $HOME/Github
-+ ** cd $HOME/Github
-+ ** git clone git@github.com:KillerDroid96/Scripts.git
+     mkdir $HOME/Github && cd $HOME/Github && git clone git@github.com:KillerDroid96/Scripts.git
+  OR
+     
+     mkdir $HOME/Github
+     cd $HOME/Github
+     git clone git@github.com:KillerDroid96/Scripts.git
 
 ## Files
 + **.bashrc:** My Aliases and Functions
