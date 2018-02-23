@@ -23,8 +23,8 @@ pause0(){
     read -p "                        Press [Enter] key to continue..." fackEnterKey
 }
 
-        tput setaf 1; echo "Install All of My Packages"
-        pause
+        #tput setaf 1; echo "Install All of My Packages"
+        #pause
         tput setaf 5; echo "Upgrading System Packages"
         sudo pacman -Syu
         pacaur -Syu

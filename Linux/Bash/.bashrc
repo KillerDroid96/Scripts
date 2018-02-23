@@ -24,9 +24,12 @@ export USE_NINJA=false
 #########
 PATH=$PATH:$HOME/Github; export PATH
 PATH=$PATH:$HOME/Github/Scripts; export PATH
-PATH=$PATH:$HOME/Github/Scripts/ROMs; export PATH
 PATH=$PATH:$HOME/Github/Scripts/Linux; export PATH
-PATH=$PATH:$HOME/Github/Scripts/Files; export PATH
+PATH=$PATH:$HOME/Github/Scripts/Linux/Bash; export PATH
+PATH=$PATH:$HOME/Github/Scripts/Linux/Files; export PATH
+PATH=$PATH:$HOME/Github/Scripts/Linux/KDE; export PATH
+PATH=$PATH:$HOME/Github/Scripts/Linux/ROMs; export PATH
+PATH=$PATH:$HOME/Github/Scripts/Linux/Setups; export PATH
 
 #########
 # ALIAS #
@@ -36,9 +39,12 @@ alias github="cl $HOME/Github"
 alias coding="cl $HOME/Github/C"
 alias scripts="cl $HOME/Github/Scripts"
 alias linux="cl $HOME/Github/Scripts/Linux"
-alias files="cl $HOME/Github/Scripts/Files"
-alias roms="cl $HOME/Github/Scripts/ROMs"
-alias bashlist="$HOME/Github/Scripts/Linux/bashlist"
+alias bashfiles="cl $HOME/Github/Scripts/Linux/Bash/"
+alias bashlist="$HOME/Github/Scripts/Linux/Bash/bashlist"
+alias files="cl $HOME/Github/Scripts/Linux/Files"
+alias kde="cl $HOME/Github/Scripts/Linux/KDE/"
+alias roms="cl $HOME/Github/Scripts/Linux/ROMs"
+alias setups="cl $HOME/Github/Scripts/Linux/Setups"
 
 # Windows Paths (Place w infront of usual commands)
 alias cygwin="cl C:/Toolchains/cygwin64"
@@ -190,6 +196,26 @@ sbs() { du -b --max-depth 1 | sort -nr | perl -pe 's{([0-9]+)}{sprintf "%.1f%s",
 ##########
 # Colors #
 ##########
+normal=$(tput sgr0)              # White
+red=$(tput setaf 1)              # Red
+green=$(tput setaf 2)            # Green
+yellow=$(tput setaf 3)           # Yellow
+blue=$(tput setaf 21)            # Blue
+violet=$(tput setaf 5)           # Violet
+cyan=$(tput setaf 6)             # Cyan
+white=$(tput setaf 7)            # White
+bldred=${txtbld}$(tput setaf 1)  # Bold Red
+bldgrn=${txtbld}$(tput setaf 2)  # Bold Green
+bldblu=${txtbld}$(tput setaf 21) # Bold Blue
+bldylw=${txtbld}$(tput setaf 3)  # Bold Yellow
+bldvlt=${txtbld}$(tput setaf 5)  # Bold Violet
+bldcya=${txtbld}$(tput setaf 6)  # Bold Cyan
+bldwht=${txtbld}$(tput setaf 7)  # Bold White
+blink=$(tput blink)              # Blink
+bold=$(tput bold)                # Bold
+reverse=$(tput smso)             # Reverse Colors
+underline=$(tput smul)           # Underline
+
 # Reset
 Color_Off="\[\033[0m\]"       # Text Reset
 

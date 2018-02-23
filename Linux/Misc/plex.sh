@@ -1,0 +1,4 @@
+#bash
+sudo systemctl enable plexmediaserver.service
+sudo systemctl start plexmediaserver.service
+exit
