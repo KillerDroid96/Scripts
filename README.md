@@ -1,7 +1,7 @@
 
 
 # Scripts
-
+- - - -
 ## Setup 
      mkdir $HOME/Github && cd $HOME/Github && git clone git@github.com:KillerDroid96/Scripts.git && cd $HOME/Github/Scripts
      
@@ -11,7 +11,7 @@
      cd $HOME/Github
      git clone git@github.com:KillerDroid96/Scripts.git
      cd $HOME/Github/Scripts
-
+- - - -
 ## Installation
      cp -b $HOME/Github/Scripts/Linux/.bashrc $HOME && source ~/.bashrc && bl
      
@@ -20,7 +20,7 @@
      cp -b $HOME/Github/Scripts/Linux/.bashrc $HOME
      source ~/.bashrc
      bl
- 
+- - - - 
 ## Linux ##
 ### Bash ###
 | File | Description |
@@ -34,7 +34,7 @@
 | update | Updates System with Pacman & Pacaur |
 | xspotify | Controlls Spotify from Treminal |  
 ### Files ###
-| File | Description |
+| File | Description | 
 | --- | --- |
 | mypackages | List of installed packages |
 | neofetch | Configuration file for Neofetch |
@@ -52,10 +52,9 @@
 | dextro | Script to Build ROM for OnePlus 5T, Nexus 6P & Galaxy S4 |
 | rom | Script to install depediencies and build ROM for OnePlus 5T |
 ### Setups ###
-| File | Description |
-| --- | --- |
+| File | Description | Status |
+| --- | --- | --- |
 | changes_setup ||
 | os_setup ||
 | scripts_setup ||
-
-<http://example.com/>
+- - - -
