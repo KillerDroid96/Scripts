@@ -5,6 +5,7 @@
 ## Setup 
      mkdir $HOME/Github && cd $HOME/Github && git clone git@github.com:KillerDroid96/Scripts.git && cd $HOME/Github/Scripts
   OR
+  
      mkdir $HOME/Github
      cd $HOME/Github
      git clone git@github.com:KillerDroid96/Scripts.git
@@ -13,6 +14,7 @@
 ## Installation
      cp -b $HOME/Github/Scripts/Linux/.bashrc $HOME && source ~/.bashrc && bl
    OR
+   
      cp -b $HOME/Github/Scripts/Linux/.bashrc $HOME
      source ~/.bashrc
      bl
