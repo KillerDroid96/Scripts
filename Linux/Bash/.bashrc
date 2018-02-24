@@ -36,7 +36,3 @@ shopt -s cdspell # This will correct minor spelling errors in a cd command.
 shopt -s histappend # Append to history rather than overwrite
 shopt -s checkwinsize # Check window after each command
 shopt -s dotglob # files beginning with . to be returned in the results of path-name expansion.
-
-# Print some nice fortune text
-fortune
-echo
