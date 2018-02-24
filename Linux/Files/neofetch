@@ -9,6 +9,8 @@
 #
 
 print_info() {
+    info title
+    info underline
     #prin "Name" ""
     #prin "DOB" ""
     #prin "Planet" "Earth"
@@ -16,40 +18,47 @@ print_info() {
     #prin "State" ""
     #prin "Github" "KillerDroid96"
     #prin "Devices" "OnePlus 5T, Nexus 6P, Nexus 6, Galaxy S4, Galaxy Nexus"
-    info underline
-    info "OS" distro
-    info "Kernel" kernel
-    info "Uptime" uptime
+    prin " "
     info "Install Date" install_date
-    info underline
-    info "Model" model
-    info "CPU" cpu
+    info "Uptime" uptime 
+    prin " "
+    info "OS" distro 
+    info "Kernel" kernel 
+    prin " "
+    #info underline 
+    info "Users" users
+    info "Host" model 
+    info "CPU" cpu 
     info "GPU" gpu
-    info "Resolution" resolution
-    info underline
-    info "Packages" packages
-    info "CPU Usage" cpu_usage
-    info "Battery" battery
-    info "Memory" memory
-    info "Disk" disk
-    info underline
-    info "Terminal" term
-    info "Shell" shell
-    info "DE" de
-    info "WM" wm
-    info "WM Theme" wm_theme
-    info "Theme" theme
-    info "Icons" icons
-    info "Font" font
-    info "Terminal Font" term_font
-    info underline
-    
-
-     #info "Song" song
-     #info "Local IP" local_ip
-     #info "Public IP" public_ip
-     #info "Users" users
-
+    #info "GPU Driver" gpu_driver  # Linux only 
+    info "Resolution" resolution 
+    prin " " 
+    info "Packages" packages 
+    info "CPU Usage" cpu_usage 
+    info "Battery" battery 
+    info "Memory" memory 
+    info "Disk" disk 
+    prin " " 
+    #info "Terminal" term
+    #info "Shell" shell
+    prin "Weather" "$(curl wttr.in/?0?q?T | awk '/°(C|F)/ {printf $(NF-1) $(NF) " ("a")"} /,/ {a=$0}')" 
+    #info "DE" de 
+    #info "WM" wm
+    #info "WM Theme" wm_theme
+    #info "Theme" theme
+    #info "Icons" icons
+    #info "Font" font
+    #info "Terminal Font" term_font
+    #info underline
+    #info "CPU Usage" cpu_usage
+    #info "Disk" disk
+    #info "Battery" battery
+    #info "Font" font
+    info "Song" song
+    #info "Local IP" local_ip
+    #info "Public IP" public_ip
+    #info "Install Date" install_date
+    #info "Locale" locale  # This only works on glibc systems.
     info line_break
     info cols
     info line_break
@@ -323,7 +332,7 @@ public_ip_host="http://ident.me"
 # disk_show=('/'):
 #      'Disk (/): 74G / 118G (66%)'
 #
-disk_show=('/' '/home')
+disk_show=('/')
 
 # Disk subtitle.
 # What to append to the Disk subtitle.
@@ -540,7 +549,7 @@ disk_display="off"
 # Default:  'ascii'
 # Values:   'ascii', 'caca', 'catimg', 'jp2a', 'iterm2', 'off', 'tycat', 'w3m'
 # Flag:     --backend
-image_backend="off"
+image_backend="ascii"
 
 # Image Source
 #
@@ -553,7 +562,7 @@ image_backend="off"
 # NOTE: 'auto' will pick the best image source for whatever image backend is used.
 #       In ascii mode, distro ascii art will be used and in an image mode, your
 #       wallpaper will be used.
-image_source="/home/killerdroid96/Downloads/anon.jpg"
+# image_source="/home/killerdroid96/Downloads/anon.jpg"
 
 
 # Ascii Options

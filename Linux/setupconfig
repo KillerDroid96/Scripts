@@ -1,0 +1,54 @@
+#!/bin/bash
+#
+# Copyright (C) 2017-2018 Matthew Keller
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>
+#
+pause(){
+  tput setaf 2; read -p "Press [Enter] key to continue..." fackEnterKey
+}
+
+pause0(){
+    read -p "                        Press [Enter] key to continue..." fackEnterKey
+}
+
+function y/n() {
+read -p "Continue (y/n)?" choice
+case "$choice" in 
+  y|Y ) echo "yes";;
+  n|N ) echo "no";;
+  * ) echo "invalid";;
+esac
+}
+
+if [[ "yes" == $(y/n "Continuing") ]]
+then
+	sudo pacman -Syu
+else
+	echo "Leaving"
+fi
+    tput setaf 1; echo "Add My Changes?"
+    pause
+	echo "Adding .bashrc Changes"
+	cp -b $HOME/Github/Scripts/Linux/.bashrc $HOME && source ~/.bashrc 
+	echo "Adding sshd_config Changes"
+	sudo cp ~/Github/Scripts/Files/sshd_config /etc/ssh/sshd_config
+	echo "Adding motd.sh Script"
+	sudo cp ~/Github/Scripts/Linux/motd.sh /etc/profile.d
+	echo "Adding banner"
+	cp ~/Github/Scripts/Linux/banner ~/
+	echo "Adding Neofetch Config"
+	cp Github/Scripts/Files/neofetch ~/.config/neofetch/config
+	cd /etc/profile.d && touch ~/hushlogin && sudo chmod -R 755 motd.sh
+	pause
