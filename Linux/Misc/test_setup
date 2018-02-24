@@ -1,0 +1,116 @@
+#!/bin/bash
+# This is a general-purpose function to ask Yes/No questions in Bash, either
+# with or without a default answer. It keeps repeating the question until it
+# gets a valid answer.
+
+ask() {
+    # https://djm.me/ask
+    local prompt default reply
+
+    while true; do
+
+        if [ "${2:-}" = "Y" ]; then
+            prompt="Y/n"
+            default=Y
+        elif [ "${2:-}" = "N" ]; then
+            prompt="y/N"
+            default=N
+        else
+            prompt="y/n"
+            default=
+        fi
+
+        # Ask the question (not using "read -p" as it uses stderr not stdout)
+        echo -n "$1 [$prompt] "
+
+        # Read the answer (use /dev/tty in case stdin is redirected from somewhere else)
+        read reply </dev/tty
+
+        # Default?
+        if [ -z "$reply" ]; then
+            reply=$default
+        fi
+
+        # Check if the reply is valid
+        case "$reply" in
+            Y*|y*) return 0 ;;
+            N*|n*) return 1 ;;
+        esac
+
+    done
+}
+
+if ask "Install My List of Packages?"; then
+		tput setaf 5; echo "Upgrading System Packages"
+        sudo pacman -Syu --quiet --noconfirm
+        sudo pacman -S trizen pacaur yaourt
+        pacaur -Syu --needed --quiet --noedit --noconfirm
+        tput setaf 6; echo "Installing Linux Addons Packages"
+        pacaur -S --needed --quiet --noedit --noconfirm apg arp-scan alsi bcompare clex cower
+        cylon downgrader google-chrome grub-customizer grub2-theme-archxion hollywood
+        jp2a neofetch rar spotify qdirstat-git figlet bc yakuake aview imagemagick rig glances
+        htop climate telegram-desktop acpi android-tools baobab cloc cmatrix devhelp elinks espeak
+        tput setaf 21; echo "Installing Android Dependencies" && sleep 3
+        tput setaf 2;  pacaur -S --needed --quiet --noedit --noconfirm git gnupg flex bison gperf sdl wxgtk2 bash-completion squashfs-tools curl ncurses zlib schedtool perl-switch zip unzip libxslt python2-virtualenv bc rsync xml2 lzop pngcrush imagemagick jdk8-openjdk jdk9-openjdk repo android-tools python-networkx
+        tput setaf 3; echo "Installing 64 bit Dependencies" && sleep 3
+        tput setaf 2;  pacaur -S --needed --quiet --noedit --noconfirm ncurses5-compat-libs lib32-ncurses5-compat-libs lib32-zlib lib32-ncurses lib32-readline
+        tput setaf 3; echo "Installing Extra Dependencies" && sleep 3
+        tput setaf 2;  pacaur -S --needed --quiet --noedit --noconfirm ca-certificates-mozilla fakeroot make pkg-config maven tmux screen w3m ncftp
+        tput setaf 3; echo "Check & Reinstall Dependencies " && sleep 3
+        tput setaf 2;  pacaur -S --needed --quiet --noedit --noconfirm base-devel 
+        tput setaf 3; echo "Disable PGP checking from AUR" && sleep 3
+        export MAKEPKG="makepkg --skippgpcheck"
+        tput setaf 2;
+        pacaur -S --needed --quiet libtinfo --noconfirm 
+        pacaur -S --needed --quiet lib32-ncurses5-compat-libs --noconfirm 
+        pacaur -S --needed --quiet ncurses5-compat-libs --noconfirm
+else
+    echo "No"
+fi
+
+
+
+if ask "Add .bashrc Changes?"; then
+    echo "Yes"
+    cp -b $HOME/Github/Scripts/Linux/Bash/.bashrc $HOME && source ~/.bashrc 
+else
+    echo "No"
+fi
+
+# Default to Yes if the user presses enter without giving an answer:
+if ask "Add sshd_config Changes?" Y; then
+    echo "Yes"
+    sudo cp ~/Github/Scripts/Linux/Files/sshd_config /etc/ssh/sshd_config
+else
+    echo "No"
+fi
+
+if ask "Add MOTD Changes?" Y; then
+    echo "Yes"
+    sudo cp ~/Github/Scripts/Linux/Bash/motd.sh /etc/profile.d
+    cd /etc/profile.d && touch ~/hushlogin && sudo chmod -R 755 motd.sh
+else
+    echo "No"
+fi
+
+if ask "Add Banner for MOTD?" Y; then
+    echo "Yes"
+    cp ~/Github/Scripts/Linux/Bash/banner ~/
+    cd $HOME && touch ~/hushlogin && sudo chmod -R 755 banner
+else
+    echo "No"
+fi
+
+if ask "Add Neofetch Config?" Y; then
+    echo "Yes"
+    cp Github/Scripts/Files/neofetch ~/.config/neofetch/config
+else
+    echo "No"
+fi
+
+# Default to No if the user presses enter without giving an answer:
+#if ask "3 Do you want to do such-and-such?" N; then
+#    echo "Yes"
+#else
+#    echo "No"
+#fi
