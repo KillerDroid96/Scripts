@@ -1,8 +1,7 @@
 #!/bin/bash
 #
 # MOTD for a server
-# 
-# Copyright (C) 2018 Matthew Keller
+#
 # Copyright (C) 2017 Nathan Chancellor
 #
 # CPU and memory usage functions taken from Screenfetch
@@ -99,45 +98,19 @@ function rootUsage() {
     echo "${USED} out of ${ALL} (${PERCENT})"
 }
 
-function forcast(){
-    printf "$(curl -s wttr.in/~Pittsburg,KS?0?q?T | awk '/°(C|F)/ {printf $(NF-1) $(NF) " ("a")"} /,/ {a=$0}') \n"
-}
-
-function os(){
-    source /etc/os-release; echo -e "${PRETTY_NAME} \c"; uname -m
-}
-
-function kernel(){
-    uname -r
-}
-
-function todaysDate(){
-    echo $( LC_ALL=C date "+%B %d, %Y (%A)" )
-}
-
-function timeDate(){
-    echo $( LC_ALL=C date "+%I:%M %p %Z" )
-}
-
 clear
+
 
 echo -e "\033[1m"
 
-tput setaf 6
+source banner
 
-echo "     _____             _     _    ______               ";
-echo "    (____ \           (_)   | |  (____  \              ";
-echo "     _   \ \ ____ ___  _  _ | |   ____)  ) ___ _   _   ";
-echo "    | |   | / ___/ _ \| |/ || |  |  __  ( / _ ( \ / )  ";
-echo "    | |__/ | |  | |_| | ( (_| |  | |__)  | |_| ) X (   ";
-echo "    |_____/|_|   \___/|_|\____|  |______/ \___(_/ \_)  ";
-echo "                                                       ";
 echo ""
-echo "    Todays Date       :  $( todaysDate )"
-echo "    Current Time      :  $( timeDate )"
-echo "    Current Forcast   :  $( forcast )"
-echo "    Operating System  :  $( os )"
-echo "    Kernel Version    :  $( kernel )"
+echo ""
+echo "    Today's Date      :  $( echo $( LC_ALL=C date "+%B %d, %Y (%A)" ) )"
+echo "    Current Time      :  $( echo $( LC_ALL=C date "+%I:%M %p %Z" ) )"
+echo "    Operating System  :  $( source /etc/os-release; echo -e "${PRETTY_NAME} \c"; uname -m )"
+echo "    Kernel Version    :  $( uname -r )"
 echo "    Processor         :  $( cpu )"
 echo "    CPU Usage         :  $( cpuUsage )"
 echo "    Memory Usage      :  $( memUsage )"

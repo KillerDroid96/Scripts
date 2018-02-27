@@ -75,6 +75,7 @@ alias ssa="gnome-screenshot -a -i"                # Screenshot Selected Area on 
 alias co="climate overview"
 
 # Frequents
+alias weather= 
 alias screenshot="gnome-screenshot -a -i"         # Screenshot Selected Area on Gnome/KDE 
 alias editbash='nano ~/.bashrc'                   # Edits Bash
 alias updatebash='source ~/.bashrc'               # Updates Bash
@@ -90,7 +91,7 @@ alias cmount="mount | column -t"                  # Displays Filesystem Mounts
 alias banner='/etc/profile.d/motd.sh'                     # Displays Banner
 alias busy="cat /dev/urandom | hexdump -C | grep 'ca fe'" # Busy Effect
 alias matrix="cmatrix"                                    # Matrix Effect 
-alias pipes="pipes.sh -t 4"                   # Pipes
+alias pipes="pipes.sh"                   # Pipes
 
 # Spotify (Needs AUR playerctl and spotify)
 alias st="playerctl play-pause"
@@ -181,3 +182,8 @@ backup() { cp "$1"{,.bak};} # will create [file].bak in the same directory
 
 sbs() { du -b --max-depth 1 | sort -nr | perl -pe 's{([0-9]+)}{sprintf "%.1f%s", $1>=2**30? ($1/2**30, "G"): $1>=2**20? ($1/2**20, "M"): $1>=2**10? ($1/2**10, "K"): ($1, "")}e';} 
 # Lists files by size in current directory
+
+forcast(){
+	printf "\n    Todays Forcast    :  $(curl -s wttr.in/~Pittsburg,KS?0?q?T | awk '/°(C|F)/ {printf $(NF-1) $(NF) " ("a")"} /,/ {a=$0}') \n"
+	printf "	 	      :  $(curl -s wttr.in/~Overland+Park,KS?0?q?T | awk '/°(C|F)/ {printf $(NF-1) $(NF) " ("a")"} /,/ {a=$0}') \n\n"
+}

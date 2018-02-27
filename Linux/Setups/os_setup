@@ -28,7 +28,7 @@ pause0(){
         sudo pacman -S trizen pacaur yaourt
         pacaur -Syu --needed --quiet --noedit --noconfirm
         tput setaf 6; echo "Installing Linux Addons Packages"
-        pacaur -S --needed --quiet --noedit --noconfirm apg arp-scan alsi bcompare clex cower cylon downgrader google-chrome grub-customizer grub2-theme-archxion hollywood jp2a neofetch rar spotify qdirstat-git figlet bc yakuake aview imagemagick rig glances htop climate telegram-desktop acpi android-tools baobab cloc cmatrix devhelp elinks espeak
+        pacaur -S --needed --quiet --noedit --noconfirm krusader apg arp-scan alsi bcompare clex cower cylon downgrader google-chrome grub-customizer grub2-theme-archxion hollywood jp2a neofetch rar spotify qdirstat-git figlet bc yakuake aview imagemagick rig glances htop climate telegram-desktop acpi android-tools baobab cloc cmatrix devhelp elinks espeak
         tput setaf 21; echo "Installing Android Dependencies" && sleep 3
         tput setaf 2;  pacaur -S --needed --quiet --noedit --noconfirm git gnupg flex bison gperf sdl wxgtk2 bash-completion squashfs-tools curl ncurses zlib schedtool perl-switch zip unzip libxslt python2-virtualenv bc rsync xml2 lzop pngcrush imagemagick jdk8-openjdk jdk9-openjdk repo android-tools python-networkx
         tput setaf 3; echo "Installing 64 bit Dependencies" && sleep 3
