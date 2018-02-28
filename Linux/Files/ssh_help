@@ -1,19 +1,37 @@
-<-----------Starting SSH------------>
- sudo systemctl start sshd.service 
- sudo systemctl status sshd.service 
+<-------------VirtualBox-------------->
+Settings --> Network
+Enable Network Adapter (check)
+	    Attaced to: Bridged Adapter
+	          Name: Dell Wireless 1830
+Advanced
+      Adapter Type: PCnet-FAST III
+  Promiscuous Mode: Deny
+       MAC Address: xxxxxxxxxxxx
+   Cable Connected: (check)
+<------------------------------------->
 
-<---------Connect to Host----------->
-ssh username@ip
-.bashrc add
-alias XPS15='ssh username@ip'
+<------------Starting SSH------------->
+ systemctl enable sshd.service
+ sudo systemctl start sshd.service
+<------------------------------------->
+
+<---------Connecting to Host---------->
+ ssh username@ip
+ ssh matt@192.168.1.90
+ alias xssh='ssh username@ip'
+<------------------------------------->
+
+<----------------Mosh--------------->
+mosh matt@192.168.1.90
+<----------------------------------->
 
 <--------Possible SSH Fix's--------->
+ Windows Firewall add exception
  sudo journalctl -u sshd -b -0
  sudo iptables -L INPUT -n -v
  sudo ufw allow ssh
-
  eval "$(ssh-agent -s)"
- systemctl enable sshd.service
+ sudo systemctl status sshd.service 
 <----------------------------------->
-s
+
 https://www.digitalocean.com/community/tutorials/ssh-essentials-working-with-ssh-servers-clients-and-keys

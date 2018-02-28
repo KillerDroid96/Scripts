@@ -4,4 +4,4 @@
     echo "|  Starting SSH  |"
     echo "=================="
     sudo systemctl start sshd.service
-    ssh matt@192.168.43.39 
+    ssh matt@192.168.43.158
