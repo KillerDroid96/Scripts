@@ -2,10 +2,12 @@
 #
 # MOTD for a server
 # 
-# Copyright (C) 2018 Matthew Keller
-# Copyright (C) 2017 Nathan Chancellor
+# Copyright (C) 2018 Matthew Keller <KillerDroid96@gmail.com>
+# forcast function taken from neofetch and adapted
 #
+# Copyright (C) 2017 Nathan Chancellor
 # CPU and memory usage functions taken from Screenfetch
+#
 # Copyright (c) 2010-2016 Brett Bohnenkamper <kittykatt@kittykatt.us>
 #
 # This program is free software: you can redistribute it and/or modify
@@ -66,14 +68,14 @@ function cpu() {
     fi
 
     if [[ "${CPUN}" -gt "1" ]]; then
-        CPUN="${CPUN}x "
+        CPUN="${CPUN}x"                     #Orig: CPUN="${CPUN} x"
     else
         CPUN=""
     fi
     if [ -z "${CPUFREQ}" ]; then
         CPU="${CPUN}${CPU}"
     else
-        CPU="${CPU} ${CPUN} ${CPUFREQ}"
+        CPU="${CPU} ${CPUN}${CPUFREQ}"      #Orig: CPU="${CPU} ${CPUN} ${CPUFREQ}" 
     fi
 
     echo $( sed -r 's/\([tT][mM]\)|\([Rr]\)|[pP]rocessor|CPU//g' <<< "${CPU}" | xargs )
@@ -99,32 +101,11 @@ function rootUsage() {
     echo "${USED} out of ${ALL} (${PERCENT})"
 }
 
-function forcast(){
-    printf "$(curl -s wttr.in/~Pittsburg,KS?0?q?T | awk '/°(C|F)/ {printf $(NF-1) $(NF) " ("a")"} /,/ {a=$0}') \n"
-}
-
-function os(){
-    source /etc/os-release; echo -e "${PRETTY_NAME} \c"; uname -m
-}
-
-function kernel(){
-    uname -r
-}
-
-function todaysDate(){
-    echo $( LC_ALL=C date "+%B %d, %Y (%A)" )
-}
-
-function timeDate(){
-    echo $( LC_ALL=C date "+%I:%M %p %Z" )
-}
-
 clear
 
 echo -e "\033[1m"
 
 tput setaf 6
-
 echo "     _____             _     _    ______               ";
 echo "    (____ \           (_)   | |  (____  \              ";
 echo "     _   \ \ ____ ___  _  _ | |   ____)  ) ___ _   _   ";
@@ -132,15 +113,13 @@ echo "    | |   | / ___/ _ \| |/ || |  |  __  ( / _ ( \ / )  ";
 echo "    | |__/ | |  | |_| | ( (_| |  | |__)  | |_| ) X (   ";
 echo "    |_____/|_|   \___/|_|\____|  |______/ \___(_/ \_)  ";
 echo "                                                       ";
-echo ""
-echo "    Todays Date       :  $( todaysDate )"
-echo "    Current Time      :  $( timeDate )"
-echo "    Current Forcast   :  $( forcast )"
-echo "    Operating System  :  $( os )"
-echo "    Kernel Version    :  $( kernel )"
+echo "    Todays Date       :  $( ( LC_ALL=C date "+%B %d, %Y (%A)" ) )"
+echo "    Current Time      :  $( ( LC_ALL=C date "+%I:%M %p %Z" ) )"
+echo "    Current Forcast   :  $( printf "$(curl -s wttr.in/~Pittsburg,KS?0?q?T | awk '/°(C|F)/ {printf $(NF-1) $(NF) " ("a")"} /,/ {a=$0}') \n" )"
+echo "    Operating System  :  $( source /etc/os-release; echo -e "${PRETTY_NAME} \c"; uname -m )"
+echo "    Kernel Version    :  $( uname -r )"
 echo "    Processor         :  $( cpu )"
 echo "    CPU Usage         :  $( cpuUsage )"
 echo "    Memory Usage      :  $( memUsage )"
 echo "    Disk Usage        :  $( rootUsage )"
-echo ""
 echo -e "\033[0m"
