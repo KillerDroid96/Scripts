@@ -60,7 +60,7 @@ alias locate='whereis'                            # Finds Folder/File Location (
 alias disk='sudo lsblk -f'                        # Lists Disk Information
 
 # Frequents (Quick Launch)
-alias ap='ssh matt@192.168.43.39'                 # Android Hotspot
+alias ap='mosh matt@192.168.43.158'                 # Android Hotspot
 alias bl="bashlist"                               # Displays Bashlist
 alias eb='editbash'                               # Edits Bash
 alias ub='source ~/.bashrc'                       # Updates Bash
@@ -75,7 +75,7 @@ alias ssa="gnome-screenshot -a -i"                # Screenshot Selected Area on 
 alias co="climate overview"
 
 # Frequents
-alias weather= 
+alias weather="forcast"
 alias screenshot="gnome-screenshot -a -i"         # Screenshot Selected Area on Gnome/KDE 
 alias editbash='nano ~/.bashrc'                   # Edits Bash
 alias updatebash='source ~/.bashrc'               # Updates Bash
