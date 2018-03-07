@@ -81,10 +81,10 @@ function show_menus() {
     clear
     echo ""
     tput setaf 1
-    echo "Lets Get ROM'd Up!" && sleep 2
+    #echo "Lets Get ROM'd Up!" && sleep 2
+    echo "   OnePlus 5T  " && sleep 2
     tput setaf 2
     clear
-    echo ""
     echo "   ROM Builder  "
     echo " [KillerDroid96]"
     echo ""
@@ -147,7 +147,7 @@ Clean(){
         ./prebuilts/sdk/tools/jack-admin start-server
         . build/envsetup.sh 
         lunch du_dumpling-userdebug
-        time mka bacon -j30
+        time mka bacon -j10
         pause
         return
 }
