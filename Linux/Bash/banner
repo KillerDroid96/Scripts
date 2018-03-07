@@ -3,7 +3,7 @@
 # MOTD for a server
 # 
 # Copyright (C) 2018 Matthew Keller <KillerDroid96@gmail.com>
-# forcast function taken from neofetch and adapted
+# Weather function taken from neofetch and adapted
 #
 # Copyright (C) 2017 Nathan Chancellor
 # CPU and memory usage functions taken from Screenfetch
@@ -122,4 +122,6 @@ echo "    Processor         :  $( cpu )"
 echo "    CPU Usage         :  $( cpuUsage )"
 echo "    Memory Usage      :  $( memUsage )"
 echo "    Disk Usage        :  $( rootUsage )"
+echo ""
+echo "   $( fortune )"
 echo -e "\033[0m"

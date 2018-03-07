@@ -25,4 +25,4 @@ alias 644='chmod 644'
 alias 755='chmod 755'
 
 # Execute the last command as root
-alias lr='sudo $(history | tail -n 2 | head -n 1 | sed -e "s/^[ ]*[0-9]*[ ]*//g")'
+alias lr='sudo !!'
