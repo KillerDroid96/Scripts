@@ -144,6 +144,8 @@ Clean(){
         tput setaf 1; echo "Building ROM!" && sleep 3
         tput setaf 2
         export JACK_SERVER_VM_ARGUMENTS="-Dfile.encoding=UTF-8 -XX:+TieredCompilation -Xmx14g"
+        out/host/linux-x86/bin/jack-admin kill-server
+        out/host/linux-x86/bin/jack-admin start-server
         ./prebuilts/sdk/tools/jack-admin kill-server
         ./prebuilts/sdk/tools/jack-admin start-server
         . build/envsetup.sh 
