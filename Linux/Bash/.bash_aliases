@@ -31,7 +31,8 @@ alias sp="Spotify"                                # Launches Spotify
 alias ssa="gnome-screenshot -a -i"                # Screenshot Selected Area on Gnome/KDE 
 alias co="climate overview"						  # Displays System Overview
 alias n="nano"									  # Text Editor
-alias br="cl $HOME/Github/DU"					  # Moves to DU Build Directory
+alias bd="buildu" 								  # Moves to DU Build Directory
+alias venv="source venv/bin/activate"			  # Stats Venv2
 
 
 # Git (Quick Launch)
@@ -54,6 +55,7 @@ alias screenshot="gnome-screenshot -a -i"         				 # Screenshot Selected Are
 alias editbash='nano ~/.bashrc'                  				 # Edits Bash
 alias updatebash='source ~/.bashrc'               				 # Updates Bash
 alias update="trizen -Syyu"                       				 # Updates System
+alias buildu="cl $HOME/Github/DU && source venv/bin/activate"	 # Starts Venv2
 
 # Misc
 alias intercept="sudo strace -ff -e trace=write -e write=1,2 -p" # Follow Forks With Output Into Separate Files
