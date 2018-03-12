@@ -106,9 +106,9 @@ function onLogin() {
     #PS1='[\u@\h \W$(__git_ps1 " (%s)")]\$ ';
     if [[ -f "${HOME}/git-prompt.sh" ]]; then
         source ~/git-prompt.sh
-        PS1='| \h (\w)$(__git_ps1 " {%s}") |-> ';
+        PS1='| \h (\w)$(__git_ps1 " {%s}") | ';
     else
-        PS1='| \h (\w) |-> ';
+        PS1='|  (\w) | > ';
     fi
     clear;
     HOST=$(hostname);
