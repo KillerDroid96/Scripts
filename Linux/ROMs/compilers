@@ -1,10 +1,11 @@
 #!/bin/bash
 #Build Dependecies
-ccache -V
-clang --version
-gcc -dumpversion
-gcc -dumpmachine
-ninja --version
+#echo "Ccache Version : $(ccache -V)"
+#echo "Clang Version : $(clang --version)"
+#gcc -dumpmachine
+
+echo "GCC Version    : $(gcc -dumpversion)"
+echo "Ninja Version  : $(ninja --version)"
 
 # ccache version 3.3.4
 # clang version 5.0.0 (tags/RELEASE_500/final)
