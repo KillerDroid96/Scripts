@@ -161,24 +161,6 @@ function git_config() {
     git config -l
 }
 
-function moshid() {
-# SSH & Mosh
-# vbox
-alias virtualbox='mosh matt@virtualbox'
-alias vbox='mosh matt@192.168.43.158'
-alias ap='mosh matt@192.168.43.158'               # Mosh for Android Hotspot
-alias moshy='mosh matt@192.168.43.158'            # Mosh for Android Hotspot
-# xps15
-alias xps15='mosh killerdroid96@192.168.1.90'
-alias laptop='mosh killerdroid96@192.168.1.90'
-# server
-alias droidbox='mosh killerdroid96@droidbox'
-alias server=''
-alias box='mosh '
-
-alias sshy='ssh matt@192.168.43.158'              # SSH for Android Hotspot
-}
-
 function mosh() {
     sudo systemctl enable sshd.service;
     sudo systemctl start sshd.service;
@@ -203,18 +185,4 @@ function nf() {
         --color_blocks off
     echo
     echo
-}
-
-function notify() {
-    if [[ -z ${TOKEN} ]]; then
-        display_error "notify() was called but there was no token!"
-        return 1
-    fi
-
-    if [[ -z ${CHAT_ID} ]]; then
-        display_error "notify() was called but there was no chat ID!"
-        return 1
-    fi
-
-    curl -s -X POST https://api.telegram.org/bot"${TOKEN}"/sendMessage -d chat_id="${CHAT_ID}" -d parse_mode="Markdown" -d text="$*" 1>/dev/null
 }
