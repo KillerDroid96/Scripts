@@ -1,9 +1,26 @@
 #!/bin/bash
+########################
+#        CREDITS       #
+########################
+# -KillerDroid96
+# -Akhilnarang
+# -Nathanchance
+########################
 
 #############
 # FUNCTIONS #
 #############
-cl() { # cd and ls in one
+
+# Will create [file].bak in the same directory
+function backup() { 
+    cp "$1"{,.bak};
+} 
+
+function calc() { # terminal calculator
+    echo "scale=3;$@" | bc -l
+}
+
+function cl() { # cd and ls in one
     local dir="$1"
     local dir="${dir:=$HOME}"
     if [[ -d "$dir" ]]; then
@@ -13,11 +30,13 @@ cl() { # cd and ls in one
     fi
 }
 
-calc() { # terminal calculator
-    echo "scale=3;$@" | bc -l
+# Prints weather information 
+function forcast(){
+    printf "\n    Todays Forcast    : ${Red}$(curl -s wttr.in/~Pittsburg,KS?0?q?T | awk '/°(C|F)/ {printf $(NF-1) $(NF) " ("a")"} /,/ {a=$0}') \n ${Color_Off}" 
+    printf "                     : ${Green}$(curl -s wttr.in/~Overland+Park,KS?0?q?T | awk '/°(C|F)/ {printf $(NF-1) $(NF) " ("a")"} /,/ {a=$0}') \n\n ${Color_Off}"
 }
 
-ipif() { # lists ip, hostname, city, region, country, loc, org, postal
+function ipif() { # lists ip, hostname, city, region, country, loc, org, postal
     if grep -P "(([1-9]\d{0,2})\.){3}(?2)" <<< "$1"; then
     curl ipinfo.io/"$1"
     else
@@ -27,7 +46,13 @@ ipif() { # lists ip, hostname, city, region, country, loc, org, postal
     echo
 }
 
-note () { #Usage note test, saves to .notes
+# Usage mcd test, creates and moves into test directory
+function mcd () { 
+    mkdir -p $1
+    cd $1
+}
+
+function note () { #Usage note test, saves to .notes
         # if file doesn't exist, create it
     if [[ ! -f $HOME/.notes ]]; then
         touch "$HOME/.notes"
@@ -45,7 +70,7 @@ note () { #Usage note test, saves to .notes
     fi
 }
 
-notes () { # Displays items in .note
+function notes () { # Displays items in .note
     echo ""
     echo "==========================="
     echo "|          Notes          |"
@@ -55,79 +80,141 @@ notes () { # Displays items in .note
     echo ""
 }
 
-editnotes () {
+function notesedit () {
     nano $HOME/.notes
 }
 
-numfiles() { # Usage numfiles scripts > 88 files in scripts
-# numfiles test > 10 files in test
+function numfiles() { # Usage numfiles scripts > 88 files in scripts
+    # numfiles test > 10 files in test
     N="$(ls $1 | wc -l)"; 
     echo "$N files in $1";
 }
 
-# history displays comand history, use !208 etc to repeat command
-history | awk '{CMD[$2]++;count++;}END { for (a in CMD)print CMD[a] " " CMD[a]/count*100 "% " a;}' | grep -v "./" | column -c3 -s " " -t | sort -nr | nl |  head -n10
-
-# Usage mcd test, creates and moves into test directory
-mcd () { 
-    mkdir -p $1
-    cd $1
-}
-
-# Usage whereis scripts, displays all locations with the word scripts (case sensitive)
-function whereis (){ 
-  find . -name "$1*";
-}
-
-# Will create [file].bak in the same directory
-backup() { cp "$1"{,.bak};} 
-
-# Lists files by size in current directory
-sbs() { du -b --max-depth 1 | sort -nr | perl -pe 's{([0-9]+)}{sprintf "%.1f%s", $1>=2**30? ($1/2**30, "G"): $1>=2**20? ($1/2**20, "M"): $1>=2**10? ($1/2**10, "K"): ($1, "")}e';} 
-
-# Prints weather information 
-forcast(){
-	printf "\n    Todays Forcast    :  $(curl -s wttr.in/~Pittsburg,KS?0?q?T | awk '/°(C|F)/ {printf $(NF-1) $(NF) " ("a")"} /,/ {a=$0}') \n"
-	printf "	 	      :  $(curl -s wttr.in/~Overland+Park,KS?0?q?T | awk '/°(C|F)/ {printf $(NF-1) $(NF) " ("a")"} /,/ {a=$0}') \n\n"
-}
-
-# Search for a process containing a given name
-function pps() {
+function pps() { # Search for a process containing a given name
 ps aux | grep "$@" | grep -v 'grep';
 }
 
-function onLogin() {
-    export GIT_PS1_SHOWDIRTYSTATE=1;
-    export GIT_PS1_SHOWSTASHSTATE=1;
-    export GIT_PS1_SHOWUNTRACKEDFILES=1;
-    export GIT_PS1_SHOWUPSTREAM=auto;
-    export GIT_PS1_SHOWCOLORHINTS=1;
-    unset PS1;
-    #PS1='[\u@\h \W$(__git_ps1 " (%s)")]\$ ';
-    if [[ -f "${HOME}/git-prompt.sh" ]]; then
-        source ~/git-prompt.sh
-        PS1='| \h (\w)$(__git_ps1 " {%s}") | ';
-    else
-        PS1='|  (\w) | > ';
-    fi
-    clear;
-    HOST=$(hostname);
-    if [[ ${#HOST} -lt 14 ]]; then
-        echo -e "${lightgray}";figlet -c "$(hostname)";
-    fi
-    echo ""
-    echo -ne "${red}Today is:\\t\\t${cyan} $(date)";
-    echo ""
-    echo -e "${red}Kernel Information: \\t${cyan} $(uname -smr)"
-    echo -ne "${cyan}";
-    upinfo;
-    echo "";
-    echo -e "Welcome to $(hostname), $(whoami)!";
-    echo -e;
-    fortune;
+function rehistory(){ # history displays comand history, use !208 etc to repeat command
+    history | awk '{CMD[$2]++;count++;}END { for (a in CMD)print CMD[a] " " CMD[a]/count*100 "% " a;}' | grep -v "./" | column -c3 -s " " -t | sort -nr | nl |  head -n10
 }
 
-function haste() {
-    a=$(cat);
-    curl -X POST -s -d "$a" http://haste.akhilnarang.me/documents | awk -F '"' '{print "http://haste.akhilnarang.me/"$4}';
+function sbs() { # Lists files by size in current directory
+    du -b --max-depth 1 | sort -nr | perl -pe 's{([0-9]+)}{sprintf "%.1f%s", $1>=2**30? ($1/2**30, "G"): $1>=2**20? ($1/2**20, "M"): $1>=2**10? ($1/2**10, "K"): ($1, "")}e';
+} 
+
+function shopts() {         # Sets Shell Options
+    shopt -s cdspell        # This will correct minor spelling errors in a cd command.
+    shopt -s histappend     # Append to history rather than overwrite
+    shopt -s checkwinsize   # Check window after each command
+    shopt -s dotglob        # files beginning with . to be returned in the results of path-name expansion.
+    shopt -s no_empty_cmd_completion # Disable completion when the input buffer is empty
+    shopt -s 
+}
+
+function wheres (){ # Usage whereis scripts, displays all locations with the word scripts (case sensitive)
+  find . -name "$1*";
+}
+
+function upinfo() {
+    echo -ne "${green}$(hostname) ${red}uptime is ${cyan} \\t ";uptime | awk /'up/ {print $3,$4,$5,$6,$7,$8,$9,$10,$11}';
+}
+
+function venv() {
+    virtualenv2 /tmp/venv;
+    source /tmp/venv/bin/activate;
+}
+
+function venv_stop(){
+    deactivate
+    rm -rf "${HOME}/venv"
+}
+
+function run_venv() {
+    PYV=$(python -c "import sys;t='{v[0]}'.format(v=list(sys.version_info[:1]));sys.stdout.write(t)");
+    if [[ "${PYV}" == "3" ]]; then
+        if [[ "$(command -v 'virtualenv2')" ]]; then
+            if [[ ! -d "${BASEDIR}/virtualenv" ]]; then
+                virtualenv2 "${BASEDIR}/virtualenv";
+            fi
+            source "${BASEDIR}/virtualenv/bin/activate";
+        else
+            echo "Please install 'virtualenv2', or make 'python' point to python2";
+        fi
+    fi
+
+    "$@";
+
+    if [[ -d "${BASEDIR}/virtualenv" ]]; then
+        echo -e "virtualenv detected, deactivating!";
+        deactivate;
+    fi
+}
+
+function repo_sync() {
+    time run_venv repo sync --force-broken --force-sync --detach --no-clone-bundle --quiet --current-branch --no-tags "$@";
+}
+
+function git_config() {
+    git config --global user.email "mkeller96@gmail.com"
+    git config --global user.name "KillerDroid96"
+    git config --global credential.helper "cache --timeout=7200"
+    git config -l
+}
+
+function moshid() {
+# SSH & Mosh
+# vbox
+alias virtualbox='mosh matt@virtualbox'
+alias vbox='mosh matt@192.168.43.158'
+alias ap='mosh matt@192.168.43.158'               # Mosh for Android Hotspot
+alias moshy='mosh matt@192.168.43.158'            # Mosh for Android Hotspot
+# xps15
+alias xps15='mosh killerdroid96@192.168.1.90'
+alias laptop='mosh killerdroid96@192.168.1.90'
+# server
+alias droidbox='mosh killerdroid96@droidbox'
+alias server=''
+alias box='mosh '
+
+alias sshy='ssh matt@192.168.43.158'              # SSH for Android Hotspot
+}
+
+function mosh() {
+    sudo systemctl enable sshd.service;
+    sudo systemctl start sshd.service;
+
+    if "$(moshid)" == "$(moshid)"; then
+        echo -e "Starting Mosh Server";
+    else
+        echo -e "Usage: mosh username@ip or username@hostname";
+    fi
+}
+
+# Neofetch alias
+function nf() {
+    echo
+    neofetch \
+        --kernel_shorthand on \
+        --distro_shorthand tiny \
+        --os_arch off \
+        --uptime_shorthand tiny \
+        --speed_shorthand on \
+        --install_time off \
+        --color_blocks off
+    echo
+    echo
+}
+
+function notify() {
+    if [[ -z ${TOKEN} ]]; then
+        display_error "notify() was called but there was no token!"
+        return 1
+    fi
+
+    if [[ -z ${CHAT_ID} ]]; then
+        display_error "notify() was called but there was no chat ID!"
+        return 1
+    fi
+
+    curl -s -X POST https://api.telegram.org/bot"${TOKEN}"/sendMessage -d chat_id="${CHAT_ID}" -d parse_mode="Markdown" -d text="$*" 1>/dev/null
 }
