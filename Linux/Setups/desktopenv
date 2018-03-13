@@ -44,12 +44,12 @@ pause0(){
     read -p "                        Press [Enter] key to continue..." fackEnterKey
 }
 
-if ask "Do you have Pacaur Installed?" N; then
+if ask "Do you have Trizen Installed?" N; then
     echo "Continuing"
 else
-    echo "Installing Pacaur"
-    sudo pacman -S --quiet --noconfirm pacaur 
-fi
+    echo "Installing Trizen"
+    sudo pacman -Syu --quiet --noconfirm trizen 
+fi    
 
 # function to display menus
 function show_menus() {
