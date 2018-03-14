@@ -1,0 +1,9 @@
+    #!/bin/bash
+    tput setaf 2
+    echo "==================="
+    echo "|  Starting Mosh  |"
+    echo "==================="
+    systemctl enable sshd.service
+    sudo systemctl start sshd.service
+    mosh matt@192.168.43.158
+    

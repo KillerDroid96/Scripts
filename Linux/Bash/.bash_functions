@@ -30,6 +30,16 @@ function cl() { # cd and ls in one
     fi
 }
 
+function clv() { # cd and ls in one
+    local dir="$1"
+    local dir="${dir:=$HOME}"
+    if [[ -d "$dir" ]]; then
+        cd "$dir" >/dev/null; ll
+    else
+        echo "bash: cl: $dir: Directory not found"
+    fi
+}
+
 # Prints weather information 
 function forcast(){
     printf "\n    Todays Forcast    : ${Red}$(curl -s wttr.in/~Pittsburg,KS?0?q?T | awk '/°(C|F)/ {printf $(NF-1) $(NF) " ("a")"} /,/ {a=$0}') \n ${Color_Off}" 
@@ -161,15 +171,10 @@ function git_config() {
     git config -l
 }
 
-function mosh() {
+function mosh1() {
     sudo systemctl enable sshd.service;
     sudo systemctl start sshd.service;
-
-    if "$(moshid)" == "$(moshid)"; then
-        echo -e "Starting Mosh Server";
-    else
-        echo -e "Usage: mosh username@ip or username@hostname";
-    fi
+    echo -e "Mosh Server Started";
 }
 
 # Neofetch alias
