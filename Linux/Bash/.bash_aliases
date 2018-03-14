@@ -13,7 +13,8 @@ alias gc='git commit'
 alias gcm='git commit -m'
 alias ga='git add'
 alias gaa='git add --all'    
-alias gac='git add && commit'
+alias gac='git add && git commit'
+alias gaac='git add --all && git commit'
 alias {gl,gitlog}='git log --pretty=oneline'
 alias gps='git push'
 alias gpl='git pull'
@@ -49,7 +50,7 @@ alias {emptytrash,et}="rm -rf $HOME/Desktop/trash.desktop"                      
 alias {weather,wf}="forcast"							  				 	                     # Gives weather Report
 alias {lastroot,rr,lr}='sudo $(history | tail -n 2 | head -n 1 | sed -e "s/^[ ]*[0-9]*[ ]*//g")' # Executes the last command as root
 alias {trace,intercept}="sudo strace -ff -e trace=write -e write=1,2 -p"                         # Follow Forks With Output Into Separate Files
-
+alias {trizenq,trizens}='trizen -Syyu --quiet --noconfirm --noedit'
 # Development 
 alias n="nano"									                                  # Text Editor
 alias co="cliamte overview"						                                  # Climate Overview

@@ -150,7 +150,7 @@ Clean(){
         ./prebuilts/sdk/tools/jack-admin start-server
         . build/envsetup.sh 
         lunch du_dumpling-userdebug
-        time mka bacon -j$( nproc --all ) 2>&1 | tee du_log.txt
+        time mka bacon -j$( nproc --all ) #2>&1 | tee du_log.txt
         pause
         return
 }
@@ -161,7 +161,7 @@ Dirty(){
         virtualenv2 venv
         source venv/bin/activate
         echo ${red}"Surgical Strike Starting"${normal}
-        make burst
+        #make burst
         time repo sync --force-broken --force-sync --no-clone
         export JACK_SERVER_VM_ARGUMENTS="-Dfile.encoding=UTF-8 -XX:+TieredCompilation -Xmx14g"
         ./prebuilts/sdk/tools/jack-admin kill-server
