@@ -161,7 +161,8 @@ function run_venv() {
 }
 
 function repo_sync() {
-    time run_venv repo sync --force-broken --force-sync --detach --no-clone-bundle --quiet --current-branch --no-tags "$@";
+    # time run_venv repo sync --force-broken --force-sync --current-branch --no-clone-bundle --no-tags --detach --quiet "$@";
+    source venv/bin/activate && time repo sync --force-broken --force-sync --current-branch --no-clone-bundle --no-tags --prune --optimized-fetch -j$( nproc --all )
 }
 
 function git_config() {

@@ -5,7 +5,7 @@
 ###########
 
 # Git (Quick Launch)
-alias git1='git --no-pager'
+alias git='git --no-pager'
 alias gs='git status'
 alias gb='git branch -a --color'
 alias gd='git diff --color'
@@ -50,15 +50,17 @@ alias {emptytrash,et}="rm -rf $HOME/Desktop/trash.desktop"                      
 alias {weather,wf}="forcast"							  				 	                     # Gives weather Report
 alias {lastroot,rr,lr}='sudo $(history | tail -n 2 | head -n 1 | sed -e "s/^[ ]*[0-9]*[ ]*//g")' # Executes the last command as root
 alias {trace,intercept}="sudo strace -ff -e trace=write -e write=1,2 -p"                         # Follow Forks With Output Into Separate Files
-alias {trizenq,trizens}='trizen -Syyu --quiet --noconfirm --noedit'
+alias {us,uq,trizenq,trizens}='trizen -Syyu --quiet --noconfirm --noedit'
+
 # Development 
 alias n="nano"									                                  # Text Editor
-alias co="cliamte overview"						                                  # Climate Overview
+alias co="climate overview"						                                  # Climate Overview
 alias venv2="source venv/bin/activate"			                                  # Starts Venv2
 alias {buildu,dub,dud}="cl $HOME/Github/DU && source venv/bin/activate"	          # Venv into DU Build Directory
 alias {buildurom,bdr,bdu}="cl $HOME/Github/DU && source venv/bin/activate && rom" # Venv into DU Build Directory and start rom script
 alias {dulog,du_log,dul}=" cat $HOME/Github/DU/du_log.txt"                        # Reads DU Build Log
 alias {out,dumpling,op5t}="cl $HOME/Github/DU/out/target/product/dumpling/"		  # Moves to Out Directory for 5T
+alias {rs,reposync}="source venv/bin/activate && time repo sync --force-broken --force-sync --current-branch --no-clone-bundle --no-tags --prune --optimized-fetch -j$( nproc --all )"
 
 # Mosh
 alias {virtualbox,vbox,vb,ap,arch,moshy}='mosh matt@virtualbox'    # Mosh VirtualBox
@@ -90,6 +92,8 @@ alias disk5='sudo pydf'				       # A Better Version of df
 alias disk6='sudo df -h'				   # Displays Mounted File Systems
 alias disk7='sudo df -h --output=source,fstype,size,used,avail,pcent,target -x tmpfs -x devtmpfs'
 alias disk_trim='sudo dd if=/dev/zero of=/var/tmp/bigemptyfile bs=4096k ; rm /var/tmp/bigemptyfile'
+alias swap='sudo swapon --show'            # Shows Swap Space
+alias {r/w,io}='sudo iotop'                # Sort by Disk Writes,
 
 # Directories
 alias p="pwd"                                        # Displays File Path
