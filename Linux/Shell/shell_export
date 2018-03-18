@@ -1,0 +1,22 @@
+#!/bin/bash
+/etc/profile.d/motd.sh # Displays MOTD/Banner when opening new terminal
+
+# shopt options
+shopt -s cdspell # This will correct minor spelling errors in a cd command.
+shopt -s histappend # Append to history rather than overwrite
+shopt -s checkwinsize # Check window after each command
+shopt -s dotglob # files beginning with . to be returned in the results of path-name expansion.
+
+# Set default editor to nano
+export EDITOR="nano";
+export BROWSER="chromium";
+
+# Android Build Stuff
+export USE_CCACHE=60
+export LC_ALL=C
+export USE_NINJA=false
+
+export BASH_IT="${HOME}/.bash_it"
+export BASH_IT_THEME='powerline'
+export BASH_IT_AUTOMATIC_RELOAD_AFTER_CONFIG_CHANGE=1
+source "$BASH_IT"/bash_it.sh
