@@ -1,0 +1,66 @@
+#!/bin/bash
+normal=$(tput sgr0)              # White
+red=$(tput setaf 1)              # Red
+green=$(tput setaf 2)            # Green
+yellow=$(tput setaf 3)           # Yellow
+blue=$(tput setaf 21)            # Blue
+violet=$(tput setaf 5)           # Violet
+cyan=$(tput setaf 6)             # Cyan
+white=$(tput setaf 7)            # White
+
+ask() {
+    local prompt default reply
+    while true; do
+        if [ "${2:-}" = "N" ]; then
+            prompt="y/N"
+            default=N
+        else
+    		prompt=" "
+        	default=
+        fi
+        echo -n "$1 [$prompt] "
+        read reply </dev/tty
+        if [ -z "$reply" ]; then
+            reply=$default
+        fi
+        case "$reply" in
+            Y*|y*) return 0 ;;
+            N*|n*) return 1 ;;
+			1*) return 0 ;;
+			2*) return 1 ;;
+			e*) exit ;;
+        esac
+    done
+}
+	clear
+    echo "${green}  ROM Builder  "
+    echo "${cyan}[KillerDroid96] ${white}" && sleep 3 
+    clear
+    echo "============="
+    echo "|${blue}   Build   ${white}|"
+    echo "============="
+    echo "|${green} [1] Clean ${white}|"
+    echo "|${yellow} [2] Dirty ${white}|"
+    echo "|${red} [e] Exit  ${white}|"
+    echo "============="
+if ask "Enter"; then
+	clear
+	echo "${green}Starting Clean Build" && sleep 1
+	clear
+    echo "${red}Removing Entire Build Directory!${white}" && sleep 3 
+    make clobber && make clean
+else 
+	clear
+	echo "${green}Starting Dirty Build${white}" && sleep 3
+    make  
+fi	
+	virtualenv2 venv && source venv/bin/activate
+	repo sync --force-broken --force-sync --current-branch --no-clone-bundle --no-tags --prune --optimized-fetch -j$( nproc --all )
+    export JACK_SERVER_VM_ARGUMENTS="-Dfile.encoding=UTF-8 -XX:+TieredCompilation -Xmx15g"
+	./prebuilts/sdk/tools/jack-admin kill-server && ./prebuilts/sdk/tools/jack-admin start-server
+    . build/envsetup.sh && lunch du_dumpling-userdebug
+if ask "${green}Enable Build Log?${white}" N; then
+    time mka bacon -j$( nproc --all )
+else
+    time mka bacon -j$( nproc --all ) 2>&1 | tee build_log.txt
+fi

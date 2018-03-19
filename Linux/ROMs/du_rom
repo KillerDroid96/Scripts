@@ -1,0 +1,21 @@
+#!/bin/bash
+normal=$(tput sgr0)              # White
+red=$(tput setaf 1)              # Red
+green=$(tput setaf 2)            # Green
+yellow=$(tput setaf 3)           # Yellow
+blue=$(tput setaf 21)            # Blue
+violet=$(tput setaf 5)           # Violet
+cyan=$(tput setaf 6)             # Cyan
+white=$(tput setaf 7)            # White
+	clear
+    echo "${green}  ROM Builder  "
+    echo "${cyan}[KillerDroid96] ${white}" && sleep 3 
+	clear
+    echo "${red}Removing Entire Build Directory!${cyan}" && sleep 3 
+    make clobber && make clean
+	virtualenv2 venv && source venv/bin/activate
+	repo sync --force-broken --force-broken --force-sync --current-branch --no-clone-bundle --no-tags --prune --optimized-fetch -j$( nproc --all )
+    export JACK_SERVER_VM_ARGUMENTS="-Dfile.encoding=UTF-8 -XX:+TieredCompilation -Xmx15g"
+	./prebuilts/sdk/tools/jack-admin kill-server && ./prebuilts/sdk/tools/jack-admin start-server
+    . build/envsetup.sh && lunch du_dumpling-userdebug
+    time mka bacon -j$( nproc --all )
