@@ -24,8 +24,8 @@ if [ -f $HOME/Github/Scripts/Linux/Shells/shell_prompts ]; then
 	source $HOME/Github/Scripts/Linux/Shells/shell_prompts
 fi
 
-if [ -f $HOME/nathan_scripts/common ]; then
-	source $HOME/nathan_scripts/common
+if [ -f $HOME/Github/nathan_scripts/common ]; then
+	source $HOME/Github/nathan_scripts/common
 fi
 
 if [ -f /etc/.bash_completion ]; then
