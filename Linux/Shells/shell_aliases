@@ -47,13 +47,12 @@ alias fps='ps aux | grep'                         				                          
 alias 000='chmod 000'
 alias 644='chmod 644'
 alias 755='chmod 755'  
-alias {update,u,pacaur}="trizen -Syyu"                       				                     # Updates System
 alias {screenshot,ssa}="gnome-screenshot -a -i"         				                         # Screen-shot Selected Area on Gnome/KDE 
 alias {emptytrash,et}="rm -rf $HOME/Desktop/trash.desktop"                                       # Empties Trash
 alias {weather,wf}="forcast"							  				 	                     # Gives weather Report
 alias {lastroot,rr,lr}='sudo $(history | tail -n 2 | head -n 1 | sed -e "s/^[ ]*[0-9]*[ ]*//g")' # Executes the last command as root
 alias {trace,intercept}="sudo strace -ff -e trace=write -e write=1,2 -p"                         # Follow Forks With Output Into Separate Files
-alias {us,uq,trizenq,trizens}='trizen -Syyu --quiet --noconfirm --noedit'
+alias {u,us,uq,trizenq,trizens}='trizen -Syyu --quiet --noconfirm --noedit --needed'
 alias {banner,shell_banner}='$HOME/Github/Scripts/Linux/Shell/shell_banner'
 alias motd='/etc/profile.d/motd.sh'                                        # Displays Banner
 
@@ -66,7 +65,7 @@ alias {buildu,dub,dud}="cl $HOME/Github/DU && source venv/bin/activate"	        
 alias {buildurom,bdr,bdu}="cl $HOME/Github/DU && source venv/bin/activate && rom" # Venv into DU Build Directory and start rom script
 alias {dulog,du_log,dul}=" cat $HOME/Github/DU/du_log.txt"                        # Reads DU Build Log
 alias {out,dumpling,op5t}="cl $HOME/Github/DU/out/target/product/dumpling/"		  # Moves to Out Directory for 5T
-alias {rs,reposync}="source venv/bin/activate && time repo sync --force-broken --force-sync --current-branch --no-clone-bundle --no-tags --prune --optimized-fetch -j$( nproc --all )"
+alias {rs,reposync}="source venv/bin/activate && time repo sync --force-broken --force-sync --current-branch --no-clone-bundle --no-tags --prune --optimized-fetch -j$( nproc --all )" 
 
 # Mosh
 alias {virtualbox,vbox,vb,ap,arch,moshy}='mosh matt@virtualbox'    # Mosh VirtualBox
