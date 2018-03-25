@@ -74,37 +74,6 @@ ask() {
     done
 }
 
-#-------------------------------------------------
-#Notes
-    #Add install/update dependiencies option
-    #Other
-    #Python: Only needed for Arch
-    #Python3.3: pyvenv venv
-    #Python3.0: python3.6 -m venv
-    #Python2.0: virtualenv2 venv
-    #Activate Python: source venv/bin/activate
-    #[Neofetch] super awesome system info script
-    #Install for Ubuntu: sudo apt install neofetch
-    #Install for Arch: yaourt -S neofetch
-    #gnome-terminal -e "watch -n1 -d ccache -s"
-    #tilix -q -e "watch -n1 -d ccache -s"
-    #tilix -q -e "climate overview"
-    #sudo trizen -Sy python2-virtualenv
-    #virtualenv2 venv
-    #export JACK_SERVER_VM_ARGUMENTS="-Dfile.encoding=UTF-8 -XX:+TieredCompilation -Xmx14g"
-    #./prebuilts/sdk/tools/jack-admin kill-server
-    #./prebuilts/sdk/tools/jack-admin start-server
-    #export LC_ALL=C
-    #breakfast dumpling 
-    #make -j14
-    #or brunch dumpling
-    #
-    #DHO's cleaning rules
-    #Change-Id: I0a266580874d45bab011b2dc59387603d83cf917
-    #https://github.com/Flash-ROM/build/commit/c7efc9adb6612c8d4626b69a55983b4efdb78bbb
-    #
-#---------------------------------------------------
-
 pause(){
   read -p "Press [Enter] key to continue..." fackEnterKey
 }
@@ -357,3 +326,34 @@ do
     show_menus
     read_options 
 done
+
+#-------------------------------------------------
+#Notes
+    #Add install/update dependiencies option
+    #Other
+    #Python: Only needed for Arch
+    #Python3.3: pyvenv venv
+    #Python3.0: python3.6 -m venv
+    #Python2.0: virtualenv2 venv
+    #Activate Python: source venv/bin/activate
+    #[Neofetch] super awesome system info script
+    #Install for Ubuntu: sudo apt install neofetch
+    #Install for Arch: yaourt -S neofetch
+    #gnome-terminal -e "watch -n1 -d ccache -s"
+    #tilix -q -e "watch -n1 -d ccache -s"
+    #tilix -q -e "climate overview"
+    #sudo trizen -Sy python2-virtualenv
+    #virtualenv2 venv
+    #export JACK_SERVER_VM_ARGUMENTS="-Dfile.encoding=UTF-8 -XX:+TieredCompilation -Xmx14g"
+    #./prebuilts/sdk/tools/jack-admin kill-server
+    #./prebuilts/sdk/tools/jack-admin start-server
+    #export LC_ALL=C
+    #breakfast dumpling 
+    #make -j14
+    #or brunch dumpling
+    #
+    #DHO's cleaning rules
+    #Change-Id: I0a266580874d45bab011b2dc59387603d83cf917
+    #https://github.com/Flash-ROM/build/commit/c7efc9adb6612c8d4626b69a55983b4efdb78bbb
+    #
+#---------------------------------------------------
