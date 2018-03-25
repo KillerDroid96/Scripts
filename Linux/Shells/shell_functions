@@ -287,6 +287,8 @@ transfer() {
     echo -e "Download $zipname at $url";
 }
 
-drive() {
-    gdrive upload du_dumpling-v12.0--UNOFFICIAL.zip -p 1sZjVEx8C2tqL0nPxejTL-rQuOPp6smPl
+gdrive_rom() {
+    gdrive about -c /home/matt/.gdrive-secondary &> out.log  
+    gdrive sync upload $HOME/Github/Uploads 1lOVVWYg_itAPwaUWbMhkvF2P51wzr46v &> out.log  
+    echo "https://drive.google.com/drive/folders/1lOVVWYg_itAPwaUWbMhkvF2P51wzr46v"
 }
