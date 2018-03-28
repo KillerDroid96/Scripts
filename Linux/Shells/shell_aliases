@@ -52,7 +52,8 @@ alias {emptytrash,et}="rm -rf $HOME/Desktop/trash.desktop"                      
 alias {weather,wf}="forcast"							  				 	                     # Gives weather Report
 alias {lastroot,rr,lr}='sudo $(history | tail -n 2 | head -n 1 | sed -e "s/^[ ]*[0-9]*[ ]*//g")' # Executes the last command as root
 alias {trace,intercept}="sudo strace -ff -e trace=write -e write=1,2 -p"                         # Follow Forks With Output Into Separate Files
-alias {u,us,uq,trizenq,trizens}='trizen -Syyu --quiet --noconfirm --noedit --needed'
+alias i='trizen -S --quiet --noconfirm --noedit --needed'
+alias {u,us,uq,trizenq,trizens}='update_trizen'
 alias {banner,shell_banner}='$HOME/Github/Scripts/Linux/Shell/shell_banner'
 alias motd='/etc/profile.d/motd.sh'                                        # Displays Banner
 

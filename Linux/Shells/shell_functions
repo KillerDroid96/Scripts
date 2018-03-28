@@ -250,6 +250,7 @@ function run_venv() {
 function repo_sync() {
     # time run_venv repo sync --force-broken --force-sync --current-branch --no-clone-bundle --no-tags --detach --quiet "$@";
     source venv/bin/activate && time repo sync --force-broken --force-sync --current-branch --no-clone-bundle --no-tags --prune --optimized-fetch -j$( nproc --all )
+    repo sync -c -l -j$( nproc --all )
 }
 
 function git_config() {
@@ -280,15 +281,44 @@ function nf() {
     echo
 }
 
-transfer() {
+function transfer() {
     zipname=$(echo "$1" | awk -F '/' '{print $NF}')
     url=$(curl -# -T "$1" https://transfer.sh);
     printf '\n';
     echo -e "Download $zipname at $url";
 }
 
-gdrive_rom() {
+function gdrive_rom() {
     gdrive about -c /home/matt/.gdrive-secondary &> out.log  
     gdrive sync upload $HOME/Github/Uploads 1lOVVWYg_itAPwaUWbMhkvF2P51wzr46v &> out.log  
     echo "https://drive.google.com/drive/folders/1lOVVWYg_itAPwaUWbMhkvF2P51wzr46v"
+}
+
+# Telegram notifier function
+TOKEN=${TOKEN}
+CHAT_ID=${CHAT_ID}
+
+function notify_id(){
+    curl https://api.telegram.org/bot"${TOKEN}"/getUpdates
+}
+
+function tele() {
+    if [[ -z ${TOKEN} ]]; then
+        display_error "notify() was called but there was no token!"
+        return 1
+    fi
+
+    if [[ -z ${CHAT_ID} ]]; then
+        display_error "notify() was called but there was no chat ID!"
+        return 1
+    fi
+
+    curl -s -X POST https://api.telegram.org/bot"${TOKEN}"/sendMessage -d chat_id="${CHAT_ID}" -d parse_mode="Markdown" -d text="$*" 1>/dev/null
+}
+
+function update_trizen(){
+    header "Updating System"
+    trizen -Syyu --quiet --noconfirm --noedit --needed
+    clear
+    header "System Update Complete"
 }

@@ -1,0 +1,148 @@
+#!/bin/bash
+ask() {
+    local prompt default reply
+    while true; do
+       if [ "${2:-}" = "Y" ]; then
+            prompt="Y/n"
+            default=Y
+        elif [ "${2:-}" = "N" ]; then
+            prompt="y/N"
+            default=N
+        else
+            prompt="y/n"
+            default=
+        fi
+        echo -n "$1 [$prompt] "
+        read reply </dev/tty
+        if [ -z "$reply" ]; then
+            reply=$default
+        fi
+        case "$reply" in
+            Y*|y*) return 0 ;;
+            N*|n*) return 1 ;;
+        esac
+    done
+}
+
+ask_exit() {
+   if ask "Continue Exiting?" Y; then
+        exit
+    else
+        echo "Exit Canceled!" && sleep 1
+    fi 
+}
+
+build_log() {
+    clear
+if ask "Enable Build Log?" N; then
+    tput setaf 2; time mka bacon -j$( nproc --all )
+else
+    tput setaf 2; time mka bacon -j$( nproc --all ) 2>&1 | tee build_log.txt
+fi
+
+}
+
+clean_rom() {
+    clear
+    tput setaf 2; echo "Start Dirty Build?"  
+if ask "Enter" Y; then
+    tput setaf 2; echo "Starting Clean Build"
+    tput setaf 1; echo "Removing Entire Build Directory!" && sleep 3 
+    tput setaf 7; make clobber && make clean
+    build
+else 
+    return
+fi
+}
+
+dirty_rom() {
+    clear
+    tput setaf 2; echo "Start Dirty Build?"
+if ask "Enter" Y; then 
+    tput setaf 3; echo "Surgical Strike Starting!" && sleep 3
+    tput setaf 5; make burst
+    build
+else 
+    return
+fi
+}
+
+build() {
+    clear
+    tput setaf 7; virtualenv2 venv && source venv/bin/activate
+    time repo sync --force-broken --force-sync --current-branch --no-clone-bundle --no-tags --prune --optimized-fetch -j$( nproc --all )
+    export JACK_SERVER_VM_ARGUMENTS="-Dfile.encoding=UTF-8 -XX:+TieredCompilation -Xmx15g"
+    ./prebuilts/sdk/tools/jack-admin kill-server && ./prebuilts/sdk/tools/jack-admin start-server
+    . build/envsetup.sh && lunch 
+    tput setaf 1; echo "Building ROM!" && sleep 3
+    build_log 
+}
+
+build_type() {
+    local prompt default reply
+    while true; do
+    	prompt=" "
+        default=
+        echo -n "$1 [$prompt] "
+        read reply </dev/tty
+        if [ -z "$reply" ]; then
+            reply=$default
+        fi
+        case "$reply" in
+            1*) return 0 ;;
+            2*) return 1 ;;
+			e*) ask_exit ;;
+        esac
+    done
+}
+    tput setaf 2; echo "   ROM Builder  "
+    tput setaf 3; echo " [KillerDroid96]" && sleep 2 
+    clear
+    clear
+    echo "============="
+    tput setaf 4; echo "|   Build   |"
+    tput setaf 7; echo "============="
+    tput setaf 2; echo "| [1] Clean |"
+    tput setaf 3; echo "| [2] Dirty |"
+    tput setaf 1; echo "| [e] Exit  |"
+    echo "============="
+if build_type "Choose"; then 
+    clean_rom
+else
+    dirty_rom
+fi
+##########################
+
+function device()
+{
+local prompt default reply
+    while true; do
+        prompt=" "
+        default=
+        echo -n "$1 [$prompt] "
+        read reply </dev/tty
+        if [ -z "$reply" ]; then
+            reply=$default
+        fi
+        case "$reply" in
+            1*) return 0 ;;
+            2*) return 1 ;;
+            e*) ask_exit ;;
+        esac
+    done
+}
+
+echo "=================="
+echo "|     Device     |"
+echo "=================="
+echo "| [1] OnePlus 5T |"
+echo "| [2] Nexus 6P   |"
+echo "| [e] Exit       |"
+echo "=================="
+if device "Choose"; then 
+    clean_rom
+else
+    dirty_rom
+fi
+  }
+} 

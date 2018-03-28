@@ -2,6 +2,8 @@
 #
 # ROM compilation script
 #
+# Copyright (C) 2018-2020 KillerDroid96 
+#
 # Copyright (C) 2016-2018 Nathan Chancellor
 #
 # This program is free software: you can redistribute it and/or modify
@@ -24,7 +26,8 @@
 ###############
 
 # Source our universal functions script and macOS check
-source $HOME/Github/nathan_scripts/common
+#source $HOME/Github/nathan_scripts/common
+source $HOME/Github/Scripts/Linux/Shells/shell_common
 
 ################
 #              #
@@ -41,34 +44,13 @@ TG=true
 TG_MSG_FILE=/tmp/tg-msg.build-rom
 SYNC=true
 MAKE_TARGET=bacon 
-#CLEAN_TARGET=true
-PULL=true
-#REPOPICK=true
+CLEAN_TARGET=true
+MERGE=true
+#REPOPICK=${1}
 
 function make_command() {
     m "${JOBS_FLAG}" "$@"
 }
-
-PARAMS="$*"
-while [[ $# -ge 1 ]]; do
-    case ${1} in
-        # Custom clean target
-        "-c"|"--clean")
-            CLEAN_TARGET=${1} ;;
-        # repopick sequence
-        "-rp"|"--repopick")
-            REPOPICK=true ;;
-        # Sync tree before building
-        "-s"|"--sync")
-            SYNC=true ;;
-        # Sync tree before building
-        "-p"|"--pull")
-            PULL=true ;;
-        *)
-            die "Invalid parameter detected!" ;;
-        esac
-    shift
-done
 
 if [[ ${TG} ]]; then
     {
@@ -122,7 +104,7 @@ header "SETTING UP BUILD ENVIRONMENT"
 # If so, activare a virtual environment for proper Python support
 [[ -f /etc/arch-release ]] && mkavenv
 source build/envsetup.sh
-
+        
 #############
 # REPO SYNC #
 #############
@@ -134,12 +116,12 @@ if [[ ${SYNC} ]]; then
 fi
 
 #############
-# REPO PULL #
+# REPO MERGE #
 #############
 
-if [[ ${PULL} ]]; then
-    header "PULLING LATEST SOURCES"; echo
-    pull_repos
+if [[ ${MERGE} ]]; then
+    header "RUNNING MERGE"; echo
+    merge_repos
     cd "${SOURCE_FOLDER}" || die "Source folder does not exist!"
 fi
 
@@ -183,19 +165,22 @@ if [[ ${REPOPICK} ]]; then
     )
 fi
 
-
 ############
 # CLEAN UP #
 ############
 
 header "CLEANING UP OUT DIRECTORY"
 
-if [[ -n ${CLEAN_TARGET} && ${CLEAN_TARGET} != "noclean" ]]; then
-    make_command "${CLEAN_TARGET}"
-elif [[ -z ${CLEAN_TARGET} ]]; then
-    make_command clobber
-fi
-
+case ${CLEAN_TARGET} in
+    "true")
+        echo "Clean Target" 
+        make_command clobber ;;
+    "false")
+        echo "Dirty Target" 
+        make_command "${CLEAN_TARGET}" ;;
+    *)
+        die "Invalid Parameter" ;;
+esac
 
 ############
 # BUILDING #
@@ -273,13 +258,13 @@ echo "${GRN}DURATION: ${TIME_STRING}${RST}"
 if [[ ${TG} ]]; then
     {
         echo "\`\`\`"
-        echo "ROM ${BUILD_RESULT_STRING}!" 
+        echo "ROM: ${BUILD_RESULT_STRING}!" 
         if [[ ${SUCCESS} ]]; then
-        echo "LOCATION: $(web_link "${ZIP_MOVE}") "
+        echo "LINK: $(web_link "${ZIP_MOVE}") "
         fi
         echo "SIZE: $(du -h "${ZIP_MOVE}"/*.zip | awk '{print $1}')"
-        echo "TIME: $(date +%D\ %r | awk '{print toupper($0)}')"
-        echo "DURATION: ${TIME_STRING,}   "
+        echo "DATE: $(date +%D\ %r | awk '{print toupper($0)}')"
+        echo "TIME: ${TIME_STRING,}   "
         echo "\`\`\`"
     } > ${TG_MSG_FILE}
     notify "$(cat ${TG_MSG_FILE})"

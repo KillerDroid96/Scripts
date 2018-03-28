@@ -24,6 +24,10 @@ if [ -f $HOME/Github/Scripts/Linux/Shells/shell_prompts ]; then
 	source $HOME/Github/Scripts/Linux/Shells/shell_prompts
 fi
 
+if [ -f $HOME/Github/Scripts/Linux/Shells/shell_common ]; then	
+	source $HOME/Github/Scripts/Linux/Shells/shell_common
+fi
+
 if [ -f $HOME/Github/nathan_scripts/common ]; then
 	source $HOME/Github/nathan_scripts/common
 fi
