@@ -12,10 +12,10 @@
      cd $HOME/Github/Scripts
 - - - -
 ## Installation
-     cp -b $HOME/Github/Scripts/Linux/.bashrc $HOME && source ~/.bashrc && bl
+     cp -b $HOME/Github/Scripts/Linux/Shells/.bashrc $HOME && source ~/.bashrc && bl
    OR
    
-     cp -b $HOME/Github/Scripts/Linux/.bashrc $HOME
+     cp -b $HOME/Github/Scripts/Linux/Shells/.bashrc $HOME
      source ~/.bashrc
      bl
 - - - - 
