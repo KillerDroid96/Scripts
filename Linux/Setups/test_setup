@@ -43,24 +43,24 @@ ask() {
 if ask "Install My List of Packages?"; then
 		tput setaf 5; echo "Upgrading System Packages"
         sudo pacman -Syu --quiet --noconfirm
-        sudo pacman -S trizen pacaur yaourt
-        pacaur -Syu --needed --quiet --noedit --noconfirm
+        sudo pacman -S trizen yaourt
+         trizen -Syu --needed --quiet --noedit --noconfirm
         tput setaf 6; echo "Installing Linux Addons Packages"
-        pacaur -S --needed --quiet --noedit --noconfirm apg arp-scan alsi bcompare clex cower cylon downgrader google-chrome grub-customizer grub2-theme-archxion hollywood jp2a neofetch rar spotify qdirstat-git figlet bc yakuake aview imagemagick rig glances htop climate telegram-desktop acpi android-tools baobab cloc cmatrix devhelp elinks espeak
+         trizen -S --needed --quiet --noedit --noconfirm apg arp-scan alsi bcompare clex cower cylon downgrader google-chrome grub-customizer grub2-theme-archxion hollywood jp2a neofetch rar spotify qdirstat-git figlet bc yakuake aview imagemagick rig glances htop climate telegram-desktop acpi android-tools baobab cloc cmatrix devhelp elinks espeak
         tput setaf 21; echo "Installing Android Dependencies" && sleep 3
-        tput setaf 2;  pacaur -S --needed --quiet --noedit --noconfirm git gnupg flex bison gperf sdl wxgtk2 bash-completion squashfs-tools curl ncurses zlib schedtool perl-switch zip unzip libxslt python2-virtualenv bc rsync xml2 lzop pngcrush imagemagick jdk8-openjdk jdk9-openjdk repo android-tools python-networkx
+        tput setaf 2;   trizen -S --needed --quiet --noedit --noconfirm git gnupg flex bison gperf sdl wxgtk2 bash-completion squashfs-tools curl ncurses zlib schedtool perl-switch zip unzip libxslt python2-virtualenv bc rsync xml2 lzop pngcrush imagemagick jdk8-openjdk jdk9-openjdk repo android-tools python-networkx
         tput setaf 3; echo "Installing 64 bit Dependencies" && sleep 3
-        tput setaf 2;  pacaur -S --needed --quiet --noedit --noconfirm ncurses5-compat-libs lib32-ncurses5-compat-libs lib32-zlib lib32-ncurses lib32-readline
+        tput setaf 2;   trizen -S --needed --quiet --noedit --noconfirm ncurses5-compat-libs lib32-ncurses5-compat-libs lib32-zlib lib32-ncurses lib32-readline
         tput setaf 3; echo "Installing Extra Dependencies" && sleep 3
-        tput setaf 2;  pacaur -S --needed --quiet --noedit --noconfirm ca-certificates-mozilla fakeroot make pkg-config maven tmux screen w3m ncftp
+        tput setaf 2;   trizen -S --needed --quiet --noedit --noconfirm ca-certificates-mozilla fakeroot make pkg-config maven tmux screen w3m ncftp
         tput setaf 3; echo "Check & Reinstall Dependencies " && sleep 3
-        tput setaf 2;  pacaur -S --needed --quiet --noedit --noconfirm base-devel 
+        tput setaf 2;   trizen -S --needed --quiet --noedit --noconfirm base-devel 
         tput setaf 3; echo "Disable PGP checking from AUR" && sleep 3
         export MAKEPKG="makepkg --skippgpcheck"
         tput setaf 2;
-        pacaur -S --needed --quiet libtinfo --noconfirm 
-        pacaur -S --needed --quiet lib32-ncurses5-compat-libs --noconfirm 
-        pacaur -S --needed --quiet ncurses5-compat-libs --noconfirm
+         trizen -S --needed --quiet libtinfo --noconfirm 
+         trizen -S --needed --quiet lib32-ncurses5-compat-libs --noconfirm 
+         trizen -S --needed --quiet ncurses5-compat-libs --noconfirm
         clear
 else
     echo "No"
