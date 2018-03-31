@@ -43,12 +43,12 @@ else
 fi
 
 if ask "Install Android Build Dependencies?"; then
-	tput setaf 5; echo "Upgrading System Packages"
+    tput setaf 5; echo "Upgrading System Packages"
     sudo pacman -Syyu --quiet --noconfirm
     tput setaf 2; echo "Installing AUR Package Manager" 
     cd && git clone https://aur.archlinux.org/trizen-git.git 
     cd trizen-git && makepkg -si && cd
-    rm -R trizen-git
+    sudo rm -r trizen-git
     tput setaf 21; echo "Installing Android Dependencies" && sleep 3
     trizen -S make fakeroot --noconfirm
     tput setaf 2; trizen -Syyu --needed --quiet --noedit --noconfirm aosp-devel base-devel lineageos-devel
