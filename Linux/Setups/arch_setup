@@ -1,0 +1,118 @@
+#!/bin/bash
+# This is a general-purpose function to ask Yes/No questions in Bash, either
+# with or without a default answer. It keeps repeating the question until it
+# gets a valid answer.
+
+ask() {
+    # https://djm.me/ask
+    local prompt default reply
+    while true; do
+
+        if [ "${2:-}" = "Y" ]; then
+            prompt="Y/n"
+            default=Y
+        elif [ "${2:-}" = "N" ]; then
+            prompt="y/N"
+            default=N
+        else
+            prompt="y/n"
+            default=
+        fi
+        # Ask the question (not using "read -p" as it uses stderr not stdout)
+        echo -n "$1 [$prompt] "
+        # Read the answer (use /dev/tty in case stdin is redirected from somewhere else)
+        read reply </dev/tty
+        # Default?
+        if [ -z "$reply" ]; then
+            reply=$default
+        fi
+        # Check if the reply is valid
+        case "$reply" in
+            Y*|y*) return 0 ;;
+            N*|n*) return 1 ;;
+        esac
+    done
+}
+
+if ask "Setup Scripts"; then 
+    sudo pacman -S git 
+    mkdir $HOME/Github && cd $HOME/Github && git clone https://github.com/KillerDroid96/Scripts.git && cd Scripts
+    cp -b $HOME/Github/Scripts/Linux/Shells/.bashrc $HOME && source ~/.bashrc && bl
+else 
+    echo "No"
+fi
+
+if ask "Install Android Build Dependencies?"; then
+	tput setaf 5; echo "Upgrading System Packages"
+    sudo pacman -Syyu --quiet --noconfirm
+    tput setaf 2; echo "Installing AUR Package Manager" 
+    cd && git clone https://aur.archlinux.org/trizen-git.git 
+    cd trizen-git && makepkg -si && cd
+    rm -R trizen-git
+    tput setaf 21; echo "Installing Android Dependencies" && sleep 3
+    trizen -S make fakeroot --noconfirm
+    tput setaf 2; trizen -Syyu --needed --quiet --noedit --noconfirm aosp-devel base-devel lineageos-devel
+    tput setaf 3; echo "Disable PGP checking from AUR" && sleep 3
+    export MAKEPKG="makepkg --skippgpcheck"
+    tput setaf 2;
+    trizen -S --needed --quiet libtinfo --noconfirm 
+    trizen -S --needed --quiet lib32-ncurses5-compat-libs --noconfirm 
+    trizen -S --needed --quiet ncurses5-compat-libs --noconfirm
+else
+    echo "No"
+fi
+
+if ask "Install My Additional Packages?"; then
+    tput setaf 6; echo "Installing Addition Packages"
+    trizen -S --needed --quiet --noedit --noconfirm acpi apg alsi baobab bc bcompare clex climate cmatrix cylon elinks figlet glances hollywood htop jp2a neofetch qdirstat-git rar rig spotify telegram-desktop w3m yakuake
+    echo "===================================================="
+    echo "|                     Programs                     |"
+    echo "===================================================="
+    echo "| acpi            # Displays Battery Percent       |"
+    echo "| apg             # Generates Random Password      |"
+    echo "| alsi            # System Info Like Neofetch      |"
+    echo "| baobab          # Storage Analyzer               |"
+    echo "| bcompare        # Compares Files & Folders       |"
+    echo "| clex            # Console File Manager           |"
+    echo "| climate         # Command Line Tools             |"
+    echo "| cmatrix         # Displays Matrix Effect         |"
+    echo "| cylon           # Arch Maintenance Program       |"
+    echo "| elinks          # Console Web Browser            |"
+    echo "| figlet          # Outputs Text in ASCII Art      |"
+    echo "| glances         # System Overview                |"
+    echo "| hollywood       # Hacker Movie Scene             |"
+    echo "| htop            # System Status Overview         |"
+    echo "| jp2a            # Converts JPG to ASCII Art      |"
+    echo "| neofetch        # System Information Overview    |"
+    echo "| qdirstat-git    # Sorts Files by Size            |"
+    echo "| rig             # Random ID Generator            |"
+    echo "| yakuake         # Drop Down Terminal             |"
+    echo "===================================================="
+    figlet KillerDroid96
+else
+    echo "No"
+fi
+
+tput setaf 6
+# Default to Yes if the user presses enter without giving an answer:
+if ask "Add sshd_config Changes?" Y; then
+    echo "Yes"
+    sudo cp ~/Github/Scripts/Linux/Files/sshd_config /etc/ssh/sshd_config
+else
+    echo "No"
+fi
+
+tput setaf 5
+if ask "Add Neofetch Config?" Y; then
+    echo "Yes"
+    cp Github/Scripts/Files/neofetch ~/.config/neofetch/config
+else
+    echo "No"
+fi
+
+# Default to No if the user presses enter without giving an answer:
+#if ask "3 Do you want to do such-and-such?" N; then
+#    echo "Yes"
+#else
+#    echo "No"
+#fi
