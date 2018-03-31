@@ -258,7 +258,7 @@ echo "${GRN}DURATION: ${TIME_STRING}${RST}"
 if [[ ${TG} ]]; then
     {
         echo "\`\`\`"
-        echo "ROM: ${BUILD_RESULT_STRING}!" 
+        echo " ROM: ${BUILD_RESULT_STRING}!" 
         if [[ ${SUCCESS} ]]; then
         echo "LINK: $(web_link "${ZIP_MOVE}") "
         fi
