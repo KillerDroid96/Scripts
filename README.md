@@ -3,19 +3,19 @@
 # Scripts
 - - - -
 ## Setup 
-     mkdir $HOME/Github && cd $HOME/Github && git clone git@github.com:KillerDroid96/Scripts.git && cd $HOME/Github/Scripts
+     mkdir $HOME/Github && cd $HOME/Github && git clone https://github.com/KillerDroid96/Scripts.git && cd Scripts
   OR
   
      mkdir $HOME/Github
      cd $HOME/Github
-     git clone git@github.com:KillerDroid96/Scripts.git
+     git clone https://github.com/KillerDroid96/Scripts.git
      cd $HOME/Github/Scripts
 - - - -
 ## Installation
-     cp -b $HOME/Github/Scripts/Linux/.bashrc $HOME && source ~/.bashrc && bl
+     cp -b $HOME/Github/Scripts/Linux/Shells/.bashrc $HOME && source ~/.bashrc && bl
    OR
    
-     cp -b $HOME/Github/Scripts/Linux/.bashrc $HOME
+     cp -b $HOME/Github/Scripts/Linux/Shells/.bashrc $HOME
      source ~/.bashrc
      bl
 - - - - 
