@@ -52,12 +52,10 @@ if ask "Install Android Build Dependencies?"; then
     tput setaf 21; echo "Installing Android Dependencies" && sleep 3
     trizen -S make fakeroot --noconfirm
     tput setaf 2; trizen -Syyu --needed --quiet --noedit --noconfirm aosp-devel base-devel lineageos-devel
-    tput setaf 3; echo "Disable PGP checking from AUR" && sleep 3
-    export MAKEPKG="makepkg --skippgpcheck"
-    tput setaf 2;
-    trizen -S --needed --quiet libtinfo --noconfirm 
-    trizen -S --needed --quiet lib32-ncurses5-compat-libs --noconfirm 
-    trizen -S --needed --quiet ncurses5-compat-libs --noconfirm
+    tput setaf 3; echo "Temorarily Disabling PGP Integrety Check from AUR" && sleep 3
+    trizen -S --needed --quiet libtinfo --skipinteg --noconfirm 
+    trizen -S --needed --quiet lib32-ncurses5-compat-libs --skipinteg --noconfirm 
+    trizen -S --needed --quiet ncurses5-compat-libs --skipinteg --noconfirm
 else
     echo "No"
 fi
