@@ -1,8 +1,8 @@
 #!/bin/bash
+
 # This is a general-purpose function to ask Yes/No questions in Bash, either
 # with or without a default answer. It keeps repeating the question until it
 # gets a valid answer.
-
 ask() {
     # https://djm.me/ask
     local prompt default reply
@@ -34,11 +34,17 @@ ask() {
     done
 }
 
-if ask "Setup Scripts"; then 
-    sudo pacman -S git 
-    mkdir $HOME/Github && cd $HOME/Github && git clone https://github.com/KillerDroid96/Scripts.git && cd Scripts
-    cp -b $HOME/Github/Scripts/Linux/Shells/.bashrc $HOME && source ~/.bashrc && bl
-else 
+if ask "Create New User?"
+    export username="$1"
+    if [ -z $username ];
+    then
+    echo -e "Please enter a username"
+    read username
+    fi
+    sudo useradd "${username}" -m -s /bin/bash
+    passwd "${username}"
+    chage -d 0 "${username}"
+else
     echo "No"
 fi
 
