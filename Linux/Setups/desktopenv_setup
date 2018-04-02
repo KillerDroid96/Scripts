@@ -1,0 +1,161 @@
+#!/bin/bash
+
+ask() {
+    # https://djm.me/ask
+    local prompt default reply
+
+    while true; do
+
+        if [ "${2:-}" = "Y" ]; then
+            prompt="Y/n"
+            default=Y
+        elif [ "${2:-}" = "N" ]; then
+            prompt="y/N"
+            default=N
+        elif [ "${2:-}" = "1" ]; then
+            prompt="1-5"
+            default=N
+        else
+            prompt="y/n"
+            default=
+        fi
+
+        # Ask the question (not using "read -p" as it uses stderr not stdout)
+        echo -n "$1 [$prompt] "
+
+        # Read the answer (use /dev/tty in case stdin is redirected from somewhere else)
+        read reply </dev/tty
+
+        # Default?
+        if [ -z "$reply" ]; then
+            reply=$default
+        fi
+
+        # Check if the reply is valid
+        case "$reply" in
+            Y*|y*) return 0 ;;
+            N*|n*) return 1 ;;
+        esac
+    done
+}
+
+pause(){
+  read -p "Press [Enter] key to continue..." fackEnterKey
+}
+
+file /etc/systemd/system/display-manager.service
+echo -n "What Is your Display Manager?                                                         ____"
+read display
+
+case $display in
+GDM|gdm|gdm.service)
+echo "Disabling GDM"
+sudo systemctl disable gdm.service
+;;
+LightDM|lightdm|lightdm.service)
+echo "Disabling LightDM"
+sudo systemctl disable lightdm.service
+;;
+LXDM)
+echo "Disabling LXDM"
+sudo systemctl disable lxdm.service
+;;
+SDDM)
+echo "Disabling SDDM"
+sudo systemctl disable sddm.service
+;;
+XDM)
+echo "Disabling XDM"
+sudo systemctl disable xdm.service
+;;
+*)
+echo don\'t know
+;;
+esac
+
+if ask "Do you have Pacaur Installed?" N; then
+    echo "Continuing"
+else
+    echo "Installing Pacaur"
+    sudo pacman -Syu --quiet --noconfirm pacaur 
+fi
+
+# function to display menus
+function show_menus() {
+    clear
+    echo ""
+    tput setaf 1
+    #echo "Lets Get ROM'd Up!" && sleep 2
+    tput setaf 2
+    clear
+    echo ""
+    echo "Desktop Environments"
+    echo "  [KillerDroid96]"
+    echo ""
+    echo "===================="
+    echo "|     Main Menu    |"
+    echo "===================="
+    echo "|  [1] KDE         |"
+    echo "|  [2] Gnome       |"
+    echo "|  [3] Pantheon    |"
+    echo "|  [4] Xfce        |"
+    echo "|  [e] Exit        |"
+    echo "===================="
+    echo ""
+}
+read_options(){
+    local choice
+    read -p "Enter choice:" choice
+    case $choice in
+        1) KDE ;;
+        2) Gnome ;;
+        3) Pantheon ;;
+        4) Xfce ;;
+        e) exit 0;; 
+        *) echo -e "${RED}Error...${STD}" && sleep 2
+    esac
+}
+
+KDE(){
+    if ask "Install KDE Plasma Desktop Environment?" N; then
+        pacaur -Syu --needed --quiet --noedit --noconfirm plasma plasma-desktop kde-appllications powerdevil
+        sudo systemctl enable sddm.service
+    else
+        echo "No"
+    fi
+}
+
+Gnome(){
+    if ask "Install Gnome Desktop Environment?" N; then
+        pacaur -Syu --needed --quiet --noedit --noconfirm gnome gnome-extra gnome-tweak-tool
+        sudo systemctl enable gdm.service
+    else
+        echo "No"
+    fi
+}
+
+Pantheon(){
+    if ask "Install Patheon Desktop Environment?" N; then
+        echo "Still working on this one" #pacaur -S --quiet --noconfirm 
+        pacaur -Syu --needed --quiet --noedit --noconfirm lightdm-devel
+        sudo systemctl enable lightdm-pantheon-greeter.service
+    else
+        echo "No"
+    fi
+}
+
+Xfce(){
+    if ask "Install Xfce Desktop Environment?" N; then
+        pacaur -Syu --needed --quiet --noedit --noconfirm xfce4 xfce4-goodies mousepad menulibre xfce4-pulseaudio-plugin lightdm-devel
+        sudo systemctl enable lightdm.service
+        pause   
+    else
+        echo "No"
+    fi
+}
+
+while true
+do
+    show_menus
+    read_options 
+done

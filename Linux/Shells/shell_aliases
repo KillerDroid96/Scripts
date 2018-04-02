@@ -1,0 +1,140 @@
+#!/bin/bash
+
+###########
+# ALIASES #
+###########
+
+# Git (Quick Launch)
+alias git='git --no-pager'
+alias gs='git status'
+alias gb='git branch -a --color'
+alias gd='git diff --color'
+alias gc='git commit' 
+alias gcm='git commit -m'
+alias ga='git add'
+alias gaa='git add --all'    
+alias gac='git add && git commit'
+alias gaac='git add --all && git commit'
+alias {gl,gitlog}='git log --pretty=oneline'
+alias gps='git push'
+alias gpl='git pull'
+alias gco='git checkout'
+alias grm='git rm'
+alias gmv='git mv'
+
+# Shells (Bash & ZSH)
+alias {setzsh,set_zsh,usezsh,use_zsh}='chsh -s /bin/zsh'
+alias {setbash,set_bash,usebash,use_bash}='chsh -s /usr/bin/bash'
+alias {editzsh,ez}='nano ~/.zshrc'        				 				                      # Edits ZSH
+alias {editbash,eb}='nano ~/.bashrc'        				 				                  # Edits Bash
+alias {updatezsh,uz}='source ~/.zshrc'                     			         	              # Updates ZSH
+alias {updatebash,ub}='source ~/.bashrc'                  				 		              # Updates Bash
+alias {shell_list,bashlist,bl,sl}='$HOME/Github/Scripts/Linux/Shells/shell_list'               # Displays Bash List
+alias {editbashaliases,eba,esa,eza}='nano $HOME/Github/Scripts/Linux/Shells/shell_aliases'	  # Edits Bash Aliases
+alias {editbashcolors,ebc}='nano $HOME/Github/Scripts/Linux/Shells/shell_colors'               # Edits Bash Colors
+alias {editbashlist,ebl}='nano $HOME/Github/Scripts/Linux/Shells/shell_list'				      # Edits Bash List
+alias {editbashfunctions,ebf}='nano $HOME/Github/Scripts/Linux/Shells/shell_functions'         # Edits Bash Functions
+alias {editbashpaths,ebp}='nano $HOME/Github/Scripts/Linux/Shells/shell_paths'			      # Edits Bash Paths
+alias {editbashprompts,ebpr}='nano $HOME/Github/Scripts/Linux/Shells/shell_prompts'            # Edits Bash Prompts
+
+# System (Quick Launch)
+alias c="clear"                                                                                  # Clears Terminal
+alias r="reset"                                                                                  # Resets Terminal
+alias e="exit"                                                                                   # Exits Terminal
+alias sp="Spotify"                                                                               # Launches Spotify
+alias hs='rehistory'                                			                                 # Recent Terminal History (Ex '!208' etc.. to repeat command)
+alias fps='ps aux | grep'                         				                                 # Displays PID (Ex 'fps terminal')
+alias 000='chmod 000'
+alias 644='chmod 644'
+alias 755='chmod 755'  
+alias {screenshot,ssa}="gnome-screenshot -a -i"         				                         # Screen-shot Selected Area on Gnome/KDE 
+alias {emptytrash,et}="rm -rf $HOME/Desktop/trash.desktop"                                       # Empties Trash
+alias {weather,wf}="forcast"							  				 	                     # Gives weather Report
+alias {lastroot,rr,lr}='sudo $(history | tail -n 2 | head -n 1 | sed -e "s/^[ ]*[0-9]*[ ]*//g")' # Executes the last command as root
+alias {trace,intercept}="sudo strace -ff -e trace=write -e write=1,2 -p"                         # Follow Forks With Output Into Separate Files
+alias i='trizen -S --quiet --noconfirm --noedit --needed'
+alias {u,us,uq,strizen,trizenq,trizens}='trizens'
+alias {banner,shell_banner}='$HOME/Github/Scripts/Linux/Shell/shell_banner'
+alias motd='/etc/profile.d/motd.sh'                                        # Displays Banner
+
+
+# Development 
+alias n="nano"									                                  # Text Editor
+alias co="climate overview"						                                  # Climate Overview
+alias {buildu,dub,dud}="cl $HOME/Github/DU && source venv/bin/activate"	          # Venv into DU Build Directory
+alias {buildurom,bdr,bdu,op5t}="cl $HOME/Github/DU && du_rom"                     # Venv into DU Build Directory and start rom script
+alias {dulog,du_log,dul}=" cat $HOME/Github/DU/du_log.txt"                        # Reads DU Build Log
+alias {out,dumpling}="cl $HOME/Github/DU/out/target/product/dumpling/"		      # Moves to Out Directory for 5T
+alias {rs,reposync}="sync_repo" 											      # Syncs DU Repo
+alias {venv,venv2}="mkavenv"			                                          # Starts Venv2
+
+# SSH & Mosh
+alias {virtualboxmosh,vboxmosh,vbm,apm,archm,moshy,apm}='mosh matt@virtualbox'  # Mosh VirtualBox
+alias {virtualbox,vbox,vb,ap,arch,sshy}='ssh matt@virtualbox'                   # SSH VirtualBox
+alias {laptop,xps15,externalssd}='mosh killerdroid96@192.168.1.90'              # Mosh External SSD
+alias {box,droidbox,server}='ssh killerdroid96@droidbox'                        # SSH Server
+alias {mbox,mdroidbox,mserver}='mosh killerdroid96@droidbox'                    # Mosh Server
+
+# Fun
+alias busy="cat /dev/urandom | hexdump -C | grep 'ca fe'"          # Busy Effect
+alias matrix="cmatrix"                                             # Matrix Effect 
+alias pipes="pipes.sh"                  				           # Pipes
+
+# Spotify (Needs AUR playerctl and spotify)
+alias st="playerctl play-pause"
+alias play="playerctl play"
+alias pause="playerctl pause"
+alias next="playerctl next"
+alias previous="playerctl previous"
+alias stop="playerctl stop"
+
+# Hard Drive Information
+alias cmount="mount | column -t"           # Displays Filesystem Mounts
+alias disk1='pydf'				           # A Better Version of df 
+alias disk2='df -h'				           # Displays Mounted File Systems
+alias disk3='sudo fdisk -l'                # Checks Partiitions
+alias disk4='sudo cfdisk' 				   # Linux Partition Editor GUI
+alias disk5='sudo lsblk -f'                # Displays Name, FS Type, Label, UUID & Mountpoint
+alias disk6='sudo smartctl -a /dev/sda1'   # Detailed Report & SMART Status
+alias disk7='sudo df -h --output=source,fstype,size,used,avail,pcent,target -x tmpfs -x devtmpfs'
+alias {trim,trim_disk,disk_trim}='sudo dd if=/dev/zero of=/var/tmp/bigemptyfile bs=4096k ; rm /var/tmp/bigemptyfile'
+alias swap='swapon --show'            # Shows Swap Space
+alias io='sudo iotop'                      # Sort by Disk Writes,
+
+# Directories
+alias p="pwd"                                        # Displays File Path
+alias ls="ls -a --color=auto"                        # Adds Color
+alias ll="ls -a --color --format=single-colum"       # Adds Color & Lists Hidden Directories
+alias la='ls -a'									 # Lists Hidden Directories
+alias lf='locatef'                                   # Locates Folder/File
+alias lls='ls -a --color=auto --format=long'         # Adds Color & Lists Hidden Directories with
+alias lla='ls -la'									 # Lists Hidden Directories
+alias vls='ls -a --color=auto --format=single-colum' # Adds Color & Lists Directories Vertically
+alias tree="filetree"                                # List Directories in Tree Format 
+alias grep='grep --color=auto'                       # Adds Color
+alias locatef='wheres'                               # Finds Folder/File Location (Ex 'locate rom')
+alias filetree="ls -R | grep ":$" | sed -e 's/:$//' -e 's/[^-][^\/]*\//--/g' -e 's/^/   /' -e 's/-/|/'"
+
+# Arch Linux Paths
+alias build="cl $HOME/Github/DU"
+alias coding="cl $HOME/Github/C"
+alias files="cl $HOME/Github/Scripts/Linux/Files"
+alias github="cl $HOME/Github"
+alias kde="cl $HOME/Github/Scripts/Linux/KDE/"
+alias linux="cl $HOME/Github/Scripts/Linux"
+alias roms="cl $HOME/Github/Scripts/Linux/ROMs"
+alias scripts="cl $HOME/Github/Scripts"
+alias shells="clv $HOME/Github/Scripts/Linux/Shells/"
+alias {shellfiles,bashfiles}="cl $HOME/Github/Scripts/Linux/Bash/"
+alias setups="cl $HOME/Github/Scripts/Linux/Setups"
+
+# Windows 10 Paths (Place w infront of usual commands)
+alias cygwin="cl C:/Toolchains/cygwin64"
+alias msys="cl C:/Toolchains/msys64"
+alias code="cl C:/Users/mkell/Desktop/Coding/C_&_C++"
+alias wcoding="c C:/Users/mkell/Desktop/Coding"
+alias wscripts="c C:/Users/mkell/Desktop/Coding/Github/Scripts"
+alias wlinux="cl C:/Users/mkell/Desktop/Coding/Scripts/Github/Linux"
+alias wfiles="cl C:/Users/mkell/Desktop/Coding/Scripts/Github/Files"
+alias wroms="cl C:/Users/mkell/Desktop/Coding/Scripts/Github/ROMs"
+alias wbl="C:/Users/mkell/Desktop/Coding/Scripts/Github/Linux/bashlist"

@@ -1,0 +1,41 @@
+#!/bin/bash
+########################
+#        CREDITS       #
+########################
+# -KillerDroid96
+########################
+if [ -f $HOME/Github/Scripts/Linux/Shells/shell_aliases ]; then
+    source $HOME/Github/Scripts/Linux/Shells/shell_aliases
+fi
+
+if [ -f $HOME/Github/Scripts/Linux/Shells/shell_colors ]; then
+	source $HOME/Github/Scripts/Linux/Shells/shell_colors
+fi
+
+if [ -f $HOME/Github/Scripts/Linux/Shells/shell_functions ]; then	
+	source $HOME/Github/Scripts/Linux/Shells/shell_functions
+fi
+
+if [ -f $HOME/Github/Scripts/Linux/Shells/shell_paths ]; then	
+	source $HOME/Github/Scripts/Linux/Shells/shell_paths
+fi
+
+if [ -f $HOME/Github/Scripts/Linux/Shells/shell_prompts ]; then	
+	source $HOME/Github/Scripts/Linux/Shells/shell_prompts
+fi
+
+if [ -f $HOME/Github/Scripts/Linux/Shells/shell_common ]; then	
+	source $HOME/Github/Scripts/Linux/Shells/shell_common
+fi
+
+if [ -f $HOME/Github/nathan_scripts/common ]; then
+	source $HOME/Github/nathan_scripts/common
+fi
+
+if [ -f /etc/.bash_completion ]; then
+	source /etc/.bash_completion
+fi
+
+if [ -f /.git-prompt.sh ]; then
+    source ~/.git-prompt.sh
+fi

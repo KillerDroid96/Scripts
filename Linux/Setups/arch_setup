@@ -1,0 +1,245 @@
+#!/bin/bash
+
+# This is a general-purpose function to ask Yes/No questions in Bash, either
+# with or without a default answer. It keeps repeating the question until it
+# gets a valid answer.
+ask() {
+    # https://djm.me/ask
+    local prompt default reply
+    while true; do
+
+        if [ "${2:-}" = "Y" ]; then
+            prompt="Y/n"
+            default=Y
+        elif [ "${2:-}" = "N" ]; then
+            prompt="y/N"
+            default=N
+        else
+            prompt="y/n"
+            default=
+        fi
+        # Ask the question (not using "read -p" as it uses stderr not stdout)
+        echo -n "$1 [$prompt] "
+        # Read the answer (use /dev/tty in case stdin is redirected from somewhere else)
+        read reply </dev/tty
+        # Default?
+        if [ -z "$reply" ]; then
+            reply=$default
+        fi
+        # Check if the reply is valid
+        case "$reply" in
+            Y*|y*) return 0 ;;
+            N*|n*) return 1 ;;
+        esac
+    done
+}
+
+if ask "Setup Github Login?"; then
+    sudo pacman -Syyu git xclip
+    ssh-keygen -t rsa -b 4096 -C "mkeller96@gmail.com"
+    eval "$(ssh-agent -s)"
+    ssh-add ~/.ssh/id_rsa
+    xclip -sel clip < ~/.ssh/id_rsa.pub
+    echo "Login to Github & Add SSH Key"
+    git config --global user.name "KillerDroid96"
+    git config --global user.email "mkeller96@gmail.com"
+    git config --global credential.helper "cache --timeout=7200"
+else
+    echo "No"
+fi
+
+if ask "Install My Additional Packages?"; then
+    tput setaf 6; echo "Installing Addition Packages"
+    trizen -S --needed --quiet --noedit --noconfirm acpi apg alsi baobab bc bcompare clex climate cmatrix cylon elinks figlet glances hollywood htop jp2a neofetch qdirstat-git rar rig spotify telegram-desktop w3m yakuake
+    echo "===================================================="
+    echo "|                     Programs                     |"
+    echo "===================================================="
+    echo "| acpi            # Displays Battery Percent       |"
+    echo "| apg             # Generates Random Password      |"
+    echo "| alsi            # System Info Like Neofetch      |"
+    echo "| baobab          # Storage Analyzer               |"
+    echo "| bcompare        # Compares Files & Folders       |"
+    echo "| clex            # Console File Manager           |"
+    echo "| climate         # Command Line Tools             |"
+    echo "| cmatrix         # Displays Matrix Effect         |"
+    echo "| cylon           # Arch Maintenance Program       |"
+    echo "| elinks          # Console Web Browser            |"
+    echo "| figlet          # Outputs Text in ASCII Art      |"
+    echo "| glances         # System Overview                |"
+    echo "| hollywood       # Hacker Movie Scene             |"
+    echo "| htop            # System Status Overview         |"
+    echo "| jp2a            # Converts JPG to ASCII Art      |"
+    echo "| neofetch        # System Information Overview    |"
+    echo "| qdirstat-git    # Sorts Files by Size            |"
+    echo "| rig             # Random ID Generator            |"
+    echo "| yakuake         # Drop Down Terminal             |"
+    echo "===================================================="
+    pause
+    figlet KillerDroid96
+else
+    echo "No"
+fi
+
+if ask "Install Android Build Dependencies?"; then
+    tput setaf 5; echo "Upgrading System Packages"
+    sudo pacman -Syyu --quiet --noconfirm
+    tput setaf 2; echo "Installing AUR Package Manager" 
+    cd && git clone https://aur.archlinux.org/trizen-git.git 
+    cd trizen-git && makepkg -si && cd
+    sudo rm -r trizen-git
+    tput setaf 21; echo "Installing Android Dependencies" && sleep 3
+    trizen -S make fakeroot --noconfirm
+    tput setaf 2; trizen -Syyu --needed --quiet --noedit --noconfirm aosp-devel lineageos-devel
+    tput setaf 3; echo "Temorarily Disabling PGP Integrety Check from AUR" && sleep 3
+    trizen -S --needed --quiet libtinfo --skipinteg --noconfirm 
+    trizen -S --needed --quiet lib32-ncurses5-compat-libs --skipinteg --noconfirm 
+    trizen -S --needed --quiet ncurses5-compat-libs --skipinteg --noconfirm
+else
+    echo "No"
+fi
+
+if ask "Setup Build for Dirty Unicorns?"; then
+    mkdir ~/Github/DU
+    cd ~/Github/DU
+    virtualenv2 venv
+    source venv/bin/activate
+    repo init -u http://github.com/DirtyUnicorns/android_manifest.git -b o8x-caf
+    mkdir ~/Github/DU/.repo/local_manifests
+    cp ~/Github/Scripts/Linux/Files/du_manifest.xml ~/Github/DU/local_manifests/du_manifest.xml
+    repo sync --force-sync -j$( nproc --all )
+    ccache -M 50G
+    echo "Enter du_rom in a Terminal to Start Build"
+else
+    echo "No"
+fi
+
+tput setaf 6
+# Default to Yes if the user presses enter without giving an answer:
+if ask "Add sshd_config Changes?" Y; then
+    echo "Yes"
+    sudo cp ~/Github/Scripts/Linux/Files/sshd_config /etc/ssh/sshd_config
+else
+    echo "No"
+fi
+
+tput setaf 5
+if ask "Add Neofetch Config?" Y; then
+    echo "Yes"
+    cp Github/Scripts/Files/neofetch ~/.config/neofetch/config
+else
+    echo "No"
+fi
+
+pause(){
+  read -p "Press [Enter] key to continue..." fackEnterKey
+}
+
+file /etc/systemd/system/display-manager.service
+echo -n "What Is your Display Manager?"
+read display
+
+case $display in
+GDM|gdm|gdm.service)
+echo "Disabling GDM"
+sudo systemctl disable gdm.service
+;;
+LightDM|lightdm|lightdm.service)
+echo "Disabling LightDM"
+sudo systemctl disable lightdm.service
+;;
+LXDM)
+echo "Disabling LXDM"
+sudo systemctl disable lxdm.service
+;;
+SDDM)
+echo "Disabling SDDM"
+sudo systemctl disable sddm.service
+;;
+XDM)
+echo "Disabling XDM"
+sudo systemctl disable xdm.service
+;;
+*)
+echo don\'t know
+;;
+esac
+
+# function to display menus
+function show_menus() {
+    clear
+    echo ""
+    tput setaf 1
+    #echo "Lets Get ROM'd Up!" && sleep 2
+    tput setaf 2
+    clear
+    echo ""
+    echo "Desktop Environments"
+    echo "  [KillerDroid96]"
+    echo ""
+    echo "===================="
+    echo "|     Main Menu    |"
+    echo "===================="
+    echo "|  [1] KDE         |"
+    echo "|  [2] Gnome       |"
+    echo "|  [3] Pantheon    |"
+    echo "|  [4] Xfce        |"
+    echo "|  [e] Exit        |"
+    echo "===================="
+    echo ""
+}
+read_options(){
+    local choice
+    read -p "Enter choice:" choice
+    case $choice in
+        1) KDE ;;
+        2) Gnome ;;
+        3) Pantheon ;;
+        4) Xfce ;;
+        e) exit 0;; 
+        *) echo -e "${RED}Error...${STD}" && sleep 2
+    esac
+}
+
+KDE(){
+    if ask "Install KDE Plasma Desktop Environment?" N; then
+        trizen -Syu --needed --quiet --noedit --noconfirm plasma plasma-desktop kde-appllications powerdevil
+        sudo systemctl enable sddm.service
+    else
+        echo "No"
+    fi
+}
+
+Gnome(){
+    if ask "Install Gnome Desktop Environment?" N; then
+        trizen -Syu --needed --quiet --noedit --noconfirm gnome gnome-extra gnome-tweak-tool
+        sudo systemctl enable gdm.service
+    else
+        echo "No"
+    fi
+}
+
+Pantheon(){
+    if ask "Install Patheon Desktop Environment?" N; then
+        echo "Still working on this one" #trizen -S --quiet --noconfirm 
+        trizen -Syu --needed --quiet --noedit --noconfirm lightdm-devel
+        sudo systemctl enable lightdm-pantheon-greeter.service
+    else
+        echo "No"
+    fi
+}
+
+Xfce(){
+    if ask "Install Xfce Desktop Environment?" N; then
+        trizen -Syu --needed --quiet --noedit --noconfirm xfce4 xfce4-goodies mousepad menulibre xfce4-pulseaudio-plugin lightdm-devel
+        sudo systemctl enable lightdm.service
+        pause   
+    else
+        echo "No"
+    fi
+}
+
+while true
+do
+    show_menus
+    read_options 
+done

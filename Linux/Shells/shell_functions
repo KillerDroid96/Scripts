@@ -1,0 +1,591 @@
+#!/bin/bash
+########################
+#        CREDITS       #
+########################
+# -KillerDroid96
+# -Akhilnarang
+# -Nathanchance
+########################
+
+#############
+# FUNCTIONS #
+#############
+
+### ZSH ###
+function lists() {
+    functions
+    local
+    alias
+}
+
+confirm() {
+    local answer
+    echo -ne "zsh: sure you want to run '${YELLOW}$*${NC}' [yN]? "
+    read -q answer
+        echo
+    if [[ "${answer}" =~ ^[Yy]$ ]]; then
+        command "${@}"
+    else
+        return 1
+    fi
+}
+
+confirm_wrapper() {
+    if [ "$1" = '--root' ]; then
+        local as_root='true'
+        shift
+    fi
+
+    local prefix=''
+
+    if [ "${as_root}" = 'true' ] && [ "${USER}" != 'root' ]; then
+        prefix="sudo"
+    fi
+    confirm ${prefix} "$@"
+}
+
+poweroff() { confirm_wrapper --root $0 "$@"; }
+reboot() { confirm_wrapper --root $0 "$@"; }
+hibernate() { confirm_wrapper --root $0 "$@"; }
+
+ask() {
+    # https://djm.me/ask
+    local prompt default reply
+    while true; do
+        if [ "${2:-}" = "Y" ]; then
+            prompt="Y/n"
+            default=Y
+        elif [ "${2:-}" = "N" ]; then
+            prompt="y/N"
+            default=N
+        else
+            prompt="y/n"
+            default=
+        fi
+        # Ask the question (not using "read -p" as it uses stderr not stdout)
+        echo -n "$1 [$prompt] "
+        # Read the answer (use /dev/tty in case stdin is redirected from somewhere else)
+        read reply </dev/tty
+        # Default?
+        if [ -z "$reply" ]; then
+            reply=$default
+        fi
+        # Check if the reply is valid
+        case "$reply" in
+            Y*|y*) return 0 ;;
+            N*|n*) return 1 ;;
+        esac
+    done
+}
+
+ask_y(){
+if ask "Do you want to Continue?" Y; then
+    echo "${green}Continuing${normal}"
+else
+    echo "${red}Stopping${normal}"
+    return
+fi
+}
+
+ask_n(){
+    if ask "Do you want to Continue?" N; then
+    echo "${green}Continuing${normal}"
+else
+    echo "${red}Stopping${normal}"
+    return
+fi
+}
+
+### BASH ###
+
+# Will create [file].bak in the same directory
+function backup() { 
+    cp "$1"{,.bak};
+} 
+
+function calc() { # terminal calculator
+    echo "scale=3;$@" | bc -l
+}
+
+function cl() { # cd and ls in one
+    local dir="$1"
+    local dir="${dir:=$HOME}"
+    if [[ -d "$dir" ]]; then
+        cd "$dir" >/dev/null; ls
+    else
+        echo "bash: cl: $dir: Directory not found"
+    fi
+}
+
+function clv() { # cd and ls in one
+    local dir="$1"
+    local dir="${dir:=$HOME}"
+    if [[ -d "$dir" ]]; then
+        cd "$dir" >/dev/null; ll
+    else
+        echo "bash: cl: $dir: Directory not found"
+    fi
+}
+
+# Prints weather information 
+function forcast(){
+    printf "\n    Todays Forcast : $(curl -s wttr.in/~Pittsburg,KS?0?q?T | awk '/°(C|F)/ {printf $(NF-1) $(NF) " ("a")"} /,/ {a=$0}') \n ${Color_Off}" 
+    printf "                     : $(curl -s wttr.in/~Overland+Park,KS?0?q?T | awk '/°(C|F)/ {printf $(NF-1) $(NF) " ("a")"} /,/ {a=$0}') \n\n ${Color_Off}"
+}
+
+function ipif() { # lists ip, hostname, city, region, country, loc, org, postal
+    if grep -P "(([1-9]\d{0,2})\.){3}(?2)" <<< "$1"; then
+    curl ipinfo.io/"$1"
+    else
+    ipawk=($(host "$1" | awk '/address/ { print $NF }'))
+    curl ipinfo.io/${ipawk[1]}
+    fi
+    echo
+}
+
+# Usage mcd test, creates and moves into test directory
+function mcd () { 
+    mkdir -p $1
+    cd $1
+}
+
+function note () { #Usage note test, saves to .notes
+        # if file doesn't exist, create it
+    if [[ ! -f $HOME/.notes ]]; then
+        touch "$HOME/.notes"
+    fi
+
+    if ! (($#)); then
+        # no arguments, print file
+        cat "$HOME/.notes"
+    elif [[ "$1" == "-c" ]]; then
+        # clear file
+        printf "%s" > "$HOME/.notes"
+    else
+        # add all arguments to file
+        printf "%s\n" "| $*" >> "$HOME/.notes"
+    fi
+}
+
+function notes () { # Displays items in .note
+    echo ""
+    echo "==========================="
+    echo "|          Notes          |"
+    echo "==========================="
+    cat $HOME/.notes
+    echo "==========================="
+    echo ""
+}
+
+function notesedit () {
+    nano $HOME/.notes
+}
+
+function numfiles() { # Usage numfiles scripts > 88 files in scripts
+    # numfiles test > 10 files in test
+    N="$(ls $1 | wc -l)"; 
+    echo "$N files in $1";
+}
+
+function pps() { # Search for a process containing a given name
+ps aux | grep "$@" | grep -v 'grep';
+}
+
+function rehistory(){ # history displays comand history, use !208 etc to repeat command
+    history | awk '{CMD[$2]++;count++;}END { for (a in CMD)print CMD[a] " " CMD[a]/count*100 "% " a;}' | grep -v "./" | column -c3 -s " " -t | sort -nr | nl |  head -n10
+}
+
+function sbs() { # Lists files by size in current directory
+    du -b --max-depth 1 | sort -nr | perl -pe 's{([0-9]+)}{sprintf "%.1f%s", $1>=2**30? ($1/2**30, "G"): $1>=2**20? ($1/2**20, "M"): $1>=2**10? ($1/2**10, "K"): ($1, "")}e';
+} 
+
+function shopts() {         # Sets Shell Options
+    shopt -s cdspell        # This will correct minor spelling errors in a cd command.
+    shopt -s histappend     # Append to history rather than overwrite
+    shopt -s checkwinsize   # Check window after each command
+    shopt -s dotglob        # files beginning with . to be returned in the results of path-name expansion.
+    shopt -s no_empty_cmd_completion # Disable completion when the input buffer is empty
+    shopt -s 
+}
+
+function wheres (){ # Usage whereis scripts, displays all locations with the word scripts (case sensitive)
+  find . -name "$1*";
+}
+
+function upinfo() {
+    echo -ne "${green}$(hostname) ${red}uptime is ${cyan} \\t ";uptime | awk /'up/ {print $3,$4,$5,$6,$7,$8,$9,$10,$11}';
+}
+
+function venv() {
+    virtualenv2 /tmp/venv;
+    source /tmp/venv/bin/activate;
+}
+
+function venv_stop(){
+    deactivate
+    rm -rf "${HOME}/venv"
+}
+
+function sync_repo() {
+    header "SYNCING LATEST SOURCES"; echo
+    repo sync -j$( nproc --all ) --force-sync -c --no-clone-bundle --no-tags --optimized-fetch --prune
+}
+
+function git_config() {
+    git config --global user.email "mkeller96@gmail.com"
+    git config --global user.name "KillerDroid96"
+    git config --global credential.helper "cache --timeout=7200"
+    git config -l
+}
+
+function mosh1() {
+    sudo systemctl enable sshd.service;
+    sudo systemctl start sshd.service;
+    echo -e "Mosh Server Started";
+}
+
+# Neofetch alias
+function nf() {
+    echo
+    neofetch \
+        --kernel_shorthand on \
+        --distro_shorthand tiny \
+        --os_arch off \
+        --uptime_shorthand tiny \
+        --speed_shorthand on \
+        --install_time off \
+        --color_blocks off
+    echo
+    echo
+}
+
+function transfer() {
+    zipname=$(echo "$1" | awk -F '/' '{print $NF}')
+    url=$(curl -# -T "$1" https://transfer.sh);
+    printf '\n';
+    echo -e "Download $zipname at $url";
+}
+
+function gdrive_rom() {
+    gdrive about -c /home/matt/.gdrive-secondary &> out.log  
+    gdrive sync upload $HOME/Github/Uploads 1lOVVWYg_itAPwaUWbMhkvF2P51wzr46v &> out.log  
+    echo "https://drive.google.com/drive/folders/1lOVVWYg_itAPwaUWbMhkvF2P51wzr46v"
+}
+
+function trizens(){
+    header "Updating System"
+    trizen -Syyu --quiet --noconfirm --noedit --needed
+    clear
+    header "System Update Complete"
+}
+
+# Copyright (C) 2018-2020 KillerDroid96
+# Copyright (C) 2016-2018 Nathan Chancellor
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>
+
+
+###############
+#             #
+#  VARIABLES  #
+#             #
+###############
+
+
+SOURCE_FOLDER=${ROM_FOLDER}/${ROM}
+
+# What OS are we on?
+OS=$(UNAME=$(uname); echo "${UNAME,,}")
+# GNU readlink is needed for SCRIPTS_FOLDER
+[[ ${OS} = "darwin" ]] && alias readlink=greadlink
+
+# Location of "scripts" folder
+SCRIPTS_FOLDER=$(cd "$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")" && pwd)
+BIN_FOLDER=${SCRIPTS_FOLDER}/bin
+
+# Common locations amongst scripts
+#KERNEL_FOLDER=${HOME}/kernels
+#MISC_FOLDER=${HOME}/misc
+#REPO_FOLDER=${HOME}/repos
+#ROM_FOLDER=${HOME}/roms
+#TC_FOLDER=${HOME}/toolchains
+#WEB_FOLDER=${HOME}/web
+
+# Colors
+BLINK_RED="\033[05;31m"
+BLUE="\033[01;34m"
+BOLD="\033[1m"
+GRN="\033[01;32m"
+RED="\033[01;31m"
+RST="\033[0m"
+YLW="\033[01;33m"
+
+# Number of make threads
+if [[ ${OS} = "darwin" ]]; then
+    THREADS=$(sysctl hw.ncpu | cut -d " " -f 2)
+else
+    THREADS=$(nproc --all)
+fi
+    JOBS_FLAG="-j${THREADS}"
+
+###############
+#             #
+#  FUNCTIONS  #
+#             #
+###############
+
+# Alias for echo to print escape codes
+function echo() {
+    command echo -e "$@"
+}
+
+# Prints a formatted header to point out what is being done to the user
+function header() {
+    if [[ -n ${2} ]]; then
+        COLOR=${2}
+    else
+        COLOR=${GRN}
+    fi
+    echo "${COLOR}"
+    echo "====$(for i in $(seq ${#1}); do echo "=\c"; done)===="
+    echo "|   ${1}   |"
+    echo "====$(for i in $(seq ${#1}); do echo "=\c"; done)===="
+    echo "${RST}"
+}
+
+# Formats the time
+function format_time() {
+    MINS=$(((${2} - ${1}) / 60))
+    SECS=$(((${2} - ${1}) % 60))
+    if [[ ${MINS} -ge 60 ]]; then
+        HOURS=$((MINS / 60))
+        MINS=$((MINS % 60))
+    fi
+
+    if [[ ${HOURS} -eq 1 ]]; then
+        TIME_STRING+="1 HR, "
+    elif [[ ${HOURS} -ge 2 ]]; then
+        TIME_STRING+="${HOURS} HRS, "
+    fi
+
+    if [[ ${MINS} -eq 1 ]]; then
+        TIME_STRING+="1 MIN"
+    else
+        TIME_STRING+="${MINS} MINS"
+    fi
+
+    if [[ ${SECS} -eq 1 && -n ${HOURS} ]]; then
+        TIME_STRING+=", AND 1 SEC"
+    elif [[ ${SECS} -eq 1 && -z ${HOURS} ]]; then
+        TIME_STRING+=" AND 1 SEC"
+    elif [[ ${SECS} -ne 1 && -n ${HOURS} ]]; then
+        TIME_STRING+=", AND ${SECS} SECS"
+    elif [[ ${SECS} -ne 1 && -z ${HOURS} ]]; then
+        TIME_STRING+=" AND ${SECS} SECS"
+    fi
+
+    echo "${TIME_STRING}"
+}
+
+# Prints an error in bold red
+function display_error() {
+    echo
+    echo "${RED}${1}${RST}"
+    [[ -z ${2} ]] && echo
+}
+
+# Prints an error in bold red and exits the script
+function die() {
+    if [[ ${TG} ]]; then
+        # Info must be resourced so public chats don't get notified
+        load_botinfo
+        {
+            echo "\`\`\`"
+            echo "An error was detected while running the following command:"
+            echo "$(basename "${0}") ${PARAMS}"
+            echo "The error was:"
+            echo "$*"
+            echo "\`\`\`"
+        } > /tmp/death-tg-msg
+        notify "$(cat /tmp/death-tg-msg)"
+    fi
+
+    display_error "$@"
+    exit
+}
+
+# Prints a warning in bold yellow
+function warn() {
+    echo
+    echo "${YLW}${1}${RST}"
+    [[ -z ${2} ]] && echo
+}
+
+# Enforces the value needed for two-part flags
+function enforce_value() {
+    [[ $# -lt 1 ]] && die "A additional value is needed for one of the flags passed to this script!"
+}
+
+# Add a remote if it doesn't exist
+function add_remote() {
+    if ! git remote | grep -q -m 1 "${1}"; then
+        git remote add "${1}" "${2}"
+    fi
+}
+
+# Set up a virtual environment for Python
+function mkavenv {
+    virtualenv2 "${HOME}/venv"
+    source "${HOME}/venv/bin/activate"
+}
+
+# Remove virtual environment
+function rmvenv {
+    deactivate
+    rm -rf "${HOME}/venv"
+}
+
+# Source Telegram bot information
+function load_botinfo() {
+    [[ -f ${HOME}/.botinfo ]] && source ~/.botinfo
+}
+
+load_botinfo
+
+# Require a parameter to opt out of macOS_check
+[[ $# -lt 1 && ${OS} = "darwin" ]] && die "Wrong window! ;)"
+
+# Convert a file location to web link
+function web_link() {
+    #gdrive -c /home/matt/.gdrive sync upload $HOME/Github/Uploads 1znWrZTRSwAvWgVNHz4hsvEEgaOcrpS8z &> out.log 
+    #echo "https://goo.gl/m7ssB5"
+    gdrive -c /home/matt/.gdrive-secondary sync upload $HOME/Github/Uploads 1lOVVWYg_itAPwaUWbMhkvF2P51wzr46v &> out.log
+    echo "https://goo.gl/wDXHyD"
+}
+
+# Telegram notifier function
+TOKEN=513663559:AAFltOrxX0FGsxW83jVMqProcRBCceeKHeM
+CHAT_ID=488672694
+function notify_id(){
+    curl https://api.telegram.org/bot"${TOKEN}"/getUpdates
+}
+function notify() {
+    if [[ -z ${TOKEN} ]]; then
+        display_error "notify() was called but there was no token!"
+        return 1
+    fi
+
+    if [[ -z ${CHAT_ID} ]]; then
+        display_error "notify() was called but there was no chat ID!"
+        return 1
+    fi
+
+    curl -s -X POST https://api.telegram.org/bot"${TOKEN}"/sendMessage -d chat_id="${CHAT_ID}" -d parse_mode="Markdown" -d text="$*" 1>/dev/null
+}
+
+#git pull='git pull --depth=1 -p -j$( nproc --all )'
+#git push='git push-j$( nproc --all )'
+
+function merge_repos() {
+    echo "${GRN}KillerDroid96/android_build${RST}" && sleep 1
+    cd $HOME/Github/DU/build
+    git remote add kd git@github.com:KillerDroid96/android_build.git &> $HOME/Github/DU/repos.log 
+    git remote add du git@github.com:DirtyUnicorns/android_build.git &> $HOME/Github/DU/repos.log 
+    git checkout -b o8x-caf &> $HOME/Github/DU/repos.log 
+    git checkout o8x-caf &> $HOME/Github/DU/repos.log 
+    git pull kd o8x-caf &> $HOME/Github/DU/repos.log 
+    git pull du o8x &> $HOME/Github/DU/repos.log 
+    git push --set-upstream kd o8x-caf &> $HOME/Github/DU/repos.log 
+
+    echo "${GRN}KillerDroid96/android_frameworks_base${RST}" && sleep 1
+    cd $HOME/Github/DU/frameworks/base
+    git remote add kd git@github.com:KillerDroid96/android_frameworks_base.git &> $HOME/Github/DU/repos.log 
+    git remote add du git@github.com:DirtyUnicorns/android_frameworks_base.git &> $HOME/Github/DU/repos.log 
+    git checkout -b o8x-caf &> $HOME/Github/DU/repos.log  
+    git checkout o8x-caf &> $HOME/Github/DU/repos.log  
+    git pull kd o8x-caf &> $HOME/Github/DU/repos.log 
+    git pull du o8x &> $HOME/Github/DU/repos.log 
+    git push --set-upstream kd o8x-caf &> $HOME/Github/DU/repos.log 
+
+    echo "${GRN}KillerDroid96/android_device_oneplus_msm8998-common${RST}" && sleep 1
+    cd $HOME/Github/DU/device/oneplus/msm8998-common
+    git remote add kd git@github.com:KillerDroid96/android_device_oneplus_msm8998-common.git &> $HOME/Github/DU/repos.log 
+    git remote add du git@github.com:DirtyUnicorns/android_device_oneplus_msm8998-common.git &> $HOME/Github/DU/repos.log 
+    git checkout -b o8x-caf &> $HOME/Github/DU/repos.log 
+    git checkout o8x-caf &> $HOME/Github/DU/repos.log 
+    git pull kd o8x-caf &> $HOME/Github/DU/repos.log 
+    git pull du o8x-caf &> $HOME/Github/DU/repos.log 
+    git push --set-upstream kd o8x-caf &> $HOME/Github/DU/repos.log 
+
+    echo "${GRN}KillerDroid96/flash_kernel_oneplus_msm8998${RST}" && sleep 1
+    cd $HOME/Github/DU/kernel/oneplus/msm8998
+    git remote add kd git@github.com:KillerDroid96/flash_kernel_oneplus_msm8998.git &> $HOME/Github/DU/repos.log 
+    git remote add nc git@github.com:nathanchance/op5.git &> $HOME/Github/DU/repos.log 
+    git checkout -b 8.1.0 &> $HOME/Github/DU/repos.log 
+    git checkout 8.1.0 &> $HOME/Github/DU/repos.log 
+    git pull kd 8.1.0 &> $HOME/Github/DU/repos.log 
+    git pull nc 8.1.0-unified &> $HOME/Github/DU/repos.log 
+    git push --set-upstream kd 8.1.0 &> $HOME/Github/DU/repos.log 
+}
+
+function merge_repo() {
+    echo "${GRN}KillerDroid96/android_build${RST}" && sleep 1
+    cd $HOME/Github/DU/build
+    git remote add kd git@github.com:KillerDroid96/android_build.git  &> $HOME/Github/DU/repos.log 
+    git remote add du git@github.com:DirtyUnicorns/android_build.git  &> $HOME/Github/DU/repos.log 
+    git checkout -b o8x-caf &> $HOME/Github/DU/repos.log 
+    git checkout o8x-caf  &> $HOME/Github/DU/repos.log 
+    git pull kd o8x-caf 
+    git pull du o8x 
+    git push --set-upstream kd o8x-caf  &> $HOME/Github/DU/repos.log 
+
+    echo "${GRN}KillerDroid96/android_frameworks_base${RST}" && sleep 1
+    cd $HOME/Github/DU/frameworks/base
+    git remote add kd git@github.com:KillerDroid96/android_frameworks_base.git  &> $HOME/Github/DU/repos.log 
+    git remote add du git@github.com:DirtyUnicorns/android_frameworks_base.git  &> $HOME/Github/DU/repos.log
+    git checkout -b o8x-caf &> $HOME/Github/DU/repos.log  
+    git checkout o8x-caf &> $HOME/Github/DU/repos.log 
+    git pull kd o8x-caf 
+    git pull du o8x 
+    git push --set-upstream kd o8x-caf &> $HOME/Github/DU/repos.log 
+
+    echo "${GRN}KillerDroid96/android_device_oneplus_msm8998-common${RST}" && sleep 1
+    cd $HOME/Github/DU/device/oneplus/msm8998-common
+    git remote add kd git@github.com:KillerDroid96/android_device_oneplus_msm8998-common.git  &> $HOME/Github/DU/repos.log 
+    git remote add du git@github.com:DirtyUnicorns/android_device_oneplus_msm8998-common.git  &> $HOME/Github/DU/repos.log 
+    git checkout -b o8x-caf &> $HOME/Github/DU/repos.log 
+    git checkout o8x-caf &> $HOME/Github/DU/repos.log 
+    git pull kd o8x-caf 
+    git pull du o8x-caf 
+    git push --set-upstream kd o8x-caf &> $HOME/Github/DU/repos.log 
+
+    echo "${GRN}KillerDroid96/flash_kernel_oneplus_msm8998${RST}" && sleep 1
+    cd $HOME/Github/DU/kernel/oneplus/msm8998
+    git remote add kd git@github.com:KillerDroid96/flash_kernel_oneplus_msm8998.git  &> $HOME/Github/DU/repos.log 
+    git remote add nc git@github.com:nathanchance/op5.git  &> $HOME/Github/DU/repos.log 
+    git checkout -b 8.1.0  &> $HOME/Github/DU/repos.log 
+    git checkout 8.1.0  &> $HOME/Github/DU/repos.log 
+    git pull kd 8.1.0 
+    git pull nc 8.1.0-unified 
+    git push --set-upstream kd 8.1.0 &> $HOME/Github/DU/repos.log 
+}
+
+function sync_all(){
+    header "SETTING UP BUILD ENVIRONMENT"
+    cd $HOME/Github/DU && mkavenv
+    header "SYNCING LATEST SOURCES"; echo
+    repo sync -j$( nproc --all ) --force-sync -c --no-clone-bundle --no-tags --optimized-fetch --prune
+    header "MERGING LATEST SOURCES"; echo
+    merge_repos
+}

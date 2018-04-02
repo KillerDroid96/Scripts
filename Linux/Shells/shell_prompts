@@ -1,0 +1,1043 @@
+#!/bin/bash
+########################
+#        CREDITS       #
+########################
+# -KillerDroid96
+# -Akhilnarang
+# -Nathanchance
+# -Bash-it
+########################
+
+########
+# BUGS #
+########
+# changing from liquid_prompt changes [master U:5 ?:1 ✗] etc to $(_git-friendly-ref)
+#   [matt][virtualbox][±][master U:5 ?:1 ✗][~/Github/Scripts] to [matt][virtualbox][±][$(_git-friendly-ref) U:5 ?:1 ✗][~/Github/Scripts]
+# Only sets bash prompt themes for current session
+# I want it to set bash prompt themes for every session and remember on exit
+
+function show_usage() {
+    echo " "
+    echo "=================================================="
+    echo "|            Bash Prompts Help Menu              |"
+    echo "=================================================="
+    echo "| General Stuff:                                 |"
+    echo "|  --help (-h)       : Display this help message |"
+    echo "|  git_prompt_setup  : Setup /.git-prompt.sh     |"
+    echo "|  bash_it_setup     : Setup /.bash-it           |"
+    echo "|                                                |"
+    echo "| Bash Prompt Themes:                            |"
+    echo "|  akhil_prompt      : Set Akhils Theme          |"
+    echo "|  nathan_prompt     : Set Nathans Theme         |"
+    echo "|  zork_prompt       : Set Zork Theme            |"
+    echo "|  liquid_prompt     : Set Liquid Theme          |"
+    echo "|  rjorgenson_prompt : Set rjorgenson Theme      |"
+    echo "=================================================="
+    echo " "
+    exit 0;
+    wait
+}
+
+for param in "$@"; do
+  shift
+  case "$param" in
+    "--help")               set -- "$@" "-h" ;;
+    *)                      set -- "$@" "$param"
+  esac
+done
+
+OPTIND=1
+while getopts "hsin" opt
+do
+  case "$opt" in
+  "h") show_usage; exit 0 ;;
+  "?") show_usage >&2; exit 1 ;;
+  esac
+done
+shift $(expr $OPTIND - 1)
+
+# Bash Prompts
+function git_prompt_setup() {
+    curl -o ~/.git-prompt.sh https://raw.githubusercontent.com/git/git/master/contrib/completion/git-prompt.sh
+    curl -o ~/git-prompt.sh https://raw.githubusercontent.com/git/git/master/contrib/completion/git-prompt.sh
+}
+
+function bash_it_setup() {
+    git clone --depth=1 https://github.com/Bash-it/bash-it.git ~/.bash_it
+    ~/.bash_it/install.sh -sn
+    exit
+}
+
+# Bash-it
+function bash_it_install() {
+    git clone --depth=1 https://github.com/Bash-it/bash-it.git ~/.bash_it
+    ~/.bash_it/install.sh -sn
+    export BASH_IT="${HOME}/.bash_it"
+    export BASH_IT_THEME='rjorgenson'
+    export BASH_IT_AUTOMATIC_RELOAD_AFTER_CONFIG_CHANGE=1
+    source "$BASH_IT"/bash_it.sh
+    source "$BASH_IT/lib/composure.bash"
+    source "$BASH_IT/lib/helpers.bash"
+    _enable-completion bash-it
+    _enable-completion system
+    _enable-plugin base
+    _enable-plugin alias-completion
+    _enable-alias general
+    source .bash_prompts
+}
+
+function bash_it_unset() {
+    unset PROMPT_COMMAND
+    unset BASH_IT_THEME
+    export BASH_IT="${HOME}/.bash_it"
+    export BASH_IT_AUTOMATIC_RELOAD_AFTER_CONFIG_CHANGE=1
+    source "$BASH_IT"/bash_it.sh
+    source "$BASH_IT/lib/composure.bash"
+    source "$BASH_IT/lib/helpers.bash"
+    source .bash_prompts
+}
+
+function bash_it_set() {
+    export BASH_IT="${HOME}/.bash_it"
+    export BASH_IT_AUTOMATIC_RELOAD_AFTER_CONFIG_CHANGE=1
+    source "$BASH_IT"/bash_it.sh
+    source "$BASH_IT/lib/composure.bash"
+    source "$BASH_IT/lib/helpers.bash"
+    source .bash_prompts 
+}
+alias bp1="akhil_prompt"
+alias abp="akhil_prompt"
+function akhil_prompt() {
+    export GIT_PS1_SHOWDIRTYSTATE=1;
+    export GIT_PS1_SHOWSTASHSTATE=1;
+    export GIT_PS1_SHOWUNTRACKEDFILES=1;
+    export GIT_PS1_SHOWUPSTREAM=auto;
+    export GIT_PS1_SHOWCOLORHINTS=1;
+    unset PS1;
+    if [[ -f "${HOME}/git-prompt.sh" ]]; then
+        source ~/git-prompt.sh
+        PS1='| \h (\w)$(__git_ps1 " {%s}") |-> ';
+    else
+        git_prompt_setup && PS1='| \h (\w)$(__git_ps1 " {%s}") |-> ';
+    fi
+    clear;
+    HOST=$(hostname);
+    if [[ ${#HOST} -lt 14 ]]; then
+        echo -e "${lightgray}";figlet -c "$(hostname)";
+    fi
+    echo ""
+    echo -ne "${red}Today is:\\t\\t${cyan} $(date)";
+    echo ""
+    echo -e "${red}Kernel Information: \\t${cyan} $(uname -smr)"
+    echo -ne "${cyan}";
+    upinfo;
+    echo "";
+    echo -e "Welcome to $(hostname), $(whoami)!";
+    echo -e;
+    fortune;
+}
+
+alias bp2="nathan_prompt"
+alias np="nathan_prompt"
+function nathan_prompt() {
+    if [[ -f "${HOME}/git-prompt.sh" ]]; then
+        unset PROMPT_COMMAND
+        source ~/git-prompt.sh
+        export GIT_PS1_SHOWDIRTYSTATE=1
+        export GIT_PS1_SHOWUPSTREAM=auto
+        export PROMPT_COMMAND='__git_ps1 "\[\033[01;34m\]\u@\h \[\033[01;32m\]\w\[\033[01;31m\]" " \[\033[39m\]\$\[\033[0m\] "'
+    else
+        git_prompt_setup;
+        nathan_prompt;
+    fi
+    clear;
+}
+
+alias bp3="zork_prompt"
+alias zp="zork_prompt"
+function zork_prompt() {
+    if [[ -f "${HOME}/.bash_it/bash_it.sh" ]]; then
+        bash_it_unset
+        export BASH_IT_THEME='zork'
+        bash_it_set    
+    else
+        bash_it_setup;
+        zork_prompt;
+    fi
+    clear;
+}
+
+alias bp4="liquid_prompt"
+alias lp="liquid_prompt"
+function liquid_prompt() {
+     if [[ -f "${HOME}/.bash_it/bash_it.sh" ]]; then
+        bash_it_unset
+        export BASH_IT_THEME='liquidprompt'
+        bash_it_set
+    else
+        bash_it_setup;
+        liquid_prompt;
+    fi
+    clear;
+}
+
+alias bp5="rjorgenson_prompt"
+alias rjp="rjorgenson_prompt"
+function rjorgenson_prompt() {
+    if [[ -f "${HOME}/.bash_it/bash_it.sh" ]]; then
+        bash_it_unset
+        export BASH_IT_THEME='rjorgenson'
+        bash_it_set
+    else
+        bash_it_setup;
+        rjorgenson_prompt;
+    fi
+    clear;
+}
+
+alias bp6="modern_prompt"
+alias mp="modern_prompt"
+function modern_prompt() {
+    if [[ -f "${HOME}/.bash_it/bash_it.sh" ]]; then
+        bash_it_unset
+        export BASH_IT_THEME='modern'
+        bash_it_set
+    else
+        bash_it_setup;
+    fi
+    clear;
+}
+
+alias bp8="powerline"
+function powerline() {
+    if [[ -f "${HOME}/.bash_it/bash_it.sh" ]]; then
+        bash_it_unset
+        export BASH_IT_THEME='powerline'
+        bash_it_set
+    else
+        bash_it_setup;
+    fi
+    clear;    
+}
+
+alias bp9="arch_news"
+function arch_news() {
+    if [ "$PS1" ] && [[ $(ping -c1 www.google.com 2>&-) ]]; then
+        # The characters "£, §" are used as metacharacters. They should not be encountered in a feed...
+        echo -e "$(echo $(curl --silent https://www.archlinux.org/feeds/news/ | sed -e ':a;N;$!ba;s/\n/ /g') | \
+        sed -e 's/&amp;/\&/g
+        s/&lt;\|&#60;/</g
+        s/&gt;\|&#62;/>/g
+        s/<\/a>/£/g
+        s/href\=\"/§/g
+        s/<title>/\\n\\n\\n   :: \\e[01;31m/g; s/<\/title>/\\e[00m ::\\n/g
+        s/<link>/ [ \\e[01;36m/g; s/<\/link>/\\e[00m ]/g
+        s/<description>/\\n\\n\\e[00;37m/g; s/<\/description>/\\e[00m\\n\\n/g
+        s/<p\( [^>]*\)\?>\|<br\s*\/\?>/\n/g
+        s/<b\( [^>]*\)\?>\|<strong\( [^>]*\)\?>/\\e[01;30m/g; s/<\/b>\|<\/strong>/\\e[00;37m/g
+        s/<i\( [^>]*\)\?>\|<em\( [^>]*\)\?>/\\e[41;37m/g; s/<\/i>\|<\/em>/\\e[00;37m/g
+        s/<u\( [^>]*\)\?>/\\e[4;37m/g; s/<\/u>/\\e[00;37m/g
+        s/<code\( [^>]*\)\?>/\\e[00m/g; s/<\/code>/\\e[00;37m/g
+        s/<a[^§|t]*§\([^\"]*\)\"[^>]*>\([^£]*\)[^£]*£/\\e[01;31m\2\\e[00;37m \\e[01;34m[\\e[00;37m \\e[04m\1\\e[00;37m\\e[01;34m ]\\e[00;37m/g
+        s/<li\( [^>]*\)\?>/\n \\e[01;34m*\\e[00;37m /g
+        s/<!\[CDATA\[\|\]\]>//g
+        s/\|>\s*<//g
+        s/ *<[^>]\+> */ /g
+        s/[<>£§]//g')\n\n";
+    fi
+}
+
+alias bp10="arch_news_latest"
+function arch_news_latest() {
+    if [ "$PS1" ] && [[ $(ping -c1 www.google.com 2>&-) ]]; then
+        # The characters "£, §" are used as metacharacters. They should not be encountered in a feed...
+        echo -e "$(echo $(curl --silent https://www.archlinux.org/feeds/news/ | awk ' NR == 1 {while ($0 !~ /<\/item>/) {print;getline} sub(/<\/item>.*/,"</item>") ;print}' | sed -e ':a;N;$!ba;s/\n/ /g') | \
+        sed -e 's/&amp;/\&/g
+        s/&lt;\|&#60;/</g
+        s/&gt;\|&#62;/>/g
+        s/<\/a>/£/g
+        s/href\=\"/§/g
+        s/<title>/\\n\\n\\n   :: \\e[01;31m/g; s/<\/title>/\\e[00m ::\\n/g
+        s/<link>/ [ \\e[01;36m/g; s/<\/link>/\\e[00m ]/g
+        s/<description>/\\n\\n\\e[00;37m/g; s/<\/description>/\\e[00m\\n\\n/g
+        s/<p\( [^>]*\)\?>\|<br\s*\/\?>/\n/g
+        s/<b\( [^>]*\)\?>\|<strong\( [^>]*\)\?>/\\e[01;30m/g; s/<\/b>\|<\/strong>/\\e[00;37m/g
+        s/<i\( [^>]*\)\?>\|<em\( [^>]*\)\?>/\\e[41;37m/g; s/<\/i>\|<\/em>/\\e[00;37m/g
+        s/<u\( [^>]*\)\?>/\\e[4;37m/g; s/<\/u>/\\e[00;37m/g
+        s/<code\( [^>]*\)\?>/\\e[00m/g; s/<\/code>/\\e[00;37m/g
+        s/<a[^§|t]*§\([^\"]*\)\"[^>]*>\([^£]*\)[^£]*£/\\e[01;31m\2\\e[00;37m \\e[01;34m[\\e[00;37m \\e[04m\1\\e[00;37m\\e[01;34m ]\\e[00;37m/g
+        s/<li\( [^>]*\)\?>/\n \\e[01;34m*\\e[00;37m /g
+        s/<!\[CDATA\[\|\]\]>//g
+        s/\|>\s*<//g
+        s/ *<[^>]\+> */ /g
+        s/[<>£§]//g')\n\n";
+    fi
+}
+
+alias bp11="arch1" 
+function arch1() {
+    # https://bbs.archlinux.org/viewtopic.php?pid=1068202#p1068202
+    unset PS1;
+    PS1="\[\033[0;37m\]\342\224\214\342\224\200\$([[ \$? != 0 ]] && echo \"[\[\033[0;31m\]\342\234\227\[\033[0;37m\]]\342\224\200\")[$(if [[ ${EUID} == 0 ]]; then echo '\[\033[0;31m\]\h'; else echo '\[\033[0;33m\]\u\[\033[0;37m\]@\[\033[0;96m\]\h'; fi)\[\033[0;37m\]]\342\224\200[\[\033[0;32m\]\w\[\033[0;37m\]]\n\[\033[0;37m\]\342\224\224\342\224\200\342\224\200\342\225\274 \[\033[0m\]"
+}
+
+alias bp12="arch2" 
+function arch2() {
+    if [[ ${EUID} == 0 ]] ; then
+        sq_color="\[\033[0;31m\]"
+    else        
+        sq_color="\[\033[0;34m\]"
+    fi
+        PS1="$sq_color\342\224\214\342\224\200\$([[ \$? != 0 ]] && echo \"[\[\033[01;37m\]\342\234\227$sq_color]\342\224\200\")[\[\033[01;37m\]\t$sq_color]\342\224\200[\[\033[01;37m\]\u@\h$sq_color]\n\342\224\224\342\224\200\342\224\200> \[\033[01;37m\]\W$sq_color $ \[\033[01;37m\]>>\\[\\033[0m\\] "
+    unset sq_color
+}
+
+alias bp13="arch3" 
+function arch3() {
+    # https://bbs.archlinux.org/viewtopic.php?pid=1156660#p1156660
+    unset PS1;
+    PS1="\n\$(if [[ \$? == 0 ]]; then echo \"\[\033[0;34m\]\"; else echo \"\[\033[0;31m\]\"; fi)\342\226\210\342\226\210 [ \W ] [ \t ]\n\[\033[0m\]\342\226\210\342\226\210 "
+}
+
+alias bp14="arch4" 
+function arch4() {
+    # http://maketecheasier.com/8-useful-and-interesting-bash-prompts/2009/09/04
+    unset PS1;
+    PS1="\n\[\033[1;37m\]\342\224\214($(if [[ ${EUID} == 0 ]]; then echo '\[\033[01;31m\]\h'; else echo '\[\033[01;34m\]\u@\h'; fi)\[\033[1;37m\])\342\224\200(\[\033[1;34m\]\$?\[\033[1;37m\])\342\224\200(\[\033[1;34m\]\@ \d\[\033[1;37m\])\[\033[1;37m\]\n\342\224\224\342\224\200(\[\033[1;32m\]\w\[\033[1;37m\])\342\224\200(\[\033[1;32m\]\$(ls -1 | wc -l | sed 's: ::g') files, \$(ls -sh | head -n1 | sed 's/total //')b\[\033[1;37m\])\342\224\200> \[\033[0m\]"
+}
+
+alias bp15="arch5" 
+function arch5() {
+    # http://maketecheasier.com/8-useful-and-interesting-bash-prompts/2009/09/04
+    unset PS1;
+    PS1="\n\[\033[1;37m\]\342\224\214($(if [[ ${EUID} == 0 ]]; then echo '\[\033[01;31m\]\h'; else echo '\[\033[01;34m\]\u@\h'; fi)\[\033[1;37m\])\342\224\200(\$(if [[ \$? == 0 ]]; then echo \"\[\033[01;32m\]\342\234\223\"; else echo \"\[\033[01;31m\]\342\234\227\"; fi)\[\033[1;37m\])\342\224\200(\[\033[1;34m\]\@ \d\[\033[1;37m\])\[\033[1;37m\]\n\342\224\224\342\224\200(\[\033[1;32m\]\w\[\033[1;37m\])\342\224\200(\[\033[1;32m\]\$(ls -1 | wc -l | sed 's: ::g') files, \$(ls -sh | head -n1 | sed 's/total //')b\[\033[1;37m\])\342\224\200> \[\033[0m\]"
+}
+
+alias bp16="arch6" 
+function arch6() {
+    # http://maketecheasier.com/8-useful-and-interesting-bash-prompts/2009/09/04
+    unset PS1;
+    PS1="\n\[\033[1;37m\]\342\224\214($(if [[ ${EUID} == 0 ]]; then echo '\[\033[01;31m\]\h'; else echo '\[\033[01;34m\]\u@\h'; fi)\[\033[1;37m\])\$([[ \$? != 0 ]] && echo \"\342\224\200(\[\033[0;31m\]\342\234\227\[\033[1;37m\])\")\342\224\200(\[\033[1;34m\]\@ \d\[\033[1;37m\])\[\033[1;37m\]\n\342\224\224\342\224\200(\[\033[1;32m\]\w\[\033[1;37m\])\342\224\200(\[\033[1;32m\]\$(ls -1 | wc -l | sed 's: ::g') files, \$(ls -sh | head -n1 | sed 's/total //')b\[\033[1;37m\])\342\224\200> \[\033[0m\]"
+}
+
+##############################################################################################################
+
+alias p2="atomic"
+function atomic() {
+    if [[ -f "${HOME}/.bash_it/bash_it.sh" ]]; then
+        bash_it_unset
+        export BASH_IT_THEME='atomic'
+        bash_it_set
+    else
+        bash_it_setup;
+    fi
+    clear;    
+}
+
+alias p3="axin"
+function axin() {
+    if [[ -f "${HOME}/.bash_it/bash_it.sh" ]]; then
+        bash_it_unset
+        export BASH_IT_THEME='axin'
+        bash_it_set
+    else
+        bash_it_setup;
+    fi
+    clear;    
+}
+
+alias p4="bakke"
+function bakke() {
+    if [[ -f "${HOME}/.bash_it/bash_it.sh" ]]; then
+        bash_it_unset
+        export BASH_IT_THEME='bakke'
+        bash_it_set
+    else
+        bash_it_setup;
+    fi
+    clear;    
+}
+
+alias p5="binaryanomaly"
+function binaryanomaly() {
+    if [[ -f "${HOME}/.bash_it/bash_it.sh" ]]; then
+        bash_it_unset
+        export BASH_IT_THEME='binaryanomaly'
+        bash_it_set
+    else
+        bash_it_setup;
+    fi
+    clear;    
+}
+
+alias p6="bobby"
+function bobby() {
+    if [[ -f "${HOME}/.bash_it/bash_it.sh" ]]; then
+        bash_it_unset
+        export BASH_IT_THEME='bobby'
+        bash_it_set
+    else
+        bash_it_setup;
+    fi
+    clear;    
+}
+
+alias p7="bobby-python"
+function bobby-python() {
+    if [[ -f "${HOME}/.bash_it/bash_it.sh" ]]; then
+        bash_it_unset
+        export BASH_IT_THEME='bobby-python'
+        bash_it_set
+    else
+        bash_it_setup;
+    fi
+    clear;    
+}
+
+alias p8="brainy"
+function brainy() {
+    if [[ -f "${HOME}/.bash_it/bash_it.sh" ]]; then
+        bash_it_unset
+        export BASH_IT_THEME='brainy'
+        bash_it_set
+    else
+        bash_it_setup;
+    fi
+    clear;    
+}
+
+alias p9="brunton"
+function brunton() {
+    if [[ -f "${HOME}/.bash_it/bash_it.sh" ]]; then
+        bash_it_unset
+        export BASH_IT_THEME='brunton'
+        bash_it_set
+    else
+        bash_it_setup;
+    fi
+    clear;    
+}
+
+alias p10="candy"
+function candy() {
+    if [[ -f "${HOME}/.bash_it/bash_it.sh" ]]; then
+        bash_it_unset
+        export BASH_IT_THEME='candy'
+        bash_it_set
+    else
+        bash_it_setup;
+    fi
+    clear;    
+}
+
+alias p11="clean"
+function clean() {
+    if [[ -f "${HOME}/.bash_it/bash_it.sh" ]]; then
+        bash_it_unset
+        export BASH_IT_THEME='clean'
+        bash_it_set
+    else
+        bash_it_setup;
+    fi
+    clear;    
+}
+
+alias p12="cooperkid"
+function cooperkid() {
+    if [[ -f "${HOME}/.bash_it/bash_it.sh" ]]; then
+        bash_it_unset
+        export BASH_IT_THEME='cooperkid'
+        bash_it_set
+    else
+        bash_it_setup;
+    fi
+    clear;    
+}
+
+alias p13="cupcake"
+function cupcake() {
+    if [[ -f "${HOME}/.bash_it/bash_it.sh" ]]; then
+        bash_it_unset
+        export BASH_IT_THEME='cupcake'
+        bash_it_set
+    else
+        bash_it_setup;
+    fi
+    clear;    
+}
+
+alias p14="demula"
+function demula() {
+    if [[ -f "${HOME}/.bash_it/bash_it.sh" ]]; then
+        bash_it_unset
+        export BASH_IT_THEME='demula'
+        bash_it_set
+    else
+        bash_it_setup;
+    fi
+    clear;    
+}
+
+alias p15="dos"
+function dos() {
+    if [[ -f "${HOME}/.bash_it/bash_it.sh" ]]; then
+        bash_it_unset
+        export BASH_IT_THEME='dos'
+        bash_it_set
+    else
+        bash_it_setup;
+    fi
+    clear;    
+}
+
+alias p16="doubletime"
+function doubletime() {
+    if [[ -f "${HOME}/.bash_it/bash_it.sh" ]]; then
+        bash_it_unset
+        export BASH_IT_THEME='doubletime'
+        bash_it_set
+    else
+        bash_it_setup;
+    fi
+    clear;    
+}
+
+alias p17="doubletime_multiline"
+function doubletime_multiline() {
+    if [[ -f "${HOME}/.bash_it/bash_it.sh" ]]; then
+        bash_it_unset
+        export BASH_IT_THEME='doubletime_multiline'
+        bash_it_set
+    else
+        bash_it_setup;
+    fi
+    clear;    
+}
+
+alias p18="dulcie"
+function dulcie() {
+    if [[ -f "${HOME}/.bash_it/bash_it.sh" ]]; then
+        bash_it_unset
+        export BASH_IT_THEME='dulcie'
+        bash_it_set
+    else
+        bash_it_setup;
+    fi
+    clear;    
+}
+
+alias p19="duru"
+function duru() {
+    if [[ -f "${HOME}/.bash_it/bash_it.sh" ]]; then
+        bash_it_unset
+        export BASH_IT_THEME='duru'
+        bash_it_set
+    else
+        bash_it_setup;
+    fi
+    clear;    
+}
+
+alias p20="emperor"
+function emperor() {
+    if [[ -f "${HOME}/.bash_it/bash_it.sh" ]]; then
+        bash_it_unset
+        export BASH_IT_THEME='emperor'
+        bash_it_set
+    else
+        bash_it_setup;
+    fi
+    clear;    
+}
+
+alias p21="envy"
+function envy() {
+    if [[ -f "${HOME}/.bash_it/bash_it.sh" ]]; then
+        bash_it_unset
+        export BASH_IT_THEME='envy'
+        bash_it_set
+    else
+        bash_it_setup;
+    fi
+    clear;    
+}
+
+alias p22="font"
+function font() {
+    if [[ -f "${HOME}/.bash_it/bash_it.sh" ]]; then
+        bash_it_unset
+        export BASH_IT_THEME='font'
+        bash_it_set
+    else
+        bash_it_setup;
+    fi
+    clear;    
+}
+
+alias p23="gallifrey"
+function gallifrey() {
+    if [[ -f "${HOME}/.bash_it/bash_it.sh" ]]; then
+        bash_it_unset
+        export BASH_IT_THEME='gallifrey'
+        bash_it_set
+    else
+        bash_it_setup;
+    fi
+    clear;    
+}
+
+alias p24="hawaii50"
+function hawaii50() {
+    if [[ -f "${HOME}/.bash_it/bash_it.sh" ]]; then
+        bash_it_unset
+        export BASH_IT_THEME='hawaii50'
+        bash_it_set
+    else
+        bash_it_setup;
+    fi
+    clear;    
+}
+
+alias p25="iterate"
+function iterate() {
+    if [[ -f "${HOME}/.bash_it/bash_it.sh" ]]; then
+        bash_it_unset
+        export BASH_IT_THEME='iterate'
+        bash_it_set
+    else
+        bash_it_setup;
+    fi
+    clear;    
+}
+
+alias p26="kitsune"
+function kitsune() {
+    if [[ -f "${HOME}/.bash_it/bash_it.sh" ]]; then
+        bash_it_unset
+        export BASH_IT_THEME='kitsune'
+        bash_it_set
+    else
+        bash_it_setup;
+    fi
+    clear;    
+}
+
+alias p27="liquidprompt"
+function liquidprompt() {
+    if [[ -f "${HOME}/.bash_it/bash_it.sh" ]]; then
+        bash_it_unset
+        export BASH_IT_THEME='liquidprompt'
+        bash_it_set
+    else
+        bash_it_setup;
+    fi
+    clear;    
+}
+
+alias p28="luan"
+function luan() {
+    if [[ -f "${HOME}/.bash_it/bash_it.sh" ]]; then
+        bash_it_unset
+        export BASH_IT_THEME='luan'
+        bash_it_set
+    else
+        bash_it_setup;
+    fi
+    clear;    
+}
+
+alias p29="mairan"
+function mairan() {
+    if [[ -f "${HOME}/.bash_it/bash_it.sh" ]]; then
+        bash_it_unset
+        export BASH_IT_THEME='mairan'
+        bash_it_set
+    else
+        bash_it_setup;
+    fi
+    clear;    
+}
+
+alias p30="mbriggs"
+function mbriggs() {
+    if [[ -f "${HOME}/.bash_it/bash_it.sh" ]]; then
+        bash_it_unset
+        export BASH_IT_THEME='mbriggs'
+        bash_it_set
+    else
+        bash_it_setup;
+    fi
+    clear;    
+}
+
+alias p31="minimal"
+function minimal() {
+    if [[ -f "${HOME}/.bash_it/bash_it.sh" ]]; then
+        bash_it_unset
+        export BASH_IT_THEME='minimal'
+        bash_it_set
+    else
+        bash_it_setup;
+    fi
+    clear;    
+}
+
+alias p32="modern"
+function modern() {
+    if [[ -f "${HOME}/.bash_it/bash_it.sh" ]]; then
+        bash_it_unset
+        export BASH_IT_THEME='modern'
+        bash_it_set
+    else
+        bash_it_setup;
+    fi
+    clear;    
+}
+
+alias p33="morris"
+function morris() {
+    if [[ -f "${HOME}/.bash_it/bash_it.sh" ]]; then
+        bash_it_unset
+        export BASH_IT_THEME='morris'
+        bash_it_set
+    else
+        bash_it_setup;
+    fi
+    clear;    
+}
+
+alias p34="n0qorg"
+function n0qorg() {
+    if [[ -f "${HOME}/.bash_it/bash_it.sh" ]]; then
+        bash_it_unset
+        export BASH_IT_THEME='n0qorg'
+        bash_it_set
+    else
+        bash_it_setup;
+    fi
+    clear;    
+}
+
+alias p35="nwinkler"
+function nwinkler() {
+    if [[ -f "${HOME}/.bash_it/bash_it.sh" ]]; then
+        bash_it_unset
+        export BASH_IT_THEME='nwinkler'
+        bash_it_set
+    else
+        bash_it_setup;
+    fi
+    clear;    
+}
+
+alias p36="nwinkler_random_colors"
+function nwinkler_random_colors() {
+    if [[ -f "${HOME}/.bash_it/bash_it.sh" ]]; then
+        bash_it_unset
+        export BASH_IT_THEME='nwinkler_random_colors'
+        bash_it_set
+    else
+        bash_it_setup;
+    fi
+    clear;    
+}
+
+alias p37="pete"
+function pete() {
+    if [[ -f "${HOME}/.bash_it/bash_it.sh" ]]; then
+        bash_it_unset
+        export BASH_IT_THEME='pete'
+        bash_it_set
+    else
+        bash_it_setup;
+    fi
+    clear;    
+}
+
+alias p38="powerline"
+function powerline() {
+    if [[ -f "${HOME}/.bash_it/bash_it.sh" ]]; then
+        bash_it_unset
+        export BASH_IT_THEME='powerline'
+        bash_it_set
+    else
+        bash_it_setup;
+    fi
+    clear;    
+}
+
+alias p39="powerline-multiline"
+function powerline-multiline() {
+    if [[ -f "${HOME}/.bash_it/bash_it.sh" ]]; then
+        bash_it_unset
+        export BASH_IT_THEME='powerline-multiline'
+        bash_it_set
+    else
+        bash_it_setup;
+    fi
+    clear;    
+}
+
+alias p40="powerline-naked"
+function powerline-naked() {
+    if [[ -f "${HOME}/.bash_it/bash_it.sh" ]]; then
+        bash_it_unset
+        export BASH_IT_THEME='powerline-naked'
+        bash_it_set
+    else
+        bash_it_setup;
+    fi
+    clear;    
+}
+
+alias p41="powerline-plain"
+function powerline-plain() {
+    if [[ -f "${HOME}/.bash_it/bash_it.sh" ]]; then
+        bash_it_unset
+        export BASH_IT_THEME='powerline-plain'
+        bash_it_set
+    else
+        bash_it_setup;
+    fi
+    clear;    
+}
+
+alias p42="primer"
+function primer() {
+    if [[ -f "${HOME}/.bash_it/bash_it.sh" ]]; then
+        bash_it_unset
+        export BASH_IT_THEME='primer'
+        bash_it_set
+    else
+        bash_it_setup;
+    fi
+    clear;    
+}
+
+alias p43="pro"
+function pro() {
+    if [[ -f "${HOME}/.bash_it/bash_it.sh" ]]; then
+        bash_it_unset
+        export BASH_IT_THEME='pro'
+        bash_it_set
+    else
+        bash_it_setup;
+    fi
+    clear;    
+}
+
+alias p44="pure"
+function pure() {
+    if [[ -f "${HOME}/.bash_it/bash_it.sh" ]]; then
+        bash_it_unset
+        export BASH_IT_THEME='pure'
+        bash_it_set
+    else
+        bash_it_setup;
+    fi
+    clear;    
+}
+
+alias p45="purity"
+function purity() {
+    if [[ -f "${HOME}/.bash_it/bash_it.sh" ]]; then
+        bash_it_unset
+        export BASH_IT_THEME='purity'
+        bash_it_set
+    else
+        bash_it_setup;
+    fi
+    clear;    
+}
+
+alias p46="rainbowbrite"
+function rainbowbrite() {
+    if [[ -f "${HOME}/.bash_it/bash_it.sh" ]]; then
+        bash_it_unset
+        export BASH_IT_THEME='rainbowbrite'
+        bash_it_set
+    else
+        bash_it_setup;
+    fi
+    clear;    
+}
+
+alias p47="rana"
+function rana() {
+    if [[ -f "${HOME}/.bash_it/bash_it.sh" ]]; then
+        bash_it_unset
+        export BASH_IT_THEME='rana'
+        bash_it_set
+    else
+        bash_it_setup;
+    fi
+    clear;    
+}
+
+alias p48="redline"
+function redline() {
+    if [[ -f "${HOME}/.bash_it/bash_it.sh" ]]; then
+        bash_it_unset
+        export BASH_IT_THEME='redline'
+        bash_it_set
+    else
+        bash_it_setup;
+    fi
+    clear;    
+}
+
+alias p49="rjorgenson"
+function rjorgenson() {
+    if [[ -f "${HOME}/.bash_it/bash_it.sh" ]]; then
+        bash_it_unset
+        export BASH_IT_THEME='rjorgenson'
+        bash_it_set
+    else
+        bash_it_setup;
+    fi
+    clear;    
+}
+
+alias p50="roderik"
+function roderik() {
+    if [[ -f "${HOME}/.bash_it/bash_it.sh" ]]; then
+        bash_it_unset
+        export BASH_IT_THEME='roderik'
+        bash_it_set
+    else
+        bash_it_setup;
+    fi
+    clear;    
+}
+
+alias p51="sexy"
+function sexy() {
+    if [[ -f "${HOME}/.bash_it/bash_it.sh" ]]; then
+        bash_it_unset
+        export BASH_IT_THEME='sexy'
+        bash_it_set
+    else
+        bash_it_setup;
+    fi
+    clear;    
+}
+
+alias p52="simple"
+function simple() {
+    if [[ -f "${HOME}/.bash_it/bash_it.sh" ]]; then
+        bash_it_unset
+        export BASH_IT_THEME='simple'
+        bash_it_set
+    else
+        bash_it_setup;
+    fi
+    clear;    
+}
+
+alias p53="sirup"
+function sirup() {
+    if [[ -f "${HOME}/.bash_it/bash_it.sh" ]]; then
+        bash_it_unset
+        export BASH_IT_THEME='sirup'
+        bash_it_set
+    else
+        bash_it_setup;
+    fi
+    clear;    
+}
+
+alias p54="slick"
+function slick() {
+    if [[ -f "${HOME}/.bash_it/bash_it.sh" ]]; then
+        bash_it_unset
+        export BASH_IT_THEME='slick'
+        bash_it_set
+    else
+        bash_it_setup;
+    fi
+    clear;    
+}
+
+alias p55="standard"
+function standard() {
+    if [[ -f "${HOME}/.bash_it/bash_it.sh" ]]; then
+        bash_it_unset
+        export BASH_IT_THEME='standard'
+        bash_it_set
+    else
+        bash_it_setup;
+    fi
+    clear;    
+}
+
+alias p56="tonka"
+function tonka() {
+    if [[ -f "${HOME}/.bash_it/bash_it.sh" ]]; then
+        bash_it_unset
+        export BASH_IT_THEME='tonka'
+        bash_it_set
+    else
+        bash_it_setup;
+    fi
+    clear;    
+}
+
+alias p57="tonotdo"
+function tonotdo() {
+    if [[ -f "${HOME}/.bash_it/bash_it.sh" ]]; then
+        bash_it_unset
+        export BASH_IT_THEME='tonotdo'
+        bash_it_set
+    else
+        bash_it_setup;
+    fi
+    clear;    
+}
+
+alias p58="tylenol"
+function tylenol() {
+    if [[ -f "${HOME}/.bash_it/bash_it.sh" ]]; then
+        bash_it_unset
+        export BASH_IT_THEME='tylenol'
+        bash_it_set
+    else
+        bash_it_setup;
+    fi
+    clear;    
+}
+
+alias p59="wanelo"
+function wanelo() {
+    if [[ -f "${HOME}/.bash_it/bash_it.sh" ]]; then
+        bash_it_unset
+        export BASH_IT_THEME='wanelo'
+        bash_it_set
+    else
+        bash_it_setup;
+    fi
+    clear;    
+}
+
+alias p60="zitron"
+function zitron() {
+    if [[ -f "${HOME}/.bash_it/bash_it.sh" ]]; then
+        bash_it_unset
+        export BASH_IT_THEME='zitron'
+        bash_it_set
+    else
+        bash_it_setup;
+    fi
+    clear;    
+}
+
+alias p61="zork"
+function zork() {
+    if [[ -f "${HOME}/.bash_it/bash_it.sh" ]]; then
+        bash_it_unset
+        export BASH_IT_THEME='zork'
+        bash_it_set
+    else
+        bash_it_setup;
+    fi
+    clear;    
+}
