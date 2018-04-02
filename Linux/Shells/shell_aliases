@@ -61,18 +61,19 @@ alias motd='/etc/profile.d/motd.sh'                                        # Dis
 # Development 
 alias n="nano"									                                  # Text Editor
 alias co="climate overview"						                                  # Climate Overview
-alias venv2="source venv/bin/activate"			                                  # Starts Venv2
 alias {buildu,dub,dud}="cl $HOME/Github/DU && source venv/bin/activate"	          # Venv into DU Build Directory
-alias {buildurom,bdr,bdu}="cl $HOME/Github/DU && source venv/bin/activate && rom" # Venv into DU Build Directory and start rom script
+alias {buildurom,bdr,bdu,op5t}="cl $HOME/Github/DU && du_rom"                     # Venv into DU Build Directory and start rom script
 alias {dulog,du_log,dul}=" cat $HOME/Github/DU/du_log.txt"                        # Reads DU Build Log
-alias {out,dumpling,op5t}="cl $HOME/Github/DU/out/target/product/dumpling/"		  # Moves to Out Directory for 5T
-alias {rs,reposync}="source venv/bin/activate && time repo sync --force-broken --force-sync --current-branch --no-clone-bundle --no-tags --prune --optimized-fetch -j$( nproc --all )" 
+alias {out,dumpling}="cl $HOME/Github/DU/out/target/product/dumpling/"		      # Moves to Out Directory for 5T
+alias {rs,reposync}="sync_repo" 											      # Syncs DU Repo
+alias {venv,venv2}="mkavenv"			                                          # Starts Venv2
 
 # SSH & Mosh
-alias {virtualboxmosh,vboxmosh,vbm,apm,archm,moshy}='mosh matt@virtualbox'  # Mosh VirtualBox
-alias {virtualbox,vbox,vb,ap,arch,sshy}='ssh matt@virtualbox'               # SSH VirtualBox
-alias {laptop,xps15,externalssd}='mosh killerdroid96@192.168.1.90'          # Mosh External SSD
-alias {box,droidbox,server}='mosh killerdroid96@droidbox'                   # Mosh Server
+alias {virtualboxmosh,vboxmosh,vbm,apm,archm,moshy,apm}='mosh matt@virtualbox'  # Mosh VirtualBox
+alias {virtualbox,vbox,vb,ap,arch,sshy}='ssh matt@virtualbox'                   # SSH VirtualBox
+alias {laptop,xps15,externalssd}='mosh killerdroid96@192.168.1.90'              # Mosh External SSD
+alias {box,droidbox,server}='ssh killerdroid96@droidbox'                        # SSH Server
+alias {mbox,mdroidbox,mserver}='mosh killerdroid96@droidbox'                    # Mosh Server
 
 # Fun
 alias busy="cat /dev/urandom | hexdump -C | grep 'ca fe'"          # Busy Effect
@@ -89,16 +90,16 @@ alias stop="playerctl stop"
 
 # Hard Drive Information
 alias cmount="mount | column -t"           # Displays Filesystem Mounts
-alias disk1='sudo lsblk -f'                # Displays Name, FS Type, Label, UUID & Mountpoint
-alias disk2='sudo smartctl -a /dev/sda1'   # Detailed Report & SMART Status
+alias disk1='pydf'				           # A Better Version of df 
+alias disk2='df -h'				           # Displays Mounted File Systems
 alias disk3='sudo fdisk -l'                # Checks Partiitions
 alias disk4='sudo cfdisk' 				   # Linux Partition Editor GUI
-alias disk5='sudo pydf'				       # A Better Version of df 
-alias disk6='sudo df -h'				   # Displays Mounted File Systems
+alias disk5='sudo lsblk -f'                # Displays Name, FS Type, Label, UUID & Mountpoint
+alias disk6='sudo smartctl -a /dev/sda1'   # Detailed Report & SMART Status
 alias disk7='sudo df -h --output=source,fstype,size,used,avail,pcent,target -x tmpfs -x devtmpfs'
-alias disk_trim='sudo dd if=/dev/zero of=/var/tmp/bigemptyfile bs=4096k ; rm /var/tmp/bigemptyfile'
-alias swap='sudo swapon --show'            # Shows Swap Space
-alias io='sudo iotop'                    # Sort by Disk Writes,
+alias {trim,trim_disk,disk_trim}='sudo dd if=/dev/zero of=/var/tmp/bigemptyfile bs=4096k ; rm /var/tmp/bigemptyfile'
+alias swap='swapon --show'            # Shows Swap Space
+alias io='sudo iotop'                      # Sort by Disk Writes,
 
 # Directories
 alias p="pwd"                                        # Displays File Path
@@ -115,8 +116,6 @@ alias locatef='wheres'                               # Finds Folder/File Locatio
 alias filetree="ls -R | grep ":$" | sed -e 's/:$//' -e 's/[^-][^\/]*\//--/g' -e 's/^/   /' -e 's/-/|/'"
 
 # Arch Linux Paths
-alias shells="clv $HOME/Github/Scripts/Linux/Shells/"
-alias bashfiles="cl $HOME/Github/Scripts/Linux/Bash/"
 alias build="cl $HOME/Github/DU"
 alias coding="cl $HOME/Github/C"
 alias files="cl $HOME/Github/Scripts/Linux/Files"
@@ -125,6 +124,8 @@ alias kde="cl $HOME/Github/Scripts/Linux/KDE/"
 alias linux="cl $HOME/Github/Scripts/Linux"
 alias roms="cl $HOME/Github/Scripts/Linux/ROMs"
 alias scripts="cl $HOME/Github/Scripts"
+alias shells="clv $HOME/Github/Scripts/Linux/Shells/"
+alias {shellfiles,bashfiles}="cl $HOME/Github/Scripts/Linux/Bash/"
 alias setups="cl $HOME/Github/Scripts/Linux/Setups"
 
 # Windows 10 Paths (Place w infront of usual commands)
