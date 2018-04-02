@@ -53,7 +53,7 @@ alias {weather,wf}="forcast"							  				 	                     # Gives weather 
 alias {lastroot,rr,lr}='sudo $(history | tail -n 2 | head -n 1 | sed -e "s/^[ ]*[0-9]*[ ]*//g")' # Executes the last command as root
 alias {trace,intercept}="sudo strace -ff -e trace=write -e write=1,2 -p"                         # Follow Forks With Output Into Separate Files
 alias i='trizen -S --quiet --noconfirm --noedit --needed'
-alias {u,us,uq,trizenq,trizens}='update_trizen'
+alias {u,us,uq,strizen,trizenq,trizens}='trizens'
 alias {banner,shell_banner}='$HOME/Github/Scripts/Linux/Shell/shell_banner'
 alias motd='/etc/profile.d/motd.sh'                                        # Displays Banner
 
@@ -68,11 +68,11 @@ alias {dulog,du_log,dul}=" cat $HOME/Github/DU/du_log.txt"                      
 alias {out,dumpling,op5t}="cl $HOME/Github/DU/out/target/product/dumpling/"		  # Moves to Out Directory for 5T
 alias {rs,reposync}="source venv/bin/activate && time repo sync --force-broken --force-sync --current-branch --no-clone-bundle --no-tags --prune --optimized-fetch -j$( nproc --all )" 
 
-# Mosh
-alias {virtualbox,vbox,vb,ap,arch,moshy}='mosh matt@virtualbox'    # Mosh VirtualBox
-alias sshy='ssh matt@192.168.43.158'                               # SSH VirtualBox
-alias {laptop,xps15,externalssd}='mosh killerdroid96@192.168.1.90' # Mosh External SSD
-alias {box,droidbox,server}='mosh killerdroid96@droidbox'          # Mosh Server
+# SSH & Mosh
+alias {virtualboxmosh,vboxmosh,vbm,apm,archm,moshy}='mosh matt@virtualbox'  # Mosh VirtualBox
+alias {virtualbox,vbox,vb,ap,arch,sshy}='ssh matt@virtualbox'               # SSH VirtualBox
+alias {laptop,xps15,externalssd}='mosh killerdroid96@192.168.1.90'          # Mosh External SSD
+alias {box,droidbox,server}='mosh killerdroid96@droidbox'                   # Mosh Server
 
 # Fun
 alias busy="cat /dev/urandom | hexdump -C | grep 'ca fe'"          # Busy Effect
