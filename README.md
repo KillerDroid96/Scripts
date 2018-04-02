@@ -12,12 +12,13 @@
      cd $HOME/Github/Scripts
 - - - -
 ## Installation
-     cp -b $HOME/Github/Scripts/Linux/Shells/.bashrc $HOME && source ~/.bashrc && bl
+     cp -b $HOME/Github/Scripts/Linux/Shells/.bashrc $HOME && source ~/.bashrc && touch "$HOME/.bashrc" && arch_setup
    OR
    
      cp -b $HOME/Github/Scripts/Linux/Shells/.bashrc $HOME
      source ~/.bashrc
-     bl
+     touch "~/.bashrc"
+     arch_setup
 - - - - 
 ## Linux ##
 ### Bash ###
@@ -34,6 +35,7 @@
 ### Files ###
 | File | Description | 
 | --- | --- |
+| du_manifest | Manifest to copy to Build |
 | mypackages | List of installed packages |
 | neofetch | Configuration file for Neofetch |
 | ssh_help | Quick info to get started with SSH |
@@ -48,7 +50,7 @@
 | cache | Script to watch Ccache|
 | compilers | Script to list version of ccache, clang, gcc & ninja |
 | dextro | Script to Build ROM for OnePlus 5T, Nexus 6P & Galaxy S4 |
-| rom | Script to install depediencies and build ROM for OnePlus 5T |
+| du_rom | Script to build ROM for OnePlus 5T |
 ### Setups ###
 | File | Description | Status |
 | --- | --- | --- |
