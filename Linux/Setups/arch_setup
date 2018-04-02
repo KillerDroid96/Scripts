@@ -34,34 +34,16 @@ ask() {
     done
 }
 
-if ask "Create New User?"
-    export username="$1"
-    if [ -z $username ];
-    then
-    echo -e "Please enter a username"
-    read username
-    fi
-    sudo useradd "${username}" -m -s /bin/bash
-    passwd "${username}"
-    chage -d 0 "${username}"
-else
-    echo "No"
-fi
-
-if ask "Install Android Build Dependencies?"; then
-    tput setaf 5; echo "Upgrading System Packages"
-    sudo pacman -Syyu --quiet --noconfirm
-    tput setaf 2; echo "Installing AUR Package Manager" 
-    cd && git clone https://aur.archlinux.org/trizen-git.git 
-    cd trizen-git && makepkg -si && cd
-    sudo rm -r trizen-git
-    tput setaf 21; echo "Installing Android Dependencies" && sleep 3
-    trizen -S make fakeroot --noconfirm
-    tput setaf 2; trizen -Syyu --needed --quiet --noedit --noconfirm aosp-devel base-devel lineageos-devel
-    tput setaf 3; echo "Temorarily Disabling PGP Integrety Check from AUR" && sleep 3
-    trizen -S --needed --quiet libtinfo --skipinteg --noconfirm 
-    trizen -S --needed --quiet lib32-ncurses5-compat-libs --skipinteg --noconfirm 
-    trizen -S --needed --quiet ncurses5-compat-libs --skipinteg --noconfirm
+if ask "Setup Github Login?"; then
+    sudo pacman -Syyu git xclip
+    ssh-keygen -t rsa -b 4096 -C "mkeller96@gmail.com"
+    eval "$(ssh-agent -s)"
+    ssh-add ~/.ssh/id_rsa
+    xclip -sel clip < ~/.ssh/id_rsa.pub
+    echo "Login to Github & Add SSH Key"
+    git config --global user.name "KillerDroid96"
+    git config --global user.email "mkeller96@gmail.com"
+    git config --global credential.helper "cache --timeout=7200"
 else
     echo "No"
 fi
@@ -92,7 +74,41 @@ if ask "Install My Additional Packages?"; then
     echo "| rig             # Random ID Generator            |"
     echo "| yakuake         # Drop Down Terminal             |"
     echo "===================================================="
+    pause
     figlet KillerDroid96
+else
+    echo "No"
+fi
+
+if ask "Install Android Build Dependencies?"; then
+    tput setaf 5; echo "Upgrading System Packages"
+    sudo pacman -Syyu --quiet --noconfirm
+    tput setaf 2; echo "Installing AUR Package Manager" 
+    cd && git clone https://aur.archlinux.org/trizen-git.git 
+    cd trizen-git && makepkg -si && cd
+    sudo rm -r trizen-git
+    tput setaf 21; echo "Installing Android Dependencies" && sleep 3
+    trizen -S make fakeroot --noconfirm
+    tput setaf 2; trizen -Syyu --needed --quiet --noedit --noconfirm aosp-devel lineageos-devel
+    tput setaf 3; echo "Temorarily Disabling PGP Integrety Check from AUR" && sleep 3
+    trizen -S --needed --quiet libtinfo --skipinteg --noconfirm 
+    trizen -S --needed --quiet lib32-ncurses5-compat-libs --skipinteg --noconfirm 
+    trizen -S --needed --quiet ncurses5-compat-libs --skipinteg --noconfirm
+else
+    echo "No"
+fi
+
+if ask "Setup Build for Dirty Unicorns?"; then
+    mkdir ~/Github/DU
+    cd ~/Github/DU
+    virtualenv2 venv
+    source venv/bin/activate
+    repo init -u http://github.com/DirtyUnicorns/android_manifest.git -b o8x-caf
+    mkdir ~/Github/DU/.repo/local_manifests
+    cp ~/Github/Scripts/Linux/Files/du_manifest.xml ~/Github/DU/local_manifests/du_manifest.xml
+    repo sync --force-sync -j$( nproc --all )
+    ccache -M 50G
+    echo "Enter du_rom in a Terminal to Start Build"
 else
     echo "No"
 fi
@@ -114,9 +130,116 @@ else
     echo "No"
 fi
 
-# Default to No if the user presses enter without giving an answer:
-#if ask "3 Do you want to do such-and-such?" N; then
-#    echo "Yes"
-#else
-#    echo "No"
-#fi
+pause(){
+  read -p "Press [Enter] key to continue..." fackEnterKey
+}
+
+file /etc/systemd/system/display-manager.service
+echo -n "What Is your Display Manager?"
+read display
+
+case $display in
+GDM|gdm|gdm.service)
+echo "Disabling GDM"
+sudo systemctl disable gdm.service
+;;
+LightDM|lightdm|lightdm.service)
+echo "Disabling LightDM"
+sudo systemctl disable lightdm.service
+;;
+LXDM)
+echo "Disabling LXDM"
+sudo systemctl disable lxdm.service
+;;
+SDDM)
+echo "Disabling SDDM"
+sudo systemctl disable sddm.service
+;;
+XDM)
+echo "Disabling XDM"
+sudo systemctl disable xdm.service
+;;
+*)
+echo don\'t know
+;;
+esac
+
+# function to display menus
+function show_menus() {
+    clear
+    echo ""
+    tput setaf 1
+    #echo "Lets Get ROM'd Up!" && sleep 2
+    tput setaf 2
+    clear
+    echo ""
+    echo "Desktop Environments"
+    echo "  [KillerDroid96]"
+    echo ""
+    echo "===================="
+    echo "|     Main Menu    |"
+    echo "===================="
+    echo "|  [1] KDE         |"
+    echo "|  [2] Gnome       |"
+    echo "|  [3] Pantheon    |"
+    echo "|  [4] Xfce        |"
+    echo "|  [e] Exit        |"
+    echo "===================="
+    echo ""
+}
+read_options(){
+    local choice
+    read -p "Enter choice:" choice
+    case $choice in
+        1) KDE ;;
+        2) Gnome ;;
+        3) Pantheon ;;
+        4) Xfce ;;
+        e) exit 0;; 
+        *) echo -e "${RED}Error...${STD}" && sleep 2
+    esac
+}
+
+KDE(){
+    if ask "Install KDE Plasma Desktop Environment?" N; then
+        trizen -Syu --needed --quiet --noedit --noconfirm plasma plasma-desktop kde-appllications powerdevil
+        sudo systemctl enable sddm.service
+    else
+        echo "No"
+    fi
+}
+
+Gnome(){
+    if ask "Install Gnome Desktop Environment?" N; then
+        trizen -Syu --needed --quiet --noedit --noconfirm gnome gnome-extra gnome-tweak-tool
+        sudo systemctl enable gdm.service
+    else
+        echo "No"
+    fi
+}
+
+Pantheon(){
+    if ask "Install Patheon Desktop Environment?" N; then
+        echo "Still working on this one" #trizen -S --quiet --noconfirm 
+        trizen -Syu --needed --quiet --noedit --noconfirm lightdm-devel
+        sudo systemctl enable lightdm-pantheon-greeter.service
+    else
+        echo "No"
+    fi
+}
+
+Xfce(){
+    if ask "Install Xfce Desktop Environment?" N; then
+        trizen -Syu --needed --quiet --noedit --noconfirm xfce4 xfce4-goodies mousepad menulibre xfce4-pulseaudio-plugin lightdm-devel
+        sudo systemctl enable lightdm.service
+        pause   
+    else
+        echo "No"
+    fi
+}
+
+while true
+do
+    show_menus
+    read_options 
+done
