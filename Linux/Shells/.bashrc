@@ -17,7 +17,7 @@ $HOME/Github/Scripts/Linux/Shells/shell_banner
 #########
 #EXPORTS#
 #########
-#export LC_ALL="C"
+export LC_ALL="C"
 export USE_CCACHE=1
 export USE_NINJA=false
 export EDITOR="nano";
