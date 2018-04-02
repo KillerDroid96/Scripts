@@ -12,28 +12,19 @@
      cd $HOME/Github/Scripts
 - - - -
 ## Installation
-     cp -b $HOME/Github/Scripts/Linux/Shells/.bashrc $HOME && source ~/.bashrc && bl
+     cp -b $HOME/Github/Scripts/Linux/Shells/.bashrc $HOME && source ~/.bashrc && touch "$HOME/.bashrc" && arch_setup
    OR
    
      cp -b $HOME/Github/Scripts/Linux/Shells/.bashrc $HOME
      source ~/.bashrc
-     bl
+     touch "~/.bashrc"
+     arch_setup
 - - - - 
 ## Linux ##
-### Bash ###
-| File | Description |
-| --- | --- |
-| .bashrc | My Aliases and Functions |
-| banner | Prints Droid Box when opening a terminal & is called by MOTD |
-| bashlist | Script to Display My Aliases and Functions |
-| motd | Prints Sytem Info & Calls Banner |
-| plex | Starts Plex Server |
-| ssh_start | Starts sshd.service & session |
-| update | Updates System with Pacman & Pacaur |
-| xspotify | Controlls Spotify from Treminal |  
 ### Files ###
 | File | Description | 
 | --- | --- |
+| du_manifest | Manifest to copy to Build |
 | mypackages | List of installed packages |
 | neofetch | Configuration file for Neofetch |
 | ssh_help | Quick info to get started with SSH |
@@ -41,18 +32,30 @@
 ### Misc ###
 | File | Description |
 | --- | --- |
-|||
+| plex | Starts Plex Server |
+| ssh_start | Starts sshd.service & session |
+| xspotify | Controlls Spotify from Treminal |  
 ### ROMs ###
 | File | Description |
 | --- | --- |
 | cache | Script to watch Ccache|
 | compilers | Script to list version of ccache, clang, gcc & ninja |
 | dextro | Script to Build ROM for OnePlus 5T, Nexus 6P & Galaxy S4 |
-| rom | Script to install depediencies and build ROM for OnePlus 5T |
+| du_rom | Script to build ROM for OnePlus 5T |
 ### Setups ###
-| File | Description | Status |
-| --- | --- | --- |
-| changes_setup ||
-| os_setup ||
-| scripts_setup ||
+| File | Description |
+| --- | --- |
+| arch_setup | Interactive Menu to Setup All My Stuff |
+| desktopenv_setup | Interactive Menu to Install Desktop Environments |
+### Shells ###
+| File | Description |
+| --- | --- |
+| .bashrc | Sources My Shell Sources |
+| shell_aliases | My Aliases |
+| shell_banner | Prints Droid Box when opening a terminal |
+| shell_colors | List of Colors |
+| shell_functions | My Shell Functions |
+| shell_list | Script to List My Shell Commands |
+| shell_paths | My Common Paths |
+| shell_sources | Sources Aliases & Functions |
 - - - -
