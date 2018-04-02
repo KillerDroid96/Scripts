@@ -27,7 +27,7 @@
 
 # Source our universal functions script and macOS check
 #source $HOME/Github/nathan_scripts/common
-source $HOME/Github/Scripts/Linux/Shells/shell_common
+source $HOME/Github/Scripts/Linux/Shells/shell_functions
 
 ################
 #              #
