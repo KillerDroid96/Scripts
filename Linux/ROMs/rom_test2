@@ -73,7 +73,7 @@ build() {
     time repo sync --force-broken --force-sync --current-branch --no-clone-bundle --no-tags --prune --optimized-fetch -j$( nproc --all )
     export JACK_SERVER_VM_ARGUMENTS="-Dfile.encoding=UTF-8 -XX:+TieredCompilation -Xmx15g"
     ./prebuilts/sdk/tools/jack-admin kill-server && ./prebuilts/sdk/tools/jack-admin start-server
-    . build/envsetup.sh && lunch 
+    . build/envsetup.sh && lunch ${device_name}
     tput setaf 1; echo "Building ROM!" && sleep 3
     build_log 
 }
@@ -112,6 +112,15 @@ else
     dirty_rom
 fi
 ##########################
+function op5t()
+{
+    device_name=dumpling
+}
+
+function n6p()
+{
+    device_name=
+}
 
 function device()
 {
@@ -140,9 +149,9 @@ echo "| [2] Nexus 6P   |"
 echo "| [e] Exit       |"
 echo "=================="
 if device "Choose"; then 
-    clean_rom
+    op5t
 else
-    dirty_rom
+    n6p
 fi
   }
 } 

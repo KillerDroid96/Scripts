@@ -1,8 +1,0 @@
-#!/bin/bash
-
-tput setaf 2
-    echo "=========================="
-    echo "|  Checking for Updates  |"
-    echo "=========================="
-    #sudo pacman -Syyu
-    trizen -Syyu
