@@ -21,17 +21,6 @@
      arch_setup
 - - - - 
 ## Linux ##
-### Bash ###
-| File | Description |
-| --- | --- |
-| .bashrc | My Aliases and Functions |
-| banner | Prints Droid Box when opening a terminal & is called by MOTD |
-| bashlist | Script to Display My Aliases and Functions |
-| motd | Prints Sytem Info & Calls Banner |
-| plex | Starts Plex Server |
-| ssh_start | Starts sshd.service & session |
-| update | Updates System with Pacman & Pacaur |
-| xspotify | Controlls Spotify from Treminal |  
 ### Files ###
 | File | Description | 
 | --- | --- |
@@ -43,7 +32,9 @@
 ### Misc ###
 | File | Description |
 | --- | --- |
-|||
+| plex | Starts Plex Server |
+| ssh_start | Starts sshd.service & session |
+| xspotify | Controlls Spotify from Treminal |  
 ### ROMs ###
 | File | Description |
 | --- | --- |
@@ -52,9 +43,19 @@
 | dextro | Script to Build ROM for OnePlus 5T, Nexus 6P & Galaxy S4 |
 | du_rom | Script to build ROM for OnePlus 5T |
 ### Setups ###
-| File | Description | Status |
-| --- | --- | --- |
-| changes_setup ||
-| os_setup ||
-| scripts_setup ||
+| File | Description |
+| --- | --- |
+| arch_setup | Interactive Menu to Setup All My Stuff |
+| desktopenv_setup | Interactive Menu to Install Desktop Environments |
+### Shells ###
+| File | Description |
+| --- | --- |
+| .bashrc | Sources My Shell Sources |
+| shell_aliases | My Aliases |
+| shell_banner | Prints Droid Box when opening a terminal |
+| shell_colors | List of Colors |
+| shell_functions | My Shell Functions |
+| shell_list | Script to List My Shell Commands |
+| shell_paths | My Common Paths |
+| shell_sources | Sources Aliases & Functions |
 - - - -
