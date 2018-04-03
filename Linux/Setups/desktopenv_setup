@@ -44,7 +44,7 @@ pause(){
 }
 
 file /etc/systemd/system/display-manager.service
-echo -n "What Is your Display Manager?                                                         ____"
+echo -n "What Is your Display Manager?"
 read display
 
 case $display in
@@ -73,7 +73,7 @@ echo don\'t know
 ;;
 esac
 
-if ask "Do you have Pacaur Installed?" N; then
+if ask "Do you have Trizen Installed?" N; then
     echo "Continuing"
 else
     echo "Installing Pacaur"
