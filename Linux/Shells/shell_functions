@@ -539,7 +539,7 @@ function merge_repos() {
     git push --set-upstream kd 8.1.0 &> $HOME/Github/DU/repos.log 
 }
 
-function merge_repo() {
+function merge_repos1() {
     echo "${GRN}KillerDroid96/android_build${RST}" && sleep 1
     cd $HOME/Github/DU/build
     git remote add kd git@github.com:KillerDroid96/android_build.git  &> $HOME/Github/DU/repos.log 
