@@ -54,7 +54,7 @@ alias {lastroot,rr,lr}='sudo $(history | tail -n 2 | head -n 1 | sed -e "s/^[ ]*
 alias {trace,intercept}="sudo strace -ff -e trace=write -e write=1,2 -p"                         # Follow Forks With Output Into Separate Files
 alias i='trizen -S --quiet --noconfirm --noedit --needed'
 alias {u,us,uq,strizen,trizenq,trizens}='trizens'
-alias {banner,shell_banner}='$HOME/Github/Scripts/Linux/Shell/shell_banner'
+alias {banner,shell_banner}='$HOME/Github/Scripts/Linux/Shells/shell_banner'
 alias motd='/etc/profile.d/motd.sh'                                        # Displays Banner
 
 
