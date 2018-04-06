@@ -175,11 +175,9 @@ case ${CLEAN_TARGET} in
     "true")
         echo "Clean Target" 
         make_command clobber ;;
-    "false")
+    *)
         echo "Dirty Target" 
         make_command "${CLEAN_TARGET}" ;;
-    *)
-        die "Invalid Parameter" ;;
 esac
 
 ############
