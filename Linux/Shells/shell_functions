@@ -470,6 +470,7 @@ load_botinfo
 function web_link() {
     #gdrive -c /home/matt/.gdrive sync upload $HOME/Github/Uploads 1znWrZTRSwAvWgVNHz4hsvEEgaOcrpS8z &> out.log 
     #echo "https://goo.gl/m7ssB5"
+
     gdrive -c /home/matt/.gdrive-secondary sync upload $HOME/Github/Uploads 1lOVVWYg_itAPwaUWbMhkvF2P51wzr46v &> out.log
     echo "https://goo.gl/wDXHyD"
 }
@@ -497,88 +498,53 @@ function notify() {
 #git pull='git pull --depth=1 -p -j$( nproc --all )'
 #git push='git push-j$( nproc --all )'
 
-function merge_repos() {
-    echo "${GRN}KillerDroid96/android_build${RST}" && sleep 1
-    cd $HOME/Github/DU/build
-    git remote add kd git@github.com:KillerDroid96/android_build.git &> $HOME/Github/DU/repos.log 
-    git remote add du git@github.com:DirtyUnicorns/android_build.git &> $HOME/Github/DU/repos.log 
-    git checkout -b o8x-caf &> $HOME/Github/DU/repos.log 
-    git checkout o8x-caf &> $HOME/Github/DU/repos.log 
-    git pull kd o8x-caf &> $HOME/Github/DU/repos.log 
-    git pull du o8x &> $HOME/Github/DU/repos.log 
-    git push --set-upstream kd o8x-caf &> $HOME/Github/DU/repos.log 
-
-    echo "${GRN}KillerDroid96/android_frameworks_base${RST}" && sleep 1
-    cd $HOME/Github/DU/frameworks/base
-    git remote add kd git@github.com:KillerDroid96/android_frameworks_base.git &> $HOME/Github/DU/repos.log 
-    git remote add du git@github.com:DirtyUnicorns/android_frameworks_base.git &> $HOME/Github/DU/repos.log 
-    git checkout -b o8x-caf &> $HOME/Github/DU/repos.log  
-    git checkout o8x-caf &> $HOME/Github/DU/repos.log  
-    git pull kd o8x-caf &> $HOME/Github/DU/repos.log 
-    git pull du o8x &> $HOME/Github/DU/repos.log 
-    git push --set-upstream kd o8x-caf &> $HOME/Github/DU/repos.log 
-
-    echo "${GRN}KillerDroid96/android_device_oneplus_msm8998-common${RST}" && sleep 1
-    cd $HOME/Github/DU/device/oneplus/msm8998-common
-    git remote add kd git@github.com:KillerDroid96/android_device_oneplus_msm8998-common.git &> $HOME/Github/DU/repos.log 
-    git remote add du git@github.com:DirtyUnicorns/android_device_oneplus_msm8998-common.git &> $HOME/Github/DU/repos.log 
-    git checkout -b o8x-caf &> $HOME/Github/DU/repos.log 
-    git checkout o8x-caf &> $HOME/Github/DU/repos.log 
-    git pull kd o8x-caf &> $HOME/Github/DU/repos.log 
-    git pull du o8x-caf &> $HOME/Github/DU/repos.log 
-    git push --set-upstream kd o8x-caf &> $HOME/Github/DU/repos.log 
-
-    echo "${GRN}KillerDroid96/flash_kernel_oneplus_msm8998${RST}" && sleep 1
-    cd $HOME/Github/DU/kernel/oneplus/msm8998
-    git remote add kd git@github.com:KillerDroid96/flash_kernel_oneplus_msm8998.git &> $HOME/Github/DU/repos.log 
-    git remote add nc git@github.com:nathanchance/op5.git &> $HOME/Github/DU/repos.log 
-    git checkout -b 8.1.0 &> $HOME/Github/DU/repos.log 
-    git checkout 8.1.0 &> $HOME/Github/DU/repos.log 
-    git pull kd 8.1.0 &> $HOME/Github/DU/repos.log 
-    git pull nc 8.1.0-unified &> $HOME/Github/DU/repos.log 
-    git push --set-upstream kd 8.1.0 &> $HOME/Github/DU/repos.log 
-}
-
-function merge_repos1() {
-    echo "${GRN}KillerDroid96/android_build${RST}" && sleep 1
-    cd $HOME/Github/DU/build
-    git remote add kd git@github.com:KillerDroid96/android_build.git  &> $HOME/Github/DU/repos.log 
-    git remote add du git@github.com:DirtyUnicorns/android_build.git  &> $HOME/Github/DU/repos.log 
-    git checkout -b o8x-caf &> $HOME/Github/DU/repos.log 
-    git checkout o8x-caf  &> $HOME/Github/DU/repos.log 
-    git pull kd o8x-caf 
-    git pull du o8x 
-    git push --set-upstream kd o8x-caf  &> $HOME/Github/DU/repos.log 
-
-    echo "${GRN}KillerDroid96/android_frameworks_base${RST}" && sleep 1
-    cd $HOME/Github/DU/frameworks/base
-    git remote add kd git@github.com:KillerDroid96/android_frameworks_base.git  &> $HOME/Github/DU/repos.log 
-    git remote add du git@github.com:DirtyUnicorns/android_frameworks_base.git  &> $HOME/Github/DU/repos.log
-    git checkout -b o8x-caf &> $HOME/Github/DU/repos.log  
-    git checkout o8x-caf &> $HOME/Github/DU/repos.log 
-    git pull kd o8x-caf 
-    git pull du o8x 
-    git push --set-upstream kd o8x-caf &> $HOME/Github/DU/repos.log 
-
-    echo "${GRN}KillerDroid96/android_device_oneplus_msm8998-common${RST}" && sleep 1
-    cd $HOME/Github/DU/device/oneplus/msm8998-common
-    git remote add kd git@github.com:KillerDroid96/android_device_oneplus_msm8998-common.git  &> $HOME/Github/DU/repos.log 
-    git remote add du git@github.com:DirtyUnicorns/android_device_oneplus_msm8998-common.git  &> $HOME/Github/DU/repos.log 
-    git checkout -b o8x-caf &> $HOME/Github/DU/repos.log 
-    git checkout o8x-caf &> $HOME/Github/DU/repos.log 
-    git pull kd o8x-caf 
-    git pull du o8x-caf 
-    git push --set-upstream kd o8x-caf &> $HOME/Github/DU/repos.log 
-
-    echo "${GRN}KillerDroid96/flash_kernel_oneplus_msm8998${RST}" && sleep 1
+function other_repos() {
+    echo "${GRN}Fetching Project KillerDroid96/flash_kernel_oneplus_msm8998${RST}" && sleep 1
     cd $HOME/Github/DU/kernel/oneplus/msm8998
     git remote add kd git@github.com:KillerDroid96/flash_kernel_oneplus_msm8998.git  &> $HOME/Github/DU/repos.log 
     git remote add nc git@github.com:nathanchance/op5.git  &> $HOME/Github/DU/repos.log 
     git checkout -b 8.1.0  &> $HOME/Github/DU/repos.log 
     git checkout 8.1.0  &> $HOME/Github/DU/repos.log 
-    git pull kd 8.1.0 
-    git pull nc 8.1.0-unified 
-    git push --set-upstream kd 8.1.0 &> $HOME/Github/DU/repos.log 
+    git pull kd 8.1.0 &> $HOME/Github/DU/repos.log 
+    git pull nc 8.1.0-unified &> $HOME/Github/DU/repos.log 
+    git push --set-upstream kd 8.1.0 &> $HOME/Github/DU/repos.log  
+}
+
+function merge_du_repos() {
+    cd $HOME/Github/DU/${REPO_PATH}
+    echo "${GRN}Fetching Project KillerDroid96/${REPO_NAME}${RST}" && sleep 1 
+    git remote add kd git@github.com:KillerDroid96/${REPO_NAME}.git &> ${REPO_LOG}
+    git remote add du git@github.com:DirtyUnicorns/${REPO_NAME}.git &> ${REPO_LOG}
+    git checkout -b o8x-caf &> ${REPO_LOG}
+    git checkout o8x-caf &> ${REPO_LOG}
+    git pull kd o8x-caf &> ${REPO_LOG}
+    git pull du o8x &> ${REPO_LOG}
+    git push --set-upstream kd o8x-caf &> ${REPO_LOG}
+}
+
+function du_repos() {
+    REPO_LOG=$HOME/Github/DU/repos.log 
+    
+    REPO_PATH=build
+    REPO_NAME=android_build
+    merge_du_repos
+
+    REPO_PATH=frameworks/base
+    REPO_NAME=android_frameworks_base
+    merge_du_repos
+
+    REPO_PATH=vendor/du
+    REPO_NAME=android_vendor_du
+    merge_du_repos
+
+    REPO_PATH=device/oneplus/msm8998-common
+    REPO_NAME=android_device_oneplus_msm8998-common
+    merge_du_repos
+}
+
+function merge_repos() {
+    du_repos 
+    other_repos    
 }
 
 function sync_all(){
@@ -588,4 +554,22 @@ function sync_all(){
     repo sync -j$( nproc --all ) --force-sync -c --no-clone-bundle --no-tags --optimized-fetch --prune
     header "MERGING LATEST SOURCES"; echo
     merge_repos
+}
+
+setup_gitconfig () {
+  if ! [ -f git/gitconfig.local.symlink ]
+  then
+    info 'setup gitconfig'
+    git_credential='cache'
+    if [ "$(uname -s)" == "Darwin" ]
+    then
+      git_credential='osxkeychain'
+    fi
+    user ' - What is your github author name?'
+    read -e git_authorname
+    user ' - What is your github author email?'
+    read -e git_authoremail
+    sed -e "s/AUTHORNAME/$git_authorname/g" -e "s/AUTHOREMAIL/$git_authoremail/g" -e "s/GIT_CREDENTIAL_HELPER/$git_credential/g" git/gitconfig.local.symlink.example > git/gitconfig.local.symlink
+    success 'gitconfig'
+  fi
 }
