@@ -19,6 +19,26 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>
 
+CL_RED="\033[31m"
+CL_RST="\033[0m"
+
+echo -e ${CL_RED}""
+echo -e "============================================="
+echo -e "               ____  _      __               "
+echo -e "              / __ \(_)____/ /___  __        "
+echo -e "             / / / / / ___/ __/ / / /        "
+echo -e "            / /_/ / / /  / /_/ /_/ /         "
+echo -e "           /_____/_/_/   \__/\__, /          "
+echo -e "    __  __      _            /____/          "
+echo -e "   / / / /___  (_)________  _________  _____ "
+echo -e "  / / / / __ \/ / ___/ __ \/ ___/ __ \/ ___/ "
+echo -e " / /_/ / / / / / /__/ /_/ / /  / / / (__  )  "
+echo -e " \____/_/ /_/_/\___/\____/_/  /_/ /_/____/   "
+echo -e "                                             "
+echo -e "============================================="
+echo -e ${CL_RST}""
+
+
 ###############
 #             #
 #  FUNCTIONS  #
@@ -204,7 +224,7 @@ make_command "${MAKE_TARGET}"
 FILES=$(find "${OUT_FOLDER}" -maxdepth 1 -name '*.zip' 2>/dev/null)
 if [[ -n ${FILES} ]]; then
     # Make build result string reflect successful compilation
-    BUILD_RESULT_STRING="Build Successful"
+    BUILD_RESULT_STRING="Build Successful!"
     SUCCESS=true
 
     # Make ZIP_MOVE if it doesn't exist or clean it if it does
