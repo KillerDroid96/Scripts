@@ -41,7 +41,7 @@ function memUsage() {
         PERCENT=0
     fi
 
-    echo "${MEM_USED} MB out of ${MEM_TOTAL} MB (${PERCENT}%)"
+    echo "${MEM_USED}MiB / ${MEM_TOTAL}MiB (${PERCENT}%)"
 }
 
 function cpu() {
@@ -68,14 +68,14 @@ function cpu() {
     fi
 
     if [[ "${CPUN}" -gt "1" ]]; then
-        CPUN="${CPUN}x"                     #Orig: CPUN="${CPUN} x"
+        CPUN="${CPUN} x"                     
     else
         CPUN=""
     fi
     if [ -z "${CPUFREQ}" ]; then
-        CPU="${CPUN}${CPU}"
+        CPU="${CPUN} ${CPU}"
     else
-        CPU="${CPU} ${CPUN}${CPUFREQ}"      #Orig: CPU="${CPU} ${CPUN} ${CPUFREQ}" 
+        CPU="${CPU} ${CPUN} ${CPUFREQ}"      
     fi
 
     echo $( sed -r 's/\([tT][mM]\)|\([Rr]\)|[pP]rocessor|CPU//g' <<< "${CPU}" | xargs )
@@ -90,28 +90,43 @@ function diskUsage() {
     ALL=$( df -h | grep -m 1 /dev/sda | awk '{print $2}' )
     PERCENT=$( df -h | grep -m 1 /dev/sda | awk '{print $5}' )
 
-    echo "${USED} out of ${ALL} (${PERCENT})"
+    echo "${USED} / ${ALL} (${PERCENT})"
+}
+
+uptime | sed 's/.*up/The system has been up for/' | sed 's/,.*load/ with a system load/'
+
+function upTime() {
+    awk '{print int($1/3600)" hr "int(($1%3600)/60)" min "int($1%60)}' /proc/uptime
 }
 
 clear
 
-echo -e "\033[1m"
+# Colors
+BLINK_RED="\033[05;31m"
+BLUE="\033[01;34m"
+BOLD="\033[1m"
+GRN="\033[01;32m"
+RED="\033[31m"
+RST="\033[0m"
+YLW="\033[01;33m"
+WHT="\033[0;37m"    
 
-tput setaf 6
-echo "     _____             _     _    ______               ";
-echo "    (____ \           (_)   | |  (____  \              ";
-echo "     _   \ \ ____ ___  _  _ | |   ____)  ) ___ _   _   ";
-echo "    | |   | / ___/ _ \| |/ || |  |  __  ( / _ ( \ / )  ";
-echo "    | |__/ | |  | |_| | ( (_| |  | |__)  | |_| ) X (   ";
-echo "    |_____/|_|   \___/|_|\____|  |______/ \___(_/ \_)  ";
-echo "                                                       ";
-echo "    Todays Date       :  $( ( LC_ALL=C date "+%B %d, %Y (%A)" ) )"
-echo "    Current Time      :  $( ( LC_ALL=C date "+%I:%M %p %Z" ) )"
-echo "    Current Forcast   :  $( printf "$(curl -s wttr.in/~Pittsburg,KS?0?q?T | awk '/°(C|F)/ {printf $(NF-1) $(NF) " ("a")"} /,/ {a=$0}') \n" )"
-echo "    Operating System  :  $( source /etc/os-release; echo -e "${PRETTY_NAME} \c"; uname -m )"
-echo "    Kernel Version    :  $( uname -r )"
-echo "    Processor         :  $( cpu )"
-echo "    CPU Usage         :  $( cpuUsage )"
-echo "    Memory Usage      :  $( memUsage )"
-echo "    Disk Usage        :  $( diskUsage )"
+echo -e ${RED}""
+echo -e "     _____             _     _    ______               ";
+echo -e "    (____ \           (_)   | |  (____  \              ";
+echo -e "     _   \ \ ____ ___  _  _ | |   ____)  ) ___ _   _   ";
+echo -e "    | |   | / ___/ _ \| |/ || |  |  __  ( / _ ( \ / )  ";
+echo -e "    | |__/ | |  | |_| | ( (_| |  | |__)  | |_| ) X (   ";
+echo -e "    |_____/|_|   \___/|_|\____|  |______/ \___(_/ \_)  ";
+echo -e "                                                       ";
+echo -e "    Uptime:" ${WHT}"$( upTime ) sec" ${RED}
+echo -e "    Todays Date:" ${WHT}"$( ( LC_ALL=C date "+%B %d, %Y (%A)" ) )" ${RED}
+echo -e "    Current Time:" ${WHT}"$( ( LC_ALL=C date "+%I:%M %p %Z" ) )" ${RED}
+echo -e "    Current Forcast:" ${WHT}"$( printf "$(curl -s wttr.in/~Pittsburg,KS?0?q?T | awk '/°(C|F)/ {printf $(NF-1) $(NF) " ("a")"} /,/ {a=$0}') \n" )" ${RED}
+echo -e "    Operating System:" ${WHT}"$( source /etc/os-release; echo -e "${PRETTY_NAME} \c"; uname -m )" ${RED}
+echo -e "    Kernel Version:" ${WHT}"$( uname -r )" ${RED}
+echo -e "    Processor:" ${WHT}"$( cpu )" ${RED}
+echo -e "    Memory Usage:" ${WHT}"$( memUsage )" ${RED}
+echo -e "    Disk Usage:" ${WHT}"$( diskUsage )" ${RED}
+echo -e "    CPU Usage:" ${WHT}"$( cpuUsage )" ${RED}
 echo -e "\033[0m"
