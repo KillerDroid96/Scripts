@@ -148,6 +148,41 @@ function mcd () {
     mkdir -p $1
     cd $1
 }
+# Usage todo -l -c -r
+function todo() {
+    if [[ ! -f $HOME/.todo ]]; then
+        touch "$HOME/.todo"
+    fi
+
+    if ! (($#)); then
+        cat "$HOME/.todo"
+    elif [[ "$1" == "-l" ]]; then
+        nl -b a "$HOME/.todo"
+    elif [[ "$1" == "-c" ]]; then
+        > $HOME/.todo
+    elif [[ "$1" == "-r" ]]; then
+        nl -b a "$HOME/.todo"
+        eval printf %.0s- '{1..'"${COLUMNS:-$(tput cols)}"\}; echo
+        read -p "Type a number to remove: " number
+        sed -i ${number}d $HOME/.todo "$HOME/.todo"
+    else
+        printf "%s\n" "$*" >> "$HOME/.todo"
+    fi
+}
+
+function todos () { # Displays items in .note
+    echo ""
+    echo "==========================="
+    echo "|          To Do          |"
+    echo "==========================="
+    cat $HOME/.todo
+    echo "==========================="
+    echo ""
+}
+
+function todoedit () {
+    nano $HOME/.todo
+}
 
 function note () { #Usage note test, saves to .notes
         # if file doesn't exist, create it
@@ -259,16 +294,11 @@ function nf() {
     echo
 }
 
-function transfer() {
-    zipname=$(echo "$1" | awk -F '/' '{print $NF}')
-    url=$(curl -# -T "$1" https://transfer.sh);
-    printf '\n';
-    echo -e "Download $zipname at $url";
-}
-
 function gdrive_rom() {
-    gdrive about -c /home/matt/.gdrive-secondary &> out.log  
-    gdrive sync upload $HOME/Github/Uploads 1lOVVWYg_itAPwaUWbMhkvF2P51wzr46v &> out.log  
+    #gdrive about -c /home/matt/.gdrive
+    #gdrive -c /home/matt/.gdrive sync upload $HOME/Github/Uploads 1znWrZTRSwAvWgVNHz4hsvEEgaOcrpS8z &> out.log 
+    gdrive about -c /home/matt/.gdrive-secondary #&> out.log  
+    gdrive -c /home/matt/.gdrive-secondary sync upload $HOME/Github/Uploads 1lOVVWYg_itAPwaUWbMhkvF2P51wzr46v #&> out.log  
     echo "https://drive.google.com/drive/folders/1lOVVWYg_itAPwaUWbMhkvF2P51wzr46v"
 }
 
@@ -327,7 +357,7 @@ BLINK_RED="\033[05;31m"
 BLUE="\033[01;34m"
 BOLD="\033[1m"
 GRN="\033[01;32m"
-RED="\033[01;31m"
+RED="\033[31m"
 RST="\033[0m"
 YLW="\033[01;33m"
 
@@ -355,7 +385,7 @@ function header() {
     if [[ -n ${2} ]]; then
         COLOR=${2}
     else
-        COLOR=${GRN}
+        COLOR=${RED}
     fi
     echo "${COLOR}"
     echo "====$(for i in $(seq ${#1}); do echo "=\c"; done)===="
@@ -499,26 +529,27 @@ function notify() {
 #git push='git push-j$( nproc --all )'
 
 function other_repos() {
-    echo "${GRN}Fetching Project KillerDroid96/flash_kernel_oneplus_msm8998${RST}" && sleep 1
+    echo "Fetching Project KillerDroid96/flash_kernel_oneplus_msm8998" && sleep 1
     cd $HOME/Github/DU/kernel/oneplus/msm8998
     git remote add kd git@github.com:KillerDroid96/flash_kernel_oneplus_msm8998.git  &> $HOME/Github/DU/repos.log 
-    git remote add nc git@github.com:nathanchance/op5.git  &> $HOME/Github/DU/repos.log 
-    git checkout -b 8.1.0  &> $HOME/Github/DU/repos.log 
-    git checkout 8.1.0  &> $HOME/Github/DU/repos.log 
-    git pull kd 8.1.0 &> $HOME/Github/DU/repos.log 
-    git pull nc 8.1.0-unified &> $HOME/Github/DU/repos.log 
+    git remote add nc git@github.com:nathanchance/op5.git  &> $HOME/Github/DU/repos.log
+    git fetch nc --tags ${JOBS_FLAG}
+    git checkout -b 8.1.0 &> $HOME/Github/DU/repos.log 
+    git checkout 8.1.0 &> $HOME/Github/DU/repos.log 
+    git pull kd 8.1.0 ${JOBS_FLAG} &> $HOME/Github/DU/repos.log 
+    git pull nc 8.1.0-unified ${JOBS_FLAG} &> $HOME/Github/DU/repos.log 
     git push --set-upstream kd 8.1.0 &> $HOME/Github/DU/repos.log  
 }
 
 function merge_du_repos() {
     cd $HOME/Github/DU/${REPO_PATH}
-    echo "${GRN}Fetching Project KillerDroid96/${REPO_NAME}${RST}" && sleep 1 
+    echo "Fetching Project KillerDroid96/${REPO_NAME}" && sleep 1 
     git remote add kd git@github.com:KillerDroid96/${REPO_NAME}.git &> ${REPO_LOG}
     git remote add du git@github.com:DirtyUnicorns/${REPO_NAME}.git &> ${REPO_LOG}
     git checkout -b o8x-caf &> ${REPO_LOG}
     git checkout o8x-caf &> ${REPO_LOG}
-    git pull kd o8x-caf &> ${REPO_LOG}
-    git pull du o8x &> ${REPO_LOG}
+    git pull kd o8x-caf ${JOBS_FLAG} &> ${REPO_LOG}
+    git pull du o8x ${JOBS_FLAG} &> ${REPO_LOG}
     git push --set-upstream kd o8x-caf &> ${REPO_LOG}
 }
 
@@ -528,6 +559,10 @@ function du_repos() {
     REPO_PATH=build
     REPO_NAME=android_build
     merge_du_repos
+
+    #REPO_PATH=packages/apps/Settings
+    #REPO_NAME=android_packages_apps_Settings
+    #merge_du_repos
 
     REPO_PATH=frameworks/base
     REPO_NAME=android_frameworks_base
@@ -556,7 +591,7 @@ function sync_all(){
     merge_repos
 }
 
-setup_gitconfig () {
+function setup_gitconfig () {
   if ! [ -f git/gitconfig.local.symlink ]
   then
     info 'setup gitconfig'
@@ -572,4 +607,49 @@ setup_gitconfig () {
     sed -e "s/AUTHORNAME/$git_authorname/g" -e "s/AUTHOREMAIL/$git_authoremail/g" -e "s/GIT_CREDENTIAL_HELPER/$git_credential/g" git/gitconfig.local.symlink.example > git/gitconfig.local.symlink
     success 'gitconfig'
   fi
+}
+
+CL_RED="\033[31m"
+CL_RST="\033[0m"
+BLK="\033[0;30m"        # Black
+WHT="\033[0;37m"        # White
+
+function du_banner()
+{
+    echo -e ${CL_RED}"============================================="${CL_RED}
+    echo -e ${CL_RED}"               ____  _      __               "${CL_RST}
+    echo -e ${CL_RED}"              / __ \(_)____/ /___  __        "${CL_RST}
+    echo -e ${CL_RED}"             / / / / / ___/ __/ / / /        "${CL_RST}
+    echo -e ${CL_RED}"            / /_/ / / /  / /_/ /_/ /         "${CL_RST}
+    echo -e ${CL_RED}"           /_____/_/_/   \__/\__, /          "${CL_RST}
+    echo -e ${CL_RED}"    __  __      _            /____/          "${CL_RST}
+    echo -e ${CL_RED}"   / / / /___  (_)________  _________  _____ "${CL_RST}
+    echo -e ${CL_RED}"  / / / / __ \/ / ___/ __ \/ ___/ __ \/ ___/ "${CL_RST}
+    echo -e ${CL_RED}" / /_/ / / / / / /__/ /_/ / /  / / / (__  )  "${CL_RST}
+    echo -e ${CL_RED}" \____/_/ /_/_/\___/\____/_/  /_/ /_/____/   "${CL_RST}
+    echo -e ${CL_RED}"                                             "${CL_RST}
+    echo -e ${CL_RST}"Build Completed! Now Flash That Shit & ENJOY!"${CL_RST}
+    echo -e ${CL_RED}"                                             "${CL_RED}
+    echo -e ${CL_RED}"============================================="${CL_RED}
+
+	echo -e ${RED}"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%"
+	echo -e ${RED}"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%"
+	echo -e ${RED}"%%%%%%%%%%%%%%             %%%%%%%%%%%%"
+	echo -e ${RED}"%%%%%%%%%%%    %%%%%%%%%%%    %%%%%%%%%"
+	echo -e ${RED}"%%%%%%%%%   %%%%%%%%%%%%%%%%%   %%%%%%%"
+	echo -e ${RED}"%%%%%%%   %%%"${BLK}"&"${RED}"%%%%%%%%%%%"${BLK}"&"${RED}"%%%%%%  %%%%%"
+	echo -e ${RED}"%%%%%%  %%%%%%"${BLK}"&&&"${RED}"%%%"${BLK}"&&&"${RED}"%%%"${BLK}"&&&&"${RED}"%%%   %%%"
+	echo -e ${RED}"%%%%%  %%%%%%%%"${BLK}"&&&&&&&&&&"${RED}"%%%%%"${BLK}"&&&"${RED}"%%  %%"
+	echo -e ${RED}"%%%%  %%%%%%%%%"${BLK}"&&&&&&&&&&&&&&"${RED}"%%%"${BLK}"&&&"${RED}"%%%%"
+	echo -e ${RED}"%%%%  %%%%%%%"${BLK}"&&&"${RED}", "${BLK}"&&&&&&&&&&&&&"${RED}"%%"${BLK}"&&&&"${RED}"%%"
+	echo -e ${RED}"%%%&  %%%%%"${BLK}"&&&&&&&&&&&&&&&&&&&&&"${RED}"%%%"${BLK}"&&&"${RED}"%"
+	echo -e ${RED}"%%%%  %%%%"${BLK}"&&&&&&&&&&&&&&&&&&&&&&&"${RED}"%%"${BLK}"&&&"${RED}"%"
+	echo -e ${RED}"%%%%  %%%"${BLK}"&&&&&&"${RED}"%%%%%%%"${BLK}"&&&&&&&&&&&&"${RED}"%"${BLK}"&&"${RED}"%%"
+	echo -e ${RED}"%%%%%  %%%%"${BLK}"&&"${RED}"%%%%%%%%%"${BLK}"&&&&&&&&&&&&"${RED}"%"${BLK}"&&"${RED}"%%"
+	echo -e ${RED}"%%%%%%  %%%%%%%%%%%%%%"${BLK}"&&&&&&&&&&&&&&"${RED}"%%%"
+	echo -e ${RED}"%%%%%%%  %%%%%%%%%%%%"${BLK}"&&&&&&&&&&&&&&"${RED}"%%%%"
+	echo -e ${RED}"%%%%%%%%   %%%%%%%%"${BLK}"&&&&&&&&&&&&&&"${RED}"%%%%%%"
+	echo -e ${RED}"%%%%%%%%%%%%%%%%"${BLK}"&&&&&&&&&&&&&&&&"${RED}"%%%%%%%"
+	echo -e ${RED}"%%%%%%%%%%%%%%"${BLK}"&&&&&&&&&&&&&"${RED}"%%%%%%%%%%%%"
+	echo -e ${RED}"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%"       
 }
