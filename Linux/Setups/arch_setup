@@ -33,7 +33,17 @@ ask() {
         esac
     done
 }
+update_system() {
+    tput setaf 5; echo "Updating System"
+    sudo pacman -Syyu --quiet --noconfirm
+    tput setaf 2; echo "Installing AUR Package Manager" 
+    cd && git clone https://aur.archlinux.org/trizen-git.git 
+    cd trizen-git && makepkg -si && cd
+    sudo rm -r trizen-git
+    echo "System Update Complete"
+}
 
+setup_gitconfig () {
 if ask "Setup Github Login?"; then
     sudo pacman -Syyu git xclip
     ssh-keygen -t rsa -b 4096 -C "mkeller96@gmail.com"
@@ -47,10 +57,12 @@ if ask "Setup Github Login?"; then
 else
     echo "No"
 fi
+}
 
+install_packages() {
 if ask "Install My Additional Packages?"; then
     tput setaf 6; echo "Installing Addition Packages"
-    trizen -S --needed --quiet --noedit --noconfirm acpi apg alsi baobab bc bcompare clex climate cmatrix cylon elinks figlet glances hollywood htop jp2a neofetch qdirstat-git rar rig spotify telegram-desktop w3m yakuake
+    trizen -S --needed --quiet --noedit --noconfirm acpi apg alsi baobab bc bcompare cava chromium clex climate cmatrix cylon elinks figlet glances hollywood htop jp2a neofetch qdirstat-git rar rig screenfetch spotify telegram-desktop w3m yakuake
     echo "===================================================="
     echo "|                     Programs                     |"
     echo "===================================================="
@@ -59,6 +71,8 @@ if ask "Install My Additional Packages?"; then
     echo "| alsi            # System Info Like Neofetch      |"
     echo "| baobab          # Storage Analyzer               |"
     echo "| bcompare        # Compares Files & Folders       |"
+    echo "| cava            # Console Audio Visualizer       |"
+    echo "| chromium        # Web Browser                    |"
     echo "| clex            # Console File Manager           |"
     echo "| climate         # Command Line Tools             |"
     echo "| cmatrix         # Displays Matrix Effect         |"
@@ -79,25 +93,25 @@ if ask "Install My Additional Packages?"; then
 else
     echo "No"
 fi
+}
 
+install_android() {
 if ask "Install Android Build Dependencies?"; then
-    tput setaf 5; echo "Upgrading System Packages"
-    sudo pacman -Syyu --quiet --noconfirm
-    tput setaf 2; echo "Installing AUR Package Manager" 
-    cd && git clone https://aur.archlinux.org/trizen-git.git 
-    cd trizen-git && makepkg -si && cd
-    sudo rm -r trizen-git
     tput setaf 21; echo "Installing Android Dependencies" && sleep 3
     trizen -S make fakeroot --noconfirm
-    tput setaf 2; trizen -Syyu --needed --quiet --noedit --noconfirm aosp-devel lineageos-devel
-    tput setaf 3; echo "Temorarily Disabling PGP Integrety Check from AUR" && sleep 3
+    tput setaf 2; trizen -Syyu --needed --quiet --noedit --noconfirm aosp-devel base-devel lineageos-devel
+    tput setaf 3; echo "Disable PGP checking from AUR" && sleep 3
+    export MAKEPKG="makepkg --skippgpcheck"
+    tput setaf 2;
     trizen -S --needed --quiet libtinfo --skipinteg --noconfirm 
     trizen -S --needed --quiet lib32-ncurses5-compat-libs --skipinteg --noconfirm 
     trizen -S --needed --quiet ncurses5-compat-libs --skipinteg --noconfirm
 else
     echo "No"
 fi
+}
 
+setup_du() {
 if ask "Setup Build for Dirty Unicorns?"; then
     mkdir ~/Github/DU
     cd ~/Github/DU
@@ -112,7 +126,19 @@ if ask "Setup Build for Dirty Unicorns?"; then
 else
     echo "No"
 fi
+}
 
+add_bashrc() {
+tput setaf 5
+if ask "Add .bashrc Changes?"; then
+    echo "Yes"
+    cp -b $HOME/Github/Scripts/Linux/Bash/.bashrc $HOME && source ~/.bashrc 
+else
+    echo "No"
+fi
+}
+
+add_sshd() {
 tput setaf 6
 # Default to Yes if the user presses enter without giving an answer:
 if ask "Add sshd_config Changes?" Y; then
@@ -121,7 +147,9 @@ if ask "Add sshd_config Changes?" Y; then
 else
     echo "No"
 fi
+}
 
+add_neofetch() {
 tput setaf 5
 if ask "Add Neofetch Config?" Y; then
     echo "Yes"
@@ -129,12 +157,15 @@ if ask "Add Neofetch Config?" Y; then
 else
     echo "No"
 fi
+}
 
 pause(){
   read -p "Press [Enter] key to continue..." fackEnterKey
 }
 
-file /etc/systemd/system/display-manager.service
+what_dm() {
+file /etc/systemd/system/display-manager.service &> $HOME/Github/arch_setup.log 
+ps auxf | awk '{print$11}' | \grep -e "^/.*dm$" -e "/.*slim$" # Prints Display Manager
 echo -n "What Is your Display Manager?"
 read display
 
@@ -163,6 +194,7 @@ sudo systemctl disable xdm.service
 echo don\'t know
 ;;
 esac
+}
 
 # function to display menus
 function show_menus() {
@@ -230,7 +262,10 @@ Pantheon(){
 
 Xfce(){
     if ask "Install Xfce Desktop Environment?" N; then
-        trizen -Syu --needed --quiet --noedit --noconfirm xfce4 xfce4-goodies mousepad menulibre xfce4-pulseaudio-plugin lightdm-devel
+        trizen -Syu --needed --quiet --noedit --noconfirm xfwm4 xorg-xinit xfce4 xfce4-goodies mousepad menulibre xfce4-pulseaudio-plugin lightdm-devel
+        xinit xfwm4
+        xinit xfce4
+        sudo systemctl enable xfwm4.service
         sudo systemctl enable lightdm.service
         pause   
     else
@@ -243,3 +278,12 @@ do
     show_menus
     read_options 
 done
+    update_system
+    setup_gitconfig
+    install_packages
+    install_android
+    setup_du
+    add_bashrc
+    add_sshd
+    add_neofetch
+    what_dm
