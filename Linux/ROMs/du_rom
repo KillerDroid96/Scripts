@@ -29,7 +29,7 @@ echo -e "              / __ \(_)____/ /___  __        "
 echo -e "             / / / / / ___/ __/ / / /        "
 echo -e "            / /_/ / / /  / /_/ /_/ /         "
 echo -e "           /_____/_/_/   \__/\__, /          "
-echo -e "    __  __      _            /____/          "
+echo -e "    __  __      _           /____/           "
 echo -e "   / / / /___  (_)________  _________  _____ "
 echo -e "  / / / / __ \/ / ___/ __ \/ ___/ __ \/ ___/ "
 echo -e " / /_/ / / / / / /__/ /_/ / /  / / / (__  )  "
@@ -48,6 +48,7 @@ echo -e ${CL_RST}""
 # Source our universal functions script and macOS check
 #source $HOME/Github/nathan_scripts/common
 source $HOME/Github/Scripts/Linux/Shells/shell_functions
+source $HOME/Github/Scripts/Linux/Shells/shell_colors
 
 ################
 #              #
@@ -72,15 +73,15 @@ function make_command() {
     m "${JOBS_FLAG}" "$@"
 }
 
-if [[ ${TG} ]]; then
-    {
-        echo "\`\`\`"
-        echo "Currently Executing..."
-        echo "$(basename "${0}") ${PARAMS}"
-        echo "\`\`\`"
-    } > ${TG_MSG_FILE}
-    notify "$(cat ${TG_MSG_FILE})"
-fi
+#if [[ ${TG} ]]; then
+#   {
+#        echo "\`\`\`"
+#        echo "Currently Executing..."
+#        echo "$(basename "${0}") ${PARAMS}"
+#        echo "\`\`\`"
+#    } > ${TG_MSG_FILE}
+#    notify "$(cat ${TG_MSG_FILE})"
+#fi
 
 ###############
 #             #
@@ -185,18 +186,12 @@ if [[ ${REPOPICK} ]]; then
     )
 fi
 
-############
-# CLEAN UP #
-############
-
 header "CLEANING UP OUT DIRECTORY"
 
-case ${CLEAN_TARGET} in
-    "true")
-        echo "Clean Target" 
+case ${CLEAN_TARGETS} in
+    "")
         make_command clobber ;;
     *)
-        echo "Dirty Target" 
         make_command "${CLEAN_TARGET}" ;;
 esac
 
