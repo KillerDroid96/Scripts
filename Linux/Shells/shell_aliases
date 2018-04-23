@@ -29,13 +29,13 @@ alias {editzsh,ez}='nano ~/.zshrc'        				 				                      # Edits
 alias {editbash,eb}='nano ~/.bashrc'        				 				                  # Edits Bash
 alias {updatezsh,uz}='source ~/.zshrc'                     			         	              # Updates ZSH
 alias {updatebash,ub}='source ~/.bashrc'                  				 		              # Updates Bash
-alias {shell_list,bashlist,bl,sl}='$HOME/Github/Scripts/Linux/Shells/shell_list'               # Displays Bash List
+alias {shell_list,bashlist,bl,sl}='$HOME/Github/Scripts/Linux/Shells/shell_list'              # Displays Bash List
 alias {editbashaliases,eba,esa,eza}='nano $HOME/Github/Scripts/Linux/Shells/shell_aliases'	  # Edits Bash Aliases
-alias {editbashcolors,ebc}='nano $HOME/Github/Scripts/Linux/Shells/shell_colors'               # Edits Bash Colors
-alias {editbashlist,ebl}='nano $HOME/Github/Scripts/Linux/Shells/shell_list'				      # Edits Bash List
-alias {editbashfunctions,ebf}='nano $HOME/Github/Scripts/Linux/Shells/shell_functions'         # Edits Bash Functions
+alias {editbashcolors,ebc}='nano $HOME/Github/Scripts/Linux/Shells/shell_colors'              # Edits Bash Colors
+alias {editbashlist,ebl}='nano $HOME/Github/Scripts/Linux/Shells/shell_list'				  # Edits Bash List
+alias {editbashfunctions,ebf}='nano $HOME/Github/Scripts/Linux/Shells/shell_functions'        # Edits Bash Functions
 alias {editbashpaths,ebp}='nano $HOME/Github/Scripts/Linux/Shells/shell_paths'			      # Edits Bash Paths
-alias {editbashprompts,ebpr}='nano $HOME/Github/Scripts/Linux/Shells/shell_prompts'            # Edits Bash Prompts
+alias {editbashprompts,ebpr}='nano $HOME/Github/Scripts/Linux/Shells/shell_prompts'           # Edits Bash Prompts
 
 # System (Quick Launch)
 alias c="clear"                                                                                  # Clears Terminal
@@ -62,7 +62,7 @@ alias motd='/etc/profile.d/motd.sh'                                        # Dis
 alias n="nano"									                                  # Text Editor
 alias co="climate overview"						                                  # Climate Overview
 alias {buildu,dub,dud}="cl $HOME/Github/DU && source venv/bin/activate"	          # Venv into DU Build Directory
-alias {buildurom,bdr,bdu,op5t}="cl $HOME/Github/DU && du_rom"                     # Venv into DU Build Directory and start rom script
+alias {buildurom,bdr,bdu,op5t}="du_rom"                                           # Starts DU rom script
 alias {dulog,du_log,dul}=" cat $HOME/Github/DU/du_log.txt"                        # Reads DU Build Log
 alias {out,dumpling}="cl $HOME/Github/DU/out/target/product/dumpling/"		      # Moves to Out Directory for 5T
 alias {rs,reposync}="sync_repo" 											      # Syncs DU Repo
@@ -97,9 +97,10 @@ alias disk4='sudo cfdisk' 				   # Linux Partition Editor GUI
 alias disk5='sudo lsblk -f'                # Displays Name, FS Type, Label, UUID & Mountpoint
 alias disk6='sudo smartctl -a /dev/sda1'   # Detailed Report & SMART Status
 alias disk7='sudo df -h --output=source,fstype,size,used,avail,pcent,target -x tmpfs -x devtmpfs'
+alias io='sudo iotop'                      # Sort by Disk Writes
+alias swap='swapon --show'                 # Shows Swap Space
 alias {trim,trim_disk,disk_trim}='sudo dd if=/dev/zero of=/var/tmp/bigemptyfile bs=4096k ; rm /var/tmp/bigemptyfile'
-alias swap='swapon --show'            # Shows Swap Space
-alias io='sudo iotop'                      # Sort by Disk Writes,
+
 
 # Directories
 alias p="pwd"                                        # Displays File Path
