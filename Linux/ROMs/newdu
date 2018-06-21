@@ -1,0 +1,146 @@
+#!/usr/bin/env bash
+#
+# ROM compilation script
+#
+# Copyright (C) 2018-2020 KillerDroid96 
+#
+# Copyright (C) 2016-2018 Nathan Chancellor
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>
+###############################################################################################################
+
+#############
+# FUNCTIONS #
+#############
+
+source $HOME/Github/Scripts/Linux/Shells/shell_functions
+#source $HOME/Github/Scripts/Linux/Shells/shell_sources
+source $HOME/Github/Scripts/Linux/Shells/shell_colors
+
+##########
+# BANNER #
+##########
+
+du_banner
+
+##############
+# PARAMETERS #
+##############
+
+SYNC=true
+DEVICE=dumpling
+SOURCE_FOLDER=${HOME}/Github/DU
+OUT_FOLDER=${SOURCE_FOLDER}/out/target/product/${DEVICE}
+MAKE_TARGET=bacon 
+CLEAN_TARGET=true
+
+function make_command() {
+    m "${JOBS_FLAG}" "$@"
+}
+
+###########################
+# MOVE INTO SOURCE FOLDER #
+# AND START TRACKING TIME #
+###########################
+
+START=$(date +%s)
+clear
+cd "${SOURCE_FOLDER}" || die "Source folder does not exist!"
+
+###########################
+# SETUP BUILD ENVIRONMENT #
+###########################
+
+header "SETTING UP BUILD ENVIRONMENT"
+
+# Check and see if we are on Arch
+# If so, activare a virtual environment for proper Python support
+[[ -f /etc/arch-release ]] && mkavenv
+source build/envsetup.sh
+
+#############
+# REPO SYNC #
+#############
+
+# If the sync is requested, do so
+if [[ ${SYNC} ]]; then
+    header "SYNCING LATEST SOURCES"; echo
+    repo sync "${JOBS_FLAG}" --force-sync -c --no-clone-bundle --no-tags --optimized-fetch --prune
+fi
+
+##############
+# REPO MERGE #
+##############
+
+if [[ ${MERGE} ]]; then
+    header "RUNNING MERGE"; echo
+    merge_repos
+    cd "${SOURCE_FOLDER}" || die "Source folder does not exist!"
+fi
+
+##################
+# PREPARE DEVICE #
+##################
+
+header "PREPARING $(echo ${DEVICE} | awk '{print toupper($0)}')"
+
+# Not all roms use breakfast
+case ${ROM} in
+    "aosp")
+        lunch DU_${DEVICE}-userdebug ;;
+    *)
+        breakfast ${DEVICE} userdebug ;;
+esac
+
+############
+# CLEAN UP #
+############
+
+header "CLEANING UP OUT DIRECTORY"
+
+case ${CLEAN_TARGET} in
+    "true")
+        echo "Clean Target" 
+        make_command clobber ;;
+    "false")
+        echo "Dirty Target" 
+        make_command "${CLEAN_TARGET}" ;;
+    *)
+        die "Invalid Parameter" ;;
+esac
+
+############
+# BUILDING #
+############
+
+header "MAKING FILES"; echo
+
+# Set make_target if unset (not all roms use bacon)
+make_command "${MAKE_TARGET}"
+
+######################
+# ENDING INFORMATION #
+######################
+
+# Deactivate virtualenv if we are on arch
+[[ -f /etc/arch-release ]] && rmvenv
+
+# Stop tracking time
+END=$(date +%s)
+TIME_STRING="$(format_time "${START}" "${END}")"
+
+# Print the time the script finished
+# and how long it took regardless of success
+echo "${GRN}TIME: $(date +%D\ %r | awk '{print toupper($0)}')"
+echo "${GRN}DURATION: ${TIME_STRING}${RST}"

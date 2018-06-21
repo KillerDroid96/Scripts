@@ -25,18 +25,17 @@
 #             #
 ###############
 
-# Source our universal functions script
+# Source our universal functions script and macOS check
+#source $HOME/Github/nathan_scripts/common
+source $HOME/Github/Scripts/Linux/Shells/shell_functions
 source $HOME/Github/Scripts/Linux/Shells/shell_sources
 source $HOME/Github/Scripts/Linux/Shells/shell_colors
 
-##############
-#            #
-#   BANNER   #
-#            #
-##############
 
-clear
-echo -e ${red}""
+CL_RED="\033[31m"
+CL_RST="\033[0m"
+
+echo -e ${CL_RED}""
 echo -e "============================================="
 echo -e "               ____  _      __               "
 echo -e "              / __ \(_)____/ /___  __        "
@@ -50,8 +49,7 @@ echo -e " / /_/ / / / / / /__/ /_/ / /  / / / (__  )  "
 echo -e " \____/_/ /_/_/\___/\____/_/  /_/ /_/____/   "
 echo -e "                                             "
 echo -e "============================================="
-echo -e ${normal}""
-
+echo -e ${CL_RST}""
 
 ################
 #              #
@@ -60,31 +58,111 @@ echo -e ${normal}""
 ################
 
 ROM=DU
-DEVICE=dumpling
+#DEVICE=dumpling
 VARIANT=userdebug
 ROM_FOLDER=${HOME}/Github
 WEB_FOLDER=${HOME}/Github/Uploads
 TG=true
 TG_MSG_FILE=/tmp/tg-msg.build-rom
 SYNC=true
-MAKE_TARGET=bacon 
-CLEAN_TARGET=true
-MERGE=true
+#MAKE_TARGET=bacon 
+#CLEAN_TARGET=true
+#MERGE=true
 #REPOPICK=${1}
+
+#################
+# BUILDING MENU #
+#################
+
+PS3='Choose Build type: ' 
+options=("Clean" "Dirty" "Exit")
+
+select opt in "${options[@]}"
+do 
+    case $opt in
+    "Clean")
+        echo ""
+        echo "${green}Clean Build${white}"
+        CLEAN_TARGET=clobber
+        clear
+        break
+        ;;
+    "Dirty")
+        echo ""
+        clear
+        echo "${red}Dirty Build${white}"
+        CLEAN_TARGET=
+        clear 
+        break
+        ;;
+    "Exit")
+        break
+        ;;
+        *) echo invalid option;;
+    esac
+done
+
+if [[ DEVICE ]]; then
+header "Select Device to Build"
+PS2='Build: '
+options=("OnePlus 5T" "Nexus 6P" "Galaxy S4" ${red}"Exit"${white})
+select opt in "${options[@]}"
+do
+    case $opt in
+    "OnePlus 5T")
+        MAKE_TARGET=bacon
+        DEVICE=dumpling
+        #build
+        break
+        ;;
+    "Nexus 6P")
+        MAKE_TARGET=breakfast
+        DEVICE=angler
+        #build
+        break
+        ;;
+    "Galaxy S4")
+        MAKE_TARGET=lunch
+        DEVICE=jfltespr
+        #build
+        break
+        ;;
+    "${red}Exit${white}")
+        break
+        ;;
+        *) echo invalid option;;
+    esac
+  done
+fi
+
+clear 
+
+ask_merge(){
+if ask "Do you want to Merge Repos?" Y; then
+    echo "${green}Continuing${normal}"
+    MERGE=true
+else
+    echo "${red}Stopping${normal}"
+    MERGE=false
+    return
+fi
+}
+
+ask_merge 
 
 function make_command() {
     m "${JOBS_FLAG}" "$@"
 }
 
-if [[ ${TG} ]]; then
-  {
-       echo "\`\`\`"
-       echo "Currently Executing..."
-       echo "$(basename "${0}") ${PARAMS}"
-       echo "\`\`\`"
-   } > ${TG_MSG_FILE}
-   notify "$(cat ${TG_MSG_FILE})"
-fi
+#if [[ ${TG} ]]; then
+#   {
+#        echo "\`\`\`"
+#        echo "Currently Executing..."
+#        echo "$(basename "${0}") ${PARAMS}"
+#        echo "\`\`\`"
+#    } > ${TG_MSG_FILE}
+#    notify "$(cat ${TG_MSG_FILE})"
+#fi
 
 ###############
 #             #
@@ -115,6 +193,7 @@ OUT_FOLDER=${SOURCE_FOLDER}/out/target/product/${DEVICE}
 ###########################
 
 START=$(date +%s)
+clear
 cd "${SOURCE_FOLDER}" || die "Source folder does not exist!"
 
 ###########################
@@ -188,11 +267,22 @@ if [[ ${REPOPICK} ]]; then
     )
 fi
 
+############
+# CLEAN UP #
+############
+if [[ ${CLEAN_TARGET} ]]; then
+    CLEAN_TARGET=BUILD_TYPE
+    header "RUNNING CLEAN UP"; echo
+    make_command "${CLEAN_TARGET}" 
+else
+    echo "Incorrect Cleaning Option" 
+fi
+
 header "CLEANING UP OUT DIRECTORY"
 
 case ${CLEAN_TARGETS} in
     "")
-        make_command clobber ;;
+        make_command "${BUILD_TYPE}" ;;
     *)
         make_command "${CLEAN_TARGET}" ;;
 esac

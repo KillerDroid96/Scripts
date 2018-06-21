@@ -1,5 +1,5 @@
 #!/bin/bash
-###########################
+############################################################
 # Usage: 
 #        ${blink}
 #		 ${underline}
@@ -8,43 +8,127 @@
 #        ${Red}
 #		 ${Color_Off}
 #        echo ${red}"Surgical Strike Starting"${normal}
-############################
+############################################################
 
-##########
-# Colors #
-##########
-normal=$(tput sgr0)              # White
-red=$(tput setaf 1)              # Red
-green=$(tput setaf 2)            # Green
-yellow=$(tput setaf 3)           # Yellow
-blue=$(tput setaf 21)            # Blue
-violet=$(tput setaf 5)           # Violet
-cyan=$(tput setaf 6)             # Cyan
-white=$(tput setaf 7)            # White
-bldred=${txtbld}$(tput setaf 1)  # Bold Red
-bldgrn=${txtbld}$(tput setaf 2)  # Bold Green
-bldblu=${txtbld}$(tput setaf 21) # Bold Blue
-bldylw=${txtbld}$(tput setaf 3)  # Bold Yellow
-bldvlt=${txtbld}$(tput setaf 5)  # Bold Violet
-bldcya=${txtbld}$(tput setaf 6)  # Bold Cyan
-bldwht=${txtbld}$(tput setaf 7)  # Bold White
-blink=$(tput blink)              # Blink
-bold=$(tput bold)                # Bold
-reverse=$(tput smso)             # Reverse Colors
-underline=$(tput smul)           # Underline
+# Color Formats
+RST="\033[0m"
+rst="\033[0m"
+Reset="\033[0m"
+reset="\033[0m"
+Normal="\033[0m"
+normal="\033[0m"
+color_off="\033[0m"
+
+BLD="\033[1m"
+Bld="\033[1m"
+bld="\033[1m"
+BOLD="\033[1m"
+Bold="\033[1m"
+bold="\033[1m"
+
+BLINK="\033[05m"
+Blink="\033[05m"
+blink="\033[05m"
+
+DIM="\e[2m"
+Dim="\e[2m"
+dim="\e[2m"
+
+HIDDEN="\e[8m"
+Hidden="\e[8m"
+hidden="\e[8m"
+HIDE="\e[8m"
+Hide="\e[8m"
+hide="\e[8m"
+
+INVERT="\e[7m"
+Invert="\e[7m"
+invert="\e[7m"
+REVERSE="\e[7m"
+Reverse="\e[7m"
+reverse="\e[7m"
+
+UNDERLINE="\e[4m"    
+Underline="\e[4m"    
+underline="\e[4m"      
+
+# Colors
+BLK="\033[0;30m"
+Blk="\033[0;30m"
+blk="\033[0;30m"
+BLACK="\033[0;30m"
+Black="\033[0;30m"
+black="\033[0;30m"
+
+BLU="\033[01;34m"
+Blu="\033[01;34m"
+blu="\033[01;34m"
+BLUE="\033[01;34m"
+Blue="\033[01;34m"
+blue="\033[01;34m"
+
+CYN="\033[0;36m"
+Cyn="\033[0;36m"
+cyn="\033[0;36m"
+CYAN="\033[0;36m"
+Cyan="\033[0;36m"
+cyan="\033[0;36m"
+
+GRN="\033[01;32m"
+Grn="\033[01;32m"
+grn="\033[01;32m"
+GREEN="\033[01;32m"
+Green="\033[01;32m"
+green="\033[01;32m"
+
+PURP="\033[0;35m"
+Purp="\033[0;35m"
+purp="\033[0;35m"
+PURPLE="\033[0;35m"
+Purple="\033[0;35m"
+purple="\033[0;35m"
+
+RED="\033[0;31m"
+Red="\033[0;31m"
+red="\033[0;31m"
+
+WHT="\033[0;37m"
+Wht="\033[0;37m"
+wht="\033[0;37m"
+WHITE="\033[0;37m"
+White="\033[0;37m"
+white="\033[0;37m"
+
+YLW="\033[01;33m"
+Ylw="\033[01;33m"
+ylw="\033[01;33m"
+YELLOW="\033[01;33m"
+Yellow="\033[01;33m"
+yellow="\033[01;33m"
+
+#------------------------------------#
 
 # Reset
-Color_Off="\033[0m"       # Text Reset
+#Color_Off="\033[0m"       # Text Reset
+
+# Nathans Colors
+BLINK_RED="\033[05;31m"
+#BLUE="\033[01;34m"
+#BOLD="\033[1m"
+#GRN="\033[01;32m"
+#RED="\033[31m"
+#RST="\033[0m"
+#YLW="\033[01;33m"
 
 # Regular Colors
-Black="\033[0;30m"        # Black
-Red="\033[0;31m"          # Red
-Green="\033[0;32m"        # Green
-Yellow="\033[0;33m"       # Yellow
-Blue="\033[0;34m"         # Blue
-Purple="\033[0;35m"       # Purple
-Cyan="\033[0;36m"         # Cyan
-White="\033[0;37m"        # White
+#Black="\033[0;30m"        # Black
+#Red="\033[0;31m"          # Red
+#Green="\033[0;32m"        # Green
+#Yellow="\033[0;33m"       # Yellow
+#Blue="\033[0;34m"         # Blue
+#Purple="\033[0;35m"       # Purple
+#Cyan="\033[0;36m"         # Cyan
+#White="\033[0;37m"        # White
 
 # Bold
 BBlack="\033[1;30m"       # Black
@@ -105,3 +189,30 @@ On_IBlue="\033[0;104m"    # Blue
 On_IPurple="\033[10;95m"  # Purple
 On_ICyan="\033[0;106m"    # Cyan
 On_IWhite="\033[0;107m"   # White
+
+# Note \e = \033 = \x1B 
+
+# ##########
+# # Colors #
+# ##########
+# normal=$(tput sgr0)              # Normal
+# red=$(tput setaf 1)              # Red
+# green=$(tput setaf 2)            # Green
+# yellow=$(tput setaf 3)           # Yellow
+# blue=$(tput setaf 21)            # Blue
+# violet=$(tput setaf 5)           # Violet
+# cyan=$(tput setaf 6)             # Cyan
+# white=$(tput setaf 7)            # White
+# bldred=${txtbld}$(tput setaf 1)  # Bold Red
+# bldgrn=${txtbld}$(tput setaf 2)  # Bold Green
+# bldblu=${txtbld}$(tput setaf 21) # Bold Blue
+# bldylw=${txtbld}$(tput setaf 3)  # Bold Yellow
+# bldvlt=${txtbld}$(tput setaf 5)  # Bold Violet
+# bldcya=${txtbld}$(tput setaf 6)  # Bold Cyan
+# bldwht=${txtbld}$(tput setaf 7)  # Bold White
+# blink=$(tput blink)              # Blink
+# bold=$(tput bold)                # Bold
+# reverse=$(tput smso)             # Reverse Colors
+# underline=$(tput smul)           # Underline
+
+#------------------------------------#

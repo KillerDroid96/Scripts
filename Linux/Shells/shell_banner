@@ -99,18 +99,9 @@ function upTime() {
     awk '{print int($1/3600)" hr "int(($1%3600)/60)" min "int($1%60)}' /proc/uptime
 }
 
+source $HOME/Github/Scripts/Linux/Shells/shell_colors
+
 clear
-
-# Colors
-BLINK_RED="\033[05;31m"
-BLUE="\033[01;34m"
-BOLD="\033[1m"
-GRN="\033[01;32m"
-RED="\033[31m"
-RST="\033[0m"
-YLW="\033[01;33m"
-WHT="\033[0;37m"    
-
 echo -e ${RED}""
 echo -e "     _____             _     _    ______               ";
 echo -e "    (____ \           (_)   | |  (____  \              ";

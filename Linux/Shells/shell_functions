@@ -6,7 +6,7 @@
 # -Akhilnarang
 # -Nathanchance
 ########################
-
+source $HOME/Github/Scripts/Linux/Shells/shell_colors
 #############
 # FUNCTIONS #
 #############
@@ -251,21 +251,6 @@ function upinfo() {
     echo -ne "${green}$(hostname) ${red}uptime is ${cyan} \\t ";uptime | awk /'up/ {print $3,$4,$5,$6,$7,$8,$9,$10,$11}';
 }
 
-function venv() {
-    virtualenv2 /tmp/venv;
-    source /tmp/venv/bin/activate;
-}
-
-function venv_stop(){
-    deactivate
-    rm -rf "${HOME}/venv"
-}
-
-function sync_repo() {
-    header "SYNCING LATEST SOURCES"; echo
-    repo sync -j$( nproc --all ) --force-sync -c --no-clone-bundle --no-tags --optimized-fetch --prune
-}
-
 function git_config() {
     git config --global user.email "mkeller96@gmail.com"
     git config --global user.name "KillerDroid96"
@@ -294,14 +279,6 @@ function nf() {
     echo
 }
 
-function gdrive_rom() {
-    #gdrive about -c /home/matt/.gdrive
-    #gdrive -c /home/matt/.gdrive sync upload $HOME/Github/Uploads 1znWrZTRSwAvWgVNHz4hsvEEgaOcrpS8z &> out.log 
-    gdrive about -c /home/matt/.gdrive-secondary #&> out.log  
-    gdrive -c /home/matt/.gdrive-secondary sync upload $HOME/Github/Uploads 1lOVVWYg_itAPwaUWbMhkvF2P51wzr46v #&> out.log  
-    echo "https://drive.google.com/drive/folders/1lOVVWYg_itAPwaUWbMhkvF2P51wzr46v"
-}
-
 function trizens(){
     header "Updating System"
     trizen -Syyu --quiet --noconfirm --noedit --needed
@@ -309,6 +286,19 @@ function trizens(){
     header "System Update Complete"
 }
 
+function trim_vbox(){
+    header "Filling Empty Space"
+    # No output is displayed
+    sudo dd if=/dev/zero of=/var/tmp/bigemptyfile bs=4096k
+    header "Deleting Empty Space"
+    sudo rm /var/tmp/bigemptyfile
+    header "Ready to Compact VDI"
+}
+##################################################################################################
+##################################################################################################
+##################################################################################################
+##################################################################################################
+##################################################################################################
 # Copyright (C) 2018-2020 KillerDroid96
 # Copyright (C) 2016-2018 Nathan Chancellor
 #
@@ -325,13 +315,55 @@ function trizens(){
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>
 
+source $HOME/Github/Scripts/Linux/Shells/shell_colors
+
+function du_banner(){
+    clear
+    echo -e ${red}""
+    echo -e "============================================="
+    echo -e "               ____  _      __               "
+    echo -e "              / __ \(_)____/ /___  __        "
+    echo -e "             / / / / / ___/ __/ / / /        "
+    echo -e "            / /_/ / / /  / /_/ /_/ /         "
+    echo -e "           /_____/_/_/   \__/\__, /          "
+    echo -e "    __  __      _           /____/           "
+    echo -e "   / / / /___  (_)________  _________  _____ "
+    echo -e "  / / / / __ \/ / ___/ __ \/ ___/ __ \/ ___/ "
+    echo -e " / /_/ / / / / / /__/ /_/ / /  / / / (__  )  "
+    echo -e " \____/_/ /_/_/\___/\____/_/  /_/ /_/____/   "
+    echo -e "                                             "
+    echo -e "============================================="
+   # echo -e ${rst}""
+}
+
+function venv() {
+    virtualenv2 /tmp/venv;
+    source /tmp/venv/bin/activate;
+}
+
+function venv_stop(){
+    deactivate
+    rm -rf "${HOME}/venv"
+}
+
+function sync_repo() {
+    header "SYNCING LATEST SOURCES"; echo
+    repo sync -j$( nproc --all ) --force-sync -c --no-clone-bundle --no-tags --optimized-fetch --prune
+}
+
+function gdrive_rom() {
+    #gdrive about -c /home/matt/.gdrive
+    #gdrive -c /home/matt/.gdrive sync upload $HOME/Github/Uploads 1znWrZTRSwAvWgVNHz4hsvEEgaOcrpS8z &> out.log 
+    gdrive about -c /home/matt/.gdrive-secondary #&> out.log  
+    gdrive -c /home/matt/.gdrive-secondary sync upload $HOME/Github/Uploads 1lOVVWYg_itAPwaUWbMhkvF2P51wzr46v #&> out.log  
+    echo "https://drive.google.com/drive/folders/1lOVVWYg_itAPwaUWbMhkvF2P51wzr46v"
+}
 
 ###############
 #             #
 #  VARIABLES  #
 #             #
 ###############
-
 
 SOURCE_FOLDER=${ROM_FOLDER}/${ROM}
 
@@ -352,14 +384,7 @@ BIN_FOLDER=${SCRIPTS_FOLDER}/bin
 #TC_FOLDER=${HOME}/toolchains
 #WEB_FOLDER=${HOME}/web
 
-# Colors
-BLINK_RED="\033[05;31m"
-BLUE="\033[01;34m"
-BOLD="\033[1m"
-GRN="\033[01;32m"
-RED="\033[31m"
-RST="\033[0m"
-YLW="\033[01;33m"
+
 
 # Number of make threads
 if [[ ${OS} = "darwin" ]]; then
@@ -528,18 +553,17 @@ function notify() {
 #git pull='git pull --depth=1 -p -j$( nproc --all )'
 #git push='git push-j$( nproc --all )'
 
-function other_repos() {
-    echo "Fetching Project KillerDroid96/flash_kernel_oneplus_msm8998" && sleep 1
-    cd $HOME/Github/DU/kernel/oneplus/msm8998
-    git remote add kd git@github.com:KillerDroid96/flash_kernel_oneplus_msm8998.git  &> $HOME/Github/DU/repos.log 
-    git remote add nc git@github.com:nathanchance/op5.git  &> $HOME/Github/DU/repos.log
-    git fetch nc --tags ${JOBS_FLAG}
-    git checkout -b 8.1.0 &> $HOME/Github/DU/repos.log 
-    git checkout 8.1.0 &> $HOME/Github/DU/repos.log 
-    git pull kd 8.1.0 ${JOBS_FLAG} &> $HOME/Github/DU/repos.log 
-    git pull nc 8.1.0-unified ${JOBS_FLAG} &> $HOME/Github/DU/repos.log 
-    git push --set-upstream kd 8.1.0 &> $HOME/Github/DU/repos.log  
-}
+# function other_repos() {
+#     echo "Fetching Project KillerDroid96/flash_kernel_oneplus_msm8998" && sleep 1
+#     git remote add kd git@github.com:KillerDroid96/flash_kernel_oneplus_msm8998.git  &> $HOME/Github/DU/repos.log 
+#     git remote add nc git@github.com:nathanchance/op5.git  &> $HOME/Github/DU/repos.log
+#     git fetch nc --tags ${JOBS_FLAG}
+#     git checkout -b 8.1.0 &> $HOME/Github/DU/repos.log 
+#     git checkout 8.1.0 &> $HOME/Github/DU/repos.log 
+#     git pull kd 8.1.0 ${JOBS_FLAG} &> $HOME/Github/DU/repos.log 
+#     git pull nc 8.1.0-unified ${JOBS_FLAG} &> $HOME/Github/DU/repos.log 
+#     git push --set-upstream kd 8.1.0 &> $HOME/Github/DU/repos.log  
+# }
 
 function merge_du_repos() {
     cd $HOME/Github/DU/${REPO_PATH}
@@ -609,47 +633,26 @@ function setup_gitconfig () {
   fi
 }
 
-CL_RED="\033[31m"
-CL_RST="\033[0m"
-BLK="\033[0;30m"        # Black
-WHT="\033[0;37m"        # White
-
-function du_banner()
+function unicorn_banner()
 {
-    echo -e ${CL_RED}"============================================="${CL_RED}
-    echo -e ${CL_RED}"               ____  _      __               "${CL_RST}
-    echo -e ${CL_RED}"              / __ \(_)____/ /___  __        "${CL_RST}
-    echo -e ${CL_RED}"             / / / / / ___/ __/ / / /        "${CL_RST}
-    echo -e ${CL_RED}"            / /_/ / / /  / /_/ /_/ /         "${CL_RST}
-    echo -e ${CL_RED}"           /_____/_/_/   \__/\__, /          "${CL_RST}
-    echo -e ${CL_RED}"    __  __      _            /____/          "${CL_RST}
-    echo -e ${CL_RED}"   / / / /___  (_)________  _________  _____ "${CL_RST}
-    echo -e ${CL_RED}"  / / / / __ \/ / ___/ __ \/ ___/ __ \/ ___/ "${CL_RST}
-    echo -e ${CL_RED}" / /_/ / / / / / /__/ /_/ / /  / / / (__  )  "${CL_RST}
-    echo -e ${CL_RED}" \____/_/ /_/_/\___/\____/_/  /_/ /_/____/   "${CL_RST}
-    echo -e ${CL_RED}"                                             "${CL_RST}
-    echo -e ${CL_RST}"Build Completed! Now Flash That Shit & ENJOY!"${CL_RST}
-    echo -e ${CL_RED}"                                             "${CL_RED}
-    echo -e ${CL_RED}"============================================="${CL_RED}
-
-	echo -e ${RED}"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%"
-	echo -e ${RED}"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%"
-	echo -e ${RED}"%%%%%%%%%%%%%%             %%%%%%%%%%%%"
-	echo -e ${RED}"%%%%%%%%%%%    %%%%%%%%%%%    %%%%%%%%%"
-	echo -e ${RED}"%%%%%%%%%   %%%%%%%%%%%%%%%%%   %%%%%%%"
-	echo -e ${RED}"%%%%%%%   %%%"${BLK}"&"${RED}"%%%%%%%%%%%"${BLK}"&"${RED}"%%%%%%  %%%%%"
-	echo -e ${RED}"%%%%%%  %%%%%%"${BLK}"&&&"${RED}"%%%"${BLK}"&&&"${RED}"%%%"${BLK}"&&&&"${RED}"%%%   %%%"
-	echo -e ${RED}"%%%%%  %%%%%%%%"${BLK}"&&&&&&&&&&"${RED}"%%%%%"${BLK}"&&&"${RED}"%%  %%"
-	echo -e ${RED}"%%%%  %%%%%%%%%"${BLK}"&&&&&&&&&&&&&&"${RED}"%%%"${BLK}"&&&"${RED}"%%%%"
-	echo -e ${RED}"%%%%  %%%%%%%"${BLK}"&&&"${RED}", "${BLK}"&&&&&&&&&&&&&"${RED}"%%"${BLK}"&&&&"${RED}"%%"
-	echo -e ${RED}"%%%&  %%%%%"${BLK}"&&&&&&&&&&&&&&&&&&&&&"${RED}"%%%"${BLK}"&&&"${RED}"%"
-	echo -e ${RED}"%%%%  %%%%"${BLK}"&&&&&&&&&&&&&&&&&&&&&&&"${RED}"%%"${BLK}"&&&"${RED}"%"
-	echo -e ${RED}"%%%%  %%%"${BLK}"&&&&&&"${RED}"%%%%%%%"${BLK}"&&&&&&&&&&&&"${RED}"%"${BLK}"&&"${RED}"%%"
-	echo -e ${RED}"%%%%%  %%%%"${BLK}"&&"${RED}"%%%%%%%%%"${BLK}"&&&&&&&&&&&&"${RED}"%"${BLK}"&&"${RED}"%%"
-	echo -e ${RED}"%%%%%%  %%%%%%%%%%%%%%"${BLK}"&&&&&&&&&&&&&&"${RED}"%%%"
-	echo -e ${RED}"%%%%%%%  %%%%%%%%%%%%"${BLK}"&&&&&&&&&&&&&&"${RED}"%%%%"
-	echo -e ${RED}"%%%%%%%%   %%%%%%%%"${BLK}"&&&&&&&&&&&&&&"${RED}"%%%%%%"
-	echo -e ${RED}"%%%%%%%%%%%%%%%%"${BLK}"&&&&&&&&&&&&&&&&"${RED}"%%%%%%%"
-	echo -e ${RED}"%%%%%%%%%%%%%%"${BLK}"&&&&&&&&&&&&&"${RED}"%%%%%%%%%%%%"
-	echo -e ${RED}"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%"       
+    echo -e ${RED}"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%"
+    echo -e ${RED}"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%"
+    echo -e ${RED}"%%%%%%%%%%%%%%             %%%%%%%%%%%%"
+    echo -e ${RED}"%%%%%%%%%%%    %%%%%%%%%%%    %%%%%%%%%"
+    echo -e ${RED}"%%%%%%%%%   %%%%%%%%%%%%%%%%%   %%%%%%%"
+    echo -e ${RED}"%%%%%%%   %%%"${BLK}"&"${RED}"%%%%%%%%%%%"${BLK}"&"${RED}"%%%%%%  %%%%%"
+    echo -e ${RED}"%%%%%%  %%%%%%"${BLK}"&&&"${RED}"%%%"${BLK}"&&&"${RED}"%%%"${BLK}"&&&&"${RED}"%%%   %%%"
+    echo -e ${RED}"%%%%%  %%%%%%%%"${BLK}"&&&&&&&&&&"${RED}"%%%%%"${BLK}"&&&"${RED}"%%  %%"
+    echo -e ${RED}"%%%%  %%%%%%%%%"${BLK}"&&&&&&&&&&&&&&"${RED}"%%%"${BLK}"&&&"${RED}"%%%%"
+    echo -e ${RED}"%%%%  %%%%%%%"${BLK}"&&&"${RED}", "${BLK}"&&&&&&&&&&&&&"${RED}"%%"${BLK}"&&&&"${RED}"%%"
+    echo -e ${RED}"%%%&  %%%%%"${BLK}"&&&&&&&&&&&&&&&&&&&&&"${RED}"%%%"${BLK}"&&&"${RED}"%"
+    echo -e ${RED}"%%%%  %%%%"${BLK}"&&&&&&&&&&&&&&&&&&&&&&&"${RED}"%%"${BLK}"&&&"${RED}"%"
+    echo -e ${RED}"%%%%  %%%"${BLK}"&&&&&&"${RED}"%%%%%%%"${BLK}"&&&&&&&&&&&&"${RED}"%"${BLK}"&&"${RED}"%%"
+    echo -e ${RED}"%%%%%  %%%%"${BLK}"&&"${RED}"%%%%%%%%%"${BLK}"&&&&&&&&&&&&"${RED}"%"${BLK}"&&"${RED}"%%"
+    echo -e ${RED}"%%%%%%  %%%%%%%%%%%%%%"${BLK}"&&&&&&&&&&&&&&"${RED}"%%%"
+    echo -e ${RED}"%%%%%%%  %%%%%%%%%%%%"${BLK}"&&&&&&&&&&&&&&"${RED}"%%%%"
+    echo -e ${RED}"%%%%%%%%   %%%%%%%%"${BLK}"&&&&&&&&&&&&&&"${RED}"%%%%%%"
+    echo -e ${RED}"%%%%%%%%%%%%%%%%"${BLK}"&&&&&&&&&&&&&&&&"${RED}"%%%%%%%"
+    echo -e ${RED}"%%%%%%%%%%%%%%"${BLK}"&&&&&&&&&&&&&"${RED}"%%%%%%%%%%%%"
+    echo -e ${RED}"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%"       
 }

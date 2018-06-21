@@ -1,0 +1,194 @@
+#!/bin/bash
+normal=$(tput sgr0)              # White
+red=$(tput setaf 1)              # Red
+green=$(tput setaf 2)            # Green
+yellow=$(tput setaf 3)           # Yellow
+blue=$(tput setaf 21)            # Blue
+violet=$(tput setaf 5)           # Violet
+cyan=$(tput setaf 6)             # Cyan
+white=$(tput setaf 7)            # White
+bldred=${txtbld}$(tput setaf 1)  # Bold Red
+bldgrn=${txtbld}$(tput setaf 2)  # Bold Green
+bldblu=${txtbld}$(tput setaf 21) # Bold Blue
+bldylw=${txtbld}$(tput setaf 3)  # Bold Yellow
+bldvlt=${txtbld}$(tput setaf 5)  # Bold Violet
+bldcya=${txtbld}$(tput setaf 6)  # Bold Cyan
+bldwht=${txtbld}$(tput setaf 7)  # Bold White
+blink=$(tput blink)              # Blink
+bold=$(tput bold)                # Bold
+reverse=$(tput smso)             # Reverse Colors
+underline=$(tput smul)           # Underline
+CL_RED="\033[31m"
+CL_RST="\033[0m"
+
+echo -e ${CL_RED}""
+echo -e "==============================================================================================="
+echo -e "|                ____  _      __           __  __      _                                      |"
+echo -e "|               / __ \(_)____/ /___  __   / / / /___  (_)________  _________  _____           |"
+echo -e "|              / / / / / ___/ __/ / / /  / / / / __ \/ / ___/ __ \/ ___/ __ \/ ___/           |"
+echo -e "|             / /_/ / / /  / /_/ /_/ /  / /_/ / / / / / /__/ /_/ / /  / / / (__  )            |"
+echo -e "|            /_____/_/_/   \__/\__, /   \____/_/ /_/_/\___/\____/_/  /_/ /_/____/             |"
+echo -e "|                             /____/                                                          |"
+echo -e "|                                                                                             |"
+echo -e "==============================================================================================="
+echo -e ${CL_RST}""
+
+
+source $HOME/Github/Scripts/Linux/Shells/shell_functions
+
+ROM=DU
+VARIANT=userdebug
+ROM_FOLDER=${HOME}/Github
+WEB_FOLDER=${HOME}/Github/Uploads
+TG=true
+TG_MSG_FILE=/tmp/tg-msg.build-rom
+SYNC=true
+#MAKE_TARGET=bacon 
+#CLEAN_TARGET=true
+MERGE=true
+TG=true
+TG_MSG_FILE=/tmp/tg-msg.build-rom
+
+function make_command() {
+    m "${JOBS_FLAG}" "$@"
+}
+
+###########################
+# SETUP BUILD ENVIRONMENT #
+###########################
+
+function build() {
+ROM=DU
+VARIANT=userdebug
+ROM_FOLDER=${HOME}/Github
+WEB_FOLDER=${HOME}/Github/Uploads
+ZIP_MOVE_PARENT=${WEB_FOLDER}
+SOURCE_FOLDER=${ROM_FOLDER}/${ROM}
+ZIP_MOVE=${ZIP_MOVE_PARENT}/${ROM}/${DEVICE}
+OUT_FOLDER=${SOURCE_FOLDER}/out/target/product/${DEVICE}
+
+START=$(date +%s)
+clear
+cd "${SOURCE_FOLDER}" || die "Source folder does not exist!"
+
+clear
+header "SETTING UP BUILD ENVIRONMENT"
+
+# Check and see if we are on Arch
+# If so, activare a virtual environment for proper Python support
+mkavenv
+source build/envsetup.sh
+
+#############
+# REPO SYNC #
+#############
+
+header "SYNCING LATEST SOURCES"; echo
+repo sync "${JOBS_FLAG}" --force-sync -c --no-clone-bundle --no-tags --optimized-fetch --prune
+
+
+##############
+# REPO MERGE #
+##############
+
+header "RUNNING MERGE"; echo
+merge_repos
+cd "${SOURCE_FOLDER}" || die "Source folder does not exist!"
+
+##################
+# PREPARE DEVICE #
+##################
+
+header "PREPARING $(echo ${DEVICE} | awk '{print toupper($0)}')"
+
+# Not all roms use breakfast
+${MAKE_TARGET} ${DEVICE} ${VARIANT}
+
+
+############
+# CLEAN UP #
+############
+
+header "CLEANING UP OUT DIRECTORY"
+    make_command BUILD_TYPE
+
+############
+# BUILDING #
+############
+
+header "MAKING FILES"; echo
+
+make_command "${MAKE_TARGET}"
+
+END=$(date +%s)
+
+header "${BUILD_RESULT_STRING}!"
+
+echo "\a"
+}
+
+#################
+# BUILDING MENU #
+#################
+
+PS3='Choose Build type: ' 
+options=(${green}"Clean"${white} ${red}"Dirty"${white} ${white}"Exit"${white})
+
+select opt in "${options[@]}"
+do 
+    case $opt in
+    "${green}Clean${white}")
+        echo ""
+        echo "${green}Clean Build${white}"
+        BUILD_TYPE=clobber
+        clear
+        break
+        ;;
+    "${red}Dirty${white}")
+        echo ""
+        clear
+        echo "${red}Dirty Build${white}"
+        BUILD_TYPE=
+        clear 
+        break
+        ;;
+    "${white}Exit${white}")
+        break
+        ;;
+        *) echo invalid option;;
+    esac
+done
+
+if [[ DEVICE ]]; then
+header "Select Device to Build"
+PS2='Build: '
+options=("OnePlus 5T" "Nexus 6P" "Galaxy S4" ${red}"Exit"${white})
+select opt in "${options[@]}"
+do
+    case $opt in
+    "OnePlus 5T")
+        MAKE_TARGET=bacon
+        DEVICE=dumpling
+        build
+        clear
+        break
+        ;;
+    "Nexus 6P")
+        MAKE_TARGET=breakfast
+        DEVICE=angler
+        build
+        break
+        ;;
+    "Galaxy S4")
+        MAKE_TARGET=lunch
+        DEVICE=jfltespr
+        build
+        break
+        ;;
+    "${red}Exit${white}")
+        break
+        ;;
+        *) echo invalid option;;
+    esac
+  done
+fi
