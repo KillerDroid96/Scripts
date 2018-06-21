@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<manifest>
+  <remove-project name="android_build" />
+  <remove-project name="android_vendor_du" />
+  <project name="KillerDroid96/android_build" path="build" remote="github" revision="o8x-caf" />
+  <project name="KillerDroid96/android_vendor_du" path="vendor/du" remote="github" revision="o8x-caf" />
+  <project name="DirtyUnicorns/android_device_oneplus_dumpling" path="device/oneplus/dumpling" remote="github" revision="o8x-caf" />
+  <project name="KillerDroid96/android_device_oneplus_msm8998-common" path="device/oneplus/msm8998-common" remote="github" revision="o8x-caf" />
+  <project name="nathanchance/op5" path="kernel/oneplus/msm8998" remote="github" revision="8.1.0-unified" />
+  <project name="DirtyUnicorns/android_vendor_oneplus" path="vendor/oneplus" remote="github" revision="o8x-caf" />
+  <project name="DirtyUnicorns/android_device_oppo_common" path="device/oppo/common" remote="github" revision="o8x-caf" />
+  <project name="DirtyUnicorns/android_system_qcom" path="system/qcom" remote="github" revision="o8x-caf" />
+  <project name="DirtyUnicorns/android_vendor_qcom_opensource_dpm" path="vendor/qcom/opensource/dpm" remote="github" revision="o8x-caf" />
+</manifest>
