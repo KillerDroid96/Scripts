@@ -1,5 +1,9 @@
 #!/bin/bash
 
+if [ -f $HOME/Github/Scripts/Linux/Bash/.bash_functions ]; then
+   source $HOME/Github/Scripts/Linux/Bash/.bash_functions
+fi
+
 # This is a general-purpose function to ask Yes/No questions in Bash, either
 # with or without a default answer. It keeps repeating the question until it
 # gets a valid answer.
@@ -34,38 +38,11 @@ ask() {
     done
 }
 
-pause(){
-  read -p "Press [Enter] key to continue..." fackEnterKey
-}
-
-show_main_menu() {
-tput setaf 38
-    clear
-    echo ""
-    echo "       Arch Setup Script"
-    echo "        [KillerDroid96]"
-    echo ""
-    echo "=============================="
-    echo "|          Main Menu         |"
-    echo "=============================="
-    echo "|  [1] Update System         |"
-    echo "|  [2] Setup Github          |"
-    echo "|  [3] Install Packages      |"
-    echo "|  [4] Install Android       |"
-    echo "|  [5] Setup Android         |"
-    echo "|  [6] Add .bashrc Changes   |"
-    echo "|  [7] Add SSH Changes       |"
-    echo "|  [8] Add Neofetch Changes  |"
-    echo "|  [a] About                 |"
-    echo "|  [h] Help                  |"
-    echo "|  [e] Exit                  |"
-    echo "=============================="
-read menu
-case $menu in
-1|update_system)
+update_system() {
 clear
 tput setaf 29
 if ask "Update System?"; then
+    echo "Yes"
     tput setaf 5; echo "Updating System"
     sudo pacman -Syyu --quiet --noconfirm
     tput setaf 2; echo "Installing AUR Package Manager" 
@@ -76,13 +53,13 @@ if ask "Update System?"; then
     tput setaf 2
     echo ""
     echo "System Update Complete"
-    echo ""
-    pause 
+    echo "" 
 else
     echo "No"
 fi
-;;
-2|setup_gitconfig)
+}
+
+setup_gitconfig () {
 tput setaf 30
 if ask "Setup Github Login?"; then
     sudo pacman -Syyu git xclip
@@ -101,9 +78,13 @@ if ask "Setup Github Login?"; then
 else
     echo "No"
 fi
-;;
-3|install_packages)
+}
+
+install_packages() {
 tput setaf 31
+if ask "Install My Additional Packages?"; then
+    tput setaf 31; echo "Installing Addition Packages"
+    trizen -S --needed --quiet --noedit --noconfirm acpi apg alsi baobab bc bcompare cava chromium clex climate cmatrix cylon elinks figlet glances hollywood htop jp2a neofetch qdirstat-git rar rig screenfetch spotify telegram-desktop w3m yakuake
     echo "===================================================="
     echo "|                     Programs                     |"
     echo "===================================================="
@@ -129,22 +110,17 @@ tput setaf 31
     echo "| rig             # Random ID Generator            |"
     echo "| yakuake         # Drop Down Terminal             |"
     echo "===================================================="   
-if ask "Install My Additional Packages?"; then  
-    tput setaf 31; echo "Installing Addition Packages"
-    trizen -Syyu --quiet --noconfirm --noedit --needed acpi apg alsi baobab bc bcompare cava chromium clex climate cmatrix cylon elinks figlet glances hollywood htop jp2a neofetch qdirstat-git rar rig screenfetch spotify telegram-desktop w3m yakuake
-    clear
     figlet KillerDroid96
     tput setaf 2
     echo ""
     echo "Additional Packages Install Complete"
     echo "" 
-    pause
 else
     echo "No"
 fi
-;;
+}
 
-4|install_android)
+install_android() {
 tput setaf 32
 if ask "Install Android Build Dependencies?"; then
     echo "Installing Android Dependencies" && sleep 3
@@ -163,9 +139,9 @@ if ask "Install Android Build Dependencies?"; then
 else
     echo "No"
 fi
-;;
+}
 
-5|setup_du)
+setup_du() {
 tput setaf 33
 if ask "Setup Build for Dirty Unicorns?"; then
     mkdir ~/Github/DU
@@ -181,11 +157,12 @@ if ask "Setup Build for Dirty Unicorns?"; then
 else
     echo "No"
 fi
-;;
+}
 
-6|add_bashrc)
+add_bashrc() {
 tput setaf 34
 if ask "Add .bashrc Changes?"; then
+    echo "Yes"
     cp -b $HOME/Github/Scripts/Linux/Bash/.bashrc $HOME && source ~/.bashrc
     tput setaf 2
     echo ""
@@ -194,12 +171,13 @@ if ask "Add .bashrc Changes?"; then
 else
     echo "No"
 fi
-;;
+}
 
-7|add_sshd)
+add_sshd() {
 tput setaf 35
 # Default to Yes if the user presses enter without giving an answer:
 if ask "Add sshd_config Changes?" Y; then
+    echo "Yes"
     sudo cp ~/Github/Scripts/Linux/Files/sshd_config /etc/ssh/sshd_config
     tput setaf 2
     echo ""
@@ -208,11 +186,12 @@ if ask "Add sshd_config Changes?" Y; then
 else
     echo "No"
 fi
-;;
+}
 
-8|add_neofetch)
+add_neofetch() {
 tput setaf 36
 if ask "Add Neofetch Config?" Y; then
+    echo "Yes"
     cp Github/Scripts/Files/neofetch ~/.config/neofetch/config
     tput setaf 2
     echo ""
@@ -221,11 +200,16 @@ if ask "Add Neofetch Config?" Y; then
 else
     echo "No"
 fi
-;;
+}
 
-9|what_dm)
+pause(){
+  read -p "Press [Enter] key to continue..." fackEnterKey
+}
+
+what_dm() {
 tput setaf 37
 if ask "Show Display Manager?" Y; then
+    echo "Yes"
 file /etc/systemd/system/display-manager.service &> $HOME/Github/arch_setup.log 
 ps auxf | awk '{print$11}' | \grep -e "^/.*dm$" -e "/.*slim$" # Prints Display Manager
 echo -n "What Is your Display Manager?"
@@ -258,33 +242,77 @@ esac
 else
     echo "No"
 fi
-;;
+}
 
-a|A|about)
+# function to display menus
+show_menus() {
+tput setaf 38
+if ask "Install Desktop Environments?" Y; then
+    echo "Yes"
     clear
-    tput setaf 1
     echo ""
-    echo " This is a Script Made to Customize Arch Linux"
-    echo "   Written by Matthew Keller [KillerDroid96]"
+    echo "Desktop Environments"
+    echo "  [KillerDroid96]"
     echo ""
-    tput setaf 36
+    echo "===================="
+    echo "|     Main Menu    |"
+    echo "===================="
+    echo "|  [1] KDE         |"
+    echo "|  [2] Gnome       |"
+    echo "|  [3] Pantheon    |"
+    echo "|  [4] Xfce        |"
+    echo "|  [h] Help        |"
+    echo "|  [e] Exit        |"
+    echo "===================="
+read desktop
+case $desktop in
+KDE|1)
+    if ask "Install KDE Plasma Desktop Environment?" N; then
+        trizen -Syu --needed --quiet --noedit --noconfirm plasma plasma-desktop kde-appllications powerdevil
+        sudo systemctl enable sddm.service
+    else
+        echo "No"
+    fi
+;;
+Gnome|gnome|2)
+    if ask "Install Gnome Desktop Environment?" N; then
+        trizen -Syu --needed --quiet --noedit --noconfirm gnome gnome-extra gnome-tweak-tool
+        sudo systemctl enable gdm.service
+    else
+        echo "No"
+    fi
+;;
+Pantheon|pantheon|3)
+    if ask "Install Patheon Desktop Environment?" N; then
+        echo "Still working on this one" #trizen -S --quiet --noconfirm 
+        trizen -Syu --needed --quiet --noedit --noconfirm lightdm-devel
+        sudo systemctl enable lightdm-pantheon-greeter.service
+    else
+        echo "No"
+    fi
+;;
+Xfce|xfce|4)
+    if ask "Install Xfce Desktop Environment?" N; then
+        trizen -Syu --needed --quiet --noedit --noconfirm xfwm4 xorg-xinit xfce4 xfce4-goodies mousepad menulibre xfce4-pulseaudio-plugin lightdm-devel
+        xinit xfwm4
+        xinit xfce4
+        sudo systemctl enable xfwm4.service
+        sudo systemctl enable lightdm.service
+        pause   
+    else
+        echo "No"
+    fi
+;;
+Help|help|h)
+    clear
+    echo ""
+    echo "Install Desktop Environment by entering the number, letter or name"
+    echo ""
     pause
     clear
-    show_main_menu
+    show_menus
 ;;
-
-Help|help|h|H)
-    clear
-    tput setaf 1
-    echo ""
-    echo "To Use Menu Enter the Number or Letter"
-    echo ""
-    tput setaf 36
-    pause
-    clear
-    show_main_menu
-;;
-Exit|e|E|exit)
+Exit|e|exit)
     clear
     exit 0
 ;;
@@ -292,11 +320,23 @@ Exit|e|E|exit)
 echo don\'t know
 ;;
 esac
-
+else
+    echo "No"
+fi
 }
 
 while true
 do
-    show_main_menu
+    update_system
+    setup_gitconfig
+    install_packages
+    install_android
+    setup_du
+    add_bashrc
+    add_sshd
+    add_neofetch
+    what_dm
+    show_menus
+    read_desktop 
+done
     
-done 

@@ -131,7 +131,7 @@ tput setaf 31
     echo "===================================================="   
 if ask "Install My Additional Packages?"; then  
     tput setaf 31; echo "Installing Addition Packages"
-    trizen -Syyu --quiet --noconfirm --noedit --needed acpi apg alsi baobab bc bcompare cava chromium clex climate cmatrix cylon elinks figlet glances hollywood htop jp2a neofetch qdirstat-git rar rig screenfetch spotify telegram-desktop w3m yakuake
+    trizen -S --needed --quiet --noedit --noconfirm acpi apg alsi baobab bc bcompare cava chromium clex climate cmatrix cylon elinks figlet glances hollywood htop jp2a neofetch qdirstat-git rar rig screenfetch spotify telegram-desktop w3m yakuake
     clear
     figlet KillerDroid96
     tput setaf 2
