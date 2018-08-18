@@ -1,0 +1,99 @@
+#!/bin/bash
+
+# This is a general-purpose function to ask Yes/No questions in Bash, either
+# with or without a default answer. It keeps repeating the question until it
+# gets a valid answer.
+
+pause(){
+  read -p "Press [Enter] key to continue..." fackEnterKey
+}
+
+    tput setaf 5; echo "Updating System"
+    sudo pacman -Syyu --quiet --noconfirm
+    tput setaf 2; echo "Installing AUR Package Manager" 
+    cd && git clone https://aur.archlinux.org/trizen-git.git 
+    cd trizen-git && makepkg -si && cd
+    sudo rm -r trizen-git
+    clear
+    trizen -Syyu --quiet --noconfirm --noedit --needed
+    tput setaf 2
+    echo ""
+    echo "System Update Complete"
+    echo ""
+    pause 
+    echo "Setup Github Login"
+    sudo pacman -Syyu git xclip
+    ssh-keygen -t rsa -b 4096 -C "mkeller96@gmail.com"
+    eval "$(ssh-agent -s)"
+    ssh-add ~/.ssh/id_rsa
+    xclip -sel clip < ~/.ssh/id_rsa.pub
+    echo "Login to Github & Add SSH Key"
+    git config --global user.name "KillerDroid96"
+    git config --global user.email "mkeller96@gmail.com"
+    git config --global credential.helper "cache --timeout=7200"
+    tput setaf 2
+    echo ""
+    echo "Github Setup Complete"
+    echo "" 
+    tput setaf 31; echo "Installing Addition Packages"
+    trizen -Syyu --quiet --noconfirm --noedit --needed acpi apg alsi baobab bc bcompare cava chromium clex climate cmatrix cylon elinks figlet glances gnome-screenshot hollywood htop jp2a neofetch qdirstat-git rar rig screenfetch spotify telegram-desktop-git tilix w3m yakuake
+    figlet KillerDroid96
+    tput setaf 2
+    echo ""
+    echo "Additional Packages Install Complete"
+    echo "" 
+    echo "Install Android Build Dependencies"
+    echo "Installing Android Dependencies" && sleep 3
+    trizen -S make fakeroot --noconfirm
+    trizen -Syyu --needed --quiet --noedit --noconfirm aosp-devel base-devel lineageos-devel
+    echo "Disable PGP checking from AUR" && sleep 3
+    export MAKEPKG="makepkg --skippgpcheck"
+    tput setaf 2;
+    trizen -S --needed --quiet libtinfo --skipinteg --noconfirm 
+    trizen -S --needed --quiet lib32-ncurses5-compat-libs --skipinteg --noconfirm 
+    trizen -S --needed --quiet ncurses5-compat-libs --skipinteg --noconfirm
+    tput setaf 2
+    echo ""
+    echo "Android Setup Complete"
+    echo "" 
+    echo "Adding .bashrc Changes"; then
+    cp -b $HOME/Github/Scripts/Linux/Bash/.bashrc $HOME && source ~/.bashrc
+    tput setaf 2
+    echo ""
+    echo ".bashrc Changes Complete"
+    echo "" 
+    echo "Adding sshd_config Changes" Y; then
+    echo "Yes"
+    sudo cp ~/Github/Scripts/Linux/Files/sshd_config /etc/ssh/sshd_config
+    tput setaf 2
+    echo ""
+    echo "SSHD Configuration Complete"
+    echo "" 
+    echo "Adding Neofetch Config" Y; then
+    echo "Yes"
+    cp Github/Scripts/Files/neofetch ~/.config/neofetch/config
+    tput setaf 2
+    echo ""
+    echo "Neofech Changes Complete"
+    echo "" 
+    echo "Installing KDE Plasma Desktop Environment"
+    trizen -Syu --needed --quiet --noedit --noconfirm plasma plasma-desktop kde-appllications powerdevil
+    sudo systemctl enable sddm.service
+    echo "Setting Up Build for Dirty Unicorns"
+    mkdir ~/Github/DU
+    cd ~/Github/DU
+    virtualenv2 venv
+    source venv/bin/activate
+    repo init -u http://github.com/DirtyUnicorns/android_manifest.git -b o8x-caf
+    mkdir ~/Github/DU/.repo/local_manifests
+    cp ~/Github/Scripts/Linux/Files/du_manifest.xml ~/Github/DU/local_manifests/du_manifest.xml
+    repo sync --force-sync -j$( nproc --all )
+    ccache -M 50G
+    echo "Enter du_rom in a Terminal to Start Build"
+    pause
+
+while true
+do
+    update_system
+done
+    

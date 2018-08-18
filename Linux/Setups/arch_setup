@@ -130,6 +130,7 @@ tput setaf 31
     echo "| neofetch        # System Information Overview    |"
     echo "| qdirstat-git    # Sorts Files by Size            |"
     echo "| rig             # Random ID Generator            |"
+    echo "| tilix           # Split Terminal Screens         |"
     echo "| yakuake         # Drop Down Terminal             |"
     echo "===================================================="
     echo "| gnome-screenshot                                 |"
@@ -137,7 +138,7 @@ tput setaf 31
     echo "===================================================="   
 if ask "Install My Additional Packages?"; then  
     tput setaf 31; echo "Installing Addition Packages"
-    trizen -Syyu --quiet --noconfirm --noedit --needed acpi apg alsi baobab bc bcompare cava chromium clex climate cmatrix cylon elinks figlet glances gnome-screenshot hollywood htop jp2a neofetch qdirstat-git rar rig screenfetch spotify telegram-desktop-git w3m yakuake
+    trizen -Syyu --quiet --noconfirm --noedit --needed acpi apg alsi baobab bc bcompare cava chromium clex climate cmatrix cylon elinks figlet glances gnome-screenshot hollywood htop jp2a neofetch qdirstat-git rar rig screenfetch spotify telegram-desktop-git tilix w3m yakuake
     clear
     figlet KillerDroid96
     tput setaf 2
@@ -276,6 +277,8 @@ a|A|about)
     echo " Type bl (bash list) to diplay custom commands"
     echo ""
     tput setaf 36
+    pause
+    $HOME/Github/Scripts/Linux/Shells/shell_list
     pause
     clear
     show_main_menu
