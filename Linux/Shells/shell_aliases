@@ -38,8 +38,8 @@ alias {editbashpaths,ebp}='nano $HOME/Github/Scripts/Linux/Shells/shell_paths'		
 alias {editbashprompts,ebpr}='nano $HOME/Github/Scripts/Linux/Shells/shell_prompts'           # Edits Bash Prompts
 
 # System (Quick Launch)
-alias c="clear"                                                                                  # Clears Terminal
-alias r="reset"                                                                                  # Resets Terminal
+alias c="clear"                                                                                  # Clears terminal
+alias r="reset"                                                                                  # Resets terminal
 alias e="exit"                                                                                   # Exits Terminal
 alias sp="Spotify"                                                                               # Launches Spotify
 alias hs='rehistory'                                			                                 # Recent Terminal History (Ex '!208' etc.. to repeat command)
@@ -52,10 +52,10 @@ alias {emptytrash,et}="rm -rf $HOME/Desktop/trash.desktop"                      
 alias {weather,wf}="forcast"							  				 	                     # Gives weather Report
 alias {lastroot,rr,lr}='sudo $(history | tail -n 2 | head -n 1 | sed -e "s/^[ ]*[0-9]*[ ]*//g")' # Executes the last command as root
 alias {trace,intercept}="sudo strace -ff -e trace=write -e write=1,2 -p"                         # Follow Forks With Output Into Separate Files
-alias i='trizen -S --quiet --noconfirm --noedit --needed'
-alias {u,us,uq,strizen,trizenq,trizens}='trizens'
-alias {banner,shell_banner}='$HOME/Github/Scripts/Linux/Shells/shell_banner'
-alias motd='/etc/profile.d/motd.sh'                                        # Displays Banner
+alias i='trizen -S --quiet --noconfirm --noedit --needed'                                        # Trizen Install
+alias {u,us,uq,strizen,trizenq,trizens}='trizens'                                                # System Update
+alias {banner,shell_banner}='$HOME/Github/Scripts/Linux/Shells/shell_banner'                     # Displays Banner
+alias motd='/etc/profile.d/motd.sh'                                                              # Displays Banner
 
 
 # Development 
@@ -89,17 +89,17 @@ alias previous="playerctl previous"
 alias stop="playerctl stop"
 
 # Hard Drive Information
-alias cmount="mount | column -t"           # Displays Filesystem Mounts
-alias disk1='pydf'				           # A Better Version of df 
-alias disk2='df -h'				           # Displays Mounted File Systems
-alias disk3='sudo fdisk -l'                # Checks Partiitions
-alias disk4='sudo cfdisk' 				   # Linux Partition Editor GUI
-alias disk5='sudo lsblk -f'                # Displays Name, FS Type, Label, UUID & Mountpoint
-alias disk6='sudo smartctl -a /dev/sda1'   # Detailed Report & SMART Status
+alias io='sudo iotop'                        # Sort by Disk Writes
+alias swap='swapon --show'                   # Shows Swap Space
+alias {trim,trim_disk,disk_trim}='trim_vbox' # Trims VDI to Free Space
+alias cmount="mount | column -t"             # Displays Filesystem Mounts
+alias disk1='pydf'				             # A Better Version of df 
+alias disk2='df -h'				             # Displays Mounted File Systems
+alias disk3='sudo fdisk -l'                  # Checks Partiitions
+alias disk4='sudo cfdisk' 				     # Linux Partition Editor GUI
+alias disk5='sudo lsblk -f'                  # Displays Name, FS Type, Label, UUID & Mountpoint
+alias disk6='sudo smartctl -a /dev/sda1'     # Detailed Report & SMART Status
 alias disk7='sudo df -h --output=source,fstype,size,used,avail,pcent,target -x tmpfs -x devtmpfs'
-alias io='sudo iotop'                      # Sort by Disk Writes
-alias swap='swapon --show'                 # Shows Swap Space
-alias {trim,trim_disk,disk_trim}='sudo dd if=/dev/zero of=/var/tmp/bigemptyfile bs=4096k ; rm /var/tmp/bigemptyfile'
 
 
 # Directories
