@@ -315,27 +315,6 @@ function trim_vbox(){
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>
 
-source $HOME/Github/Scripts/Linux/Shells/shell_colors
-
-function du_banner(){
-    clear
-    echo -e ${red}""
-    echo -e "============================================="
-    echo -e "               ____  _      __               "
-    echo -e "              / __ \(_)____/ /___  __        "
-    echo -e "             / / / / / ___/ __/ / / /        "
-    echo -e "            / /_/ / / /  / /_/ /_/ /         "
-    echo -e "           /_____/_/_/   \__/\__, /          "
-    echo -e "    __  __      _           /____/           "
-    echo -e "   / / / /___  (_)________  _________  _____ "
-    echo -e "  / / / / __ \/ / ___/ __ \/ ___/ __ \/ ___/ "
-    echo -e " / /_/ / / / / / /__/ /_/ / /  / / / (__  )  "
-    echo -e " \____/_/ /_/_/\___/\____/_/  /_/ /_/____/   "
-    echo -e "                                             "
-    echo -e "============================================="
-   # echo -e ${rst}""
-}
-
 function venv() {
     virtualenv2 /tmp/venv;
     source /tmp/venv/bin/activate;
@@ -631,6 +610,26 @@ function setup_gitconfig () {
     sed -e "s/AUTHORNAME/$git_authorname/g" -e "s/AUTHOREMAIL/$git_authoremail/g" -e "s/GIT_CREDENTIAL_HELPER/$git_credential/g" git/gitconfig.local.symlink.example > git/gitconfig.local.symlink
     success 'gitconfig'
   fi
+}
+
+source $HOME/Github/Scripts/Linux/Shells/shell_colors
+
+function du_banner(){
+    clear
+    echo -e "============================================="
+    echo -e "               ____  _      __               "
+    echo -e "              / __ \(_)____/ /___  __        "
+    echo -e "             / / / / / ___/ __/ / / /        "
+    echo -e "            / /_/ / / /  / /_/ /_/ /         "
+    echo -e "           /_____/_/_/   \__/\__, /          "
+    echo -e "    __  __      _           /____/           "
+    echo -e "   / / / /___  (_)________  _________  _____ "
+    echo -e "  / / / / __ \/ / ___/ __ \/ ___/ __ \/ ___/ "
+    echo -e " / /_/ / / / / / /__/ /_/ / /  / / / (__  )  "
+    echo -e " \____/_/ /_/_/\___/\____/_/  /_/ /_/____/   "
+    echo -e "                                             "
+    echo -e "============================================="
+    echo -e ${CL_RST}""
 }
 
 function unicorn_banner()

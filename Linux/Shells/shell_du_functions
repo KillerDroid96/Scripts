@@ -18,7 +18,7 @@
 
 source $HOME/Github/Scripts/Linux/Shells/shell_colors
 
-function du_banner(){
+function du_banners(){
     clear
     echo -e ${red}""
     echo -e "============================================="
@@ -84,8 +84,6 @@ BIN_FOLDER=${SCRIPTS_FOLDER}/bin
 #ROM_FOLDER=${HOME}/roms
 #TC_FOLDER=${HOME}/toolchains
 #WEB_FOLDER=${HOME}/web
-
-
 
 # Number of make threads
 if [[ ${OS} = "darwin" ]]; then
@@ -333,6 +331,22 @@ function setup_gitconfig () {
     sed -e "s/AUTHORNAME/$git_authorname/g" -e "s/AUTHOREMAIL/$git_authoremail/g" -e "s/GIT_CREDENTIAL_HELPER/$git_credential/g" git/gitconfig.local.symlink.example > git/gitconfig.local.symlink
     success 'gitconfig'
   fi
+}
+
+setup_github () {
+if ask "Setup Github Login?"; then
+    sudo pacman -Syyu git xclip
+    ssh-keygen -t rsa -b 4096 -C "mkeller96@gmail.com"
+    eval "$(ssh-agent -s)"
+    ssh-add ~/.ssh/id_rsa
+    xclip -sel clip < ~/.ssh/id_rsa.pub
+    echo "Login to Github & Add SSH Key"
+    git config --global user.name "KillerDroid96"
+    git config --global user.email "mkeller96@gmail.com"
+    git config --global credential.helper "cache --timeout=7200"
+else
+    echo "No"
+fi
 }
 
 function unicorn_banner()
