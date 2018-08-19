@@ -110,7 +110,7 @@ Dirty(){
         echo "${red}Dirty Build${white}"
         CLEAN_TARGET=
         pause
-        show_menus
+        return
 }
 }
 Setup(){

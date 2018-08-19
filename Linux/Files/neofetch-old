@@ -15,44 +15,45 @@ print_info() {
     #prin "DOB" ""
     #prin "Planet" "Earth"
     #prin "Country" "United States"
-    #prin "State" "KS"
-    prin "Github" "KillerDroid96"
-    prin "Devices" "OnePlus 5T, Nexus 6P, Nexus 6, Galaxy S4, Galaxy Nexus"
-    prin "Weather" "$( printf "$(curl -s wttr.in/~Pittsburg,KS?0?q?T | awk '/°(C|F)/ {printf $(NF-1) $(NF) " ("a")"} /,/ {a=$0}') \n" )"
-    #prin " "
-    info "Users" users
-    info "Host" model 
+    #prin "State" ""
+    #prin "Github" "KillerDroid96"
+    #prin "Devices" "OnePlus 5T, Nexus 6P, Nexus 6, Galaxy S4, Galaxy Nexus"
+    prin " "
     info "Install Date" install_date
     info "Uptime" uptime 
     prin " "
     info "OS" distro 
     info "Kernel" kernel 
-    #prin " "
+    prin " "
     #info underline 
+    info "Users" users
+    info "Host" model 
     info "CPU" cpu 
     info "GPU" gpu
     #info "GPU Driver" gpu_driver  # Linux only 
     info "Resolution" resolution 
-    #prin " " 
+    prin " " 
     info "Packages" packages 
-    #info "CPU Usage" cpu_usage 
+    info "CPU Usage" cpu_usage 
     info "Battery" battery 
     info "Memory" memory 
     info "Disk" disk 
     prin " " 
-    info "Shell" shell
-    info "DE" de 
-    info "WM" wm
+    #info "Terminal" term
+    #info "Shell" shell
+    prin "Weather" "$(curl wttr.in/?0?q?T | awk '/°(C|F)/ {printf $(NF-1) $(NF) " ("a")"} /,/ {a=$0}')" 
+    #info "DE" de 
+    #info "WM" wm
     #info "WM Theme" wm_theme
-    info "Theme" theme
-    info "Icons" icons
+    #info "Theme" theme
+    #info "Icons" icons
     #info "Font" font
-    info "Terminal Font" term_font
-    info "Terminal" term
+    #info "Terminal Font" term_font
     #info underline
     #info "CPU Usage" cpu_usage
     #info "Disk" disk
     #info "Battery" battery
+    #info "Font" font
     info "Song" song
     #info "Local IP" local_ip
     #info "Public IP" public_ip
@@ -275,7 +276,7 @@ refresh_rate="on"
 # Example:
 # on:  'Numix, Adwaita'
 # off: 'Numix [GTK2], Adwaita [GTK3]'
-gtk_shorthand="on"
+gtk_shorthand="off"
 
 
 # Enable/Disable gtk2 Theme / Icons / Font
