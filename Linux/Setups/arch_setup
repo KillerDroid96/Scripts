@@ -138,8 +138,7 @@ tput setaf 31
     echo "===================================================="   
 if ask "Install My Additional Packages?"; then  
     tput setaf 31; echo "Installing Addition Packages"
-    trizen -Syyu --quiet --noconfirm --noedit --needed acpi apg alsi angrysearch auracle-git aview baobab bc bcompare cava chromium clex climate cmatrix cylon elinks figlet fsearch-git gdrive googler glances gnome-screenshot hollywood htop jp2a neofetch osc-url pamac qdirstat-git rar rig screenfetch spotify telegram-desktop-git tilix w3m yakuake zerofree    clear
-    figlet KillerDroid96
+    trizen -Syyu --quiet --noconfirm --noedit --needed acpi apg alsi angrysearch auracle aview baobab bc bcompare cava chromium clex climate cmatrix cylon elinks figlet fsearch-git gdrive googler glances gnome-screenshot hollywood htop jp2a neofetch osc-url pamac qdirstat-git rar rig screenfetch spotify telegram-desktop tilix w3m yakuake zerofree
     tput setaf 2
     echo ""
     echo "Additional Packages Install Complete"
@@ -154,8 +153,8 @@ fi
 tput setaf 32
 if ask "Install Android Build Dependencies?"; then
     echo "Installing Android Dependencies" && sleep 3
-    trizen -S make fakeroot --noconfirm
-    trizen -Syyu --needed --quiet --noedit --noconfirm aosp-devel base-devel lineageos-devel
+    trizen -S make multilib-devel --noconfirm
+    trizen -Syyu --needed --quiet --noedit --noconfirm aosp-devel base-devel lineageos-devel jdk8-openjdk
     echo "Disable PGP checking from AUR" && sleep 3
     export MAKEPKG="makepkg --skippgpcheck"
     tput setaf 2;

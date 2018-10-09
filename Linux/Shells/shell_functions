@@ -129,8 +129,13 @@ function clv() { # cd and ls in one
 
 # Prints weather information 
 function forcast(){
-    printf "\n    Todays Forcast : $(curl -s wttr.in/~Pittsburg,KS?0?q?T | awk '/°(C|F)/ {printf $(NF-1) $(NF) " ("a")"} /,/ {a=$0}') \n ${Color_Off}" 
-    printf "                     : $(curl -s wttr.in/~Overland+Park,KS?0?q?T | awk '/°(C|F)/ {printf $(NF-1) $(NF) " ("a")"} /,/ {a=$0}') \n\n ${Color_Off}"
+	clear
+	printf "\n Todays Forcast"
+    #printf "\n    Todays Forcast : $(curl -s wttr.in/~Pittsburg,KS?0?q?T | awk '/°(C|F)/ {printf $(NF-1) $(NF) " ("a")"} /,/ {a=$0}') \n ${Color_Off}" 
+    #printf "                  : $(curl -s wttr.in/~Overland+Park,KS?0?q?T | awk '/°(C|F)/ {printf $(NF-1) $(NF) " ("a")"} /,/ {a=$0}') \n\n ${Color_Off}"
+    printf "\n $(curl -s wttr.in/~Pittsburg,KS?0?q?T | awk '/°(C|F)/ {printf $(NF-1) $(NF) " ("a")"} /,/ {a=$0}') \n ${Color_Off}" 
+    printf "$(curl -s wttr.in/~Overland+Park,KS?0?q?T | awk '/°(C|F)/ {printf $(NF-1) $(NF) " ("a")"} /,/ {a=$0}') \n\n ${Color_Off}"
+
 }
 
 function ipif() { # lists ip, hostname, city, region, country, loc, org, postal
@@ -532,7 +537,7 @@ function notify() {
 #git pull='git pull --depth=1 -p -j$( nproc --all )'
 #git push='git push-j$( nproc --all )'
 
-# function other_repos() {
+# function other_repo() {
 #     echo "Fetching Project KillerDroid96/flash_kernel_oneplus_msm8998" && sleep 1
 #     git remote add kd git@github.com:KillerDroid96/flash_kernel_oneplus_msm8998.git  &> $HOME/Github/DU/repos.log 
 #     git remote add nc git@github.com:nathanchance/op5.git  &> $HOME/Github/DU/repos.log
@@ -544,46 +549,46 @@ function notify() {
 #     git push --set-upstream kd 8.1.0 &> $HOME/Github/DU/repos.log  
 # }
 
-function merge_du_repos() {
-    cd $HOME/Github/DU/${REPO_PATH}
-    echo "Fetching Project KillerDroid96/${REPO_NAME}" && sleep 1 
-    git remote add kd git@github.com:KillerDroid96/${REPO_NAME}.git &> ${REPO_LOG}
-    git remote add du git@github.com:DirtyUnicorns/${REPO_NAME}.git &> ${REPO_LOG}
-    git checkout -b o8x-caf &> ${REPO_LOG}
-    git checkout o8x-caf &> ${REPO_LOG}
-    git pull kd o8x-caf ${JOBS_FLAG} &> ${REPO_LOG}
-    git pull du o8x ${JOBS_FLAG} &> ${REPO_LOG}
-    git push --set-upstream kd o8x-caf &> ${REPO_LOG}
-}
+# function merge_du_repos() {
+#     cd $HOME/Github/DU/${REPO_PATH}
+#     echo "Fetching Project KillerDroid96/${REPO_NAME}" && sleep 1 
+#     git remote add kd git@github.com:KillerDroid96/${REPO_NAME}.git &> ${REPO_LOG}
+#     git remote add du git@github.com:DirtyUnicorns/${REPO_NAME}.git &> ${REPO_LOG}
+#     git checkout -b p9x-caf &> ${REPO_LOG}
+#     git checkout p9x-caf &> ${REPO_LOG}
+#     git pull kd p9x-caf ${JOBS_FLAG} &> ${REPO_LOG}
+#     git pull du p9x ${JOBS_FLAG} &> ${REPO_LOG}
+#     git push --set-upstream kd o8x-caf &> ${REPO_LOG}
+# }
 
-function du_repos() {
-    REPO_LOG=$HOME/Github/DU/repos.log 
+# function du_repos() {
+#     REPO_LOG=$HOME/Github/DU/repos.log 
     
-    REPO_PATH=build
-    REPO_NAME=android_build
-    merge_du_repos
+#     REPO_PATH=build
+#     REPO_NAME=android_build
+#     merge_du_repos
 
-    #REPO_PATH=packages/apps/Settings
-    #REPO_NAME=android_packages_apps_Settings
-    #merge_du_repos
+#     #REPO_PATH=packages/apps/Settings
+#     #REPO_NAME=android_packages_apps_Settings
+#     #merge_du_repos
 
-    REPO_PATH=frameworks/base
-    REPO_NAME=android_frameworks_base
-    merge_du_repos
+#     REPO_PATH=frameworks/base
+#     REPO_NAME=android_frameworks_base
+#     merge_du_repos
 
-    REPO_PATH=vendor/du
-    REPO_NAME=android_vendor_du
-    merge_du_repos
+#     REPO_PATH=vendor/du
+#     REPO_NAME=android_vendor_du
+#     merge_du_repos
 
-    REPO_PATH=device/oneplus/msm8998-common
-    REPO_NAME=android_device_oneplus_msm8998-common
-    merge_du_repos
-}
+#     REPO_PATH=device/oneplus/msm8998-common
+#     REPO_NAME=android_device_oneplus_msm8998-common
+#     merge_du_repos
+# }
 
-function merge_repos() {
-    du_repos 
-    other_repos    
-}
+# function merge_repos() {
+#     du_repos 
+#     other_repos    
+# }
 
 function sync_all(){
     header "SETTING UP BUILD ENVIRONMENT"
@@ -616,7 +621,7 @@ source $HOME/Github/Scripts/Linux/Shells/shell_colors
 
 function du_banner(){
     clear
-    echo -e "============================================="
+    echo -e ${RED}"============================================="
     echo -e "               ____  _      __               "
     echo -e "              / __ \(_)____/ /___  __        "
     echo -e "             / / / / / ___/ __/ / / /        "
@@ -632,7 +637,7 @@ function du_banner(){
     echo -e ${CL_RST}""
 }
 
-function unicorn_banner()
+function uni_banner()
 {
     echo -e ${RED}"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%"
     echo -e ${RED}"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%"
@@ -654,4 +659,39 @@ function unicorn_banner()
     echo -e ${RED}"%%%%%%%%%%%%%%%%"${BLK}"&&&&&&&&&&&&&&&&"${RED}"%%%%%%%"
     echo -e ${RED}"%%%%%%%%%%%%%%"${BLK}"&&&&&&&&&&&&&"${RED}"%%%%%%%%%%%%"
     echo -e ${RED}"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%"       
+}
+
+function romsetup()
+{
+	clear
+	echo Installing Dependencies!
+	# Update
+	sudo pacman -Syyu
+	# Install pacaur
+	sudo pacman -S base-devel git wget multilib-devel cmake svn clang
+	# Install ncurses5-compat-libs, lib32-ncurses5-compat-libs, aosp-devel, xml2, and lineageos-devel
+	for package in ncurses5-compat-libs lib32-ncurses5-compat-libs aosp-devel xml2 lineageos-devel; do
+	    git clone https://aur.archlinux.org/"${package}"
+	    cd "${package}" || continue
+	    makepkg -si --skippgpcheck
+	    cd - || break
+	    rm -rf "${package}"
+	done
+
+	echo "All Done :'D"
+	echo "Don't forget to run these commands before building, or make sure the python in your PATH is python2 and not python3"
+	echo "
+	virtualenv2 venv
+	source venv/bin/activate"
+}
+
+# Remove URLs from Clang version
+function clang_version() {
+    [[ ${#} -lt 1 || ! ${1} =~ "clang" ]] && { display_error "You didn't supply a Clang binary!"; return; }
+    [[ ! -f ${1} ]] && { display_error "Clang binary supplied doesn't exist!"; return; }
+
+    case "${1}" in
+        *aosp*) "${1}" --version | head -n 1 | perl -pe 's/\(http.*?\)//gs' | sed -e 's/  */ /g' -e 's/[[:space:]]*$//' || display_error "Something went wrong!" ;;
+        *) "${1}" --version | head -n 1 | cut -d \( -f 1 | sed 's/[[:space:]]*$//' || display_error "Something went wrong!" ;;
+    esac
 }

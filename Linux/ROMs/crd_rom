@@ -38,17 +38,7 @@ source $HOME/Github/Scripts/Linux/Shells/shell_colors
 clear
 echo -e ${red}""
 echo -e "============================================="
-echo -e "               ____  _      __               "
-echo -e "              / __ \(_)____/ /___  __        "
-echo -e "             / / / / / ___/ __/ / / /        "
-echo -e "            / /_/ / / /  / /_/ /_/ /         "
-echo -e "           /_____/_/_/   \__/\__, /          "
-echo -e "    __  __      _           /____/           "
-echo -e "   / / / /___  (_)________  _________  _____ "
-echo -e "  / / / / __ \/ / ___/ __ \/ ___/ __ \/ ___/ "
-echo -e " / /_/ / / / / / /__/ /_/ / /  / / / (__  )  "
-echo -e " \____/_/ /_/_/\___/\____/_/  /_/ /_/____/   "
-echo -e "                                             "
+echo -e "                  CrDroid 9.0                "
 echo -e "============================================="
 echo -e ${normal}""
 
@@ -60,7 +50,7 @@ echo -e ${normal}""
 ################
 
 export JAVA_HOME=/usr/lib/jvm/jdk8-openjdk
-ROM=DU
+ROM=CRD
 DEVICE=dumpling
 VARIANT=userdebug
 ROM_FOLDER=${HOME}/Github
@@ -77,15 +67,15 @@ function make_command() {
     m "${JOBS_FLAG}" "$@"
 }
 
-if [[ ${TG} ]]; then
-  {
-       echo "\`\`\`"
-       echo "Currently Executing..."
-       echo "$(basename "${0}") ${PARAMS}"
-       echo "\`\`\`"
-   } > ${TG_MSG_FILE}
-   notify "$(cat ${TG_MSG_FILE})"
-fi
+#if [[ ${TG} ]]; then
+#  {
+#       echo "\`\`\`"
+#       echo "Currently Executing..."
+#       echo "$(basename "${0}") ${PARAMS}"
+#       echo "\`\`\`"
+#   } > ${TG_MSG_FILE}
+#   notify "$(cat ${TG_MSG_FILE})"
+#fi
 
 ###############
 #             #
@@ -100,7 +90,7 @@ ZIP_MOVE_PARENT=${WEB_FOLDER} #/Github/Uploads
 
 # Otherwise, define them for our various ROMs
 case "${ROM}" in
-    "DU"|"aosp"|"du-p9x-caf"|"du-o8x-caf"|"lineage-15.1|")
+    "CRD"|"DU"|"aosp"|"du-p9x-caf"|"du-o8x-caf"|"lineage-15.1|")
         SOURCE_FOLDER=${ROM_FOLDER}/${ROM}
         ZIP_MOVE=${ZIP_MOVE_PARENT}/${ROM}/${DEVICE} ;;
     *)
@@ -139,15 +129,34 @@ if [[ ${SYNC} ]]; then
     repo sync "${JOBS_FLAG}" --force-sync -c --no-clone-bundle --no-tags --optimized-fetch --prune
 fi
 
-#############
+##############
 # REPO MERGE #
-#############
+##############
 
 # if [[ ${MERGE} ]]; then
 #     header "RUNNING MERGE"; echo
 #     merge_repos
 #     cd "${SOURCE_FOLDER}" || die "Source folder does not exist!"
 # fi
+
+#############
+# CHANGELOG #
+#############
+
+#cleanup old changelog.txt
+changelog=$script_path/changelog.txt
+if [ -e $changelog ]; then
+    rm -f $changelog
+fi
+
+echo "${blu}For how many days you want changelog to be generated?${txtrst}"
+read days
+until [[ $days =~ ^-?[0-9]+$ ]]; do
+    echo "Invalid input - only numbers are allowed"
+    read days
+done
+export changelog_days=$days
+echo "${grn}Roger... $days days will be set for changelog generation${txtrst}"
 
 ##################
 # PREPARE DEVICE #
@@ -160,7 +169,7 @@ case ${ROM} in
     "aosp")
         lunch ${ROM}_${DEVICE}-${VARIANT} ;;
     *)
-        breakfast ${DEVICE} ${VARIANT} ;;
+        brunch ${DEVICE} ${VARIANT} ;;
 esac
 
 
@@ -204,16 +213,16 @@ esac
 
 header "MAKING FILES"; echo
 
-if [[ ${TG} ]]; then
-    {
-        echo "\`\`\`"
-        echo "Build Starting... "
-        echo "ROM: ${ROM}"
-        echo "Device: ${DEVICE}"
-        echo "\`\`\`"
-    } > ${TG_MSG_FILE}
-    notify "$(cat ${TG_MSG_FILE})"
-fi
+# if [[ ${TG} ]]; then
+#     {
+#         echo "\`\`\`"
+#         echo "Build Starting... "
+#         echo "ROM: ${ROM}"
+#         echo "Device: ${DEVICE}"
+#         echo "\`\`\`"
+#     } > ${TG_MSG_FILE}
+#     notify "$(cat ${TG_MSG_FILE})"
+# fi
 
 # Set make_target if unset (not all roms use bacon)
 make_command "${MAKE_TARGET}"

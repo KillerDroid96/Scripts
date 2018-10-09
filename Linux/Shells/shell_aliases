@@ -29,7 +29,8 @@ alias {editzsh,ez}='nano ~/.zshrc'        				 				                      # Edits
 alias {editbash,eb}='nano ~/.bashrc'        				 				                  # Edits Bash
 alias {updatezsh,uz}='source ~/.zshrc'                     			         	              # Updates ZSH
 alias {updatebash,ub}='source ~/.bashrc'                  				 		              # Updates Bash
-alias {shell_list,bashlist,bl,sl}='$HOME/Github/Scripts/Linux/Shells/shell_list'              # Displays Bash List
+alias {shell_list,bashlist,bl,sl,al}='$HOME/Github/Scripts/Linux/Shells/shell_list'           # Displays Bash List
+alias {function_list,functions,bf,sf,fl}='$HOME/Github/Scripts/Linux/Shells/function_list'    # Displays Function List
 alias {editbashaliases,eba,esa,eza}='nano $HOME/Github/Scripts/Linux/Shells/shell_aliases'	  # Edits Bash Aliases
 alias {editbashcolors,ebc}='nano $HOME/Github/Scripts/Linux/Shells/shell_colors'              # Edits Bash Colors
 alias {editbashlist,ebl}='nano $HOME/Github/Scripts/Linux/Shells/shell_list'				  # Edits Bash List
@@ -69,9 +70,10 @@ alias {rs,reposync}="sync_repo" 											      # Syncs DU Repo
 alias {venv,venv2}="mkavenv"			                                          # Starts Venv2
 
 # SSH & Mosh
+alias {xps15}='ssh killerdroid96@droidbox'             
 alias {virtualboxmosh,vboxmosh,vbm,apm,archm,moshy,apm}='mosh matt@virtualbox'  # Mosh VirtualBox
 alias {virtualbox,vbox,vb,ap,arch,sshy}='ssh matt@virtualbox'                   # SSH VirtualBox
-alias {laptop,xps15,externalssd}='mosh killerdroid96@192.168.1.90'              # Mosh External SSD
+alias {laptop,externalssd}='mosh killerdroid96@192.168.1.97'                    # Mosh External SSD
 alias {box,droidbox,server}='ssh killerdroid96@droidbox'                        # SSH Server
 alias {mbox,mdroidbox,mserver}='mosh killerdroid96@droidbox'                    # Mosh Server
 

@@ -221,12 +221,17 @@ load_botinfo
 [[ $# -lt 1 && ${OS} = "darwin" ]] && die "Wrong window! ;)"
 
 # Convert a file location to web link
-function web_link() {
+function web_link_du() {
     #gdrive -c /home/matt/.gdrive sync upload $HOME/Github/Uploads 1znWrZTRSwAvWgVNHz4hsvEEgaOcrpS8z &> out.log 
     #echo "https://goo.gl/m7ssB5"
-
-    gdrive -c /home/matt/.gdrive-secondary sync upload $HOME/Github/Uploads 1lOVVWYg_itAPwaUWbMhkvF2P51wzr46v &> out.log
+    #gdrive about -c /home/killerdroid96/.gdrive #&> out.log  
+    #gdrive -c /home/killerdroid96/.gdrive sync upload $HOME/Github/Uploads 1hrh0JxQ46n_bbRAVFVhAxVGRsSOM9RXY &> out.log
+    gdrive -c /home/killerdroid96/.gdrive sync upload $HOME/Github/Uploads 1lOVVWYg_itAPwaUWbMhkvF2P51wzr46v &> out.log
     echo "https://goo.gl/wDXHyD"
+}
+function web_link() {
+    gdrive -c /home/killerdroid96/.gdrive sync upload $HOME/Github/Uploads 1SB9biOtl8xcSPdO0NNVpIszM-jqNviJd &> out.log
+    echo "https://goo.gl/yDMpFj"
 }
 
 # Telegram notifier function
@@ -265,45 +270,66 @@ function other_repos() {
     git push --set-upstream kd 8.1.0 &> $HOME/Github/DU/repos.log  
 }
 
-function merge_du_repos() {
+git remote add kd git@github.com:KillerDroid96/android_build.git
+git remote add du git@github.com:DirtyUnicorns/android_build.git
+git checkout -b p9x-caf
+git checkout p9x-caf
+git pull du p9x-caf
+git add .
+git commit -m "p9x-caf"
+git push kd p9x-caf
+
+function merge_du9_repos() {
     cd $HOME/Github/DU/${REPO_PATH}
+    git init
     echo "Fetching Project KillerDroid96/${REPO_NAME}" && sleep 1 
-    git remote add kd git@github.com:KillerDroid96/${REPO_NAME}.git &> ${REPO_LOG}
-    git remote add du git@github.com:DirtyUnicorns/${REPO_NAME}.git &> ${REPO_LOG}
-    git checkout -b o8x-caf &> ${REPO_LOG}
-    git checkout o8x-caf &> ${REPO_LOG}
-    git pull kd o8x-caf ${JOBS_FLAG} &> ${REPO_LOG}
-    git pull du o8x ${JOBS_FLAG} &> ${REPO_LOG}
-    git push --set-upstream kd o8x-caf &> ${REPO_LOG}
+    git remote add kd git@github.com:KillerDroid96/${REPO_NAME}.git #&> ${REPO_LOG}
+    git remote add du git@github.com:DirtyUnicorns/${REPO_NAME}.git #&> ${REPO_LOG}
+    git checkout -b p9x-caf #&> ${REPO_LOG}
+    git checkout p9x-caf #&> ${REPO_LOG}
+    #git pull kd p9x-caf ${JOBS_FLAG} &> ${REPO_LOG}
+    #git pull du o8x ${JOBS_FLAG} &> ${REPO_LOG}
+
+    #git pull kd KD_REMOTE ${JOBS_FLAG} #&> ${REPO_LOG}
+    #git pull du DU_REMOTE ${JOBS_FLAG} #&> ${REPO_LOG}
+    #git push --set-upstream kd p9x-caf #&> ${REPO_LOG}
+    git commit -m "p9x-caf"
+    git push kd p9x-caf
 }
 
-function du_repos() {
+function du9_repos() {
+
     REPO_LOG=$HOME/Github/DU/repos.log 
     
     REPO_PATH=build
     REPO_NAME=android_build
-    merge_du_repos
-
-    #REPO_PATH=packages/apps/Settings
-    #REPO_NAME=android_packages_apps_Settings
-    #merge_du_repos
-
-    REPO_PATH=frameworks/base
-    REPO_NAME=android_frameworks_base
-    merge_du_repos
+    KD_REMOTE=p9x-caf
+    DU_REMOTE=p9x
+    merge_du9_repos
 
     REPO_PATH=vendor/du
     REPO_NAME=android_vendor_du
+    KD_REMOTE=p9x-caf
+    DU_REMOTE=p9x-caf
+    merge_du_repos
+
+    REPO_PATH=device/oneplus/dumpling
+    REPO_NAME=android_device_oneplus_dumpling
+    KD_REMOTE=p9x-caf
+    DU_REMOTE=p9x-caf
     merge_du_repos
 
     REPO_PATH=device/oneplus/msm8998-common
     REPO_NAME=android_device_oneplus_msm8998-common
+    KD_REMOTE=p9x-caf
+    DU_REMOTE=p9x-caf
     merge_du_repos
+
 }
 
 function merge_repos() {
-    du_repos 
-    other_repos    
+    du9_repos 
+   # other_repos    
 }
 
 function sync_all(){

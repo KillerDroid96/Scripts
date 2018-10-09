@@ -1,0 +1,176 @@
+#!/bin/bash
+
+# This is a general-purpose function to ask Yes/No questions in Bash, either
+# with or without a default answer. It keeps repeating the question until it
+# gets a valid answer.
+ask() {
+    # https://djm.me/ask
+    local prompt default reply
+    while true; do
+
+        if [ "${2:-}" = "Y" ]; then
+            prompt="Y/n"
+            default=Y
+        elif [ "${2:-}" = "N" ]; then
+            prompt="y/N"
+            default=N
+        else
+            prompt="y/n"
+            default=
+        fi
+        # Ask the question (not using "read -p" as it uses stderr not stdout)
+        echo -n "$1 [$prompt] "
+        # Read the answer (use /dev/tty in case stdin is redirected from somewhere else)
+        read reply </dev/tty
+        # Default?
+        if [ -z "$reply" ]; then
+            reply=$default
+        fi
+        # Check if the reply is valid
+        case "$reply" in
+            Y*|y*) return 0 ;;
+            N*|n*) return 1 ;;
+        esac
+    done
+}
+
+pause(){
+  read -p "Press [Enter] key to continue..." fackEnterKey
+}
+
+show_main_menu() {
+tput setaf 38
+    clear
+    echo ""
+    echo "        ROM Setup Script"
+    echo "        [KillerDroid96]"
+    echo ""
+    echo "=============================="
+    echo "|          Main Menu         |"
+    echo "=============================="
+    echo "|  [1] Setup Github          |"
+    echo "|  [2] Setup Android         |"
+    echo "|  [3] Setup DU              |"
+    echo "|  [4] Build DU              |"
+    echo "|  [a] About                 |"
+    echo "|  [h] Help                  |"
+    echo "|  [e] Exit                  |"
+    echo "=============================="
+read menu
+case $menu in
+
+1|setup_gitconfig)
+tput setaf 30
+if ask "Setup Github Login?"; then
+    sudo pacman -Syyu git xclip
+    ssh-keygen -t rsa -b 4096 -C "mkeller96@gmail.com"
+    eval "$(ssh-agent -s)"
+    ssh-add ~/.ssh/id_rsa
+    xclip -sel clip < ~/.ssh/id_rsa.pub
+    echo "Login to Github & Add SSH Key"
+    git config --global user.name "KillerDroid96"
+    git config --global user.email "mkeller96@gmail.com"
+    git config --global credential.helper "cache --timeout=7200"
+    tput setaf 2
+    echo ""
+    echo "Github Setup Complete"
+    echo "" 
+else
+    echo "No"
+fi
+;;
+
+2|install_android)
+tput setaf 32
+if ask "Install Android Build Dependencies?"; then
+    echo "Installing Android Dependencies" && sleep 3
+    trizen -S make multilib-devel --noconfirm
+    trizen -S --needed --quiet --noedit --noconfirm aosp-devel base-devel lineageos-devel jdk8-openjdk
+    echo "Disable PGP checking from AUR" && sleep 3
+    export MAKEPKG="makepkg --skippgpcheck"
+    tput setaf 2;
+    trizen -S --needed --quiet libtinfo --skipinteg --noconfirm 
+    trizen -S --needed --quiet lib32-ncurses5-compat-libs --skipinteg --noconfirm 
+    trizen -S --needed --quiet ncurses5-compat-libs --skipinteg --noconfirm
+    tput setaf 2
+    echo ""
+    echo "Android Setup Complete"
+    echo "" 
+else
+    echo "No"
+fi
+;;
+
+3|setup_du)
+tput setaf 33
+if ask "Setup Build for Dirty Unicorns?"; then
+    mkdir ~/Github/DU
+    cd ~/Github/DU
+    virtualenv2 venv
+    source venv/bin/activate
+    repo init -u http://github.com/DirtyUnicorns/android_manifest.git -b p9x-caf
+    mkdir ~/Github/DU/.repo/local_manifests
+    cp ~/Github/Scripts/Linux/Files/du_manifest.xml ~/Github/DU/local_manifests/du_manifest.xml
+    repo sync --force-sync -j$( nproc --all )
+    ccache -M 50G
+    echo "Enter du_rom in a Terminal to Start Build"
+    show_main_menu
+else
+    echo "No"
+fi
+;;
+
+4|build_du)
+tput setaf 33
+if ask "Start Build for Dirty Unicorns?"; then
+    du_rom
+    show_main_menu
+else
+    echo "No"
+fi
+;;
+
+a|A|about)
+    clear
+    tput setaf 1
+    echo ""
+    echo "      This is a Script Made to Setup ROM"
+    echo "   Written by Matthew Keller [KillerDroid96]"
+    echo ""
+    echo " Type bl (bash list) to diplay custom commands"
+    echo ""
+    tput setaf 36
+    pause
+    $HOME/Github/Scripts/Linux/Shells/shell_list
+    pause
+    clear
+    show_main_menu
+;;
+
+Help|help|h|H)
+    clear
+    tput setaf 1
+    echo ""
+    echo "To Use Menu Enter the Number or Letter"
+    echo ""
+    tput setaf 36
+    pause
+    clear
+    show_main_menu
+;;
+Exit|e|E|exit)
+    clear
+    exit 0
+;;
+*)
+echo don\'t know
+;;
+esac
+
+}
+
+while true
+do
+    show_main_menu
+    
+done 

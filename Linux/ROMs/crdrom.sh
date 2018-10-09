@@ -1,0 +1,339 @@
+#!/bin/bash
+# Build crDroid and optionally upload to FTP
+# Author: Gwolf2u (gwolf2u@xda)
+script_version=5.0.1
+
+# Specify colors utilized in the terminal
+red=$(tput setaf 1)                         #  red
+grn=$(tput setaf 2)                         #  green
+ylw=$(tput setaf 3)                         #  yellow
+blu=$(tput setaf 4)                         #  blue
+cya=$(tput rev)$(tput bold)$(tput setaf 6)  #  bold cyan reversed
+ylr=$(tput rev)$(tput bold)$(tput setaf 3)  #  bold yellow reversed
+grr=$(tput rev)$(tput bold)$(tput setaf 2)  #  bold green reversed
+rer=$(tput rev)$(tput bold)$(tput setaf 1)  #  bold red reversed
+txtrst=$(tput sgr0)                         #  Reset
+
+#detect path where the script is running
+script_path="`dirname \"$0\"`"
+script_path="`( cd \"$script_path\" && pwd )`"
+if [ -z "$script_path" ] ; then
+    # error; for some reason, the path is not accessible
+    echo "${red}Can not read run path"
+    echo "Build can not continue"${txtrst}
+    exit 1  # fail
+fi
+
+arg=$1
+case $arg in
+    "add" )
+        echo "Add a new device:"
+        echo "Format: <device codename>,<FTP upload path>"
+        read newdevice
+        echo $newdevice >> devices
+        echo "Added"
+        exit 0 ;;
+    "remove" )
+        if [ ! -f devices ]; then
+            echo "There are no devices saved"
+            exit 0
+        fi
+        echo "Enter line number to delete"    
+        awk '$0!=""{print NR, $0}' devices
+        read delline
+        sed -i $delline'd' devices
+        echo "Deleted"
+        exit 0 ;;
+    "list" )
+        if [ ! -f devices ]; then
+            echo "There are no devices saved"
+            exit 0
+        fi
+        echo "Listing all devices:"
+        cat $script_path"/devices"
+        exit 0 ;;
+    "clean" )
+        echo "Cleaned up configuration"
+        rm -f $script_path"/config"
+        exit 0 ;;
+    "clear" )
+        echo "Cleaned up all devices"
+        rm -f $script_path"/devices"
+        exit 0 ;;
+    "help" )
+        echo "This build script is used to be able to build crDroid and upload the builds over FTP"
+        echo "Usage: ./build [OPTION]"
+        echo ""
+        echo "Commands supported:"
+        echo "add       - adds a device to be built"
+        echo "remove    - removes a device from build list"
+        echo "list      - lists all devices that are configured to be built"
+        echo "clean     - cleans up the configuration"
+        echo "clear     - clears up all the devices on build list"
+        exit 0 ;;
+esac
+
+
+echo "==========================================="
+echo "${cya}Initiate build script - v$script_version for crDroid 5.x"${txtrst}
+echo "==========================================="
+
+config=$script_path"/config"
+if [ ! -f $config ]; then
+    echo "Configuration file is missing"
+    echo "Creating..."
+    echo "Please enter the path where crDroid folder is located (full path ex:/home/<user>/crDroid)"
+    read set_crDroid_path
+    echo "How much RAM can JACK use for compiling? (numeric value ex: 16)"
+    read set_RAM
+    echo "How much space (in GB) can be used to ccache? (numeric value ex: 30)"
+    read set_ccachesize
+    echo "Copy changelog to script location at end of compilation?"
+    set_copy_changelog=false
+    select yn in "Yes" "No"; do
+        case $yn in
+            Yes ) set_copy_changelog=true; break;;
+            No ) set_copy_changelog=false;break;;
+        esac
+    done
+    echo "Upload compilation to FTP at end of build?"
+    set_upload_build=false
+    select yn in "Yes" "No"; do
+        case $yn in
+            Yes ) set_upload_build=true; break;;
+            No ) set_upload_build=false;break;;
+        esac
+    done
+    if [ "$set_upload_build" = true ] ; then
+        echo "Enter FTP hostname (ex: uploads.androidfilehost.com): "
+        read set_FTP_hostname
+        echo "Enter FTP username:"
+        read set_FTP_username
+        echo "Enter FTP password:"
+        read set_FTP_password
+    fi
+
+    #create config file
+    echo "#   << Start configuration >>" >> config
+    echo "#crDroid_path is the location of build environment root path aka {ANDROID_BUILD_TOP}" >> config
+    echo "crDroid_path="$set_crDroid_path >> config
+    echo "#set how much RAM is used by JACK if building with" >> config
+    echo "RAM="$set_RAM >> config
+    echo "#CCache size" >> config
+    echo "ccachesize="$set_ccachesize"G" >> config
+    echo "#set if you want to save changelog file to script_path at end of build" >> config
+    echo "copy_changelog="$set_copy_changelog >> config
+    echo "#FTP config" >> config
+    echo "upload_build="$set_upload_build >> config
+    echo "FTP_hostname=ftp://$set_FTP_hostname" >> config
+    echo "FTP_username="$set_FTP_username >> config
+    echo "FTP_password="$set_FTP_password >> config
+    echo "#   << End configuration >>" >> config
+    echo "${grn}Successfully created configuration file at ${ylw}$script_path/config${txtrst}"
+    echo "Please run \"${grn}./build add${txtrst}\" to add new devices for build script"
+    echo "For a list of availble commands, run \"${grn}./build help${txtrst}\""
+    exit 0
+fi
+
+#check script updates
+echo "Running update check..."
+wget -O check -q https://raw.githubusercontent.com/crdroidandroid/crdroid_build/9.0/build
+linenr=$(grep -n "script_version" check | grep -Eo '^[^:]+')
+array=( $linenr )
+online_version=$(sed -n ${array[0]}'p' < check | cut -d "=" -f 2 | sed -r 's/[.]+//g')
+rm -f check
+script_version=$(echo $script_version | sed -r 's/[.]+//g')
+if [ "$online_version" -gt "$script_version" ]; then
+    echo "${ylr}A new version of this build script is available on GitHub"
+    echo "Run below command to update before re-attempting to run again"
+    echo "${rer}curl -LJO https://raw.githubusercontent.com/crdroidandroid/crdroid_build/9.0/build${txtrst}"
+    read -p "${ylr}Press enter to exit${txtrst}"
+    exit 0
+else
+    echo "${grr}Seems you are running latest build script version available ㋡${txtrst}"
+fi
+
+#Reading info from config
+crDroid_path=$(sed -n '3p' < config | cut -d "=" -f 2)
+RAM=$(sed -n '5p' < config | cut -d "=" -f 2)
+ccachesize=$(sed -n '7p' < config | cut -d "=" -f 2)
+copy_changelog=$(sed -n '9p' < config | cut -d "=" -f 2)
+upload_build=$(sed -n '11p' < config | cut -d "=" -f 2)
+FTP_hostname=$(sed -n '12p' < config | cut -d "=" -f 2)
+FTP_username=$(sed -n '13p' < config | cut -d "=" -f 2)
+FTP_password=$(sed -n '14p' < config | cut -d "=" -f 2)
+
+#check if devices exists
+devices=$script_path/devices
+if [ ! -f $devices ]; then
+    echo "${red}There are no devices configured to be built"
+    echo "Run \"./build add\" to add a new device"${txtrst}
+    exit 1  # fail
+fi
+
+#cleanup old changelog.txt
+changelog=$script_path/changelog.txt
+if [ -e $changelog ]; then
+    rm -f $changelog
+fi
+
+PATH=~/bin:$PATH
+
+#check if already synced
+crdroid_synced=$crDroid_path/vendor/lineage/config/common.mk
+if [ ! -f $crdroid_synced ]; then
+    echo "${ylw}Detected missing first sync... atempting first time sync..."${txtrst}
+    cd $crDroid_path
+    repo sync -f --force-sync --no-clone-bundle
+fi
+
+if [ ! -f $crdroid_synced ]; then
+    read -p "${red}Something went wrong :( - Maybe misconfigured script!?"
+    exit
+fi
+
+export LC_ALL=C
+
+cd $crDroid_path
+echo "${blu}Run sync?${txtrst}"
+select yn in "Yes" "No"; do
+    case $yn in
+        Yes ) repo sync -f --force-sync --no-clone-bundle; break;;
+        No ) break;;
+    esac
+done
+
+echo "${blu}For how many days you want changelog to be generated?${txtrst}"
+read days
+until [[ $days =~ ^-?[0-9]+$ ]]; do
+    echo "Invalid input - only numbers are allowed"
+    read days
+done
+export changelog_days=$days
+echo "${grn}Roger... $days days will be set for changelog generation${txtrst}"
+
+echo "${blu}Make clean build?${txtrst}"
+select yn in "Yes" "No"; do
+    case $yn in
+        Yes ) . build/envsetup.sh && make clean; break;;
+        No ) break;;
+    esac
+done
+
+#create a commands.txt files and run the commands from it before build initializes 
+commands=$script_path/commands.txt
+if [ -f $commands ]; then
+    . build/envsetup.sh
+    cat $script_path/commands.txt | while read line
+    do
+        $line
+    done
+fi
+
+INFO=()
+
+#Set CCache size
+$crDroid_path/prebuilts/misc/linux-x86/ccache/ccache -M $ccachesize
+
+#detect android version based on common.mk
+major_check=$(grep -n "PRODUCT_VERSION_MAJOR" $crDroid_path/vendor/lineage/config/common.mk | grep -Eo '^[^:]+')
+array=( $major_check )
+android_major=$(sed -n ${array[0]}'p' < $crDroid_path/vendor/lineage/config/common.mk | cut -d "=" -f 2 | sed -r 's/[.]+//g' | tr -d '[:space:]')
+minor_check=$(grep -n "PRODUCT_VERSION_MINOR" $crDroid_path/vendor/lineage/config/common.mk | grep -Eo '^[^:]+')
+array=( $minor_check )
+android_minor=$(sed -n ${array[0]}'p' < $crDroid_path/vendor/lineage/config/common.mk | cut -d "=" -f 2 | sed -r 's/[.]+//g' | tr -d '[:space:]')
+android=$android_major"."$android_minor
+cr_check=$(grep -n "CR_VERSION" $crDroid_path/vendor/lineage/config/common.mk | grep -Eo '^[^:]+')
+array=( $cr_check )
+crDroid=$(sed -n ${array[0]}'p' < $crDroid_path/vendor/lineage/config/common.mk | cut -d "=" -f 2 | tr -d '[:space:]') 
+
+echo "==========================================="
+echo "${ylr}Setting build environment"${txtrst}
+echo "-------------------------------------------"
+echo "Script path set to: "${grn}$script_path${txtrst}
+echo "crDroid path set to: "${grn}$crDroid_path${txtrst}
+echo "Jack RAM usage set to: "${grn}$RAM"GB RAM"${txtrst}
+echo "CCache size set to: "${grn}$ccachesize"B"${txtrst}
+echo "Copy changelog to script path at end of build?: "${grn}$copy_changelog${txtrst}
+echo "Upload complete build to FTP?: "${grn}$upload_build${txtrst}
+echo "Trying to compile crDroid "${grn}$crDroid${txtrst}" based on Android "${grn}$android${txtrst}
+echo "==========================================="
+echo ""
+
+echo "${ylw}Initiate build for all devices...${txtrst}"
+file=$script_path/devices
+while IFS= read -r line
+do
+    IFS=', ' read -r -a device_uploadpath <<< "$line"
+    #set device name 
+    device=${device_uploadpath[0]}
+    if [[ $device == *"#"* ]]; then
+        device="${device//#}"
+        echo "${red}Found comment (#): Skipping build for ${ylw}$device ${red}${txtrst}"
+        INFO+=('1 '$device' (Reason: instruction to skip found in devices)')
+    else
+        echo "${grn}Now building "${ylw}$device${txtrst}
+    
+        #set BuildID - aka name of the zip file from OUT folder at the end of the build
+        BuildID="crDroidAndroid-"$android"-"$(date -d "$D" '+%Y')$(date -d "$D" '+%m')$(date -d "$D" '+%d')"-"$device"-v"$crDroid".zip"
+        
+        #Jack settings
+        echo "Adding "$RAM" RAM to JACK"
+        export JACK_SERVER_VM_ARGUMENTS="-Dfile.encoding=UTF-8 -XX:+TieredCompilation -Xmx"$RAM"g"
+        ./prebuilts/sdk/tools/jack-admin kill-server
+        ./prebuilts/sdk/tools/jack-admin start-server
+    
+        #initiate build script and start actual build
+        . build/envsetup.sh
+        brunch $device
+        
+        #define upload file path
+        uploadfile=$crDroid_path/out/target/product/$device/$BuildID
+        echo "Checking build result status..."
+        if [ -e "$uploadfile" ]; then
+            echo "${grn}Seems compilation is ready!${txtrst}"
+            if [ "$upload_build" = true ] ; then
+                echo "${grn}Uploading new "$device" build to FTP server${txtrst}"
+                echo "${ylw}Creating folder over FTP if not exist${txtrst}"
+                curl $FTP_hostname/${device_uploadpath[1]}/ --user $FTP_username:$FTP_password --ftp-create-dirs
+                echo "${ylw}Uploading...${txtrst}"
+                curl -T $uploadfile $FTP_hostname/${device_uploadpath[1]}/ --user $FTP_username:$FTP_password
+                res=$?
+                if test "$res" != "0"; then
+                    echo "${red}Upload of build for device $device failed with code $res${txtrst}"
+                    INFO+=('1 '$device' (Reason: CURL error no.'$res' ,however compilation appears to be made)')
+                else
+                    INFO+=('2 '$device)
+                fi
+            else
+                INFO+=('2 '$device)
+            fi
+
+            if [ "$copy_changelog" = true ] ; then
+                echo "Copy changelog file to "$script_path
+                cp $crDroid_path/out/target/product/$device/system/etc/Changelog.txt $script_path/changelog.txt	
+            fi
+        else 
+            echo "${red}Device "$device "did not produce a proper build${txtrst}"
+            INFO+=('0 '$device' (Reason: unknown - better run a new build manually)')
+        fi
+    fi
+done < "$file"
+
+echo ${grr}"Script finished with following results"${txtrst}
+for i in "${INFO[@]}"
+do
+	#echo $i
+    if [[ $i == *"0"* ]]; then
+        codename=${i//0}
+        echo "${red}Compilation error for device" $codename${txtrst}
+    elif [[ $i == *"1"* ]]; then
+        codename=${i//1}
+        echo "${ylw}Warning for device" $codename${txtrst}
+    else
+        codename=${i//2}
+        echo "${grn}Device" $codename "compiled and uploaded successfully ㋡${txtrst}"
+    fi
+done
+
+read -p "Press enter to exit"

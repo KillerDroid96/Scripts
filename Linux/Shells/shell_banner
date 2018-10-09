@@ -86,9 +86,17 @@ function cpuUsage() {
 }
 
 function diskUsage() {
-    USED=$( df -h | grep -m 1 /dev/sda | awk '{print $3}' )
-    ALL=$( df -h | grep -m 1 /dev/sda | awk '{print $2}' )
-    PERCENT=$( df -h | grep -m 1 /dev/sda | awk '{print $5}' )
+    USED=$( df -h | grep -m 1 /dev/nvme0n1p6 | awk '{print $3}' )
+    ALL=$( df -h | grep -m 1 /dev/nvme0n1p6 | awk '{print $2}' )
+    PERCENT=$( df -h | grep -m 1 /dev/nvme0n1p6 | awk '{print $5}' )
+
+    echo "${USED} / ${ALL} (${PERCENT})"
+}
+
+function diskUsage1() {
+    USED=$( df -h | grep -m 1 /dev/nvme0n1p5 | awk '{print $3}' )
+    ALL=$( df -h | grep -m 1 /dev/nvme0n1p5 | awk '{print $2}' )
+    PERCENT=$( df -h | grep -m 1 /dev/nvme0n1p5 | awk '{print $5}' )
 
     echo "${USED} / ${ALL} (${PERCENT})"
 }
@@ -118,6 +126,7 @@ echo -e "    Operating System:" ${WHT}"$( source /etc/os-release; echo -e "${PRE
 echo -e "    Kernel Version:" ${WHT}"$( uname -r )" ${RED}
 echo -e "    Processor:" ${WHT}"$( cpu )" ${RED}
 echo -e "    Memory Usage:" ${WHT}"$( memUsage )" ${RED}
-echo -e "    Disk Usage:" ${WHT}"$( diskUsage )" ${RED}
+echo -e "    Home Usage:" ${WHT}"$( diskUsage )" ${RED}
+echo -e "    Root Usage:" ${WHT}"$( diskUsage1 )" ${RED}
 echo -e "    CPU Usage:" ${WHT}"$( cpuUsage )" ${RED}
 echo -e "\033[0m"

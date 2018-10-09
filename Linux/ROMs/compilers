@@ -1,8 +1,8 @@
 #!/bin/bash
-#Build Dependecies
-#echo "Ccache Version : $(ccache -V)"
-#echo "Clang Version : $(clang --version)"
-#gcc -dumpmachine
+Build Dependecies
+echo "Ccache Version : $(ccache -V)"
+echo "Clang Version : $(clang --version)"
+gcc -dumpmachine
 echo ""
 echo "GCC Version    : $(gcc -dumpversion)"
 echo "Ninja Version  : $(ninja --version)"
