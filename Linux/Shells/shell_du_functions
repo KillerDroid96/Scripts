@@ -221,17 +221,15 @@ load_botinfo
 [[ $# -lt 1 && ${OS} = "darwin" ]] && die "Wrong window! ;)"
 
 # Convert a file location to web link
-function web_link_du() {
+function web_link() {
     #gdrive -c /home/matt/.gdrive sync upload $HOME/Github/Uploads 1znWrZTRSwAvWgVNHz4hsvEEgaOcrpS8z &> out.log 
     #echo "https://goo.gl/m7ssB5"
     #gdrive about -c /home/killerdroid96/.gdrive #&> out.log  
     #gdrive -c /home/killerdroid96/.gdrive sync upload $HOME/Github/Uploads 1hrh0JxQ46n_bbRAVFVhAxVGRsSOM9RXY &> out.log
+    #gdrive about -c /home/matt/.gdrive-secondary #&> out.log  
+    #gdrive -c /home/matt/.gdrive-secondary sync upload $HOME/Github/Uploads 1lOVVWYg_itAPwaUWbMhkvF2P51wzr46v #&> out.log  
     gdrive -c /home/killerdroid96/.gdrive sync upload $HOME/Github/Uploads 1lOVVWYg_itAPwaUWbMhkvF2P51wzr46v &> out.log
-    echo "https://goo.gl/wDXHyD"
-}
-function web_link() {
-    gdrive -c /home/killerdroid96/.gdrive sync upload $HOME/Github/Uploads 1SB9biOtl8xcSPdO0NNVpIszM-jqNviJd &> out.log
-    echo "https://goo.gl/yDMpFj"
+    echo "https://goo.gl/piMa5s"
 }
 
 # Telegram notifier function
@@ -375,7 +373,7 @@ else
 fi
 }
 
-function unicorn_banner()
+function unicorn()
 {
 	echo -e ${RED}"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%"
 	echo -e ${RED}"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%"

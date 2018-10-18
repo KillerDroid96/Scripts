@@ -37,9 +37,14 @@ source $HOME/Github/Scripts/Linux/Shells/shell_colors
 
 clear
 echo -e ${red}""
-echo -e "============================================="
-echo -e "                  CrDroid 9.0                "
-echo -e "============================================="
+echo -e "========================================="
+echo -e "    ______     ____             _     __ "
+echo -e "   / ____/____/ __ \_________  (_)___/ / "
+echo -e "  / /   / ___/ / / / ___/ __ \/ / __  /  "
+echo -e " / /___/ /  / /_/ / /  / /_/ / / /_/ /   "
+echo -e " \____/_/  /_____/_/   \____/_/\__,_/    "
+echo -e "                                         "
+echo -e "========================================="
 echo -e ${normal}""
 
 
@@ -61,7 +66,7 @@ SYNC=true
 MAKE_TARGET=bacon 
 CLEAN_TARGET=true
 #MERGE=true
-#REPOPICK=${1}
+REPOPICK=true
 
 function make_command() {
     m "${JOBS_FLAG}" "$@"
@@ -111,23 +116,35 @@ cd "${SOURCE_FOLDER}" || die "Source folder does not exist!"
 ###########################
 # SETUP BUILD ENVIRONMENT #
 ###########################
-
 header "SETTING UP BUILD ENVIRONMENT"
-
 # Check and see if we are on Arch
 # If so, activare a virtual environment for proper Python support
 [[ -f /etc/arch-release ]] && mkavenv
 source build/envsetup.sh
         
+##################
+# PREPARE DEVICE #
+##################
+header "PREPARING $(echo ${DEVICE} | awk '{print toupper($0)}')"
+# Not all roms use breakfast
+case ${ROM} in
+    "aosp")
+        lunch ${ROM}_${DEVICE}-${VARIANT} ;;
+    *)
+        breakfast ${DEVICE} ${VARIANT} ;;
+esac
+
 #############
 # REPO SYNC #
 #############
-
-# If the sync is requested, do so
-if [[ ${SYNC} ]]; then
-    header "SYNCING LATEST SOURCES"; echo
-    repo sync "${JOBS_FLAG}" --force-sync -c --no-clone-bundle --no-tags --optimized-fetch --prune
-fi
+header "REPO SYNC"
+echo "Sync Repo?${txtrst}"
+select yn in "Yes" "No"; do
+    case $yn in
+        Yes ) repo sync "${JOBS_FLAG}" --force-sync -c --no-clone-bundle --no-tags --optimized-fetch --prune; break;;
+        No ) break;;
+    esac
+done
 
 ##############
 # REPO MERGE #
@@ -139,73 +156,132 @@ fi
 #     cd "${SOURCE_FOLDER}" || die "Source folder does not exist!"
 # fi
 
+############
+# REPOPICK #
+############
+header "REPO PICK"
+echo "Do you have any changes to pick?"
+select yn in "Yes" "No"; do
+    case $yn in
+        Yes )   repopick 225213
+                repopick 225475
+                repopick 225476
+                repopick 226402
+                repopick 225506
+                repopick 225507
+                repopick 223374
+                repopick 223410
+                repopick 223411
+                repopick 224945
+                repopick 224946
+                repopick 224947
+                repopick 224948
+                repopick 224949
+                repopick 224950
+                repopick 224951
+                repopick 224952
+                repopick 224953
+                repopick 224954
+                repopick 228566
+                repopick 228569
+                repopick 228570
+                repopick 228571
+                repopick 228572
+                repopick 228573
+                repopick 228574
+                repopick 228575
+                repopick 228576
+                repopick 228578
+                repopick 228579
+                repopick 228580
+                repopick 228582
+                repopick 228583
+                repopick 228584
+                repopick 228585 
+                repopick 228586
+                repopick 228587 
+                repopick 223746
+                repopick 223748
+                repopick 223748
+                repopick 225496
+                repopick 225497
+                repopick 225498
+                repopick 225499
+                repopick 225829
+                repopick 226109
+                repopick 226110
+                repopick 226127
+                repopick 226111
+                repopick 229304
+                repopick 226128
+                repopick 226129
+                repopick 226130
+                repopick 230271
+                repopick 223945
+                repopick 225422
+                repopick 225423
+                repopick 229125
+                repopick 230382
+                repopick 224675
+                repopick 224676
+                repopick 224677
+                repopick 225551
+                repopick 223192
+                repopick 223193
+                repopick 224752
+                repopick 226638
+                repopick 226643
+                repopick 227260
+                repopick 227261
+                repopick 226647
+                repopick 226648
+                repopick 226649
+                repopick 226650
+                repopick 226651
+                repopick 226652
+                repopick 226653
+                repopick 226654
+                repopick 226655
+                repopick 226656
+                repopick 226658
+                repopick 227449
+                repopick 227450;;
+        No ) break;;
+    esac
+done
+
 #############
 # CHANGELOG #
 #############
-
+header "CHANGELOG"
 #cleanup old changelog.txt
 changelog=$script_path/changelog.txt
+#changelog=$WEB_FOLDER/changelog.txt
 if [ -e $changelog ]; then
     rm -f $changelog
 fi
 
-echo "${blu}For how many days you want changelog to be generated?${txtrst}"
+echo "For how many days you want changelog to be generated?${txtrst}"
 read days
 until [[ $days =~ ^-?[0-9]+$ ]]; do
     echo "Invalid input - only numbers are allowed"
     read days
 done
 export changelog_days=$days
-echo "${grn}Roger... $days days will be set for changelog generation${txtrst}"
+echo "Roger... $days days will be set for changelog generation${txtrst}"
 
-##################
-# PREPARE DEVICE #
-##################
+###############
+# Clean Build #
+###############
+header "CLEAN BUILD"
+echo "Make Clean Build?${txtrst}"
+select yn in "Yes" "No"; do
+    case $yn in
+        Yes ) make clean && make clobber; break;;
+        No ) break;;
+    esac
+done
 
-header "PREPARING $(echo ${DEVICE} | awk '{print toupper($0)}')"
-
-# Not all roms use breakfast
-case ${ROM} in
-    "aosp")
-        lunch ${ROM}_${DEVICE}-${VARIANT} ;;
-    *)
-        brunch ${DEVICE} ${VARIANT} ;;
-esac
-
-
-############
-# REPOPICK #
-############
-
-if [[ ${REPOPICK} ]]; then
-    header "RUNNING REPOPICK"
-    # Execute in a subshell otherwise everything is fubared
-    (
-    while [[ ${YN} != "n" ]]; do
-        read -r -p "Do you have changes to pick? (y/n) " YN
-        case ${YN} in
-            y|Y)
-                read -r -p "Please enter the change number or topic: " PARAMS
-                if [[ -n ${PARAMS//[0-9]/} ]]; then
-                    repopick -i --topic "${PARAMS}"
-                else
-                    repopick -i "${PARAMS}"
-                fi ;;
-            n|N)
-                break ;;
-        esac
-    done
-    )
-fi
-
-header "CLEANING UP OUT DIRECTORY"
-
-case ${CLEAN_TARGETS} in
-    "")
-        make_command clobber ;;
-    *)
-        make_command "${CLEAN_TARGET}" ;;
-esac
 
 ############
 # BUILDING #
@@ -243,6 +319,7 @@ if [[ -n ${FILES} ]]; then
 
     if [[ $(echo "${FILES}" | wc -l) -eq 1 ]]; then
         mv "${OUT_FOLDER}"/*.zip* "${ZIP_MOVE}"
+        cp $OUT_FOLDER/system/etc/Changelog.txt $ZIP_MOVE/changelog.txt 
     else
         for FILE in ${FILES}; do
             if echo "${FILE}" | grep -v -q ota; then
@@ -271,14 +348,14 @@ header "${BUILD_RESULT_STRING}!"
 
 # If the build was successful, print file location, and size
 if [[ ${SUCCESS} ]]; then
-    echo "${GRN}FILE LOCATION: $(web_link "${ZIP_MOVE}")"
-    echo "SIZE: $(du -h "${ZIP_MOVE}"/*.zip | awk '{print $1}')${RST}"
+    echo "${RED}FILE LOCATION: $(web_link "${ZIP_MOVE}")"
+    echo "${RED}SIZE: $(du -h "${ZIP_MOVE}"/*.zip | awk '{print $1}')${RST}"
 fi
 
 # Print the time the script finished
 # and how long it took regardless of success
-echo "${GRN}TIME: $(date +%D\ %r | awk '{print toupper($0)}')"
-echo "${GRN}DURATION: ${TIME_STRING}${RST}"
+echo "${RED}TIME: $(date +%D\ %r | awk '{print toupper($0)}')"
+echo "${RED}DURATION: ${TIME_STRING}"
 
 if [[ ${TG} ]]; then
     {
