@@ -1,0 +1,17 @@
+#
+# ~/.bashrc
+#
+#
+# Shell is non-interactive. Be done now!
+if [[ $- != *i* ]] ; then
+return
+fi
+
+if [ -f $HOME/Github/Scripts/Linux/Shells/shell_sources ]; then
+   source $HOME/Github/Scripts/Linux/Shells/shell_sources
+fi
+
+source $HOME/Github/Scripts/Linux/Shells/.bashrc
+#===================================================================
+# Add .bashrc changes to $HOME/Github/Scripts/Linux/Shells/.bashrc = 
+#===================================================================
