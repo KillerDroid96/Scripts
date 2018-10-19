@@ -121,7 +121,7 @@ echo -e "                                                       ";
 echo -e "    Uptime:" ${WHT}"$( upTime ) sec" ${RED}
 echo -e "    Todays Date:" ${WHT}"$( ( LC_ALL=C date "+%B %d, %Y (%A)" ) )" ${RED}
 echo -e "    Current Time:" ${WHT}"$( ( LC_ALL=C date "+%I:%M %p %Z" ) )" ${RED}
-echo -e "    Current Forcast:" ${WHT}"$( printf "$(curl -s wttr.in/~Pittsburg,KS?0?q?T | awk '/°(C|F)/ {printf $(NF-1) $(NF) " ("a")"} /,/ {a=$0}') \n" )" ${RED}
+echo -e "    Current Forcast:" ${WHT}"$(  printf "$(curl -s wttr.in/~Overland+Park,KS?0?q?T | awk '/°(C|F)/ {printf $(NF-1) $(NF) " ("a")"} /,/ {a=$0}')")" ${RED}
 echo -e "    Operating System:" ${WHT}"$( source /etc/os-release; echo -e "${PRETTY_NAME} \c"; uname -m )" ${RED}
 echo -e "    Kernel Version:" ${WHT}"$( uname -r )" ${RED}
 echo -e "    Processor:" ${WHT}"$( cpu )" ${RED}

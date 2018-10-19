@@ -53,6 +53,7 @@ function sync_repo() {
 }
 
 function gdrive_rom() {
+    #outdated use weblink
     #gdrive about -c /home/matt/.gdrive
     #gdrive -c /home/matt/.gdrive sync upload $HOME/Github/Uploads 1znWrZTRSwAvWgVNHz4hsvEEgaOcrpS8z &> out.log 
     gdrive about -c /home/matt/.gdrive-secondary #&> out.log  
@@ -269,15 +270,6 @@ function other_repos() {
     git pull nc 8.1.0-unified ${JOBS_FLAG} &> $HOME/Github/DU/repos.log 
     git push --set-upstream kd 8.1.0 &> $HOME/Github/DU/repos.log  
 }
-
-git remote add kd git@github.com:KillerDroid96/android_build.git
-git remote add du git@github.com:DirtyUnicorns/android_build.git
-git checkout -b p9x-caf
-git checkout p9x-caf
-git pull du p9x-caf
-git add .
-git commit -m "p9x-caf"
-git push kd p9x-caf
 
 function merge_du9_repos() {
     cd $HOME/Github/DU/${REPO_PATH}
