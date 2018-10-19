@@ -16,8 +16,8 @@ if [ -f $HOME/Github/Scripts/Linux/Shells/shell_functions ]; then
 	source $HOME/Github/Scripts/Linux/Shells/shell_functions
 fi
 
-if [ -f $HOME/Github/Scripts/Linux/Shells/shell_du_functions ]; then	
-	source $HOME/Github/Scripts/Linux/Shells/shell_du_functions
+if [ -f $HOME/Github/Scripts/Linux/Shells/shell_rom_functions ]; then	
+	source $HOME/Github/Scripts/Linux/Shells/shell_rom_functions
 fi
 
 if [ -f $HOME/Github/Scripts/Linux/Shells/shell_paths ]; then	
