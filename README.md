@@ -12,7 +12,7 @@
      cd $HOME/Github/Scripts
 - - - -
 ## Installation
-     cp -b $HOME/Github/Scripts/Linux/Shells/.bashrc $HOME && source ~/.bashrc && touch "$HOME/.bashrc" && arch_setup
+     cp -b $HOME/Github/Scripts/Linux/Shells/.bashrc_redirect $HOME/.bashrc && source ~/.bashrc && touch "$HOME/.bashrc" && arch_setup
    OR
    
      cp -b $HOME/Github/Scripts/Linux/Shells/.bashrc $HOME
