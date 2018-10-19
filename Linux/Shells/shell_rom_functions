@@ -18,25 +18,6 @@
 
 source $HOME/Github/Scripts/Linux/Shells/shell_colors
 
-function du_banners(){
-    clear
-    echo -e ${red}""
-    echo -e "============================================="
-    echo -e "               ____  _      __               "
-    echo -e "              / __ \(_)____/ /___  __        "
-    echo -e "             / / / / / ___/ __/ / / /        "
-    echo -e "            / /_/ / / /  / /_/ /_/ /         "
-    echo -e "           /_____/_/_/   \__/\__, /          "
-    echo -e "    __  __      _           /____/           "
-    echo -e "   / / / /___  (_)________  _________  _____ "
-    echo -e "  / / / / __ \/ / ___/ __ \/ ___/ __ \/ ___/ "
-    echo -e " / /_/ / / / / / /__/ /_/ / /  / / / (__  )  "
-    echo -e " \____/_/ /_/_/\___/\____/_/  /_/ /_/____/   "
-    echo -e "                                             "
-    echo -e "============================================="
-    echo -e ${rst}""
-}
-
 function venv() {
     virtualenv2 /tmp/venv;
     source /tmp/venv/bin/activate;
@@ -222,17 +203,10 @@ load_botinfo
 [[ $# -lt 1 && ${OS} = "darwin" ]] && die "Wrong window! ;)"
 
 # Convert a file location to web link
-function web_link_du() {
-    #gdrive -c /home/matt/.gdrive sync upload $HOME/Github/Uploads 1znWrZTRSwAvWgVNHz4hsvEEgaOcrpS8z &> out.log 
-    #echo "https://goo.gl/m7ssB5"
-    #gdrive about -c /home/killerdroid96/.gdrive #&> out.log  
-    #gdrive -c /home/killerdroid96/.gdrive sync upload $HOME/Github/Uploads 1hrh0JxQ46n_bbRAVFVhAxVGRsSOM9RXY &> out.log
-    gdrive -c /home/killerdroid96/.gdrive sync upload $HOME/Github/Uploads 1lOVVWYg_itAPwaUWbMhkvF2P51wzr46v &> out.log
-    echo "https://goo.gl/wDXHyD"
-}
 function web_link() {
-    gdrive -c /home/killerdroid96/.gdrive sync upload $HOME/Github/Uploads 1SB9biOtl8xcSPdO0NNVpIszM-jqNviJd &> out.log
-    echo "https://goo.gl/yDMpFj"
+    gdrive about -c /home/killerdroid96/.gdrive
+    gdrive -c /home/killerdroid96/.gdrive sync upload $HOME/Github/Uploads 1lOVVWYg_itAPwaUWbMhkvF2P51wzr46v &> out.log
+    echo "https://goo.gl/piMa5s"
 }
 
 # Telegram notifier function
@@ -389,4 +363,36 @@ function unicorn_banner()
 	echo -e ${RED}"%%%%%%%%%%%%%%%%"${BLK}"&&&&&&&&&&&&&&&&"${RED}"%%%%%%%"
 	echo -e ${RED}"%%%%%%%%%%%%%%"${BLK}"&&&&&&&&&&&&&"${RED}"%%%%%%%%%%%%"
 	echo -e ${RED}"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%"       
+}
+
+function du_banners(){
+    clear
+    echo -e ${red}""
+    echo -e "============================================="
+    echo -e "               ____  _      __               "
+    echo -e "              / __ \(_)____/ /___  __        "
+    echo -e "             / / / / / ___/ __/ / / /        "
+    echo -e "            / /_/ / / /  / /_/ /_/ /         "
+    echo -e "           /_____/_/_/   \__/\__, /          "
+    echo -e "    __  __      _           /____/           "
+    echo -e "   / / / /___  (_)________  _________  _____ "
+    echo -e "  / / / / __ \/ / ___/ __ \/ ___/ __ \/ ___/ "
+    echo -e " / /_/ / / / / / /__/ /_/ / /  / / / (__  )  "
+    echo -e " \____/_/ /_/_/\___/\____/_/  /_/ /_/____/   "
+    echo -e "                                             "
+    echo -e "============================================="
+    echo -e ${rst}""
+}
+
+function crd_banner(){
+    echo -e ${red}""
+    echo -e "========================================="
+    echo -e "    ______     ____             _     __ "
+    echo -e "   / ____/____/ __ \_________  (_)___/ / "
+    echo -e "  / /   / ___/ / / / ___/ __ \/ / __  /  "
+    echo -e " / /___/ /  / /_/ / /  / /_/ / / /_/ /   "
+    echo -e " \____/_/  /_____/_/   \____/_/\__,_/    "
+    echo -e "                                         "
+    echo -e "========================================="
+    echo -e ${normal}""
 }
