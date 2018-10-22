@@ -141,7 +141,7 @@ header "REPO SYNC"
 echo "Sync Repo?${txtrst}"
 select yn in "Yes" "No"; do
     case $yn in
-        Yes ) repo sync "${JOBS_FLAG}" --force-sync -c --no-clone-bundle --no-tags --optimized-fetch --prune; break;;
+        Yes ) time repo sync "${JOBS_FLAG}" --force-sync -c --no-clone-bundle --no-tags --optimized-fetch --prune --current-branch; break;;
         No ) break;;
     esac
 done
@@ -245,7 +245,7 @@ select yn in "Yes" "No"; do
                 repopick 226656
                 repopick 226658
                 repopick 227449
-                repopick 227450;;
+                repopick 227450; break;;
         No ) break;;
     esac
 done
@@ -268,7 +268,7 @@ until [[ $days =~ ^-?[0-9]+$ ]]; do
     read days
 done
 export changelog_days=$days
-echo "Roger... $days days will be set for changelog generation${txtrst}"
+#echo "Roger... $days days will be set for changelog generation${txtrst}"
 
 ###############
 # Clean Build #

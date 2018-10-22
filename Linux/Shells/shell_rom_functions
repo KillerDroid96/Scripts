@@ -202,11 +202,25 @@ load_botinfo
 # Require a parameter to opt out of macOS_check
 [[ $# -lt 1 && ${OS} = "darwin" ]] && die "Wrong window! ;)"
 
+# Uploads a given file to transfer.sh
+function transfer() {
+    file="$1"
+    zipname=$(echo "${file}" | awk -F '/' '{print $NF}')
+    destination="$2"
+    url=$(curl -# -T "${file}" https://transfer.sh/${destination})
+    printf '\n'
+    echo -e "Download $zipname at $url"
+}
+
 # Convert a file location to web link
 function web_link() {
-    gdrive about -c /home/killerdroid96/.gdrive
+    #gdrive about -c /home/killerdroid96/.gdrive
     gdrive -c /home/killerdroid96/.gdrive sync upload $HOME/Github/Uploads 1lOVVWYg_itAPwaUWbMhkvF2P51wzr46v &> out.log
     echo "https://goo.gl/piMa5s"
+}
+
+function web_link_about() {
+    gdrive about -c /home/killerdroid96/.gdrive
 }
 
 # Telegram notifier function
@@ -396,3 +410,44 @@ function crd_banner(){
     echo -e "========================================="
     echo -e ${normal}""
 }
+
+# Function run on login to display some stuff and set my custom PS1
+function onLogin() {
+    export GIT_PS1_SHOWDIRTYSTATE=1
+    export GIT_PS1_SHOWSTASHSTATE=1
+    export GIT_PS1_SHOWUNTRACKEDFILES=1
+    export GIT_PS1_SHOWUPSTREAM=auto
+    export GIT_PS1_SHOWCOLORHINTS=1
+    unset PS1
+    #PS1='[\u@\h \W$(__git_ps1 " (%s)")]\$ '
+    if [[ -f "${HOME}/git-prompt.sh" ]]; then
+        source ~/git-prompt.sh
+        PS1='| \h (\w)$(__git_ps1 " {%s}") |-> '
+    else
+        PS1='| \h (\w) |-> '
+    fi
+    clear
+    HOST=$(hostname)
+    if [[ ${#HOST} -lt 14 ]]; then
+        echo -e "${lightgray}";figlet -c "$(hostname)"
+    fi
+    echo ""
+    echo -ne "${red}Today is:\\t\\t${cyan} $(date)"
+    echo ""
+    echo -e "${red}Kernel Information: \\t${cyan} $(uname -smr)"
+    echo -ne "${cyan}"
+    upinfo
+    echo ""
+    echo -e "Welcome to $(hostname), $(whoami)!"
+    echo -e
+    fortune
+}
+
+# Repo sync with various flags I'm lazy to type each time
+function syncc() {
+    time repo sync --force-broken --force-sync --no-clone-bundle \
+             --current-branch --no-tags "$@"
+}
+
+alias setperf='echo "performance" | sudo tee /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor'
+alias setsave='echo "powersave" | sudo tee /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor'
