@@ -26,6 +26,7 @@ export USE_NINJA=false
 export EDITOR="nano";
 export BROWSER="chromium";
 #export GIT_DISCOVERY_ACROSS_FILESYSTEM=1
+export LLVM_ENABLE_THREADS=ON
 
 # Bash-it
 #export BASH_IT="${HOME}/.bash_it"

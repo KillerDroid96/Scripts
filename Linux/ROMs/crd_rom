@@ -97,7 +97,7 @@ ZIP_MOVE_PARENT=${WEB_FOLDER} #/Github/Uploads
 case "${ROM}" in
     "CRD"|"DU"|"aosp"|"du-p9x-caf"|"du-o8x-caf"|"lineage-15.1|")
         SOURCE_FOLDER=${ROM_FOLDER}/${ROM}
-        ZIP_MOVE=${ZIP_MOVE_PARENT}/${ROM}/${DEVICE} ;;
+        ZIP_MOVE=${ZIP_MOVE_PARENT}/${ROM}/${DEVICE}/ROM ;;
     *)
         die "Unknown ROM \"${1}\" passed!" ;;
 esac
@@ -149,12 +149,15 @@ done
 ##############
 # REPO MERGE #
 ##############
-
-# if [[ ${MERGE} ]]; then
-#     header "RUNNING MERGE"; echo
-#     merge_repos
-#     cd "${SOURCE_FOLDER}" || die "Source folder does not exist!"
-# fi
+header "REPO MERGE"
+echo "Merge Repos?${txtrst}"
+select yn in "Yes" "No"; do
+    case $yn in
+        Yes ) cr_repos
+              cd "${SOURCE_FOLDER}" || die "Source folder does not exist!"; break;;
+        No ) break;;
+    esac
+done
 
 ############
 # REPOPICK #

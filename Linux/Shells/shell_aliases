@@ -26,11 +26,12 @@ alias gr='git remote'
 alias gra='git remote add'
 alias gcpa='git cherry-pick --abort'
 alias gcpc='git cherry-pick --continue'
+
 # Shells (Bash & ZSH)
 alias {setzsh,set_zsh,usezsh,use_zsh}='chsh -s /bin/zsh'
 alias {setbash,set_bash,usebash,use_bash}='chsh -s /usr/bin/bash'
 alias {editzsh,ez}='nano ~/.zshrc'        				 				                      # Edits ZSH
-alias {editbash,eb}='nano ~/.bashrc'        				 				                  # Edits Bash
+alias {editbash,eb}='nano ~/Github/Scripts/Linux/Shells/.bashrc'        				 				                  # Edits Bash
 alias {updatezsh,uz}='source ~/.zshrc'                     			         	              # Updates ZSH
 alias {updatebash,ub}='source ~/.bashrc'                  				 		              # Updates Bash
 alias {shell_list,bashlist,bl,sl,al}='$HOME/Github/Scripts/Linux/Shells/shell_list'           # Displays Bash List
