@@ -1,6 +1,57 @@
-echo "##########################"
-echo "# Keeping Branches Clean #"
-echo "##########################"
+#!/bin/bash
+
+ask() {
+    # https://djm.me/ask
+    local prompt default reply
+    while true; do
+
+        if [ "${2:-}" = "Y" ]; then
+            prompt="Y/n"
+            default=Y
+        elif [ "${2:-}" = "N" ]; then
+            prompt="y/N"
+            default=N
+        else
+            prompt="y/n"
+            default=
+        fi
+        # Ask the question (not using "read -p" as it uses stderr not stdout)
+        echo -n "$1 [$prompt] "
+        # Read the answer (use /dev/tty in case stdin is redirected from somewhere else)
+        read reply </dev/tty
+        # Default?
+        if [ -z "$reply" ]; then
+            reply=$default
+        fi
+        # Check if the reply is valid
+        case "$reply" in
+            Y*|y*) return 0 ;;
+            N*|n*) return 1 ;;
+        esac
+    done
+}
+
+pause(){
+  tput setaf 38
+  read -p "Press [Enter] key to continue..." fackEnterKey
+}
+
+show_main_menu() {
+tput setaf 38
+	echo "=============================="
+    echo "|          Main Menu         |"
+    echo "=============================="
+    echo "|  [1] Clean 9.0-kd          |"
+    echo "|  [2] Clean 9.0             |"
+    echo "|  [a] About                 |"
+    echo "|  [h] Help                  |"
+    echo "|  [e] Exit                  |"
+    echo "=============================="
+read menu
+case $menu in
+
+1|clean_9.0-kd)
+clear
 git branch -D tmp
 git checkout -b tmp
 git push kd --delete 9.0-kd 
@@ -11,7 +62,9 @@ git fetch crd 9.0
 git pull crd 9.0
 git push kd 9.0-kd
 git branch -D tmp
+;;
 
+2|clean_9.0)
 git branch -D tmp
 git checkout -b tmp
 git push kd --delete 9.0
@@ -22,3 +75,46 @@ git fetch crd 9.0
 git pull crd 9.0
 git push kd 9.0
 git branch -D tmp
+;;
+
+a|A|about)
+    clear
+    tput setaf 1
+    echo ""
+    echo " This is a Script Made to Make Branches Even with Orgin"
+    echo "        Written by Matthew Keller [KillerDroid96]"
+    echo ""
+    tput setaf 36
+    pause
+    pause
+    clear
+    show_main_menu
+;;
+
+Help|help|h|H)
+    clear
+    tput setaf 1
+    echo ""
+    echo "To Use Menu Enter the Number or Letter"
+    echo ""
+    tput setaf 36
+    pause
+    clear
+    show_main_menu
+;;
+Exit|e|E|exit)
+    clear
+    exit 0
+;;
+*)
+echo don\'t know
+;;
+esac
+
+}
+
+while true
+do
+    show_main_menu
+    
+done 

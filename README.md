@@ -12,19 +12,17 @@
      cd $HOME/Github/Scripts
 - - - -
 ## Installation
-     cp -b $HOME/Github/Scripts/Linux/Shells/.bashrc_redirect $HOME/.bashrc && source ~/.bashrc && touch "$HOME/.bashrc" && arch_setup
+     $HOME/Github/Scripts/Linux/Setups/arch_setup
    OR
-   
-     cp -b $HOME/Github/Scripts/Linux/Shells/.bashrc $HOME
-     source ~/.bashrc
-     touch "~/.bashrc"
+     cd $HOME/Github/Scripts/Linux/Setups
      arch_setup
 - - - - 
 ## Linux ##
 ### Files ###
 | File | Description | 
 | --- | --- |
-| du_manifest | Manifest to copy to Build |
+| crd_manifest | Manifest to build crdroid rom for One Plus 5T |
+| du_manifest | Manifest to build dirty unicorns rom for One Plus 5T |
 | mypackages | List of installed packages |
 | neofetch | Configuration file for Neofetch |
 | ssh_help | Quick info to get started with SSH |
@@ -32,30 +30,35 @@
 ### Misc ###
 | File | Description |
 | --- | --- |
+| cleanbranch | Makes repo even with orgin |
 | plex | Starts Plex Server |
+| repopick | Picks changes for crDroid ROM |
 | ssh_start | Starts sshd.service & session |
-| xspotify | Controlls Spotify from Treminal |  
+| xspotify | Controlls Spotify from terminal |  
 ### ROMs ###
 | File | Description |
 | --- | --- |
-| cache | Script to watch Ccache|
-| compilers | Script to list version of ccache, clang, gcc & ninja |
-| dextro | Script to Build ROM for OnePlus 5T, Nexus 6P & Galaxy S4 |
-| du_rom | Script to build ROM for OnePlus 5T |
+| archive | All my old scripts |
+| cache | Script to watch Ccache |
+| compilers | Script to list version of Ccache, Clang, GCC & Ninja |
+| crd_rom | Script to build crDroid Android ROM for One Plus 5T|
+| du_rom | Script to build Dirty Unicorns ROM for One Plus 5T |
 ### Setups ###
 | File | Description |
 | --- | --- |
-| arch_setup | Interactive Menu to Setup All My Stuff |
-| desktopenv_setup | Interactive Menu to Install Desktop Environments |
+| archive | All my old scripts |
+| arch_setup | Interactive menu to setup all my stuff |
 ### Shells ###
 | File | Description |
 | --- | --- |
-| .bashrc | Sources My Shell Sources |
+| .bashrc | Sources My Shells and Sets Exports |
+| .bashrc_redirect | Used to Keep .bashrc Updated |
 | shell_aliases | My Aliases |
 | shell_banner | Prints Droid Box when opening a terminal |
 | shell_colors | List of Colors |
 | shell_functions | My Shell Functions |
 | shell_list | Script to List My Shell Commands |
 | shell_paths | My Common Paths |
+| shell_rom_functions | Functions Used to Build ROMs |
 | shell_sources | Sources Aliases & Functions |
 - - - -

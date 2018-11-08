@@ -35,6 +35,7 @@ ask() {
 }
 
 pause(){
+  tput setaf 38
   read -p "Press [Enter] key to continue..." fackEnterKey
 }
 
@@ -42,8 +43,8 @@ show_main_menu() {
 tput setaf 38
     clear
     echo ""
-    echo "       Arch Setup Script"
-    echo "        [KillerDroid96]"
+    echo "      Arch Setup Script"
+    echo "       [KillerDroid96]"
     echo ""
     echo "=============================="
     echo "|          Main Menu         |"
@@ -51,11 +52,11 @@ tput setaf 38
     echo "|  [1] Update System         |"
     echo "|  [2] Setup Github          |"
     echo "|  [3] Install Packages      |"
-    echo "|  [4] Install Android       |"
-    echo "|  [5] Setup Android         |"
-    echo "|  [6] Add .bashrc Changes   |"
-    echo "|  [7] Add SSH Changes       |"
-    echo "|  [8] Add Neofetch Changes  |"
+    echo "|  [4] Setup Android         |"
+    echo "|  [5] Add .bashrc Changes   |"
+    echo "|  [6] Add SSH Changes       |"
+    echo "|  [7] Add Neofetch Changes  |"
+    echo "|  [8] Install Desktop Env   |"
     echo "|  [9] Show Display Manager  |"
     echo "|  [a] About                 |"
     echo "|  [h] Help                  |"
@@ -65,7 +66,7 @@ read menu
 case $menu in
 1|update_system)
 clear
-tput setaf 29
+tput setaf 2
 if ask "Update System?"; then
     tput setaf 5; echo "Updating System"
     sudo pacman -Syyu --quiet --noconfirm
@@ -74,6 +75,7 @@ if ask "Update System?"; then
     cd trizen-git && makepkg -si && cd
     sudo rm -r trizen-git
     clear
+    trizen -Syyu --quiet --noconfirm --noedit --needed
     tput setaf 2
     echo ""
     echo "System Update Complete"
@@ -117,7 +119,6 @@ tput setaf 31
     echo "| bcompare        # Compares Files & Folders       |"
     echo "| cava            # Console Audio Visualizer       |"
     echo "| chromium        # Web Browser                    |"
-    echo "| clex            # Console File Manager           |"
     echo "| climate         # Command Line Tools             |"
     echo "| cmatrix         # Displays Matrix Effect         |"
     echo "| cylon           # Arch Maintenance Program       |"
@@ -138,7 +139,7 @@ tput setaf 31
     echo "===================================================="   
 if ask "Install My Additional Packages?"; then  
     tput setaf 31; echo "Installing Addition Packages"
-    trizen -Syyu --quiet --noconfirm --noedit --needed acpi apg alsi angrysearch auracle aview baobab bc bcompare cava chromium clex climate cmatrix cylon elinks figlet fsearch-git gdrive googler glances gnome-screenshot hollywood htop jp2a neofetch osc-url pamac qdirstat-git rar rig screenfetch spotify telegram-desktop tilix w3m yakuake zerofree
+    trizen -Syyu --quiet --noconfirm --noedit --needed acpi apg alsi angrysearch auracle aview baobab bc bcompare cava chromium climate cmatrix cylon elinks figlet fsearch-git gdrive googler glances gnome-screenshot hollywood htop jp2a neofetch osc-url pamac qdirstat-git rar rig screenfetch spotify telegram-desktop tilix w3m yakuake zerofree
     tput setaf 2
     echo ""
     echo "Additional Packages Install Complete"
@@ -149,9 +150,10 @@ else
 fi
 ;;
 
-4|install_android)
-tput setaf 32
-if ask "Install Android Build Dependencies?"; then
+4|setup_android)
+if 
+    tput setaf 2
+    ask "Install Android Build Dependencies?"; then
     echo "Installing Android Dependencies" && sleep 3
     trizen -S make multilib-devel --noconfirm
     trizen -Syyu --needed --quiet --noedit --noconfirm aosp-devel base-devel lineageos-devel jdk8-openjdk
@@ -165,43 +167,54 @@ if ask "Install Android Build Dependencies?"; then
     echo ""
     echo "Android Setup Complete"
     echo "" 
-else
-    echo "No"
-fi
-;;
-
-5|setup_du)
-tput setaf 33
-if ask "Setup Build for Dirty Unicorns?"; then
+elif
+    tput setaf 1
+    ask "Setup Build for Dirty Unicorns?"; then
     mkdir ~/Github/DU
     cd ~/Github/DU
     virtualenv2 venv
     source venv/bin/activate
-    repo init -u http://github.com/DirtyUnicorns/android_manifest.git -b o8x-caf
+    repo init -u http://github.com/DirtyUnicorns/android_manifest.git -b p9x-caf
     mkdir ~/Github/DU/.repo/local_manifests
     cp ~/Github/Scripts/Linux/Files/du_manifest.xml ~/Github/DU/local_manifests/du_manifest.xml
     repo sync --force-sync -j$( nproc --all )
     ccache -M 50G
     echo "Enter du_rom in a Terminal to Start Build"
-else
+elif
+    tput setaf 6
+    ask "Setup Build for crDroid Android?"; then
+    mkdir ~/Github/CRD
+    cd ~/Github/CRD
+    virtualenv2 venv
+    source venv/bin/activate
+    repo init -u http://github.com/crdroidandroid/android_manifest.git -b 9.0
+    mkdir ~/Github/DU/.repo/local_manifests
+    cp ~/Github/Scripts/Linux/Files/crd_manifest.xml ~/Github/DU/local_manifests/roomservice.xml
+    repo sync --force-sync -j$( nproc --all )
+    ccache -M 50G
+    echo "Enter crd_rom in a Terminal to Start Build"
+else 
     echo "No"
 fi
 ;;
 
-6|add_bashrc)
+5|add_bashrc)
 tput setaf 34
 if ask "Add .bashrc Changes?"; then
-    cp -b $HOME/Github/Scripts/Linux/Bash/.bashrc $HOME && source ~/.bashrc
+    cp -b $HOME/.bashrc $HOME/.bashrc.bak
+    cp -b $HOME/Github/Scripts/Linux/Shells/.bashrc_redirect $HOME/.bashrc
+    source ~/.bashrc && touch "$HOME/.bashrc"
     tput setaf 2
     echo ""
     echo ".bashrc Changes Complete"
     echo "" 
+    pause
 else
     echo "No"
 fi
 ;;
 
-7|add_sshd)
+6|add_sshd)
 tput setaf 35
 # Default to Yes if the user presses enter without giving an answer:
 if ask "Add sshd_config Changes?" Y; then
@@ -210,12 +223,13 @@ if ask "Add sshd_config Changes?" Y; then
     echo ""
     echo "SSHD Configuration Complete"
     echo "" 
+    pause
 else
     echo "No"
 fi
 ;;
 
-8|add_neofetch)
+7|add_neofetch)
 tput setaf 36
 if ask "Add Neofetch Config?" Y; then
     cp Github/Scripts/Files/neofetch ~/.config/neofetch/config
@@ -223,6 +237,57 @@ if ask "Add Neofetch Config?" Y; then
     echo ""
     echo "Neofech Changes Complete"
     echo "" 
+    pause
+else
+    echo "No"
+fi
+;;
+
+8|dm)
+if ask "Show Desktop Environments?" Y; then
+clear
+echo "===================="
+echo "|     Main Menu    |"
+echo "===================="
+echo "|  [1] KDE         |"
+echo "|  [2] Gnome       |"
+echo "|  [3] Xfce        |"
+echo "|  [e] Exit        |"
+echo "|  [r] Return      |"
+echo "===================="
+echo ""
+echo -n "Select Desktop Environment to Install?"
+read display
+case $display in
+1|KDE|kde)
+    echo "Installing KDE"
+    trizen -Syu --needed --quiet --noedit --noconfirm plasma plasma-desktop kde-appllications powerdevil
+    sudo systemctl enable sddm.service
+    pause
+;;
+2|Gnome)
+    echo "Installing Gnome"
+    trizen -Syu --needed --quiet --noedit --noconfirm gnome gnome-extra gnome-tweak-tool
+    sudo systemctl enable gdm.service
+    pause
+;;
+3|Xfce)
+    echo "Installing Xfce"
+    trizen -Syu --needed --quiet --noedit --noconfirm xfce4 xfce4-goodies mousepad menulibre xfce4-pulseaudio-plugin lightdm-devel
+    sudo systemctl enable lightdm.service
+    pause   
+;;
+Exit|e|E|exit)
+    clear
+    exit 0
+;;
+Return|r|R|return)
+    show_main_menu
+;;
+*)
+echo don\'t know
+;;
+esac
 else
     echo "No"
 fi
