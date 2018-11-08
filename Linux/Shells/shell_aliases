@@ -21,7 +21,7 @@ alias gpl='git pull'
 alias gco='git checkout'
 alias grm='git rm'
 alias gmv='git mv'
-alias gcp='git cherry-pick'
+alias gcp='git cherry-pick -e'
 alias gr='git remote'
 alias gra='git remote add'
 alias gcpa='git cherry-pick --abort'
@@ -73,6 +73,7 @@ alias {dulog,du_log,dul}=" cat $HOME/Github/DU/du_log.txt"                      
 alias {out,dumpling}="cl $HOME/Github/DU/out/target/product/dumpling/"		      # Moves to Out Directory for 5T
 alias {rs,reposync}="sync_repo" 											      # Syncs DU Repo
 alias {venv,venv2}="mkavenv"			                                          # Starts Venv2
+alias {crd,CRD}="cl $HOME/Github/CRD"
 
 # SSH & Mosh
 alias {xps15}='ssh killerdroid96@droidbox'             

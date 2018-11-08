@@ -1,8 +1,22 @@
 #!/usr/bin/env bash
-############
-# REPOPICK #
-############
-header "REPO PICK"
+source build/envsetup.sh
+
+echo ""
+echo "#############"
+echo "# REPO SYNC #"
+echo "#############"
+echo "Sync Repo?"
+select yn in "Yes" "No"; do
+    case $yn in
+        Yes ) time repo sync --force-sync; break;;
+        No ) break;;
+    esac
+done
+
+echo ""
+echo "############"
+echo "# REPOPICK #"
+echo "############"
 echo "Do you have any changes to pick?"
 select yn in "Yes" "No"; do
     case $yn in
@@ -92,3 +106,6 @@ select yn in "Yes" "No"; do
         No ) break;;
     esac
 done
+
+echo ""
+echo "Now brunch <device>"

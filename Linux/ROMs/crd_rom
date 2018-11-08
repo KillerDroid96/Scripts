@@ -36,17 +36,50 @@ source $HOME/Github/Scripts/Linux/Shells/shell_colors
 ##############
 
 clear
-echo -e ${red}""
-echo -e "========================================="
-echo -e "    ______     ____             _     __ "
-echo -e "   / ____/____/ __ \_________  (_)___/ / "
-echo -e "  / /   / ___/ / / / ___/ __ \/ / __  /  "
-echo -e " / /___/ /  / /_/ / /  / /_/ / / /_/ /   "
-echo -e " \____/_/  /_____/_/   \____/_/\__,_/    "
-echo -e "                                         "
-echo -e "========================================="
-echo -e ${normal}""
 
+echo ${red}""
+echo "=========================================="
+echo "                 ____             _     __"
+echo "      __________/ __ \_________  (_)___/ /"
+echo "     / ___/ ___/ / / / ___/ __ \/ / __  / "
+echo "    / /__/ /  / /_/ / /  / /_/ / / /_/ /  "
+echo "    \___/_/  /_____/_/   \____/_/\__,_/   "
+echo "    ___              __           _     __"
+echo "   /   |  ____  ____/ /________  (_)___/ /"
+echo "  / /| | / __ \/ __  / ___/ __ \/ / __  / "
+echo " / ___ |/ / / / /_/ / /  / /_/ / / /_/ /  "
+echo "/_/  |_/_/ /_/\__,_/_/   \____/_/\__,_/   "
+echo "                                          "
+echo "=========================================="
+echo "              _____            _     _   ";
+echo "             |  __ \          (_)   | |  ";
+echo "     ___ _ __| |  | |_ __ ___  _  __| |  ";
+echo "    / __| '__| |  | | '__/ _ \| |/ _\ |  ";
+echo "   | (__| |  | |__| | | | (_) | | (_| |  ";
+echo "    \___|_|  |_____/|_|  \___/|_|\__,_|  ";
+echo "                     _           _     _ ";
+echo "     /\             | |         (_)   | |";
+echo "    /  \   _ __   __| |_ __ ___  _  __| |";
+echo "   / /\ \ | '_ \ / _\ | '__/ _ \| |/ _\ |";
+echo "  / ____ \| | | | (_| | | | (_) | | (_| |";
+echo " /_/    \_\_| |_|\__,_|_|  \___/|_|\__,_|";
+echo "                                         ";
+echo "=========================================="
+echo "                _____            _     _ ";
+echo "               |  __ \          (_)   | |";
+echo "       ___ _ __| |  | |_ __ ___  _  __| |";
+echo "      / __| '__| |  | | '__/ _ \| |/ _\ |";
+echo "     | (__| |  | |__| | | | (_) | | (_| |";
+echo "      \___|_|  |_____/|_|  \___/|_|\__,_|";
+echo "                     _           _     _ ";
+echo "     /\             | |         (_)   | |";
+echo "    /  \   _ __   __| |_ __ ___  _  __| |";
+echo "   / /\ \ | '_ \ / _\ | '__/ _ \| |/ _\ |";
+echo "  / ____ \| | | | (_| | | | (_) | | (_| |";
+echo " /_/    \_\_| |_|\__,_|_|  \___/|_|\__,_|";
+echo "                                         ";
+echo "=========================================="
+echo ${normal}""
 
 ################
 #              #
@@ -146,18 +179,32 @@ select yn in "Yes" "No"; do
     esac
 done
 
+# ##############
+# # REPO MERGE #
+# ##############
+# header "REPO MERGE"
+# echo "Merge Repos?${txtrst}"
+# select yn in "Yes" "No"; do
+#     case $yn in
+#         Yes ) cr_repos
+#               cd "${SOURCE_FOLDER}" || die "Source folder does not exist!"; break;;
+#         No ) break;;
+#     esac
+# done
+
 ##############
-# REPO MERGE #
+# REPO Patch #
 ##############
-header "REPO MERGE"
-echo "Merge Repos?${txtrst}"
+header "REPO PATCH"
+echo "Do you want to apply patches?${txtrst}"
 select yn in "Yes" "No"; do
     case $yn in
-        Yes ) cr_repos
+        Yes ) apply_patches
               cd "${SOURCE_FOLDER}" || die "Source folder does not exist!"; break;;
         No ) break;;
     esac
 done
+
 
 ############
 # REPOPICK #
@@ -257,9 +304,7 @@ done
 # CHANGELOG #
 #############
 header "CHANGELOG"
-#cleanup old changelog.txt
 changelog=$script_path/changelog.txt
-#changelog=$WEB_FOLDER/changelog.txt
 if [ -e $changelog ]; then
     rm -f $changelog
 fi
@@ -271,7 +316,6 @@ until [[ $days =~ ^-?[0-9]+$ ]]; do
     read days
 done
 export changelog_days=$days
-#echo "Roger... $days days will be set for changelog generation${txtrst}"
 
 ###############
 # Clean Build #
@@ -347,7 +391,23 @@ fi
 END=$(date +%s)
 TIME_STRING="$(format_time "${START}" "${END}")"
 
-header "${BUILD_RESULT_STRING}!"
+echo ${red}""
+echo "=========================================="
+echo "                 ____             _     __"
+echo "      __________/ __ \_________  (_)___/ /"
+echo "     / ___/ ___/ / / / ___/ __ \/ / __  / "
+echo "    / /__/ /  / /_/ / /  / /_/ / / /_/ /  "
+echo "    \___/_/  /_____/_/   \____/_/\__,_/   "
+echo "    ___              __           _     __"
+echo "   /   |  ____  ____/ /________  (_)___/ /"
+echo "  / /| | / __ \/ __  / ___/ __ \/ / __  / "
+echo " / ___ |/ / / / /_/ / /  / /_/ / / /_/ /  "
+echo "/_/  |_/_/ /_/\__,_/_/   \____/_/\__,_/   "
+echo "                                          "
+echo "          ${BUILD_RESULT_STRING}!         "
+echo "=========================================="
+echo ${normal}""
+
 
 # If the build was successful, print file location, and size
 if [[ ${SUCCESS} ]]; then

@@ -1,0 +1,24 @@
+echo "##########################"
+echo "# Keeping Branches Clean #"
+echo "##########################"
+git branch -D tmp
+git checkout -b tmp
+git push kd --delete 9.0-kd 
+git branch -D 9.0-kd
+git checkout --orphan 9.0-kd
+git rm -rf .
+git fetch crd 9.0
+git pull crd 9.0
+git push kd 9.0-kd
+git branch -D tmp
+
+git branch -D tmp
+git checkout -b tmp
+git push kd --delete 9.0
+git branch -D 9.0-kd
+git checkout --orphan 9.0
+git rm -rf .
+git fetch crd 9.0
+git pull crd 9.0
+git push kd 9.0
+git branch -D tmp

@@ -273,6 +273,19 @@ function tg_upload() {
 #git pull='git pull --depth=1 -p -j$( nproc --all )'
 #git push='git push-j$( nproc --all )'
 
+function apply_patches(){
+    PATCH_LOG=$HOME/Github/CRD/patches.log 
+    cd /home/killerdroid96/Github/CRD/packages/apps/crDroidSettings/ &> ${PATCH_LOG}
+    git apply '/home/killerdroid96/Github/CRD Work/ota.patch' &> ${PATCH_LOG}
+    echo ""
+    echo "OTA Patch Applied"
+
+    cd /home/killerdroid96/Github/CRD/build/make/ &> ${PATCH_LOG}
+    git apply '/home/killerdroid96/Github/CRD Work/mygraphics.patch' &> ${PATCH_LOG}
+    echo "Grapchics Patch Applied"
+    echo ""
+}
+
 #######################################| Merge Functinons |############################################
 function merge_cr_repos(){
     cd $HOME/Github/CRD/${REPO_PATH}
