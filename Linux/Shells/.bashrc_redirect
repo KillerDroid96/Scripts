@@ -12,6 +12,8 @@ if [ -f $HOME/Github/Scripts/Linux/Shells/shell_sources ]; then
 fi
 
 source $HOME/Github/Scripts/Linux/Shells/.bashrc
-#===================================================================
-# Add .bashrc changes to $HOME/Github/Scripts/Linux/Shells/.bashrc = 
-#===================================================================
+#=================================================================
+# Replace .bashrc with this file and rename to .bashrc
+# Add .bashrc changes to $HOME/Github/Scripts/Linux/Shells/.bashrc 
+# This keeps script folder .bashrc changes up to date 
+#=================================================================
