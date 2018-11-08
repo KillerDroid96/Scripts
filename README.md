@@ -14,6 +14,7 @@
 ## Installation
      $HOME/Github/Scripts/Linux/Setups/arch_setup
    OR
+   
      cd $HOME/Github/Scripts/Linux/Setups
      arch_setup
 - - - - 
