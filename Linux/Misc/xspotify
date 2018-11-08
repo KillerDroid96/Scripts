@@ -38,38 +38,98 @@ blink=$(tput blink)              # Blink
 bold=$(tput bold)                # Bold
 reverse=$(tput smso)             # Reverse Colors
 underline=$(tput smul)           # Underline
-		  echo ${green}""
+
+pause(){
+  tput setaf 38
+  read -p "Press [Enter] key to continue..." fackEnterKey
+}
+
+show_main_menu() {
+tput setaf 38
+    clear
+    	  echo ${green}""
 		  echo "==============================="
           echo "|            Spotify          |"
           echo "==============================="
-mpris-ctl info "| Artist   : %artist_name"  
-mpris-ctl info "| Track    : %track_name"
-mpris-ctl info "| Length   : %track_length"
+mpris-ctl info "   Artist   : %artist_name"  
+mpris-ctl info "   Track    : %track_name"
+mpris-ctl info "   Length   : %track_length"
+mpris-ctl info "   Shuffle  : %shuffle"
           echo "==============================="
-
-PS3='Enter Choice: ' 
-options=("Next" "Previous" ${red}"Exit"${green})
-select opt in "${options[@]}"
-do
-case $opt in
-"Next")
+          echo "| [1] Next                    |" 
+          echo "| [2] Previous                |"
+          echo "==============================="
+read menu
+case $menu in
+1|next)
+	clear
 	mpris-ctl next
-	clear
-	exit
+	echo ${green}""
+		  echo "==============================="
+          echo "|            Spotify          |"
+          echo "==============================="
+mpris-ctl info "   Artist   : %artist_name"  
+mpris-ctl info "   Track    : %track_name"
+mpris-ctl info "   Length   : %track_length"
+          echo "==============================="
+          echo "| [1] Next                    |" 
+          echo "| [2] Previous                |"
+          echo "==============================="
 ;;
-"Previous")
-	mpris-ctl prev
-	clear
-	exit
+2|previous)
+	mpris-ctl previous
+	echo ${green}""
+		  echo "==============================="
+          echo "|            Spotify          |"
+          echo "==============================="
+mpris-ctl info "   Artist   : %artist_name"  
+mpris-ctl info "   Track    : %track_name"
+mpris-ctl info "   Length   : %track_length"
+          echo "==============================="
+          echo "| [1] Next                    |" 
+          echo "| [2] Previous                |"
+          echo "==============================="
 ;;
-"Toggle")
-	mpris-ctl pp
-	clear
-	exit
+a|A|about)
+    clear
+    tput setaf 1
+    echo ""
+    echo " This is a Script Made to Customize Arch Linux"
+    echo "   Written by Matthew Keller [KillerDroid96]"
+    echo ""
+    echo " Type bl (bash list) to diplay custom commands"
+    echo ""
+    tput setaf 36
+    pause
+    $HOME/Github/Scripts/Linux/Shells/shell_list
+    pause
+    clear
+    show_main_menu
 ;;
-"${red}Exit${green}")
-            break
-            ;;
-        *) echo invalid option;;
-    esac
-done
+Help|help|h|H)
+    clear
+    tput setaf 1
+    echo ""
+    echo "To Use Menu Enter the Number or Letter"
+    echo ""
+    tput setaf 36
+    pause
+    clear
+    show_main_menu
+;;
+Exit|e|E|exit)
+    clear
+    exit 0
+;;
+*)
+echo don\'t know
+;;
+esac
+
+}
+
+while true
+do
+    show_main_menu
+    
+done 
