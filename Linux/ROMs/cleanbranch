@@ -65,10 +65,11 @@ git branch -D tmp
 ;;
 
 2|clean_9.0)
+clear
 git branch -D tmp
 git checkout -b tmp
 git push kd --delete 9.0
-git branch -D 9.0-kd
+git branch -D 9.0
 git checkout --orphan 9.0
 git rm -rf .
 git fetch crd 9.0

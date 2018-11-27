@@ -24,8 +24,10 @@ alias gmv='git mv'
 alias gcp='git cherry-pick -e'
 alias gr='git remote'
 alias gra='git remote add'
+alias gfa='git fetch --all'
 alias gcpa='git cherry-pick --abort'
 alias gcpc='git cherry-pick --continue'
+alias grc='git reset'
 
 # Shells (Bash & ZSH)
 alias {setzsh,set_zsh,usezsh,use_zsh}='chsh -s /bin/zsh'

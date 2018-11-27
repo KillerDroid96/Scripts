@@ -40,61 +40,47 @@ reverse=$(tput smso)             # Reverse Colors
 underline=$(tput smul)           # Underline
 
 pause(){
-  tput setaf 38
+  tput setaf 2
   read -p "Press [Enter] key to continue..." fackEnterKey
 }
 
+playerctl metadata artist
 show_main_menu() {
-tput setaf 38
     clear
-    	  echo ${green}""
-		  echo "==============================="
-          echo "|            Spotify          |"
-          echo "==============================="
-mpris-ctl info "   Artist   : %artist_name"  
-mpris-ctl info "   Track    : %track_name"
-mpris-ctl info "   Length   : %track_length"
-mpris-ctl info "   Shuffle  : %shuffle"
-          echo "==============================="
-          echo "| [1] Next                    |" 
-          echo "| [2] Previous                |"
-          echo "==============================="
+    echo ${green}""
+    echo "==============================="
+    echo "|            Spotify          |"
+    echo "==============================="
+    mpris-ctl info "| Album  | %album_name"
+    mpris-ctl info "| Artist | %artist_name"
+    mpris-ctl info "| Track  | %track_name"
+    # mpris-ctl info "   Voulume  : %volume"
+    # mpris-ctl info "   Length   : %track_length"
+    # mpris-ctl info "   Shuffle  : %shuffle"
+    echo "==============================="
+    echo "| [1] Next                    |" 
+    echo "| [2] Previous                |"
+    echo "| [3] Play/Pause              |"
+    echo "==============================="
+
 read menu
 case $menu in
 1|next)
-	clear
 	mpris-ctl next
-	echo ${green}""
-		  echo "==============================="
-          echo "|            Spotify          |"
-          echo "==============================="
-mpris-ctl info "   Artist   : %artist_name"  
-mpris-ctl info "   Track    : %track_name"
-mpris-ctl info "   Length   : %track_length"
-          echo "==============================="
-          echo "| [1] Next                    |" 
-          echo "| [2] Previous                |"
-          echo "==============================="
+  pause
 ;;
 2|previous)
-	mpris-ctl previous
-	echo ${green}""
-		  echo "==============================="
-          echo "|            Spotify          |"
-          echo "==============================="
-mpris-ctl info "   Artist   : %artist_name"  
-mpris-ctl info "   Track    : %track_name"
-mpris-ctl info "   Length   : %track_length"
-          echo "==============================="
-          echo "| [1] Next                    |" 
-          echo "| [2] Previous                |"
-          echo "==============================="
+	mpris-ctl prev
+  pause
+;;
+3|play_pause)
+  mpris-ctl pp
 ;;
 a|A|about)
     clear
     tput setaf 1
     echo ""
-    echo " This is a Script Made to Customize Arch Linux"
+    echo " This is a Script Made to Control Spotify"
     echo "   Written by Matthew Keller [KillerDroid96]"
     echo ""
     echo " Type bl (bash list) to diplay custom commands"
@@ -131,5 +117,4 @@ esac
 while true
 do
     show_main_menu
-    
 done 

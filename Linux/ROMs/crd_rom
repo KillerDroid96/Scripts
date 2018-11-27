@@ -6,7 +6,7 @@
 #
 # Copyright (C) 2016-2018 Nathan Chancellor
 #
-# This program is free software: you can redistribute it and/or modify
+# This program is free software: you can REDistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
 # (at your option) any later version.
@@ -25,9 +25,196 @@
 #             #
 ###############
 
+# Colors
+RED="$(tput setaf 1)"
+RST="$(tput sgr0)"
+
+# Set up a virtual environment for Python
+function mkavenv {
+    virtualenv2 "${HOME}/venv"
+    source "${HOME}/venv/bin/activate"
+}
+
+# Remove virtual environment
+function rmvenv {
+    deactivate
+    rm -rf "${HOME}/venv"
+}
+
+# Alias for echo to print escape codes
+function echo() {
+    command echo -e "$@"
+}
+
+function make_command() {
+    m "${JOBS_FLAG}" "$@"
+}
+
+# Number of make threads
+if [[ ${OS} = "darwin" ]]; then
+    THREADS=$(sysctl hw.ncpu | cut -d " " -f 2)
+else
+    THREADS=$(($(nproc --all) + 1))
+fi
+    JOBS_FLAG="-j${THREADS}"
+
+# Prints a formatted header to point out what is being done to the user
+function header() {
+    if [[ -n ${2} ]]; then
+        COLOR=${2}
+    else
+        COLOR=${RED}
+    fi
+    echo "${COLOR}"
+    echo "====$(for i in $(seq ${#1}); do echo "=\c"; done)===="
+    echo "|   ${1}   |"
+    echo "====$(for i in $(seq ${#1}); do echo "=\c"; done)===="
+    echo "${RST}"
+}
+
+# Formats the time
+function format_time() {
+    MINS=$(((${2} - ${1}) / 60))
+    SECS=$(((${2} - ${1}) % 60))
+    if [[ ${MINS} -ge 60 ]]; then
+        HOURS=$((MINS / 60))
+        MINS=$((MINS % 60))
+    fi
+
+    if [[ ${HOURS} -eq 1 ]]; then
+        TIME_STRING+="1 HR, "
+    elif [[ ${HOURS} -ge 2 ]]; then
+        TIME_STRING+="${HOURS} HRS, "
+    fi
+
+    if [[ ${MINS} -eq 1 ]]; then
+        TIME_STRING+="1 MIN"
+    else
+        TIME_STRING+="${MINS} MINS"
+    fi
+
+    if [[ ${SECS} -eq 1 && -n ${HOURS} ]]; then
+        TIME_STRING+=", AND 1 SEC"
+    elif [[ ${SECS} -eq 1 && -z ${HOURS} ]]; then
+        TIME_STRING+=" AND 1 SEC"
+    elif [[ ${SECS} -ne 1 && -n ${HOURS} ]]; then
+        TIME_STRING+=", AND ${SECS} SECS"
+    elif [[ ${SECS} -ne 1 && -z ${HOURS} ]]; then
+        TIME_STRING+=" AND ${SECS} SECS"
+    fi
+
+    echo "${TIME_STRING}"
+}
+
+# Prints an error in bold red
+function display_error() {
+    echo
+    echo "${RED}${1}${RST}"
+    [[ -z ${2} ]] && echo
+}
+
+# Telegram notifier function
+TOKEN=513663559:AAFltOrxX0FGsxW83jVMqProcRBCceeKHeM
+CHAT_ID=488672694
+function notify_id(){
+    curl https://api.telegram.org/bot"${TOKEN}"/getUpdates
+}
+function notify() {
+    if [[ -z ${TOKEN} ]]; then
+        display_error "notify() was called but there was no token! Token needed to access telegram!"
+        return 1
+    fi
+
+    if [[ -z ${CHAT_ID} ]]; then
+        display_error "notify() was called but there was no chat ID!"
+        return 1
+    fi
+
+    curl -s -X POST https://api.telegram.org/bot"${TOKEN}"/sendMessage -d chat_id="${CHAT_ID}" -d parse_mode="Markdown" -d text="$*" 1>/dev/null
+}
+
+# Convert a file location to web link
+GDRIVE_ID=1lOVVWYg_itAPwaUWbMhkvF2P51wzr46v
+function web_link() {
+    if [[ -z ${GDRIVE_ID} ]]; then
+        display_error "web_link() was called but there was no ID! ID needed to upload to Google Drive!"
+        return 1
+    fi
+    #gdrive about -c /home/killerdroid96/.gdrive
+    gdrive -c /home/killerdroid96/.gdrive sync upload $HOME/Github/Uploads "${GDRIVE_ID}" &> out.log
+    echo "https://goo.gl/piMa5s"
+}
+
+function apply_patches(){
+    PATCH_LOG=$HOME/Github/CRD/patches.log 
+    cd /home/killerdroid96/Github/CRD/frameworks/base/ &> ${PATCH_LOG}
+    git am --signoff < '/home/killerdroid96/Github/CRD_Patches/android_frameworks_base/performance tweaks/0001-Disable-statusbar-time-refresh-when-screen-off.patch'
+    git am --signoff < '/home/killerdroid96/Github/CRD_Patches/android_frameworks_base/performance tweaks/0003-Let-s-cut-Max-Excape-Animation-in-Half.patch'
+    git am --signoff < '/home/killerdroid96/Github/CRD_Patches/android_frameworks_base/performance tweaks/0004-lowered-animations-duration.patch'
+    git am --signoff < '/home/killerdroid96/Github/CRD_Patches/android_frameworks_base/performance tweaks/0005-aapt-Default-to-0-compression-ratio.patch'
+    git am --signoff < '/home/killerdroid96/Github/CRD_Patches/android_frameworks_base/performance tweaks/0006-Guard-in-short-circuit-evaluations-for-stringSplit-m.patch'
+    git am --signoff < '/home/killerdroid96/Github/CRD_Patches/android_frameworks_base/performance tweaks/0007-MountService-Unmount-internal-storage-before-restart.patch'
+    git am --signoff < '/home/killerdroid96/Github/CRD_Patches/android_frameworks_base/performance tweaks/0008-Clean-receivers-completely-when-forceStop-the-proces.patch'
+    git am --signoff < '/home/killerdroid96/Github/CRD_Patches/android_frameworks_base/performance tweaks/0009-ViewConfiguration-Set-scroll-friction-to-0.012.patch'
+    git am --signoff < '/home/killerdroid96/Github/CRD_Patches/android_frameworks_base/performance tweaks/0010-Factor-out-preference-in-storage-check-to-overridabl.patch'
+    git am --signoff < '/home/killerdroid96/Github/CRD_Patches/android_frameworks_base/performance tweaks/0012-Speed-Up-Animation-UI.patch'
+    git am --signoff < '/home/killerdroid96/Github/CRD_Patches/android_frameworks_base/performance tweaks/0013-Speed-up-StatusBar.patch'
+    #git am --signoff < '/home/killerdroid96/Github/CRD_Patches/android_frameworks_base/performance tweaks/0014-SystemUI-Adjusted-animation-timing.patch'
+    git am --signoff < '/home/killerdroid96/Github/CRD_Patches/android_frameworks_base/performance tweaks/0015-SystemUI-Tiny-expanding-improvement.patch'
+    git am --signoff < '/home/killerdroid96/Github/CRD_Patches/android_frameworks_base/performance tweaks/0017-SystemUI-Remove-data-tile-dialog.patch'
+    #git am --signoff < '/home/killerdroid96/Github/CRD_Patches/android_frameworks_base/performance-tweaks.patch' #&> ${PATCH_LOG}
+    cd /home/killerdroid96/Github/CRD/packages/apps/crDroidSettings/ &> ${PATCH_LOG}
+    git am --signoff < '/home/killerdroid96/Github/CRD_Patches/android_packages_apps_crDroidSettings/Redirect-OTA.patch' #&> ${PATCH_LOG}
+    #git am --signoff < '/home/killerdroid96/Github/CRD_Patches/android_packages_apps_crDroidSettings/0001-Add-Flashlight-blink-on-incoming-calls-2-3.patch' #&> ${PATCH_LOG}
+    #git am --signoff < '/home/killerdroid96/Github/CRD_Patches/android_packages_apps_crDroidSettings/my-default-settings.patch' #&> ${PATCH_LOG}
+    #cd /home/killerdroid96/Github/CRD/packages/services/Telecomm/ &> ${PATCH_LOG}
+    #git am --signoff < '/home/killerdroid96/Github/CRD_Patches/android_packages_services_Telecomm/0001-Telecomm-Add-Flashlight-blink-on-incoming-calls-3-3.patch' #&> ${PATCH_LOG}
+    cd /home/killerdroid96/Github/CRD/build/make/ &> ${PATCH_LOG}
+    git am --signoff < '/home/killerdroid96/Github/CRD_Patches/android_build/Update-install-graphics.patch' #&> ${PATCH_LOG}
+    # cd /home/killerdroid96/Github/CRD/build/kati/
+    # git am --signoff < '/home/killerdroid96/Github/CRD_Patches/repo_picks/build_kati/kati.patch'
+    # cd /home/killerdroid96/Github/CRD/dalvik/
+    # git am --signoff < '/home/killerdroid96/Github/CRD_Patches/repo_picks/dalvik/dalvik.patch'
+    # cd /home/killerdroid96/Github/CRD/device/qcom/sepolicy/
+    # git am --signoff < '/home/killerdroid96/Github/CRD_Patches/repo_picks/device_qcom_sepolicy/sepolicy.patch'
+    # cd /home/killerdroid96/Github/CRD/external/ant-wireless/ant_native/
+    # git am --signoff < '/home/killerdroid96/Github/CRD_Patches/repo_picks/external_ant-wireless_ant_native/ant_native.patch'
+    # cd /home/killerdroid96/Github/CRD/hardware/interfaces/
+    # git am --signoff < '/home/killerdroid96/Github/CRD_Patches/repo_picks/hardware_interfaces/interfaces.patch' 
+    # cd /home/killerdroid96/Github/CRD/hardware/lineage/interfaces/
+    # git am --whitespace=nowarn < '/home/killerdroid96/Github/CRD_Patches/repo_picks/hardware_lineage_interfaces/lineageos-interfaces.patch' 
+    # cd /home/killerdroid96/Github/CRD/hardware/qcom/keymaster/
+    # git am --signoff < '/home/killerdroid96/Github/CRD_Patches/repo_picks/hardware_qcom_keymaster/keymaster.patch'
+    # cd /home/killerdroid96/Github/CRD/system/bt/
+    # git am --signoff < '/home/killerdroid96/Github/CRD_Patches/repo_picks/system_bt/bt.patch' 
+    # cd /home/killerdroid96/Github/CRD/system/vold/
+    # git am --signoff < '/home/killerdroid96/Github/CRD_Patches/repo_picks/system_vold/vold.patch'
+    # cd /home/killerdroid96/Github/CRD/vendor/qcom/opensource/cryptfs_hw/
+    # git am --signoff < '/home/killerdroid96/Github/CRD_Patches/repo_picks/vendor_qcom_opensource_cryptfs_hw/crypt.patch'
+    # cd /home/killerdroid96/Github/CRD/hardware/qcom/wlan-caf/
+    # git am --signoff < '/home/killerdroid96/Github/CRD_Patches/repo_picks/hardware_qcom_wlan-caf/wlan-caf.patch'
+    # cd /home/killerdroid96/Github/CRD/frameworks/base/ &> ${PATCH_LOG}
+    # #git cherry-pick f75ff1601e33b6a84f50de70a02d6a691b1a8256
+    # #git cherry-pick b7ad6eafb632b4067e0eca2321cc796d3f27b475
+    # #git cherry-pick 2267474fdb0e09763c34d85fdcf3f2c0158e18e4
+    # git cherry-pick d2d0d5966b244a5ac42d7e0f7498341d77c1d7e1
+    # cd /home/killerdroid96/Github/CRD/packages/apps/crDroidSettings/ &> ${PATCH_LOG}
+    # #git cherry-pick fe2a624af9a3ddc94fa4fa20b82de705598096f8
+    # git cherry-pick 94f7a9a7b7932918daa3c81ec1baee47722e3768
+    # git cherry-pick 652701cd13749f034b0b9b1b238e6a38aa97d2d2
+    # cd /home/killerdroid96/Github/CRD/packages/apps/Settings/ &> ${PATCH_LOG}
+    # git cherry-pick 4ad5f7deba4fbd2778f2bffbbb7a1a6411408502
+    # cd /home/killerdroid96/Github/CRD/packages/apps/SmartNav/  &> ${PATCH_LOG}
+    # git cherry-pick f18c9586954b65589ee658c8399f86b7965dc308
+    # cd /home/killerdroid96/Github/CRD/lineage-sdk/  &> ${PATCH_LOG}
+    # git cherry-pick cf294f920b5cf46d07b5974858c10f98b3b5d46b
+    # cd /home/killerdroid96/Github/CRD/packages/apps/SmartNavSettings/  &> ${PATCH_LOG}
+    # git cherry-pick 2b2f59ee9d8525bc98179e54d5fc16b278857c6f
+}
+
 # Source our universal functions script
-source $HOME/Github/Scripts/Linux/Shells/shell_sources
-source $HOME/Github/Scripts/Linux/Shells/shell_colors
+# source $HOME/Github/Scripts/Linux/Shells/shell_sources
+# source $HOME/Github/Scripts/Linux/Shells/shell_colors
 
 ##############
 #            #
@@ -36,22 +223,21 @@ source $HOME/Github/Scripts/Linux/Shells/shell_colors
 ##############
 
 clear
-
-echo ${red}""
-echo "=========================================="
-echo "                 ____             _     __"
-echo "      __________/ __ \_________  (_)___/ /"
-echo "     / ___/ ___/ / / / ___/ __ \/ / __  / "
-echo "    / /__/ /  / /_/ / /  / /_/ / / /_/ /  "
-echo "    \___/_/  /_____/_/   \____/_/\__,_/   "
-echo "    ___              __           _     __"
-echo "   /   |  ____  ____/ /________  (_)___/ /"
-echo "  / /| | / __ \/ __  / ___/ __ \/ / __  / "
-echo " / ___ |/ / / / /_/ / /  / /_/ / / /_/ /  "
-echo "/_/  |_/_/ /_/\__,_/_/   \____/_/\__,_/   "
-echo "                                          "
-echo "=========================================="
-echo ${normal}""
+echo ${RED}""
+echo "=============================================="
+echo "|                  ____             _     __ |"
+echo "|       __________/ __ \_________  (_)___/ / |"
+echo "|      / ___/ ___/ / / / ___/ __ \/ / __  /  |"
+echo "|     / /__/ /  / /_/ / /  / /_/ / / /_/ /   |"
+echo "|     \___/_/  /_____/_/   \____/_/\__,_/    |"
+echo "|     ___              __           _     __ |"
+echo "|    /   |  ____  ____/ /________  (_)___/ / |"
+echo "|   / /| | / __ \/ __  / ___/ __ \/ / __  /  |"
+echo "|  / ___ |/ / / / /_/ / /  / /_/ / / /_/ /   |"
+echo "| /_/  |_/_/ /_/\__,_/_/   \____/_/\__,_/    |"
+echo "|                                            |"
+echo "=============================================="
+echo ${RST}""
 
 ################
 #              #
@@ -60,7 +246,7 @@ echo ${normal}""
 ################
 
 export JAVA_HOME=/usr/lib/jvm/jdk8-openjdk
-ROM=CRD
+ROM=CRD 
 DEVICE=dumpling
 VARIANT=userdebug
 ROM_FOLDER=${HOME}/Github
@@ -70,22 +256,7 @@ TG_MSG_FILE=/tmp/tg-msg.build-rom
 SYNC=true
 MAKE_TARGET=bacon 
 CLEAN_TARGET=true
-#MERGE=true
 REPOPICK=true
-
-function make_command() {
-    m "${JOBS_FLAG}" "$@"
-}
-
-#if [[ ${TG} ]]; then
-#  {
-#       echo "\`\`\`"
-#       echo "Currently Executing..."
-#       echo "$(basename "${0}") ${PARAMS}"
-#       echo "\`\`\`"
-#   } > ${TG_MSG_FILE}
-#   notify "$(cat ${TG_MSG_FILE})"
-#fi
 
 ###############
 #             #
@@ -115,6 +286,16 @@ OUT_FOLDER=${SOURCE_FOLDER}/out/target/product/${DEVICE}
 # AND START TRACKING TIME #
 ###########################
 
+# if [[ ${TG} ]]; then
+#  {
+#       echo "\`\`\`"
+#       echo "Currently Executing..."
+#       echo "$(basename "${0}") ${PARAMS}"
+#       echo "\`\`\`"
+#   } > ${TG_MSG_FILE}
+#   notify "$(cat ${TG_MSG_FILE})"
+# fi
+
 START=$(date +%s)
 cd "${SOURCE_FOLDER}" || die "Source folder does not exist!"
 
@@ -143,32 +324,20 @@ esac
 # REPO SYNC #
 #############
 header "REPO SYNC"
-echo "Sync Repo?${txtrst}"
+echo "Sync Repo?${RST}"
 select yn in "Yes" "No"; do
     case $yn in
-        Yes ) time repo sync "${JOBS_FLAG}" --force-sync -c --no-clone-bundle --no-tags --optimized-fetch --prune --current-branch; break;;
+        Yes ) repo init -u git://github.com/crdroidandroid/android.git -b 9.0
+              time repo sync "${JOBS_FLAG}" --force-sync -c --no-clone-bundle --no-tags --optimized-fetch --prune --current-branch; break;;
         No ) break;;
     esac
 done
-
-# ##############
-# # REPO MERGE #
-# ##############
-# header "REPO MERGE"
-# echo "Merge Repos?${txtrst}"
-# select yn in "Yes" "No"; do
-#     case $yn in
-#         Yes ) cr_repos
-#               cd "${SOURCE_FOLDER}" || die "Source folder does not exist!"; break;;
-#         No ) break;;
-#     esac
-# done
 
 ##############
 # REPO Patch #
 ##############
 header "REPO PATCH"
-echo "Do you want to apply patches?${txtrst}"
+echo "Do you want to apply patches?${RST}"
 select yn in "Yes" "No"; do
     case $yn in
         Yes ) apply_patches
@@ -177,7 +346,6 @@ select yn in "Yes" "No"; do
     esac
 done
 
-
 ############
 # REPOPICK #
 ############
@@ -185,18 +353,23 @@ header "REPO PICK"
 echo "Do you have any changes to pick?"
 select yn in "Yes" "No"; do
     case $yn in
-        Yes )   repopick 225213
-                repopick 225475
-                repopick 225476
-                repopick 226402
-                repopick 225506
-                repopick 225507
-                repopick 223374
-                repopick 223410
-                repopick 223411
+        Yes ) 
+                # build/kati
+                repopick 225213 # Do not limit threads upon calling legacy GNU make
+                # dalvik
+                repopick 225475 # dexdeps: Add option for --include-lineage-classes.
+                repopick 225476 # dexdeps: Ignore static initializers on analysis.
+                # hardware/interfaces
+                repopick 226402 # fbe-wrapped-key
+                repopick 225506 # Camed HAL extension: Added support in HIDL for Extended FD.
+                repopick 225507 # camera: Only link and use vendor.qti.hardware.camera.device if specified
+                # hardware/lineage/interfaces
+                repopick 223374 # interfaces: Add 2.0 livedisplay interfaces
+                repopick 223410 # interfaces: Add touch HIDL interface definitions
+                #repopick 223411 # interfaces: Add id HAL definition
+                # hardware/qcom/keymaster
                 repopick 224945
                 repopick 224946
-                repopick 224947
                 repopick 224948
                 repopick 224949
                 repopick 224950
@@ -204,70 +377,108 @@ select yn in "Yes" "No"; do
                 repopick 224952
                 repopick 224953
                 repopick 224954
-                repopick 228566
-                repopick 228569
-                repopick 228570
-                repopick 228571
-                repopick 228572
-                repopick 228573
-                repopick 228574
-                repopick 228575
-                repopick 228576
-                repopick 228578
-                repopick 228579
-                repopick 228580
-                repopick 228582
-                repopick 228583
-                repopick 228584
-                repopick 228585 
-                repopick 228586
-                repopick 228587 
-                repopick 223746
-                repopick 223748
-                repopick 223748
-                repopick 225496
-                repopick 225497
-                repopick 225498
-                repopick 225499
-                repopick 225829
-                repopick 226109
-                repopick 226110
-                repopick 226127
-                repopick 226111
-                repopick 229304
-                repopick 226128
-                repopick 226129
-                repopick 226130
-                repopick 230271
-                repopick 223945
-                repopick 225422
-                repopick 225423
-                repopick 229125
-                repopick 230382
-                repopick 224675
-                repopick 224676
-                repopick 224677
-                repopick 225551
-                repopick 223192
-                repopick 223193
-                repopick 224752
-                repopick 226638
-                repopick 226643
-                repopick 227260
-                repopick 227261
-                repopick 226647
-                repopick 226648
-                repopick 226649
-                repopick 226650
-                repopick 226651
-                repopick 226652
-                repopick 226653
-                repopick 226654
-                repopick 226655
-                repopick 226656
-                repopick 226658
-                repopick 227449
-                repopick 227450; break;;
+                repopick 233465
+                # device/qcom/sepolicy
+                repopick 228566 # qcom: Label vendor files with (vendor|system/vendor) instead of vendor
+                repopick 228569 # Use set_prop() macro for property sets
+                repopick 228570 # sepolicy: Allow wcnss_service to set wlan.driver properties
+                repopick 228571 # sepolicy: allow system_server to read alarm boot prop
+                repopick 228572 # sepolicy: Allow system_server to 'read' qti_debugfs
+                repopick 228573 # sepolicy: Add libsdm-disp-vndapis and libsdmutils to SP-HALs
+                #repopick 228574 # sepolicy: Allow thermal-engine to read sysfs_uio[_file]
+                repopick 228575 # sepolicy: Add libcryptfs_hw to SP HALs
+                repopick 228576 # sepolicy: Label mpctl_socket as data_file_type
+                repopick 228578 # sepolicy: rules to allow camera daemon access to app buffer
+                repopick 228580 # hal_gnss_default: Do not log udp socket failures
+                repopick 228582 # sepolicy: qti_init_shell needs to read dir too
+                repopick 228583 # sepolicy: allow vold to read persist dirs
+                repopick 228584 # sepolicy: Fix video4linux "name" node labeling
+                repopick 228585 # sepolicy: Allow mm-qcamerad to access v4L "name" node
+                repopick 228586 # common: Fix labelling of lcd-backlight
+                # packages_apps_Camera
+                repopick 224752; break;;        
+                # repopick 225213
+                # repopick 225475
+                # repopick 225476
+                # repopick 226402
+                # repopick 225506
+                # repopick 225507
+                # repopick 223374
+                # repopick 223410
+                # repopick 224945
+                # repopick 224946
+                # repopick 224948
+                # repopick 224949
+                # repopick 224950
+                # repopick 224951
+                # repopick 224952
+                # repopick 224953
+                # repopick 224954
+                # repopick 233465
+                # repopick 228566
+                # repopick 228569
+                # repopick 228570
+                # repopick 228571
+                # repopick 228572
+                # repopick 228576
+                # repopick 228578
+                # repopick 228580
+                # repopick 228582
+                # repopick 228583
+                # repopick 228584
+                # repopick 228585 
+                # repopick 228586
+                # repopick 225499
+                # repopick 226109
+                # repopick 226110
+                # repopick 226127
+                # repopick 226111
+                # repopick 229304
+                # repopick 226128
+                # repopick 226129
+                # repopick 226130
+                # repopick 229125
+                # repopick 224752
+                # repopick 226638
+                # repopick 226643
+                # repopick 227260
+                # repopick 227261; break;;
+                #repopick 223411
+                #repopick 225829
+                #repopick 228573
+                #repopick 228574
+                #repopick 228575
+                #repopick 228579
+                #repopick 228587 
+                #repopick 223746
+                #repopick 223748
+                #repopick 225496
+                #repopick 225497
+                #repopick 225498
+                #repopick 230271
+                #repopick 223945
+                #repopick 225422
+                #repopick 225423
+                #repopick 230382
+                #repopick 224675
+                #repopick 224676
+                #repopick 224677
+                #repopick 225551
+                #repopick 223192
+                #repopick 223193
+                #repopick 226647
+                #repopick 226648
+                #repopick 226649
+                #repopick 226650
+                #repopick 226651
+                #repopick 226652
+                #repopick 226653
+                #repopick 226654
+                #repopick 226655
+                #repopick 226656
+                #repopick 226658
+                #repopick 227449
+                #repopick 227450
         No ) break;;
     esac
 done
@@ -281,7 +492,7 @@ if [ -e $changelog ]; then
     rm -f $changelog
 fi
 
-echo "For how many days you want changelog to be generated?${txtrst}"
+echo "For how many days you want changelog to be generated?${RST}"
 read days
 until [[ $days =~ ^-?[0-9]+$ ]]; do
     echo "Invalid input - only numbers are allowed"
@@ -293,7 +504,7 @@ export changelog_days=$days
 # Clean Build #
 ###############
 header "CLEAN BUILD"
-echo "Make Clean Build?${txtrst}"
+echo "Make Clean Build?${RST}"
 select yn in "Yes" "No"; do
     case $yn in
         Yes ) make clean && make clobber; break;;
@@ -363,24 +574,23 @@ fi
 END=$(date +%s)
 TIME_STRING="$(format_time "${START}" "${END}")"
 
-echo ${red}""
-echo "=========================================="
-echo "                 ____             _     __"
-echo "      __________/ __ \_________  (_)___/ /"
-echo "     / ___/ ___/ / / / ___/ __ \/ / __  / "
-echo "    / /__/ /  / /_/ / /  / /_/ / / /_/ /  "
-echo "    \___/_/  /_____/_/   \____/_/\__,_/   "
-echo "    ___              __           _     __"
-echo "   /   |  ____  ____/ /________  (_)___/ /"
-echo "  / /| | / __ \/ __  / ___/ __ \/ / __  / "
-echo " / ___ |/ / / / /_/ / /  / /_/ / / /_/ /  "
-echo "/_/  |_/_/ /_/\__,_/_/   \____/_/\__,_/   "
-echo "                                          "
-echo "          ${BUILD_RESULT_STRING}!         "
-echo "=========================================="
-echo ${normal}""
+echo ${RED}""
+echo "=============================================="
+echo "|                  ____             _     __ |"
+echo "|       __________/ __ \_________  (_)___/ / |"
+echo "|      / ___/ ___/ / / / ___/ __ \/ / __  /  |"
+echo "|     / /__/ /  / /_/ / /  / /_/ / / /_/ /   |"
+echo "|     \___/_/  /_____/_/   \____/_/\__,_/    |"
+echo "|     ___              __           _     __ |"
+echo "|    /   |  ____  ____/ /________  (_)___/ / |"
+echo "|   / /| | / __ \/ __  / ___/ __ \/ / __  /  |"
+echo "|  / ___ |/ / / / /_/ / /  / /_/ / / /_/ /   |"
+echo "| /_/  |_/_/ /_/\__,_/_/   \____/_/\__,_/    |"
+echo "|                                            |"
+echo "=============================================="
+echo ${RST}""
 
-
+echo "${RED}${BUILD_RESULT_STRING}!${RST}"
 # If the build was successful, print file location, and size
 if [[ ${SUCCESS} ]]; then
     echo "${RED}FILE LOCATION: $(web_link "${ZIP_MOVE}")"

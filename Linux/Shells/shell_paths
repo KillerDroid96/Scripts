@@ -6,10 +6,9 @@
 PATH=$PATH:$HOME/Github; export PATH
 PATH=$PATH:$HOME/Github/Scripts; export PATH
 PATH=$PATH:$HOME/Github/Scripts/Linux; export PATH
-PATH=$PATH:$HOME/Github/Scripts/Linux/Bash; export PATH
 PATH=$PATH:$HOME/Github/Scripts/Linux/Files; export PATH
-PATH=$PATH:$HOME/Github/Scripts/Linux/KDE; export PATH
+PATH=$PATH:$HOME/Github/Scripts/Linux/Misc; export PATH
 PATH=$PATH:$HOME/Github/Scripts/Linux/ROMs; export PATH
 PATH=$PATH:$HOME/Github/Scripts/Linux/Setups; export PATH
-PATH=$PATH:$HOME/Github/Scripts/Linux/Shell; export PATH
+PATH=$PATH:$HOME/Github/Scripts/Linux/Shells; export PATH
 PATH=$PATH:$HOME/nathan_scripts; export PATH
