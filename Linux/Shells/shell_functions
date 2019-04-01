@@ -7,16 +7,253 @@
 # -Nathanchance
 ########################
 source $HOME/Github/Scripts/Linux/Shells/shell_colors
-#############
-# FUNCTIONS #
-#############
 
-### ZSH ###
-function lists() {
-    functions
-    local
-    alias
+#####################
+# SYSYTEM FUNCTIONS #
+#####################
+
+function system_updater(){
+    select yn in "Yay" "Trizen" "Exit"; do
+        case $yn in
+            Yay ) header "Updating System"
+                  yay -Syyu --quiet --noconfirm --needed
+                  header "System Update Complete"
+                  break;;
+            Trizen ) header "Updating System"
+                     trizen -Syyu --quiet --noconfirm --noedit --needed
+                     header "System Update Complete"
+                     break;;
+            Exit ) break;;
+        esac
+    done
 }
+
+function prompts(){
+    select yn in "clean" "fancy" "info" "simple" "exit"; do
+        case $yn in
+            clean ) export PS1="\[\033[0;37m\]\342\224\214\342\224\200\$([[ \$? != 0 ]] && echo \"[\[\033[0;31m\]\342\234\227\[\033[0;37m\]]\342\224\200\")[$(if [[ ${EUID} == 0 ]]; then echo '\[\033[0;31m\]\h'; else echo '\[\033[0;31m\]\u\[\033[0;37m\]@\[\033[0;37m\]\h'; fi)\[\033[0;37m\]]\342\224\200[\[\033[0;37m\]\w\[\033[0;37m\]]\n\[\033[0;37m\]\342\224\224\342\224\200\342\224\200\342\225\274 \[\033[0m\]" && break;;
+            fancy ) export PS1="\[\e[0m\][\[\033[1;30m\]\d \T\[\e[0m\]]\[\e[0m\]{\[\033[1;30m\]\#\[\e[0m\]} \[\e[0m\]\[\e[0;92m\]\u@\h\[\e[0m\]:\[\e[0;94m\]\w\[\033[1;30m\](\`if [ \$? = 0 ]; then echo \"\[\e[0;92m\]\342\234\223\[\e[0m\]\"; else echo \"\[\e[0;91m\]\342\234\227\[\e[0m\]\"; fi\`\[\033[1;30m\])\[\e[0m\]$ " && break;;
+            info ) export PS1="\n\[\033[1;37m\]\342\224\214($(if [[ ${EUID} == 0 ]]; then echo '\[\033[01;31m\]\h'; else echo '\[\033[01;34m\]\u@\h'; fi)\[\033[1;37m\])\342\224\200(\[\033[1;34m\]\$?\[\033[1;37m\])\342\224\200(\[\033[1;34m\]\@ \d\[\033[1;37m\])\[\033[1;37m\]\n\342\224\224\342\224\200(\[\033[1;32m\]\w\[\033[1;37m\])\342\224\200(\[\033[1;32m\]\$(ls -1 | wc -l | sed 's: ::g') files, \$(ls -sh | head -n1 | sed 's/total //')b\[\033[1;37m\])\342\224\200> \[\033[0m\]" && break;;
+            simple ) export PS1="\[\033[0;37m\]\342\224\214\342\224\200\$([[ \$? != 0 ]] && echo \"[\[\033[0;31m\]\342\234\227\[\033[0;37m\]]\342\224\200\")[$(if [[ ${EUID} == 0 ]]; then echo '\[\033[0;31m\]\h'; else echo '\[\033[0;33m\]\u\[\033[0;37m\]@\[\033[0;96m\]\h'; fi)\[\033[0;37m\]]\342\224\200[\[\033[0;32m\]\w\[\033[0;37m\]]\n\[\033[0;37m\]\342\224\224\342\224\200\342\224\200\342\225\274 \[\033[0m\]" && break;;
+            exit ) break;;
+        esac
+    done
+}
+
+# Useful unarchiver!
+function extract () {
+        if [ -f $1 ] ; then
+                case $1 in
+                        *.tar.bz2)    tar xjf $1     ;;
+                        *.tar.gz)     tar xzf $1     ;;
+                        *.bz2)        bunzip2 $1     ;;
+                        *.rar)        rar x $1       ;;
+                        *.gz)         gunzip $1      ;;
+                        *.tar)        tar xf $1      ;;
+                        *.tbz2)       tar xjf $1     ;;
+                        *.tgz)        tar xzf $1     ;;
+                        *.zip)        unzip $1       ;;
+                        *.Z)          uncompress $1  ;;
+                        *)            echo "'$1' cannot be extracted via extract()" ;;
+                esac
+        else
+                echo "'$1' is not a valid file"
+        fi
+}
+
+# lists ip, hostname, city, region, country, loc, org, postal
+function ipif() {
+    if grep -P "(([1-9]\d{0,2})\.){3}(?2)" <<< "$1"; then
+    curl ipinfo.io/"$1"
+    else
+    ipawk=($(host "$1" | awk '/address/ { print $NF }'))
+    curl ipinfo.io/${ipawk[1]}
+    fi
+    echo
+}
+
+# Will create [file].bak in the same directory
+function backup() { 
+    cp "$1"{,.bak};
+} 
+
+function upinfo() {
+    echo -ne "${green}$(hostname) ${red}uptime is ${cyan} \\t ";uptime | awk /'up/ {print $3,$4,$5,$6,$7,$8,$9,$10,$11}';
+}
+
+# terminal calculator
+function calc() {
+    echo "scale=3;$@" | bc -l
+}
+
+# Usage mcd test, creates and moves into test directory
+function mcd () { 
+    mkdir -p $1
+    cd $1
+}
+
+# Usage numfiles scripts > 88 files in scripts
+function numfiles() { 
+    # numfiles test > 10 files in test
+    N="$(ls $1 | wc -l)"; 
+    echo "$N files in $1";
+}
+
+# cd and ls in one
+function cl() { 
+    local dir="$1"
+    local dir="${dir:=$HOME}"
+    if [[ -d "$dir" ]]; then
+        cd "$dir" >/dev/null; ls
+    else
+        echo "bash: cl: $dir: Directory not found"
+    fi
+}
+
+# cd and ls in one
+function clv() { 
+    local dir="$1"
+    local dir="${dir:=$HOME}"
+    if [[ -d "$dir" ]]; then
+        cd "$dir" >/dev/null; ll
+    else
+        echo "bash: cl: $dir: Directory not found"
+    fi
+}
+
+# Search for a process containing a given name
+function pps() { 
+    ps aux | grep "$@" | grep -v 'grep';
+}
+
+# history displays comand history, use !208 etc to repeat command
+function rehistory(){ 
+    history | awk '{CMD[$2]++;count++;}END { for (a in CMD)print CMD[a] " " CMD[a]/count*100 "% " a;}' | grep -v "./" | column -c3 -s " " -t | sort -nr | nl |  head -n10
+}
+
+# Lists files by size in current directory
+function sbs() { 
+    du -b --max-depth 1 | sort -nr | perl -pe 's{([0-9]+)}{sprintf "%.1f%s", $1>=2**30? ($1/2**30, "G"): $1>=2**20? ($1/2**20, "M"): $1>=2**10? ($1/2**10, "K"): ($1, "")}e';
+} 
+
+# Usage whereis scripts, displays all locations with the word scripts (case sensitive)
+function wheres (){ 
+  find . -name "$1*";
+}
+
+function git_config() {
+    git config --global user.email "mkeller96@gmail.com"
+    git config --global user.name "KillerDroid96"
+    git config --global credential.helper "cache --timeout=7200"
+    git config -l
+}
+
+########
+# MISC #
+########
+# Prints weather information 
+function forcast(){
+    clear
+    printf "\n Todays Forcast"
+    printf "\n $(curl -s wttr.in/~Pittsburg,KS?0?q?T | awk '/°(C|F)/ {printf $(NF-1) $(NF) " ("a")"} /,/ {a=$0}') \n ${Color_Off}" 
+    printf "$(curl -s wttr.in/~Overland+Park,KS?0?q?T | awk '/°(C|F)/ {printf $(NF-1) $(NF) " ("a")"} /,/ {a=$0}') \n\n ${Color_Off}"
+
+}
+
+# Neofetch alias
+function nf() {
+    echo
+    neofetch \
+        --kernel_shorthand on \
+        --distro_shorthand tiny \
+        --os_arch off \
+        --uptime_shorthand tiny \
+        --speed_shorthand on \
+        --install_time off \
+        --color_blocks off
+    echo
+    echo
+}
+
+function mosh1() {
+    sudo systemctl enable sshd.service;
+    sudo systemctl start sshd.service;
+    echo -e "Mosh Server Started";
+}
+
+function trim_vbox(){
+    header "Filling Empty Space"
+    # No output is displayed
+    sudo dd if=/dev/zero of=/var/tmp/bigemptyfile bs=4096k
+    header "Deleting Empty Space"
+    sudo rm /var/tmp/bigemptyfile
+    header "Ready to Compact VDI"
+}
+
+function git_tips(){
+    echo "[Git aliases]
+    git='git --no-pager'
+    gs='git status'
+    gb='git branch -a --color'
+    gd='git diff --color'
+    gc='git commit'
+    gcm='git commit -m'
+    ga='git add'
+    gaa='git add --all'    
+    gac='git add && git commit'
+    gaac='git add --all && git commit'
+    {gl,gitlog}='git log --pretty=oneline'
+    gps='git push'
+    gpl='git pull'
+    gco='git checkout'
+    grm='git rm'
+    gmv='git mv'
+    gcp='git cherry-pick -e'
+    gr='git remote'
+    gra='git remote add'
+    gfa='git fetch --all'
+    gf='git fetch'
+    gcpa='git cherry-pick --abort'
+    gcpc='git cherry-pick --continue'
+    grc='git reset'
+    "
+
+    echo "[Git patches]
+    gcp -m 1
+    git format-patch -1
+    git format-patch -10 HEAD --stdout > 0001-last-10-commits.patch
+    cat new-feature.patch | git am
+    git am < file.patch
+    git apply --stat fixemptyposter.patch
+    git apply --check fixemptyposter.patch
+    git am --signoff < fixemptyposter.patch
+    "
+
+    echo "[Deletes previous commits and pushes current branch]
+    git push kd HEAD:9.0-kd --force 
+    git push --set-upstream kd 9.0-kd
+    git reflog 
+    "
+}
+
+function tips(){
+    echo '[Grep examples]
+    grep -rl "kill"
+    find strings in the rom source: grep -r "TEXTtoFIND"
+    find commit msg in the history: git log --grep="<part_of_commit_message>"
+    '
+    echo "[System shortcuts]
+    CTRL-ESC           | Brings up a tast manager
+    CTRL-ALT-ESC       | Point at a rogue application to kill it
+    Ctrl-Alt-F1        | Enter's virtual console
+    Ctrl-Alt-F7        | Exit's virtutal console
+    CTRL-ALT-BackSpace | Kills X
+    "
+}
+
+######################
+# QUESTION FUNCTIONS #
+######################
 
 confirm() {
     local answer
@@ -43,10 +280,6 @@ confirm_wrapper() {
     fi
     confirm ${prefix} "$@"
 }
-
-poweroff() { confirm_wrapper --root $0 "$@"; }
-reboot() { confirm_wrapper --root $0 "$@"; }
-hibernate() { confirm_wrapper --root $0 "$@"; }
 
 ask() {
     # https://djm.me/ask
@@ -96,63 +329,10 @@ else
 fi
 }
 
-### BASH ###
+################
+# TODO & NOTES #
+################
 
-# Will create [file].bak in the same directory
-function backup() { 
-    cp "$1"{,.bak};
-} 
-
-function calc() { # terminal calculator
-    echo "scale=3;$@" | bc -l
-}
-
-function cl() { # cd and ls in one
-    local dir="$1"
-    local dir="${dir:=$HOME}"
-    if [[ -d "$dir" ]]; then
-        cd "$dir" >/dev/null; ls
-    else
-        echo "bash: cl: $dir: Directory not found"
-    fi
-}
-
-function clv() { # cd and ls in one
-    local dir="$1"
-    local dir="${dir:=$HOME}"
-    if [[ -d "$dir" ]]; then
-        cd "$dir" >/dev/null; ll
-    else
-        echo "bash: cl: $dir: Directory not found"
-    fi
-}
-
-# Prints weather information 
-function forcast(){
-	clear
-	printf "\n Todays Forcast"
-    #printf "\n    Todays Forcast : $(curl -s wttr.in/~Pittsburg,KS?0?q?T | awk '/°(C|F)/ {printf $(NF-1) $(NF) " ("a")"} /,/ {a=$0}') \n ${Color_Off}" 
-    #printf "                  : $(curl -s wttr.in/~Overland+Park,KS?0?q?T | awk '/°(C|F)/ {printf $(NF-1) $(NF) " ("a")"} /,/ {a=$0}') \n\n ${Color_Off}"
-    printf "\n $(curl -s wttr.in/~Pittsburg,KS?0?q?T | awk '/°(C|F)/ {printf $(NF-1) $(NF) " ("a")"} /,/ {a=$0}') \n ${Color_Off}" 
-    printf "$(curl -s wttr.in/~Overland+Park,KS?0?q?T | awk '/°(C|F)/ {printf $(NF-1) $(NF) " ("a")"} /,/ {a=$0}') \n\n ${Color_Off}"
-
-}
-
-function ipif() { # lists ip, hostname, city, region, country, loc, org, postal
-    if grep -P "(([1-9]\d{0,2})\.){3}(?2)" <<< "$1"; then
-    curl ipinfo.io/"$1"
-    else
-    ipawk=($(host "$1" | awk '/address/ { print $NF }'))
-    curl ipinfo.io/${ipawk[1]}
-    fi
-    echo
-}
-
-# Usage mcd test, creates and moves into test directory
-function mcd () { 
-    mkdir -p $1
-    cd $1
-}
 # Usage todo -l -c -r
 function todo() {
     if [[ ! -f $HOME/.todo ]]; then
@@ -221,23 +401,21 @@ function notesedit () {
     nano $HOME/.notes
 }
 
-function numfiles() { # Usage numfiles scripts > 88 files in scripts
-    # numfiles test > 10 files in test
-    N="$(ls $1 | wc -l)"; 
-    echo "$N files in $1";
-}
+#################
+# OLD FUNCTIONS #
+#################
 
-function pps() { # Search for a process containing a given name
-ps aux | grep "$@" | grep -v 'grep';
-}
+#ZSH Commands
+poweroff() { confirm_wrapper --root $0 "$@"; }
+reboot() { confirm_wrapper --root $0 "$@"; }
+hibernate() { confirm_wrapper --root $0 "$@"; }
 
-function rehistory(){ # history displays comand history, use !208 etc to repeat command
-    history | awk '{CMD[$2]++;count++;}END { for (a in CMD)print CMD[a] " " CMD[a]/count*100 "% " a;}' | grep -v "./" | column -c3 -s " " -t | sort -nr | nl |  head -n10
+### ZSH ###
+function lists() {
+    functions
+    local
+    alias
 }
-
-function sbs() { # Lists files by size in current directory
-    du -b --max-depth 1 | sort -nr | perl -pe 's{([0-9]+)}{sprintf "%.1f%s", $1>=2**30? ($1/2**30, "G"): $1>=2**20? ($1/2**20, "M"): $1>=2**10? ($1/2**10, "K"): ($1, "")}e';
-} 
 
 function shopts() {         # Sets Shell Options
     shopt -s cdspell        # This will correct minor spelling errors in a cd command.
@@ -248,54 +426,19 @@ function shopts() {         # Sets Shell Options
     shopt -s 
 }
 
-function wheres (){ # Usage whereis scripts, displays all locations with the word scripts (case sensitive)
-  find . -name "$1*";
+# Install speedtest-cli
+function downlsppedtest (){
+     header "Downloading speedtest-cli"
+     sudo curl -LSo /usr/local/bin/speedtest-cli https://raw.githubusercontent.com/sivel/speedtest-cli/master/speedtest.py
+     sudo chmod +x /usr/local/bin/speedtest-cli
 }
 
-function upinfo() {
-    echo -ne "${green}$(hostname) ${red}uptime is ${cyan} \\t ";uptime | awk /'up/ {print $3,$4,$5,$6,$7,$8,$9,$10,$11}';
-}
-
-function git_config() {
-    git config --global user.email "mkeller96@gmail.com"
-    git config --global user.name "KillerDroid96"
-    git config --global credential.helper "cache --timeout=7200"
-    git config -l
-}
-
-function mosh1() {
-    sudo systemctl enable sshd.service;
-    sudo systemctl start sshd.service;
-    echo -e "Mosh Server Started";
-}
-
-# Neofetch alias
-function nf() {
-    echo
-    neofetch \
-        --kernel_shorthand on \
-        --distro_shorthand tiny \
-        --os_arch off \
-        --uptime_shorthand tiny \
-        --speed_shorthand on \
-        --install_time off \
-        --color_blocks off
-    echo
-    echo
-}
-
-function trizens(){
-    header "Updating System"
-    trizen -Syyu --quiet --noconfirm --noedit --needed
-    clear
-    header "System Update Complete"
-}
-
-function trim_vbox(){
-    header "Filling Empty Space"
-    # No output is displayed
-    sudo dd if=/dev/zero of=/var/tmp/bigemptyfile bs=4096k
-    header "Deleting Empty Space"
-    sudo rm /var/tmp/bigemptyfile
-    header "Ready to Compact VDI"
+# Install yay and AUR packages
+install_yay(){
+    #cd "${MISC_FOLDER}"/building || die "wtf?"
+    curl -LSs -o PKGBUILD "https://aur.archlinux.org/cgit/aur.git/plain/PKGBUILD?h=yay"
+    makepkg --noconfirm -si || die "Error installing yay!"
+    gpg --recv-keys 702353E0F7E48EDB
+    yay -S --needed arm-linux-gnueabi-gcc lineageos-devel || die "Error running yay!"
+    yay
 }

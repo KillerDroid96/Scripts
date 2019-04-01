@@ -16,6 +16,12 @@
 # Only sets bash prompt themes for current session
 # I want it to set bash prompt themes for every session and remember on exit
 
+# Bash-it
+#export BASH_IT="${HOME}/.bash_it"
+#export BASH_IT_THEME='powerline'
+#export BASH_IT_AUTOMATIC_RELOAD_AFTER_CONFIG_CHANGE=1
+#source "$BASH_IT"/bash_it.sh
+
 function show_usage() {
     echo " "
     echo "=================================================="

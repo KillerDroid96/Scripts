@@ -23,6 +23,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>
 
+source $HOME/Github/Scripts/Linux/Shells/shell_colors
 
 function memUsage() {
     MEM_INFO=$( < /proc/meminfo )
@@ -101,15 +102,13 @@ function diskUsage1() {
     echo "${USED} / ${ALL} (${PERCENT})"
 }
 
-uptime | sed 's/.*up/The system has been up for/' | sed 's/,.*load/ with a system load/'
+#uptime | sed 's/.*up/The system has been up for/' | sed 's/,.*load/ with a system load/'
 
 function upTime() {
     awk '{print int($1/3600)" hr "int(($1%3600)/60)" min "int($1%60)}' /proc/uptime
 }
 
-source $HOME/Github/Scripts/Linux/Shells/shell_colors
-
-clear
+clear && echo -en "\e[3J"
 echo -e ${RED}""
 echo -e "     _____             _     _    ______               ";
 echo -e "    (____ \           (_)   | |  (____  \              ";

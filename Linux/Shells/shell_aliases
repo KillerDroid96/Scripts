@@ -30,11 +30,14 @@ alias gcpa='git cherry-pick --abort'
 alias gcpc='git cherry-pick --continue'
 alias grc='git reset'
 
+# Grep (Find Stuff)
+alias find='grep -rl' 
+
 # Shells (Bash & ZSH)
 alias {setzsh,set_zsh,usezsh,use_zsh}='chsh -s /bin/zsh'
-alias {setbash,set_bash,usebash,use_bash}='chsh -s /usr/bin/bash'
+alias {setbash,set_bash,usebash,use_bash}='chsh -s /bin/bash'
 alias {editzsh,ez}='nano ~/.zshrc'        				 				                      # Edits ZSH
-alias {editbash,eb}='nano ~/Github/Scripts/Linux/Shells/.bashrc'        				 				                  # Edits Bash
+alias {editbash,eb}='nano ~/Github/Scripts/Linux/Shells/.bashrc'        				      # Edits Bash
 alias {updatezsh,uz}='source ~/.zshrc'                     			         	              # Updates ZSH
 alias {updatebash,ub}='source ~/.bashrc'                  				 		              # Updates Bash
 alias {shell_list,bashlist,bl,sl,al}='$HOME/Github/Scripts/Linux/Shells/shell_list'           # Displays Bash List
@@ -55,17 +58,21 @@ alias hs='rehistory'                                			                         
 alias fps='ps aux | grep'                         				                                 # Displays PID (Ex 'fps terminal')
 alias 000='chmod 000'
 alias 644='chmod 644'
-alias 755='chmod 755'  
+alias 755='chmod 755'
+alias cls='clear && echo -en "\e[3J"'
 alias {screenshot,ssa}="gnome-screenshot -a -i"         				                         # Screen-shot Selected Area on Gnome/KDE 
 alias {emptytrash,et}="rm -rf $HOME/Desktop/trash.desktop"                                       # Empties Trash
 alias {weather,wf}="forcast"							  				 	                     # Gives weather Report
 alias {lastroot,rr,lr}='sudo $(history | tail -n 2 | head -n 1 | sed -e "s/^[ ]*[0-9]*[ ]*//g")' # Executes the last command as root
 alias {trace,intercept}="sudo strace -ff -e trace=write -e write=1,2 -p"                         # Follow Forks With Output Into Separate Files
-alias i='trizen -S --quiet --noconfirm --noedit --needed'                                        # Trizen Install
-alias {u,us,uq,strizen,trizenq,trizens}='trizens'                                                # System Update
+#alias i='trizen -S --quiet --noconfirm --noedit --needed'                                        # Install Package
+#alias {un,remove,R}='trizen -R'                                                                  # Remove Package
+alias {u,us,uq,ud,upd,trizens,yays}='system_updater'                                             # System Update
 alias {banner,shell_banner}='$HOME/Github/Scripts/Linux/Shells/shell_banner'                     # Displays Banner
 alias motd='/etc/profile.d/motd.sh'                                                              # Displays Banner
-
+alias {wifitest,speed,speedtest}="speedtest-cli"
+alias setperf='echo "performance" | sudo tee /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor'
+alias setsave='echo "powersave" | sudo tee /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor'
 
 # Development 
 alias n="nano"									                                  # Text Editor

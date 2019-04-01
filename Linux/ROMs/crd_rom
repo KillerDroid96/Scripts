@@ -19,6 +19,8 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>
 
+source $HOME/Github/Scripts/Linux/Shells/shell_colors
+
 ###############
 #             #
 #  FUNCTIONS  #
@@ -134,7 +136,7 @@ function notify() {
 }
 
 # Convert a file location to web link
-GDRIVE_ID=1lOVVWYg_itAPwaUWbMhkvF2P51wzr46v
+GDRIVE_ID=1K4WG6-fXphFMQORgBk8GDWfEnjn9GrHg
 function web_link() {
     if [[ -z ${GDRIVE_ID} ]]; then
         display_error "web_link() was called but there was no ID! ID needed to upload to Google Drive!"
@@ -146,6 +148,9 @@ function web_link() {
 }
 
 function apply_patches(){
+    ###########
+    # Patches #
+    ###########
     PATCH_LOG=$HOME/Github/CRD/patches.log 
     cd /home/killerdroid96/Github/CRD/frameworks/base/ &> ${PATCH_LOG}
     #git am --signoff < '/home/killerdroid96/Github/CRD_Patches/android_frameworks_base/performance tweaks/0001-Disable-statusbar-time-refresh-when-screen-off.patch'
@@ -165,51 +170,33 @@ function apply_patches(){
     #git am --signoff < '/home/killerdroid96/Github/CRD_Patches/android_frameworks_base/performance-tweaks.patch' #&> ${PATCH_LOG}
     cd /home/killerdroid96/Github/CRD/packages/apps/crDroidSettings/ &> ${PATCH_LOG}
     git am --signoff < '/home/killerdroid96/Github/CRD_Patches/android_packages_apps_crDroidSettings/Redirect-OTA.patch' #&> ${PATCH_LOG}
-    #git am --signoff < '/home/killerdroid96/Github/CRD_Patches/android_packages_apps_crDroidSettings/0001-Add-Flashlight-blink-on-incoming-calls-2-3.patch' #&> ${PATCH_LOG}
-    #git am --signoff < '/home/killerdroid96/Github/CRD_Patches/android_packages_apps_crDroidSettings/my-default-settings.patch' #&> ${PATCH_LOG}
-    #cd /home/killerdroid96/Github/CRD/packages/services/Telecomm/ &> ${PATCH_LOG}
-    #git am --signoff < '/home/killerdroid96/Github/CRD_Patches/android_packages_services_Telecomm/0001-Telecomm-Add-Flashlight-blink-on-incoming-calls-3-3.patch' #&> ${PATCH_LOG}
     cd /home/killerdroid96/Github/CRD/build/make/ &> ${PATCH_LOG}
     git am --signoff < '/home/killerdroid96/Github/CRD_Patches/android_build/Update-install-graphics.patch' #&> ${PATCH_LOG}
-    # cd /home/killerdroid96/Github/CRD/build/kati/
-    # git am --signoff < '/home/killerdroid96/Github/CRD_Patches/repo_picks/build_kati/kati.patch'
-    # cd /home/killerdroid96/Github/CRD/dalvik/
-    # git am --signoff < '/home/killerdroid96/Github/CRD_Patches/repo_picks/dalvik/dalvik.patch'
-    # cd /home/killerdroid96/Github/CRD/device/qcom/sepolicy/
-    # git am --signoff < '/home/killerdroid96/Github/CRD_Patches/repo_picks/device_qcom_sepolicy/sepolicy.patch'
-    # cd /home/killerdroid96/Github/CRD/external/ant-wireless/ant_native/
-    # git am --signoff < '/home/killerdroid96/Github/CRD_Patches/repo_picks/external_ant-wireless_ant_native/ant_native.patch'
-    # cd /home/killerdroid96/Github/CRD/hardware/interfaces/
-    # git am --signoff < '/home/killerdroid96/Github/CRD_Patches/repo_picks/hardware_interfaces/interfaces.patch' 
-    # cd /home/killerdroid96/Github/CRD/hardware/lineage/interfaces/
-    # git am --whitespace=nowarn < '/home/killerdroid96/Github/CRD_Patches/repo_picks/hardware_lineage_interfaces/lineageos-interfaces.patch' 
-    # cd /home/killerdroid96/Github/CRD/hardware/qcom/keymaster/
-    # git am --signoff < '/home/killerdroid96/Github/CRD_Patches/repo_picks/hardware_qcom_keymaster/keymaster.patch'
-    # cd /home/killerdroid96/Github/CRD/system/bt/
-    # git am --signoff < '/home/killerdroid96/Github/CRD_Patches/repo_picks/system_bt/bt.patch' 
-    # cd /home/killerdroid96/Github/CRD/system/vold/
-    # git am --signoff < '/home/killerdroid96/Github/CRD_Patches/repo_picks/system_vold/vold.patch'
-    # cd /home/killerdroid96/Github/CRD/vendor/qcom/opensource/cryptfs_hw/
-    # git am --signoff < '/home/killerdroid96/Github/CRD_Patches/repo_picks/vendor_qcom_opensource_cryptfs_hw/crypt.patch'
-    # cd /home/killerdroid96/Github/CRD/hardware/qcom/wlan-caf/
-    # git am --signoff < '/home/killerdroid96/Github/CRD_Patches/repo_picks/hardware_qcom_wlan-caf/wlan-caf.patch'
-    # cd /home/killerdroid96/Github/CRD/frameworks/base/ &> ${PATCH_LOG}
-    # #git cherry-pick f75ff1601e33b6a84f50de70a02d6a691b1a8256
-    # #git cherry-pick b7ad6eafb632b4067e0eca2321cc796d3f27b475
-    # #git cherry-pick 2267474fdb0e09763c34d85fdcf3f2c0158e18e4
-    # git cherry-pick d2d0d5966b244a5ac42d7e0f7498341d77c1d7e1
-    # cd /home/killerdroid96/Github/CRD/packages/apps/crDroidSettings/ &> ${PATCH_LOG}
-    # #git cherry-pick fe2a624af9a3ddc94fa4fa20b82de705598096f8
-    # git cherry-pick 94f7a9a7b7932918daa3c81ec1baee47722e3768
-    # git cherry-pick 652701cd13749f034b0b9b1b238e6a38aa97d2d2
-    # cd /home/killerdroid96/Github/CRD/packages/apps/Settings/ &> ${PATCH_LOG}
-    # git cherry-pick 4ad5f7deba4fbd2778f2bffbbb7a1a6411408502
-    # cd /home/killerdroid96/Github/CRD/packages/apps/SmartNav/  &> ${PATCH_LOG}
-    # git cherry-pick f18c9586954b65589ee658c8399f86b7965dc308
-    # cd /home/killerdroid96/Github/CRD/lineage-sdk/  &> ${PATCH_LOG}
-    # git cherry-pick cf294f920b5cf46d07b5974858c10f98b3b5d46b
-    # cd /home/killerdroid96/Github/CRD/packages/apps/SmartNavSettings/  &> ${PATCH_LOG}
-    # git cherry-pick 2b2f59ee9d8525bc98179e54d5fc16b278857c6f
+    ################
+    # Cherry-picks #
+    ################
+    cd /home/killerdroid96/Github/CRD/frameworks/base/ 
+        git cherry-pick 6000db73030542debb330fdf615cc461a5c8229f # Long press QS settings for crDroidSettings
+        git cherry-pick 800922d90fe1568dc87badf87cd4d495f91cc64d # Unlock keystore with fingerprint after reboot (1/2)
+    cd /home/killerdroid96/Github/CRD/packages/apps/crDroidSettings/ 
+        git cherry-pick edf23435ba3e13a42a8c9216537ebcfd25021648 # Moved bluetooth battery status to misc under quick settings
+        git cherry-pick 69949e1426064e7fccd8086fbaa879050705ef46 # Unlock keystore with fingerprint after reboot (2/2)
+}
+
+function apply_repopicks(){
+            # hardware/lineage/interfaces
+            repopick 223374 # interfaces: Add 2.0 livedisplay interfaces
+            repopick 223410 # interfaces: Add touch HIDL interface definitions
+            # device/qcom/sepolicy
+            repopick 228572 # sepolicy: Allow system_server to 'read' qti_debugfs
+            repopick 228573 # sepolicy: Add libsdm-disp-vndapis and libsdmutils to SP-HALs
+            repopick 228578 # sepolicy: rules to allow camera daemon access to app buffer
+            repopick 228582 # sepolicy: qti_init_shell needs to read dir too
+            # packages_apps_Camera
+            repopick 224752
+            # ant
+            repopick 227260
+            repopick 227261
 }
 
 # Source our universal functions script
@@ -223,7 +210,7 @@ function apply_patches(){
 ##############
 
 clear
-echo ${RED}""
+echo ${BLINK_RED}""
 echo "=============================================="
 echo "|                  ____             _     __ |"
 echo "|       __________/ __ \_________  (_)___/ / |"
@@ -346,50 +333,17 @@ select yn in "Yes" "No"; do
     esac
 done
 
-############
-# REPOPICK #
-############
-header "REPO PICK"
-echo "Do you have any changes to pick?"
-select yn in "Yes" "No"; do
-    case $yn in
-        Yes ) 
-            # hardware/lineage/interfaces
-            repopick 223374 # interfaces: Add 2.0 livedisplay interfaces
-            repopick 223410 # interfaces: Add touch HIDL interface definitions
-
-            # device/qcom/sepolicy
-            repopick 228572 # sepolicy: Allow system_server to 'read' qti_debugfs
-            repopick 228573 # sepolicy: Add libsdm-disp-vndapis and libsdmutils to SP-HALs
-            repopick 228576 # sepolicy: Label mpctl_socket as data_file_type
-            repopick 228578 # sepolicy: rules to allow camera daemon access to app buffer
-            repopick 228580 # hal_gnss_default: Do not log udp socket failures
-            repopick 228582 # sepolicy: qti_init_shell needs to read dir too
-            repopick 228583 # sepolicy: allow vold to read persist dirs
-
-            # device/qcom/sepolicy-legacy
-            repopick 230235 # common: grant DRM HIDL HAL ownership access to /data/{misc,vendor}/media/
-
-            # audio
-            repopick 225829
-
-            # system/bt
-            repopick 229125
-
-            # packages_apps_Camera
-            repopick 224752
-
-            # ant
-            repopick 227260
-            repopick 227261
-
-            # system/sepolicy
-            repopick 234884 # Allow init to write to /proc/cpu/alignment
-            repopick 234886 # Allow init to chmod/chown /proc/slabinfo
-            repopick 235196; break;;   # Allow dnsmasq to getattr netd unix_stream_socket
-        No ) break;;
-    esac
-done
+# ############
+# # REPOPICK #
+# ############
+# header "REPO PICK"
+# echo "Do you want to apply repopicks?"crdc
+# select yn in "Yes" "No"; do
+#     case $yn in
+#         Yes ) apply_repopicks; break;;   
+#         No ) break;;
+#     esac
+# done
 
 #############
 # CHANGELOG #
@@ -482,7 +436,7 @@ fi
 END=$(date +%s)
 TIME_STRING="$(format_time "${START}" "${END}")"
 
-echo ${RED}""
+echo ${BLINK_RED}""
 echo "=============================================="
 echo "|                  ____             _     __ |"
 echo "|       __________/ __ \_________  (_)___/ / |"

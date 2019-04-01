@@ -1,0 +1,563 @@
+Commits:
+git am --signoff < '/home/killerdroid96/Github/CRD_Patches/android_frameworks_base/performance tweaks/0001-Disable-statusbar-time-refresh-when-screen-off.patch'
+git am --signoff < '/home/killerdroid96/Github/CRD_Patches/android_frameworks_base/performance tweaks/0003-Let-s-cut-Max-Excape-Animation-in-Half.patch'
+git am --signoff < '/home/killerdroid96/Github/CRD_Patches/android_frameworks_base/performance tweaks/0004-lowered-animations-duration.patch'
+git am --signoff < '/home/killerdroid96/Github/CRD_Patches/android_frameworks_base/performance tweaks/0005-aapt-Default-to-0-compression-ratio.patch'
+git am --signoff < '/home/killerdroid96/Github/CRD_Patches/android_frameworks_base/performance tweaks/0006-Guard-in-short-circuit-evaluations-for-stringSplit-m.patch'
+git am --signoff < '/home/killerdroid96/Github/CRD_Patches/android_frameworks_base/performance tweaks/0007-MountService-Unmount-internal-storage-before-restart.patch'
+git am --signoff < '/home/killerdroid96/Github/CRD_Patches/android_frameworks_base/performance tweaks/0008-Clean-receivers-completely-when-forceStop-the-proces.patch'
+git am --signoff < '/home/killerdroid96/Github/CRD_Patches/android_frameworks_base/performance tweaks/0009-ViewConfiguration-Set-scroll-friction-to-0.012.patch'
+git am --signoff < '/home/killerdroid96/Github/CRD_Patches/android_frameworks_base/performance tweaks/0010-Factor-out-preference-in-storage-check-to-overridabl.patch'
+git am --signoff < '/home/killerdroid96/Github/CRD_Patches/android_frameworks_base/performance tweaks/0011-Speed-up-wake-and-unlock-scenario.patch'
+git am --signoff < '/home/killerdroid96/Github/CRD_Patches/android_frameworks_base/performance tweaks/0012-Speed-Up-Animation-UI.patch'
+git am --signoff < '/home/killerdroid96/Github/CRD_Patches/android_frameworks_base/performance tweaks/0013-Speed-up-StatusBar.patch'
+git am --signoff < '/home/killerdroid96/Github/CRD_Patches/android_frameworks_base/performance tweaks/0014-SystemUI-Adjusted-animation-timing.patch'
+git am --signoff < '/home/killerdroid96/Github/CRD_Patches/android_frameworks_base/performance tweaks/0015-SystemUI-Tiny-expanding-improvement.patch'
+git am --signoff < '/home/killerdroid96/Github/CRD_Patches/android_frameworks_base/performance tweaks/0017-SystemUI-Remove-data-tile-dialog.patch'
+git am --signoff < '/home/killerdroid96/Github/CRD_Patches/android_frameworks_base/0001-Add-Flashlight-blink-on-incoming-calls-1-3.patch'
+====================================| Changelog |=======================================
+   * device/oneplus/msm8998-common/
+ae0f867 Enable triple framebuffer
+eb0f64f Revert "DNM: msm8998: Add VoLTE hax"
+
+   * frameworks/base/
+	419323aee6e Revert "Screenrecord tile: save quality level"
+	78b5455db36 Port ambient Now Playing container from Pixel [stripped down version]
+a7a07aa3a18 Screenrecord tile: save quality level
+86f0fb4474d base: catch what you cant explain
+2fdfd0bc222 BluetoothTile: Avoid NPE during boot up phase
+3848d27a470 DndTile: Avoid NPE during boot phase
+	d57cb2ecdf3 Keyguard: Remove carrier text for disabled SIMs
+e89bb44d1d2 Enable non-market apps install by default
+	d24e2d673c5 QS Tile: increase DEFAULT_MAX_BOUND to 6
+e79a6e4617b KernelWakelockReader: stop the panic
+3669fbf86e4 Screenshot: Fix possible NPE
+40b60f65a6d Sync Preference in UI for new cached device
+	00d4e8147c0 ActivityManager: Fix slow-app ANR dumping
+	d54c88ece3d ActivityManager: Fix slow-app ANR dumping
+	b356cc06b53 Add Music QS Tile
+
+2a9f6a7f3be Disable statusbar time refresh when screen off
+5dd1bc96ffe Optimize IncallUI delay for voice calls
+7bcc0623d2b Kill off provider info logspam
+8d0761cc734 Suppress FingerprintManager logspam 
+---152752c1f7a Revert "SystemUI: Restart when switching dark theme" 
+
+   * vendor/crDroidOTA/
+9d67ca8 fix derp
+c993222 classic ota style
+
+=====================================| Merged |=========================================
+* packages/apps/Settings/
+db9fddc792 Ensure battery saver preference is truly disabled while plugged in
+9098917087 Fix IMEI dialog FC when only one SIM is inserted
+6be584a4e2 Fix Battery settings FC
+359424dc78 fuelgauge: Fix possible memory leaks
+1257a16543 fuelgauge: Implement Early Warnings
+331e66e128 fuelgauge: Use Enhanced Battery Prediction from Turbo
+486a154cd2 fuelgage: Implement isTypeService
+51ca95605f Fix BT pairing dialog DarkUI theme issue
+584c85af88 Show full /proc/version information
+
+--BatteryBar
+https://github.com/crdroidandroid/android_frameworks_base/commit/84abc1493a8135984cebf896c53d5b50ec671310
+https://github.com/crdroidandroid/android_packages_apps_crDroidSettings/commit/d2b36c18926bdd65ae2c3fb9ab34af58a3df3af3
+
+https://github.com/KillerDroid96/android_frameworks_base-cr/commit/693368e303ccf13b3b42c794877e50d1212df1d2
+https://github.com/KillerDroid96/android_packages_apps_crDroidSettings/commit/32d89d4f683b27ff6e55538254674efddae99e59
+
+e1d84ee212de19046202ad171a9f6483d2833fbd BatteryBar [1/2]
+164cd71be2df779adf36b7bcdb5eb62e9550986c BatteryBar [2/2]
+
+=====================================| Git Log |=========================================
+
+---------------------------------| Require Changes |-----------------------------------------------
+https://github.com/AICP/frameworks_base/commit/b705f3c310a578b4e9b4400593202efd7d5336a0
+https://github.com/AICP/frameworks_base/commit/c5a8cd8334b9a4717e9d03fd4a493a512ab2b8d8
+
+https://github.com/DirtyUnicorns/android_device_oneplus_msm8998-common/commit/605e24b610305f833dfaac9419be738502700d34
+https://github.com/DirtyUnicorns/android_device_oneplus_msm8998-common/commit/287e48338e4293a27ea2a85a95bdc899c2173ffe
+
+https://github.com/DirtyUnicorns/android_packages_apps_Settings/commit/cf4db0c52eef0521e31915cd684ca23ee9346da5
+https://github.com/DirtyUnicorns/android_packages_apps_Settings/commit/c0d9b2495d6615dd1ac8b4b17549d3e8811d7e81
+https://github.com/DirtyUnicorns/android_packages_apps_Settings/commit/a33acc9541cd43539ff86bfab9d47a597e981abf
+
+-------------------| Not Working |------------------
+https://github.com/DirtyUnicorns/android_packages_apps_Settings/commit/c71680115bb7acd4892813d9c62134af1b8ccc17
+https://github.com/DirtyUnicorns/android_packages_apps_Settings/commit/1a2bd96546a3e8e6d23e5779b0581244c29df1ed
+
+=======================
+--OTG (1/3)
+https://github.com/crdroidandroid/android_frameworks_base/commit/c6eccd662bc4d7e002020dcad842aa8a17b7152c
+
+--BatteryService: add turbo power charging support
+https://github.com/crdroidandroid/android_frameworks_base/commit/41ff581c145cdc075cf937e9d33c24d6211e99ca
+
+--base: Add statusbar weather [1/2]
+https://github.com/crdroidandroid/android_frameworks_base/commit/89616ae6801e9ee454f0ec5b01e7afb760e81ef3
+https://github.com/crdroidandroid/android_packages_apps_crDroidSettings/commit/1b2e81982f7e76f878016bee92fe4ea61b8c5e24
+
+9f34d6b7c86c02aa3961adf7ded2a7bd92fa1f75 (HEAD -> 9.0) base: Add statusbar weather [1/2]
+2192bc53ef6327818f95aa8fd72cf367c1014f40 (HEAD -> 9.0) crdoid: Add statusbar weather [2/2]
+
+--Slim Recents 3.0 
+https://github.com/crdroidandroid/android_frameworks_base/commit/04d655f549ab018e9008b33b905ebd4427fa8be3
+https://github.com/crdroidandroid/android_packages_apps_SlimRecents/commit/043dd8d059366245729743f114dbc7c3af07d9f5
+https://github.com/crdroidandroid/android_packages_apps_crDroidSettings/commit/78bc49c1a5870cf6219f22a1471521299486955d
+
+--Add membar to recents options
+https://github.com/crdroidandroid/android_frameworks_base/commit/a29dfe681deea32c684f2bd808f4c1c9a5615982
+https://github.com/crdroidandroid/android_packages_apps_crDroidSettings/commit/0b7da54d39f47509f2ad1473159d2a96ac510f9a
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+=========================== 11/05/18 =====================================
+Add Flashlight blink on incoming calls
+https://github.com/SuperiorOS/android_frameworks_base/commit/a371ce4abf6a931f05134012516bd411fa2492b5
+https://github.com/SuperiorOS/android_packages_apps_SuperiorSettings/commit/2368fd31926db552b2fb5cc8029c06d55f0055a2
+https://github.com/SuperiorOS/android_packages_services_Telecomm/commit/22ae767ed86e785450c18b496450dc731e0c52ea
+--------------------------------------------------------------------------
+Add statusbar weather [1/2] also needs OmniJaws and API keys
+https://github.com/crdroidandroid/android_frameworks_base/commit/89616ae6801e9ee454f0ec5b01e7afb760e81ef3
+https://github.com/crdroidandroid/android_packages_apps_crDroidSettings/commit/1b2e81982f7e76f878016bee92fe4ea61b8c5e24
+
+9f34d6b7c86c02aa3961adf7ded2a7bd92fa1f75 (HEAD -> 9.0) base: Add statusbar weather [1/2]
+2192bc53ef6327818f95aa8fd72cf367c1014f40 (HEAD -> 9.0) crdoid: Add statusbar weather [2/2]
+--------------------------------------------------------------------------
+============================ 11/06/18 ====================================
+Allow users to switch between pie/oreo recents
+https://github.com/LiquidRemix/android_frameworks_base/commit/2005ba163235aaac836c26a70799cc82f31952d5
+https://github.com/LiquidRemix/android_packages_apps_LiquidLounge/commit/07c1b6f2c8ce90d113344edd1a1c9c23c95539b0
+https://github.com/LiquidRemix/android_packages_apps_Settings/commit/521924d54c067ba6c0d85cdfb76035235bb91151
+--------------------------------------------------------------------------
+incall vibration options
+https://github.com/Havoc-OS/android_frameworks_base/commit/52e39fde6e210178023009a32220e4d4d685b98a
+https://github.com/Havoc-OS/android_packages_services_Telecomm/commit/8a90a6172ac200b83494c03dc9b1bdc6a31a8595
+https://github.com/Havoc-OS/android_packages_apps_HavocSettings/commit/80faa0b34b8942bc25a179ab19327ded675e4807
+--------------------------------------------------------------------------
+
+6a87577ae0a767227265ec61896ec41f718d293b Add a basic observer for tweaks
+	558ccfe9ecce247be10980458cf7b304a9f70888 Add isPackageInstalled boolean
+	14ae9b1a267af87e50f7685d764814ade28c6796 Add our Utils helper class (Adds du shit)
+efdedee961e8043d7c23e6ad88428f794383c441 Add QSDetailItems
+76555317179960e57b21c3f8e8908f035e0c2447 Allow chromium to sign in
+edb6e0f3c17ee2bba7c3baf16a4717b618345883 Allow Immersive cling colors to be fully themed
+832e61db84dffa8344b53921d7dc5b85a6bd5a6c Allow QS detail view to scroll
+8fa41e7b4de6ca60e139b162e31476983f40bb12 Allow overlaying max notification icons
+cfeb6a9addda04066eca1098114b4e14bba4f43f Allow to skip build fingerprint check
+1e186b3c864ce3204dea768a97a52be44c8a0a3d Fix permissions for ContactsProvider2
+9f151fa323ba780d217d07f88f5dfc825e1f825e Fix Fi permissions
+f0fa8aac40b4748ce5bfe87236b3e922d811ca1d Fix Android GApps permisions which were causing F/C
+7ef31f99a1ec3ddaa1bfafb35c2db6b1de313d34 Fix setupwizard FC
+3f069e5235518b181b50a8b72ea74ffec87af876 Fix NFC tile for Pie
+ef04d8b1dcd4f84f767fcffe1d2840d3e0dc3034 Fix Catch IllegalArgumentException in stopScreenshot()
+f7db83f4dbb03d94c415f3aae38e71a844ce2e13 Show a more descriptive message when vendor.img is out of date
+560bddfb0033ad7b6fefb56407d6fdf6f31ef7f0 Make resolver list fully themeable
+	309c8f30574652e264f6e5091236a53b03daae96 Themes: Expose resolver hardcoded colors
+8b64e0fb61cf5a6ad702698e506226dedc68e02a storage: Set all sdcards to visible
+f3ae3192f39b7a772a62c53f2d758beb753d80c0 base: SystemUI: no weird sorting of sim cards in statusbar please
+2f99d4dc78c89a9f6492e1e7eef75158287f9feb Address NPE when removing preferences out of developer options
+6108bba88d0b1e6b86c116dd47ac83742d62944b Revert "CameraServiceProxy: Add client API level to log metrics"
+f470f9fbaf11f3e21bac34177f403d35d80a0076 Rescue party: check isDisabled on all public API
+475a3e4226f8c815eb53c37407bffb44bd83b040 MountService: Prevent NPE with DropBoxManager
+
+31ba886b81104eddc1a3ff430f99d321c0895d11 Skip tracks with volume keys when also using as remote
+--------------------------------------------------------------------------
+============================ 11/08/18 ====================================
+https://github.com/SuperiorOS/android_frameworks_base/commit/0aeeec8a66580f6bf2ea5afa4184e58daa14ea33
+https://github.com/SuperiorOS/WeatherClient
+https://github.com/SuperiorOS/android_packages_apps_SuperiorSettings/commit/f91d271b8acf8c1b9d15bb2e428862373f88baaa
+Implement weather on lockscreen like Pixels
+aa9e12a43bf5518db7d747611d16518d7e27e206 (base) SystemUI: Implement weather on lockscreen like Pixels
+1eb82f18cca02215f7807bf79e27cd69735a87c7 (vendor) Ship WeatherClient
+58a6d159181282c453c2b4d4673bdfc5e94c9f9a (weatherclient) Refactor for crDroid
+e65fa44cf4056bdf64d920d0bbf2b808f5ef78a6 (crdroidsettings) superior: Integrate Weather client [2/2]
+--------------------------------------------------------------------------
+Fix mounting of non-FAT formatted SD cards (1/2)
+https://github.com/CarbonROM/android_frameworks_base/commit/2c20afa31488b74de4568170230c8f8624211ec8
+https://github.com/CarbonROM/android_packages_providers_MediaProvider/commit/857136bd5a7452c83b0be47e7792b545dab403d0
+============================ 11/09/18 ====================================
+Default root method provision
+https://github.com/Viper-Project/android_build/commit/0c0b9b0bb1dfc9f46f276d50db1e0e0e9da2b0ac
+https://github.com/Viper-Project/android_vendor_viper/commit/258a09eb8e52394cd65c2d7d0b26de5332d9a534
+---------------------------------------------------------------------------
+88b70dcbf80683c945030303a64d2cd77881cff0 Revert "ambient display: Fix volume key music control"
+32c1e4b45cadba8b51f7d1e10adbb4a5edff794a Fix volume rocker skip track on Ambient Display and Lift to
+============================ 11/10/18 ====================================
+skia
+cac0a76eaf4c422b5f9c0387120b8563680638a7  ARGB Blitter:  Remove unused variable
+9bfe86983cd58ffae0329fcf59f8c3efde2857b5 Avoid coverage bleed for AA arcs with tiny sweep angles
+a1025355feaa2bd4a31dbbe8ed3ba40cab19cc37 Move fragCoord workaround declaration
+86eebe13077b64f0cebe62e22187a93fbfe98297 skia: Enable quicksilver
+-------------------------------------------------------------------------
+libhardware
+13c0e72f7663084b42cb2b77048066bc10d42409  hardware: power: Remove POWER_HINT_LAUNCH_BOOST
+fd3a19e197cf5376d25dfb89a69183a135d9b9cb hardware: power: Remove POWER_HINT_AUDIO
+54538531ac9a9a56bf6c9187b464b7d816bad6fa power: Add new power hints
+---------------------------------------------------
+========================== 11/12/18 ==============================
+58b10aa0226cd31faa884e3c37d11b857296a08c Factor out preference-in-storage check to overridable method.
+9c96845c63f07a67c967eb9451330147a2008d87 Let's cut Max Excape Animation in Half
+d98a668259356a55cb509a799c5c8d26969f53e0 lowered animations duration
+	98c0cf3bed3f332aa28f6a23b67c285d1810afcd Kill off provider info logspam
+66162018ddd3fa5c9082fa6f0b174e1e1b298072 Guard in short-circuit evaluations for stringSplit methods.
+7412b4bb3209873cbeb89befa11b5f1e84afb7a7 AppOps: Do not prune apps that are not present
+960955e7dc505aa821467788ac7c12d1897f14f4 Unmount internal storage before restarting framework
+3c11e5dfca622cb25eedd3b2ed8617e2af712b78 ViewConfiguration: Set scroll friction to 0.012
+cd033ff9323cec8e4e6dda9548999fac9d91a5e3 fingerprint: Speed up wake-and-unlock scenario
+5e22469f3170b52ae9610c907d7c395ce658aa17 Clean receivers completely when forceStop the process
+be6b308ad6d378a9afefd8ded08ea898f62cc8e5 aapt: Default to 0 compression ratio
+e0ffb900ed7227ff0654568ee6551b27150e1ef2 Disable statusbar time refresh when screen off
+	19410d7b64ff9b14575031e27372a3fa8303e04c Remove unnecessary videos
+46510b8e4540c462fe64064eb579232de8ee8fd4 Speed up StatusBar
+c4d4d9a82bc3ad130eb8a5a83118e2352887c9a5 Speed Up Animation & UI
+5a322e32affa447a807a265707b21377290a373f SystemUI: Tiny expanding improvement
+97a858ddfd00e1e39f53b05c55fa9e4b0681d58e SystemUI: Remove data tile dialog
+90c25d8b413afed2e06e46798e64a8e576c5067a SystemUI: Name Cellular Tile based on carrier
+a1917cd8eab7d17c5cba9f78cbc404f6f3847b78 SystemUI: Adjusted animation timing
+36b99cc2a087087902b25cb736a7d4e3e3717637 Fix a 'memory leak'
+	c98f61946166d699f0c7caadb61cf85270cc0a29 keyguard: Actually kill Fancy Colon
+	7d8ed3a3a61f7bdc90827ebb7f9bde1afeb10352 fwb: disable Aggressive trim settings by default
+	38ea4e7c61cbc24b5c71c85773830cde9867ff4f FeatureFlags: Show Auto-BT while driving setting
+	5faaa2c3d45d4e5bbc828304b1253890598dae64 Fix to avoid UI freeze issue
+	e63ead78558b1e42321d2d0f9d8321ea4fb97a03 Fixes crash when getting panel before setting components
+	1df4083d44c7b2b5a1f87b91515734937a13c085 SystemUI: tuner activities: fix SysUI fc on rotation
+	4540b3bd84eae603564d872809a5f763a472a391 SystemUI: Fix SystemUI Crash
+	5963f25238137c183bd226aed470120e1116b08b SystemUI: fix the monkey crash issue
+---------Base Errors--------------
+336c3165072cac507ab52fb18ce8010e48a6942f SystemUI: BatteryPercentage: Detect when overlay changes
+b8470e55c857eb60cd106e72263bffaa6978238  Improve a calculation method for LTE antenna reception level
+ddf35f04b0f4988c6abb48dbe48a0d99c7481db5 SystemUI: screen-dimmer-pixel-filter
+------------------------------------------------------------------------
+55e4e5144aa35837da40345dc7ae6d698c8b8c4f Allow doubletap/longpress power to toggle torch [1/2]
+7fb4461ac0fe4f0a8ce496305c149740a8b65469 Revert "Long-press power while display is off for torch"
+446720d58a32247c463a66d12ee5cec2c4b22132 Revert "PhoneWindowManager: Allow torch and track skip during ambient display
+-------------Fix Torch 1-----------------------------------
+Base
+ef95ab2fb3ac55a65e0a9fecfbc717c8d910e900  Allow doubletap/longpress power to toggle torch [1/2]
+eb1985114d9ce6cecb95cf90075670f64c404f76 Revert "Long-press power while display is off for torch"
+5e1fb2ed9df22d0584fa328dc9e16bda849a6f3d Revert "PhoneWindowManager: Allow torch and track skip during ambient display"
+------------Fix Torch 2--------
+settings
+73a3000385abaf8847996c0adaa6a6e3df74c9e7 Allow to doubletap or longpress power to toggle flashlight [2/2]
+--------------------------------
+f1e09bd551897fd3bb82f078f0475bc7b54ef812 Revert "Long-press power while display is off for torch"
+============================= 11/13/18 ===================================
+-Is it possible to do? Very handy for enabling torch
+temasek/android_frameworks_base@a09411c
+temasek/android_packages_apps_Settings@4482b56
+--------------------------
+92e81367089d3f42fc12304b0bbf80fffe2f617d (HEAD -> 9.0-kd) Merge tag 'android-9.0.0_r16' into lineage-16.0 Cherry Picked by: @KillerDroid96
+=========================== 11/14/18 ======================================
+b52bec42891c76305e1c521095b9a67ac1d11470 Allow LocaleTracker to work even if wifi is not up (FDE)
+57b71283226e4b44470d3fff60f48c4c9614b16f Refresh SIM operator numeric for multi-mode SIM
+b4a62ad448072c3c56cfff97de0ada1511b9eed4 Also activate default UICC apps once after SIM presence.
+7639926d0ef10ecddcc30c570a72416eb923680f Activate default UICC application if not done automatically.
+8e8767f0ad2301e08275765cbe1393fee957a7e4 telephony: Fix loading of non Oreo-MR1 QTI blobs
+-----------------------------------
+41b65202c6dc685cf074f664502438846707c219 base: Add Flashlight blink on incoming calls [1/3]
+2bdf6b85565a6f8c0ce3b0a19da15f7baee3cee2 crdroidsettings: Add Flashlight blink on incoming calls [2/3]
+ee2b3e162104e8fa341492017183531718f64e82 telecomm: Add Flashlight blink on incoming calls [3/3]
+============================= 11/16/18 ===================================================
+Initial checkin for SmartNav navigation suite [4/4]
+https://review.invictrixrom.com/#/q/owner:randall.rushing%2540gmail.com+status:open
+-------------| Base |---------------------------
+0f0354fc877ae2a98c161fa5597de504d3a37f29 SystemUI: Remove data tile dialog
+81a7069c173f46fa0e0a50f732c8b56142964a4a SystemUI: Name Cellular Tile based on carrier
+6ec9e88b515692bf4c3147f61bbe61df58579751 SystemUI: Tiny expanding improvement
+902d8d7a147e347f44bae9f5ab5394d587e7f837 SystemUI: Adjusted animation timing
+c496a868692555931f077dd59b202307dfd35d68 Speed up StatusBar
+7dc231123e7f41b6994bfef25710f136ee33e794 Speed Up Animation & UI
+3292175eb397920a2ea07042e7d948346635c265 Speed up wake-and-unlock scenario
+316d71c528a08ba70a97fa8a93885da226998c39 Factor out preference-in-storage check to overridable method.
+175ce21e2edcaf0d23962a6acb5d5616ab03c117 ViewConfiguration: Set scroll friction to 0.012
+0ec185776e7ae76815b49c1b2aae6fd7ae05c7f7 Clean receivers completely when forceStop the process
+4feb71dcbba395e13a2b7b8adbf46b1b340809f1 MountService: Unmount internal storage before restarting framework
+040b7c3af38e2e527d857e3c5280b4f4491f9cd8 Guard in short-circuit evaluations for stringSplit methods.
+d4e8d8db57d4363321f10922b7a32451eaedecd0 aapt: Default to 0 compression ratio
+0203454e0c2348c9f76da5261469a046c8b68f12 lowered animations duration
+af02ef290f145534a08cd364f6266a686993e09e Let's cut Max Excape Animation in Half
+57de65f409f143f8ea528ccdc8978dd08d88d63b AppOps: Do not prune apps that are not present
+723891f8680b9143eefddf12475d62a7ae98a1b8 Disable statusbar time refresh when screen off
+-----------------|crDroidSettings|-----------------------
+58231c269e76f57ad243d3887205e7fc01ada598 Enable charging sounds by default
+29def9524df1c9651b47ed47863676cbcec5593e Enable AOSP recents by default
+e97f0ce489e9642d927d47747bea38ddc2c62bf0 Enable CRT screen off animation by default
+0db9e6aa55f94a1e2192d60279dcd6595183cd3a Enable long press power for torch by default
+d0860e5f5c5a4e7ce644512ca1bda21b13ba3dac Enable face auto unlock by default
+7d81c5fd9c0732f018868a6b86d7204d3b513315 Enable OTG in power menu by default
+26979cb170305f2ae3e080d32aee54950c72a069 Enable battery bar by default
+4d224aadd422e0e4d8795521cf932644568c43b9 Enable clock seconds by default
+2a5b42c24394e2d9c6cf91e23fcb14b4a4849d60 Enable QS pulldown from right by default
+f2c593bf88fccaf3f97bcc8a89f100cd7f24ce9d Enable center clock by default
+d36a19c2d20afb602b27fa67fef1138216ab9c45 Enable VoLTE icon by default
+----------------------------------------
+=======================|11/19/18|================================
+navsettings
+04e3767e1a5a920d8d3da845b0ec2bf3dbaa42d9  Rebranded to crDroid
+------------------
+base
+92417788ba31ea2d2e709cfb4ed8dc1cafe97304  Initial checkin on Pie for SmartNav navigation suite [1/4]
+-------------------
+settings
+17ab71b62580d52ce3fcecc536f7b286c8aeaeb4  Initial checkin for SmartNav navigation suite [2/4]
+--------------------
+crdroidsettings
+bdcb0220db2c12240edffb2448eb79a664f53ea7  Initial checkin for SmartNav navigation suite [3/4]
+--------------------
+========================|11/20/18|=================================
+28d6ff404f9e62d62fcdbcbb4a0154716511bf9c (lineage-sdk) Rename to make room for SmartNav
+fd4159f1185b35e83a412a029d69f23d381edec3 (smartnavsettings) Rebranded to crDroid
+3d452151908f670ab54c5d4de609141aae2bfc37 (base) Initial checkin on Pie for SmartNav navigation suite [1/4]
+719955157e9c3625b8d9ff519f22b31620839867 (settings) Fix derp
+f46a1d5f34afb732248b8a20b87efde4938c255a (settings) Initial checkin for SmartNav navigation suite [2/4]
+85d7896a149e031dcec6bd3001dc4c234f11728b (crdroidsettings) Initial checkin for SmartNav navigation suite [3/4]
+c86a370e0dd1ead52177d8a0a4efbaf553a392a7 (crdroidsettings) Added ActionPreference for SmarNav
+-----------------------------------------------------------------------------------------------------------
+b7ad6eafb632b4067e0eca2321cc796d3f27b475 (base) Lockscreen visualizer: fix SystemUI FC when using Pulse
+f75ff1601e33b6a84f50de70a02d6a691b1a8256 (base) Initial checkin on Pie for SmartNav navigation suite [1/5]
+4ad5f7deba4fbd2778f2bffbbb7a1a6411408502 (settings) Initial checkin for SmartNav navigation suite [2/5]
+94f7a9a7b7932918daa3c81ec1baee47722e3768 (crdroidsettings) Initial checkin for SmartNav navigation suite [3/5]
+f18c9586954b65589ee658c8399f86b7965dc308 (smartnavsettings) Initial checkin for SmartNav navigation suite [4/5]
+cf294f920b5cf46d07b5974858c10f98b3b5d46b (lineage-sdk) Initial checkin on Pie for SmartNav navigation suite [5/5]
+2b2f59ee9d8525bc98179e54d5fc16b278857c6f (smartnavsettings) Rebranded to crDroid
+=============================================|11/21/18|===========================================================
+d2d0d5966b244a5ac42d7e0f7498341d77c1d7e1 (base) Optimize IncallUI delay for voice calls
+2267474fdb0e09763c34d85fdcf3f2c0158e18e4 (base) android.view: Speed things up!!
+6bafef4219146286bb0e66516d867f3f3fa9dc2e (crdroidsettings) Clean out old DUI code
+652701cd13749f034b0b9b1b238e6a38aa97d2d2  Clean out old SmarBar code
+------------------------------------------------------------------------------------------------------------------
+ac6895dac958ea4c0d51d7dadff5ec8f3afc3f77 flashlight
+d47aa3c177ab511195711ccd0ef4ff021754383b (base) Fix music ticker
+4d4d16d9bc39a192e68b1309165372b6f58e05a3 (base) Initial checkin on Pie for SmartNav navigation suite [1/5]
+------------------
+a58c520b50ded97c64dfde524a141e2a71e08f58 (base) Bring back KillApp
+6eb6f0de84f37406674256bac4f50bad01d7e437  Initial checkin on Pie for SmartNav navigation suite [1/5]
+====================================================|SmartNav|====================================================
+b7ad6eafb632b4067e0eca2321cc796d3f27b475 (base) Lockscreen visualizer: fix SystemUI FC when using Pulse
+4d4d16d9bc39a192e68b1309165372b6f58e05a3 (base) Initial checkin on Pie for SmartNav navigation suite [1/5]
+4ad5f7deba4fbd2778f2bffbbb7a1a6411408502 (settings) Initial checkin for SmartNav navigation suite [2/5]
+6bafef4219146286bb0e66516d867f3f3fa9dc2e (crdroidsettings) Clean out old DUI code
+94f7a9a7b7932918daa3c81ec1baee47722e3768 (crdroidsettings) Initial checkin for SmartNav navigation suite [3/5]
+f18c9586954b65589ee658c8399f86b7965dc308 (smartnavsettings) Initial checkin for SmartNav navigation suite [4/5]
+cf294f920b5cf46d07b5974858c10f98b3b5d46b (lineage-sdk) Initial checkin on Pie for SmartNav navigation suite [5/5]
+=======================================================================================================
+2c6808ca0444b9f4b5caee1a66c5f1e977946616 (base) Partial fix for long press back to kill app
+==========================================|01/06/19|===================================================
+4589c925e96be7c0ac4d5b8ffbb8c0fb1c9cfb2c  Introduce QS tile style picker [2/3] crdroidsettings
+715dfe2bfd6a9af64079f777f033e63863338658  Introduce QS tile style picker [3/3] settings
+==========================================|01/07/19|===================================================
+d2628b3141f510428a230a8d0b7cdcdd274c9ada  Change QS tiles styles / refactor a little[] base
+548dc8bbb391de3c4b729c7e8f0d1213eb0c703a  Introduce QS tile style picker [1/3] base
+fc1c64570b3ee7934da6bd962fdc3a7fa870fb0f  Introduce QS tile style picker [2/3] crdroidsettings
+c2856d8e3b4595c25069f4b0f6f7f10027d33d47  Introduce QS tile style picker [3/3] vendor
+==========================================|01/09/19|===================================================
+5cd212b78856d2d2db8c14871ce7058dfa9ea4ce  Introduce QS tile style picker [2/3]
+==========================================|01/10/19|===================================================
+edf23435ba3e13a42a8c9216537ebcfd25021648  Moved bluetooth battery status to misc under quick settings
+---------------------
+20a3b516ca4513e398670ab04fac173d13916ea4  Introduce QS tile style picker [1/3] base
+6d60039acac3a211020183bd99dbfaefbb945f0f  Introduce QS tile style picker [2/3] crdroidsettings
+8bef14af27edaf003b507c0a8c8fe1c219c854a8  Introduce QS tile style picker [3/3] vendor
+-----------
+5ecf392c31d536eeb8ed9d886143854be6c74c47 (HEAD  Add QS header styles [1/3] base [fix else if add } ]
+49a98b5069e70881c59c778d3043331c4d8e3277  Add QS header styles [2/3] crdroidsettings
+b10d3a783cdd2447202ac9eecaaa2186d17fc24b  Add QS header styles [3/3] vendor
+==========================================|01/11/19|===================================================
+302e32e3f499f6f9c5a30c07a6f9a4d8b025fc50  Long press QS settings for crDroidSettings {base}
+fdb8495d2bf01e1033eea955c6bc0496ee4eb6f2  Extended audio panel [1/2] {base}
+dfe89652601b8e2cd6e8a00d41fd59d1fd90d10d  Extended audio panel [2/2] {crDroidSettings}
+41922a530d2860f4b750932839c74f1671505390  SystemUI: Add tile to show volume panel {base}
+a21c36dad0d78c713eccf2d293d9430b29c08928  Add membar to recents options [1/2] {base}
+8a28f5664144715d11a020651bad6e25aac74131  Add membar to recents options [2/2] {crdroidsettings}
+d7df47b99180bb3f4329bd508bcf630dc7fd754c  Quick settings panel : Set transparency [1/2] {base}
+055adec61a6f0734e14c40d0e530e939e08e288f  Quick settings panel : Set transparency [2/2] {crdroidsettings}
+
+==========================================|01/12/19|===================================================
+{base}
+e2efede9775bce65e367e8ffa94252c7e9752383  Introduce QS tile style picker [1/3]
+7c0ddf87f5b328c5d2c4c1fbff9ff7ffba65ca78  Add QS header styles [1/3]
+a5406240052a993010fc4b9ced6e050fe23a1579  Long press QS settings for crDroidSettings
+# a21c36dad0d78c713eccf2d293d9430b29c08928  Add membar to recents options [1/2] {base}
+7fd69563940340c07686de7420b494172b1b4050  Quick settings panel : Set transparency [1/2]
+
+{crdroidsettings}
+edf23435ba3e13a42a8c9216537ebcfd25021648  Moved bluetooth battery status to misc under quick settings
+6d60039acac3a211020183bd99dbfaefbb945f0f  Introduce QS tile style picker [2/3] crdroidsettings
+fcdc98385fb2ab79cd5e79a6147156b868ac8c4b  Add QS header styles [2/3] crdroidsettings
+--8a28f5664144715d11a020651bad6e25aac74131  Add membar to recents options [2/2] {crdroidsettings}
+6fa0ff755139a7ace7dbaad7ca617ecd813dff1c  Quick settings panel : Set transparency [2/2]
+
+{vendor}
+8bef14af27edaf003b507c0a8c8fe1c219c854a8  Introduce QS tile style picker [3/3] vendor
+b10d3a783cdd2447202ac9eecaaa2186d17fc24b  Add QS header styles [3/3] vendor
+
+==========================================|01/13/19|===================================================
+{base}
+4485709312b1f4a58285422e313809740fafb539  Add Clear All Button to Recents [1/2]
+e7932c9c6b73a956f934834d3c5b51d86da42dfa  Add Sound tile to Quick Settings
+d0a7613aa079cce5a73b134a81ae9d06ff0f7de5  Unlock keystore with fingerprint after reboot (1/2)
+--0d8d5a276a68c0f1d9d637af445ecf41d3f6c4a5  QS: Add Reboot/Recovery QS Tile
+48708e64935ac9c28ada78777c1c9379d066f7e6  SystemUI: Add Gaming mode tile
+b126e17ca95432209d6a88625c4c6ab3acd407ea  Add switch for Wake-and-Unlock feature (1/2)
+
+{crdroidsettings}
+292dec6975b99afe7fb71f66e303773831d8c585  Add Clear All Button to Recents [2/2]
+f9b5b16eebcee22595109a923b15f8131d0b5986  Unlock keystore with fingerprint after reboot (2/2)
+279e4cadeaf7d88cf6e847b1e584572de24afc93  Revert "crdroid: Remove FP unlock on boot"
+16cd99042535785c159c137c276f6dfbee925b7e  Add switch for Wake-and-Unlock feature (2/2)
+
+{settings}
+23ac26f434040af93eb8d0459ef4e7bb0daf7b70  Expose the notification log
+
+==========================================|01/16/19|===================================================
+{base}
+23bad7f24f72c83e8f758c373f9bb747c78b0282 # frameworks: Reset battery stats [1/2]
+b45f98538d8b7e5759e632d8e533eae507e1330b # Unlock keystore with fingerprint after reboot (1/2)
+e5e7e9c7d56b1fdea45be55c0b9feb278912c152 # Allow disabling of FC dialogs [1/2]
+8ed545d6f0c390c40d8401ed2b0b2f262ed44213 # Add option to disable scrolling cache [1/2]
+	
+	0a2013082fb858e0cbc609a17aa1536493086526 # SystemUI: Statusbar Weather [1/2]
+	86c282a2f95719eb9018bbf6303cb9c14b8b5797 # base: Add three-fingers-swipe to screenshot [1/2]
+	564552fcef4200c10a17d1d9de8a22422353554f # Introduce lockscreen clock/date styles [1/2]
+
+{crdroidsettings}
+8ec11eba23eb7d7f2bdc17bb07b6f763ae7cd55a # Unlock keystore with fingerprint after reboot (2/2)
+278e396b43ab26d7d68fb88113291eb70294f0be # Allow disabling of FC dialogs [2/2]
+fe975249e1e148561b29c902f8280ac8f50e90b8 # Add option to disable scrolling cache [2/2]
+
+	b18e7add8791e458d7ba0e0cf5661814ea61f1db # Statusbar weather [2/2]
+	36e9ba17d68efba59cb373f09eea65ee58aee2b0 # Add three-fingers-swipe to screenshot [2/2]
+	30905aa6c92887859ebae7f0330340da0e91a77c # Introduce lockscreen clock/date styles [2/2]
+
+{settings}
+493b8126263aef4d163839c10e21d499417bc04f # Settings: Reset battery stats [2/2]
+
+==========================================|01/24/19|===================================================
+{base}
+bdf72af574e0b6556a15cb311aae70a68deb79e2 # Always keep clock/date & other items visible while dozing
+d177131519cb4e694f0356a0c7609971158ed66e # Turn LCD off when mirroring display to save power
+6b97c7f9a00f550351e6423e0003e5aaf4e14c36 # aapt: Default to 0 compression ratio
+
+==========================================|01/25/19|===================================================
+{base}
+e7f9085419c8b07bddeb44acd12644ed78f2a1b3 # Lockscreen Clock Widget Fonts [1/2]
+463bc39974a421699d4bd28a12c6cb3ba40e042f # Lockscreen Date Fonts [1/2]
+23c81743aa7378d3d28f610822eda7adcc8e788c # Introduce lockscreen clock/date styles [1/2]
+
+{crdroidsettings}
+6cbad4a610a790bd69510ab6b7ab5f1681069eff # Lockscreen Clock Widget Fonts [2/2]
+c95140d2a34b91cb4fb98a56dc64b183c8a7f128 # Lockscreen Date Fonts [2/2]
+53cd689e6240b3030f8b8d8643d670130e498832 # Introduce lockscreen clock/date styles [2/2]
+
+==========================================|02/08/19|===================================================
+{base}
+0be5629acab720c8ef0bd322e5d5d28be10ac5e0 # PebbleBerry: Switch styles [1/3]
+fb0e277e6e03f1b240bbda3c5fd84b0c418e2988 (HEAD) fix
+
+{crdroidsettings}
+15a7f59ce74579bb7eac6340d5e1e50ada29a66b # Switch styles [2/3]
+
+{vendor addons}
+bd63e0cf0f528dfd1d0a31ecb508aed6e43aaca4 # Switch styles [3/3]
+
+
+0243040fc39679f89226b14e8eb452145072d715 (HEAD) PebbleBerry: Switch styles [1/3]
+966a2267cdcc93cce1e5e8a802303fd9256bcbc7 (HEAD) PebbleBerry: Switch styles [2/3]
+5e085ef01babcf3f1721f68973f5185ad2d95565 (HEAD) PebbleBerry: Switch styles [3/3]
+
+********************************************************************************************************
+https://github.com/JDCTeam/AromaInstaller
+https://github.com/BenzoRom/frameworks_base/commit/897f74c633c9278358b241b9da0e30ceb6fc5a9c
+
+********************************************************************************************************
+
+repo sync -j$( nproc --all ) --force-sync
+repo sync --force-sync crdroidandroid/android_frameworks_base
+repo sync --force-sync crdroidandroid/android_packages_apps_crDroidSettings
+repo sync --force-sync crdroidandroid/android_vendor_crdroid
+repo sync --force-sync crdroidandroid/android_device_oneplus_msm8998-common
+repo sync --force-sync crdroidandroid/android_device_oneplus_dumpling
+repo sync --force-sync crdroidandroid/proprietary_vendor_oneplus
+repo sync --force-sync crdroidandroid/android_build
+repo sync --force-sync crdroidandroid/android_packages_apps_Settings
+repo sync --force-sync crdroidandroid/android_kernel_oneplus_msm8998
+repo sync --force-sync crdroidandroid/android_vendor_addons
+repo sync --force-sync crdroidandroid/android_frameworks_opt_telephony
+repo sync --force-sync crdroidandroid/android_packages_services_Telecomm
+*******************************************************************************************************
+grep -rl "kill"
+find strings in the rom source: grep -r "TEXTtoFIND"
+find commit msg in the history: git log --grep="<part_of_commit_message>"
+********************************************************************************************************
+(Deletes previous commits and pushes current branch)
+git push kd HEAD:9.0-kd --force 
+git push --set-upstream kd 9.0-kd
+git reflog 
+********************************************************************************************************
+gcp -m 1 
+git format-patch -1
+git format-patch -10 HEAD --stdout > 0001-last-10-commits.patch
+cat new-feature.patch | git am
+git am < file.patch
+git apply --stat fixemptyposter.patch
+git apply --check fixemptyposter.patch
+git am --signoff < fixemptyposter.patch
+********************************************************************************************************
+import com.android.internal.util.crdroid.Utils;
+********************************************************************************************************
+LINUX:
+CTRL-ESC - brings up a proces table where you can kill individual processes
+CTRL-ALT-ESC - makes the cursur into a skill and cross bones where you can point at a rogue application and kill it
+CTRL-ALT-BackSpace- Kills X
+Ctrl-Alt-F1 (or F2 through 6), you'll be dropped to a virtual console - to return kde: CTRL+ALT+F7.
+
+Ctrl-Alt-F1 Enter virtual console 
+Ctrl-Alt-F7 Exit virtutal console
+
+function apply_patches(){
+    ###########
+    # Patches #
+    ###########
+    PATCH_LOG=$HOME/Github/CRD/patches.log 
+    cd /home/killerdroid96/Github/CRD/frameworks/base/ &> ${PATCH_LOG}
+    #git am --signoff < '/home/killerdroid96/Github/CRD_Patches/android_frameworks_base/performance tweaks/0001-Disable-statusbar-time-refresh-when-screen-off.patch'
+    git am --signoff < '/home/killerdroid96/Github/CRD_Patches/android_frameworks_base/performance tweaks/0003-Let-s-cut-Max-Excape-Animation-in-Half.patch'
+    git am --signoff < '/home/killerdroid96/Github/CRD_Patches/android_frameworks_base/performance tweaks/0004-lowered-animations-duration.patch'
+    git am --signoff < '/home/killerdroid96/Github/CRD_Patches/android_frameworks_base/performance tweaks/0005-aapt-Default-to-0-compression-ratio.patch'
+    git am --signoff < '/home/killerdroid96/Github/CRD_Patches/android_frameworks_base/performance tweaks/0006-Guard-in-short-circuit-evaluations-for-stringSplit-m.patch'
+    git am --signoff < '/home/killerdroid96/Github/CRD_Patches/android_frameworks_base/performance tweaks/0007-MountService-Unmount-internal-storage-before-restart.patch'
+    git am --signoff < '/home/killerdroid96/Github/CRD_Patches/android_frameworks_base/performance tweaks/0008-Clean-receivers-completely-when-forceStop-the-proces.patch'
+    git am --signoff < '/home/killerdroid96/Github/CRD_Patches/android_frameworks_base/performance tweaks/0009-ViewConfiguration-Set-scroll-friction-to-0.012.patch'
+    git am --signoff < '/home/killerdroid96/Github/CRD_Patches/android_frameworks_base/performance tweaks/0010-Factor-out-preference-in-storage-check-to-overridabl.patch'
+    git am --signoff < '/home/killerdroid96/Github/CRD_Patches/android_frameworks_base/performance tweaks/0012-Speed-Up-Animation-UI.patch'
+    git am --signoff < '/home/killerdroid96/Github/CRD_Patches/android_frameworks_base/performance tweaks/0013-Speed-up-StatusBar.patch'
+    #git am --signoff < '/home/killerdroid96/Github/CRD_Patches/android_frameworks_base/performance tweaks/0014-SystemUI-Adjusted-animation-timing.patch'
+    git am --signoff < '/home/killerdroid96/Github/CRD_Patches/android_frameworks_base/performance tweaks/0015-SystemUI-Tiny-expanding-improvement.patch'
+    git am --signoff < '/home/killerdroid96/Github/CRD_Patches/android_frameworks_base/performance tweaks/0017-SystemUI-Remove-data-tile-dialog.patch'
+    #git am --signoff < '/home/killerdroid96/Github/CRD_Patches/android_frameworks_base/performance-tweaks.patch' #&> ${PATCH_LOG}
+    cd /home/killerdroid96/Github/CRD/packages/apps/crDroidSettings/ &> ${PATCH_LOG}
+    git am --signoff < '/home/killerdroid96/Github/CRD_Patches/android_packages_apps_crDroidSettings/Redirect-OTA.patch' #&> ${PATCH_LOG}
+    cd /home/killerdroid96/Github/CRD/build/make/ &> ${PATCH_LOG}
+    git am --signoff < '/home/killerdroid96/Github/CRD_Patches/android_build/Update-install-graphics.patch' #&> ${PATCH_LOG}
+    ################
+    # Cherry-picks #
+    ################
+    cd /home/killerdroid96/Github/CRD/frameworks/base/ 
+        git cherry-pick a5406240052a993010fc4b9ced6e050fe23a1579 # Long press QS settings for crDroidSettings
+       # git cherry-pick 3cc3669b2b0949e79f1461ad5b07b8a7e90e787d # Quick settings panel : Set transparency [1/2]
+       # git cherry-pick 23656d48fa815e8fd7242d473b54603210aafd34 # Add Clear All Button to Recents [1/2]
+       # git cherry-pick e7932c9c6b73a956f934834d3c5b51d86da42dfa # Add Sound tile to Quick Settings
+       # git cherry-pick 48708e64935ac9c28ada78777c1c9379d066f7e6 # SystemUI: Add Gaming mode tile
+        #git cherry-pick 23bad7f24f72c83e8f758c373f9bb747c78b0282 # frameworks: Reset battery stats [1/2]
+        git cherry-pick b45f98538d8b7e5759e632d8e533eae507e1330b # Unlock keystore with fingerprint after reboot (1/2)
+    cd /home/killerdroid96/Github/CRD/packages/apps/crDroidSettings/ 
+        git cherry-pick edf23435ba3e13a42a8c9216537ebcfd25021648 # Moved bluetooth battery status to misc under quick settings
+       # git cherry-pick 57d1ef1cd0243f58a5bacb2d4803f2cbde419022 # Quick settings panel : Set transparency [2/2]
+       # git cherry-pick 292dec6975b99afe7fb71f66e303773831d8c585 # Add Clear All Button to Recents [2/2]
+        git cherry-pick 69949e1426064e7fccd8086fbaa879050705ef46 # Unlock keystore with fingerprint after reboot (2/2)
+    cd /home/killerdroid96/Github/CRD/packages/apps/Settings/ 
+        #git cherry-pick 23ac26f434040af93eb8d0459ef4e7bb0daf7b70 # Expose the notification log
+        #git cherry-pick 493b8126263aef4d163839c10e21d499417bc04f # Settings: Reset battery stats [2/2]
+    cd /home/killerdroid96/Github/CRD/hardware/qcom/audio-caf/msm8998/
+        #git cherry-pick 18ac17c7174e55b6cd145d08c9479b0e500a8e0c # Revert "hal: Fix combo device issue with routing change"
+}

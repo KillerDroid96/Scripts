@@ -113,7 +113,7 @@ yellow="\033[01;33m"
 
 # Nathans Colors
 BLINK_RED="\033[05;31m"
-#BLUE="\033[01;34m"
+BLINK_BLUE="\033[05;34m"
 #BOLD="\033[1m"
 #GRN="\033[01;32m"
 #RED="\033[31m"
