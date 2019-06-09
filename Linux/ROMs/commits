@@ -465,6 +465,39 @@ bd63e0cf0f528dfd1d0a31ecb508aed6e43aaca4 # Switch styles [3/3]
 966a2267cdcc93cce1e5e8a802303fd9256bcbc7 (HEAD) PebbleBerry: Switch styles [2/3]
 5e085ef01babcf3f1721f68973f5185ad2d95565 (HEAD) PebbleBerry: Switch styles [3/3]
 
+==========================================|04/21/19|===================================================
+e8ed6b95e1efacdfc90c5134b1d2370fa1489757 (HEAD) Unlock keystore with fingerprint after reboot (1/2)
+
+==========================================|05/07/19|===================================================
+{base}
+4a513ce78b60f87482761b002c2405d7aeb2e276 (HEAD) core: Implement Aggressive Battery [1/2]
+7d1032e32a7a952b63bfa576ba3da5e4df6276a5 framework: Adding temporary disk access for Boostframework
+686487fdd7eae81760c78cc6af582a54df596169 ActivityRecord: add fw boost after r31 merge
+0b5aa94a0731b322310c88bd5707016e193eab29 BoostFramework: Add debug to hide logcat spam on devices without QPerformance
+46fdfa92f64ddfb0b1bb6c9856f4b47df9d4c528 Modify game detection logic
+9ff8624f7c451971c2c08647961d69d19ea8e84f Add perfGetFeedback api support from framework
+074bec6528b20c1f5ec4995eb8cdcbea247a6af7 BoostFramework: Implement asynchronous processing of perflocks
+c6cade4bfe76eaba6198f568e44aff58902ffa69 Support the perflock request from system/priv apps whose domain are untrusted
+97c0ba24390ccf534a9fcbfa55a5dd3d6364affd Add Game boost & modify launchboostv2 invocation.
+3306c75aa1bf0a8db5346b2c1b68904d8689f266 Disable swipe boost and preferred apps for certain cases
+b76c92556ef52e1dff76bc43135f3c5c04717e29 Fling/Pre-fling Boost: Call perf boost from System Server context
+0526a84db9f08ef16a46188765387c4ed2503d27 BoostFramework: Clean up code
+30c20153ec96dce40b3c4cce4f529a72dde8e074 IOP : Adding support for UXPerf Class
+1e27a425bc61ac42d094f21176a698ed5ace47fe BoostFramework: Move property checks to pass sepolicy requirements.
+80843abcaf1d5b0374a33117d33b0e27c7a577ff IOP/UXE: This change is to enable the IOP and UXE
+57f7ed52df7bf58dc6177d84134c6c9bb18d01e4 Precise new activity boost.
+c88c363cd3de5de8f938ac4ac6fe2739ca90ab5f Reorder boosts for quick ramp up
+6dfd4e747e403a1b04cd5fd63759cb344cecb75e Add perf hint for screen rotation animation
+881c5de94655843a0034af4fdcbfca03e5052e30 Add perf hint for rotation latency
+c8d1ffc418d99da0cc2d8b44ca852ea6b2292dbc add perf_service into system_process.
+bd49d8f1654dc1a5491bc4a55b02f445f48bc32e BoostFramework: To Enhance performance.
+2648936371f77d001ce4b5da09d8464670d2d44f Keyguard: Avoid starting FP authentication right after cancelling
+
+{crdroidsettings}
+163da5bcc4c3d58ea37536032f8ae59ef6ac2d24 (HEAD) Settings: refresh search index check on build change
+ac65e0f92eff8ea84ace3027ff26a06b1b65ff36 Implement Aggressive Battery [2/2]
+
+
 ********************************************************************************************************
 https://github.com/JDCTeam/AromaInstaller
 https://github.com/BenzoRom/frameworks_base/commit/897f74c633c9278358b241b9da0e30ceb6fc5a9c

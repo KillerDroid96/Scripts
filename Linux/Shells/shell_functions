@@ -2,9 +2,9 @@
 ########################
 #        CREDITS       #
 ########################
-# -KillerDroid96
-# -Akhilnarang
-# -Nathanchance
+# KillerDroid96        #
+# Akhilnarang          #
+# Nathanchance         #
 ########################
 source $HOME/Github/Scripts/Linux/Shells/shell_colors
 
@@ -12,7 +12,12 @@ source $HOME/Github/Scripts/Linux/Shells/shell_colors
 # SYSYTEM FUNCTIONS #
 #####################
 
-function system_updater(){
+function infos(){
+    alsi
+    nf
+}
+
+function aur_updater(){
     select yn in "Yay" "Trizen" "Exit"; do
         case $yn in
             Yay ) header "Updating System"
@@ -29,13 +34,27 @@ function system_updater(){
 }
 
 function prompts(){
-    select yn in "clean" "fancy" "info" "simple" "exit"; do
+    select yn in "clean" "fancy" "info" "simple" "new" "git" "func" "exit"; do
         case $yn in
             clean ) export PS1="\[\033[0;37m\]\342\224\214\342\224\200\$([[ \$? != 0 ]] && echo \"[\[\033[0;31m\]\342\234\227\[\033[0;37m\]]\342\224\200\")[$(if [[ ${EUID} == 0 ]]; then echo '\[\033[0;31m\]\h'; else echo '\[\033[0;31m\]\u\[\033[0;37m\]@\[\033[0;37m\]\h'; fi)\[\033[0;37m\]]\342\224\200[\[\033[0;37m\]\w\[\033[0;37m\]]\n\[\033[0;37m\]\342\224\224\342\224\200\342\224\200\342\225\274 \[\033[0m\]" && break;;
             fancy ) export PS1="\[\e[0m\][\[\033[1;30m\]\d \T\[\e[0m\]]\[\e[0m\]{\[\033[1;30m\]\#\[\e[0m\]} \[\e[0m\]\[\e[0;92m\]\u@\h\[\e[0m\]:\[\e[0;94m\]\w\[\033[1;30m\](\`if [ \$? = 0 ]; then echo \"\[\e[0;92m\]\342\234\223\[\e[0m\]\"; else echo \"\[\e[0;91m\]\342\234\227\[\e[0m\]\"; fi\`\[\033[1;30m\])\[\e[0m\]$ " && break;;
             info ) export PS1="\n\[\033[1;37m\]\342\224\214($(if [[ ${EUID} == 0 ]]; then echo '\[\033[01;31m\]\h'; else echo '\[\033[01;34m\]\u@\h'; fi)\[\033[1;37m\])\342\224\200(\[\033[1;34m\]\$?\[\033[1;37m\])\342\224\200(\[\033[1;34m\]\@ \d\[\033[1;37m\])\[\033[1;37m\]\n\342\224\224\342\224\200(\[\033[1;32m\]\w\[\033[1;37m\])\342\224\200(\[\033[1;32m\]\$(ls -1 | wc -l | sed 's: ::g') files, \$(ls -sh | head -n1 | sed 's/total //')b\[\033[1;37m\])\342\224\200> \[\033[0m\]" && break;;
-            simple ) export PS1="\[\033[0;37m\]\342\224\214\342\224\200\$([[ \$? != 0 ]] && echo \"[\[\033[0;31m\]\342\234\227\[\033[0;37m\]]\342\224\200\")[$(if [[ ${EUID} == 0 ]]; then echo '\[\033[0;31m\]\h'; else echo '\[\033[0;33m\]\u\[\033[0;37m\]@\[\033[0;96m\]\h'; fi)\[\033[0;37m\]]\342\224\200[\[\033[0;32m\]\w\[\033[0;37m\]]\n\[\033[0;37m\]\342\224\224\342\224\200\342\224\200\342\225\274 \[\033[0m\]" && break;;
+            simple ) export PS1="\[\e[31m\]\D{%c}\[\e[0m\]\[\e[36m\]\w\[\e[0m\]\n[\[\e[1;43m\]\u\[\e[0m\]@\H]$ " && break;;
+            new ) export PS1='\n\e[1;30m[\j:\!\e[1;30m]\e[0;36m \T \d \e[1;30m[\e[1;34m\u@\H\e[1;30m:\e[0;37m`tty 2>/dev/null` \e[0;32m+${SHLVL}\e[1;30m] \e[1;37m\w\e[0;37m\[\033]0;[ ${H1}... ] \w - \u@\H +$SHLVL @`tty 2>/dev/null` - [ `uptime` ]\007\]\n\[\]\$ ' && break;;
+            git ) export PS1='\n\[\e[1;37m\]|-- \[\e[1;32m\]\u\[\e[0;39m\]@\[\e[1;36m\]\h\[\e[0;39m\]:\[\e[1;33m\]\w\[\e[0;39m\]\[\e[1;35m\]$(__git_ps1 " (%s)")\[\e[0;39m\] \[\e[1;37m\]--|\[\e[0;39m\]\n$' && break;;
+            func ) export PS1='\e];\s\a\n\e[33m\w \e[36m$(hs)\e[m\n$ ' && break;;
             exit ) break;;
+        esac
+    done
+}
+
+function setfonts(){
+    select yn in "Latarcyrheb" "TerN" "TerB" "Exit"; do
+        case $yn in
+            Latarcyrheb ) setfont latarcyrheb-sun32 ;; #&& break;;
+            TerN ) setfont ter-132n ;; #&& break;;
+            TerB ) setfont ter-132b ;; #&& break;;
+            Exit ) break;;
         esac
     done
 }
@@ -59,6 +78,16 @@ function extract () {
         else
                 echo "'$1' is not a valid file"
         fi
+}
+
+function myip()
+{
+    #extIp=$(dig +short myip.opendns.com @resolver1.opendns.com)
+
+    printf "Wireless IP: "
+    MY_IP=$(/sbin/ifconfig wlp2s0 | awk '/inet/ { print $2 } ' |
+      sed -e s/addr://)
+    echo ${MY_IP:-"Not connected"}
 }
 
 # lists ip, hostname, city, region, country, loc, org, postal
@@ -157,7 +186,6 @@ function forcast(){
     printf "\n Todays Forcast"
     printf "\n $(curl -s wttr.in/~Pittsburg,KS?0?q?T | awk '/°(C|F)/ {printf $(NF-1) $(NF) " ("a")"} /,/ {a=$0}') \n ${Color_Off}" 
     printf "$(curl -s wttr.in/~Overland+Park,KS?0?q?T | awk '/°(C|F)/ {printf $(NF-1) $(NF) " ("a")"} /,/ {a=$0}') \n\n ${Color_Off}"
-
 }
 
 # Neofetch alias
@@ -215,8 +243,7 @@ function git_tips(){
     gf='git fetch'
     gcpa='git cherry-pick --abort'
     gcpc='git cherry-pick --continue'
-    grc='git reset'
-    "
+    grc='git reset'"
 
     echo "[Git patches]
     gcp -m 1
@@ -226,29 +253,26 @@ function git_tips(){
     git am < file.patch
     git apply --stat fixemptyposter.patch
     git apply --check fixemptyposter.patch
-    git am --signoff < fixemptyposter.patch
-    "
+    git am --signoff < fixemptyposter.patch"
 
     echo "[Deletes previous commits and pushes current branch]
     git push kd HEAD:9.0-kd --force 
     git push --set-upstream kd 9.0-kd
-    git reflog 
-    "
+    git reflog"
 }
 
 function tips(){
     echo '[Grep examples]
     grep -rl "kill"
     find strings in the rom source: grep -r "TEXTtoFIND"
-    find commit msg in the history: git log --grep="<part_of_commit_message>"
-    '
+    find commit msg in the history: git log --grep="<part_of_commit_message>"'
     echo "[System shortcuts]
     CTRL-ESC           | Brings up a tast manager
     CTRL-ALT-ESC       | Point at a rogue application to kill it
-    Ctrl-Alt-F1        | Enter's virtual console
-    Ctrl-Alt-F7        | Exit's virtutal console
-    CTRL-ALT-BackSpace | Kills X
-    "
+    Ctrl-Alt-F1        | Enter's GUI
+    Ctrl-Alt-F7        | Exit's GUI
+    Ctrl-Alt-F2        | Enter CLI (setfont latarcyrheb-sun32)
+    CTRL-ALT-BackSpace | Kills X"
 }
 
 ######################

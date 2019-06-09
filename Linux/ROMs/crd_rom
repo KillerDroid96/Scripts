@@ -22,11 +22,8 @@
 source $HOME/Github/Scripts/Linux/Shells/shell_colors
 
 ###############
-#             #
 #  FUNCTIONS  #
-#             #
 ###############
-
 # Colors
 RED="$(tput setaf 1)"
 RST="$(tput sgr0)"
@@ -147,68 +144,53 @@ function web_link() {
     echo "https://goo.gl/piMa5s"
 }
 
+###########
+# Patches #
+###########
 function apply_patches(){
-    ###########
-    # Patches #
-    ###########
     PATCH_LOG=$HOME/Github/CRD/patches.log 
-    cd /home/killerdroid96/Github/CRD/frameworks/base/ &> ${PATCH_LOG}
-    #git am --signoff < '/home/killerdroid96/Github/CRD_Patches/android_frameworks_base/performance tweaks/0001-Disable-statusbar-time-refresh-when-screen-off.patch'
-    git am --signoff < '/home/killerdroid96/Github/CRD_Patches/android_frameworks_base/performance tweaks/0003-Let-s-cut-Max-Excape-Animation-in-Half.patch'
-    git am --signoff < '/home/killerdroid96/Github/CRD_Patches/android_frameworks_base/performance tweaks/0004-lowered-animations-duration.patch'
-    git am --signoff < '/home/killerdroid96/Github/CRD_Patches/android_frameworks_base/performance tweaks/0005-aapt-Default-to-0-compression-ratio.patch'
-    git am --signoff < '/home/killerdroid96/Github/CRD_Patches/android_frameworks_base/performance tweaks/0006-Guard-in-short-circuit-evaluations-for-stringSplit-m.patch'
-    git am --signoff < '/home/killerdroid96/Github/CRD_Patches/android_frameworks_base/performance tweaks/0007-MountService-Unmount-internal-storage-before-restart.patch'
-    git am --signoff < '/home/killerdroid96/Github/CRD_Patches/android_frameworks_base/performance tweaks/0008-Clean-receivers-completely-when-forceStop-the-proces.patch'
-    git am --signoff < '/home/killerdroid96/Github/CRD_Patches/android_frameworks_base/performance tweaks/0009-ViewConfiguration-Set-scroll-friction-to-0.012.patch'
-    git am --signoff < '/home/killerdroid96/Github/CRD_Patches/android_frameworks_base/performance tweaks/0010-Factor-out-preference-in-storage-check-to-overridabl.patch'
-    git am --signoff < '/home/killerdroid96/Github/CRD_Patches/android_frameworks_base/performance tweaks/0012-Speed-Up-Animation-UI.patch'
-    git am --signoff < '/home/killerdroid96/Github/CRD_Patches/android_frameworks_base/performance tweaks/0013-Speed-up-StatusBar.patch'
-    #git am --signoff < '/home/killerdroid96/Github/CRD_Patches/android_frameworks_base/performance tweaks/0014-SystemUI-Adjusted-animation-timing.patch'
-    git am --signoff < '/home/killerdroid96/Github/CRD_Patches/android_frameworks_base/performance tweaks/0015-SystemUI-Tiny-expanding-improvement.patch'
-    git am --signoff < '/home/killerdroid96/Github/CRD_Patches/android_frameworks_base/performance tweaks/0017-SystemUI-Remove-data-tile-dialog.patch'
-    #git am --signoff < '/home/killerdroid96/Github/CRD_Patches/android_frameworks_base/performance-tweaks.patch' #&> ${PATCH_LOG}
-    cd /home/killerdroid96/Github/CRD/packages/apps/crDroidSettings/ &> ${PATCH_LOG}
-    git am --signoff < '/home/killerdroid96/Github/CRD_Patches/android_packages_apps_crDroidSettings/Redirect-OTA.patch' #&> ${PATCH_LOG}
-    cd /home/killerdroid96/Github/CRD/build/make/ &> ${PATCH_LOG}
-    git am --signoff < '/home/killerdroid96/Github/CRD_Patches/android_build/Update-install-graphics.patch' #&> ${PATCH_LOG}
-    ################
-    # Cherry-picks #
-    ################
+    # cd /home/killerdroid96/Github/CRD/frameworks/base/ #&> ${PATCH_LOG}
+    #     git am --signoff < '/home/killerdroid96/Github/CRD_Patches/android_frameworks_base/performance tweaks/0003-Let-s-cut-Max-Excape-Animation-in-Half.patch'
+    #     git am --signoff < '/home/killerdroid96/Github/CRD_Patches/android_frameworks_base/performance tweaks/0004-lowered-animations-duration.patch'
+    #     git am --signoff < '/home/killerdroid96/Github/CRD_Patches/android_frameworks_base/performance tweaks/0005-aapt-Default-to-0-compression-ratio.patch'
+    #     git am --signoff < '/home/killerdroid96/Github/CRD_Patches/android_frameworks_base/performance tweaks/0006-Guard-in-short-circuit-evaluations-for-stringSplit-m.patch'
+    #     git am --signoff < '/home/killerdroid96/Github/CRD_Patches/android_frameworks_base/performance tweaks/0007-MountService-Unmount-internal-storage-before-restart.patch'
+    #     #git am --signoff < '/home/killerdroid96/Github/CRD_Patches/android_frameworks_base/performance tweaks/0008-Clean-receivers-completely-when-forceStop-the-proces.patch'
+    #     git am --signoff < '/home/killerdroid96/Github/CRD_Patches/android_frameworks_base/performance tweaks/0009-ViewConfiguration-Set-scroll-friction-to-0.012.patch'
+    #     git am --signoff < '/home/killerdroid96/Github/CRD_Patches/android_frameworks_base/performance tweaks/0010-Factor-out-preference-in-storage-check-to-overridabl.patch'
+    #     git am --signoff < '/home/killerdroid96/Github/CRD_Patches/android_frameworks_base/performance tweaks/0012-Speed-Up-Animation-UI.patch'
+    #     git am --signoff < '/home/killerdroid96/Github/CRD_Patches/android_frameworks_base/performance tweaks/0013-Speed-up-StatusBar.patch'
+    #     git am --signoff < '/home/killerdroid96/Github/CRD_Patches/android_frameworks_base/performance tweaks/0015-SystemUI-Tiny-expanding-improvement.patch'
+    #     git am --signoff < '/home/killerdroid96/Github/CRD_Patches/android_frameworks_base/performance tweaks/0017-SystemUI-Remove-data-tile-dialog.patch'
+    cd /home/killerdroid96/Github/CRD/packages/apps/crDroidSettings/
+        git am --signoff < '/home/killerdroid96/Github/CRD_Patches/android_packages_apps_crDroidSettings/Redirect-OTA.patch'
+    cd /home/killerdroid96/Github/CRD/build/make/ #&> ${PATCH_LOG}
+        git am --signoff < '/home/killerdroid96/Github/CRD_Patches/android_build/Update-install-graphics.patch' #&> ${PATCH_LOG}
+
+################
+# Cherry Picks #
+################
     cd /home/killerdroid96/Github/CRD/frameworks/base/ 
         git cherry-pick 6000db73030542debb330fdf615cc461a5c8229f # Long press QS settings for crDroidSettings
-        git cherry-pick 800922d90fe1568dc87badf87cd4d495f91cc64d # Unlock keystore with fingerprint after reboot (1/2)
+        git cherry-pick 95a2f047dde725d26d3d5a11681dc54d15dcfc97 # Unlock keystore with fingerprint after reboot (1/2)
     cd /home/killerdroid96/Github/CRD/packages/apps/crDroidSettings/ 
         git cherry-pick edf23435ba3e13a42a8c9216537ebcfd25021648 # Moved bluetooth battery status to misc under quick settings
         git cherry-pick 69949e1426064e7fccd8086fbaa879050705ef46 # Unlock keystore with fingerprint after reboot (2/2)
 }
 
-function apply_repopicks(){
-            # hardware/lineage/interfaces
-            repopick 223374 # interfaces: Add 2.0 livedisplay interfaces
-            repopick 223410 # interfaces: Add touch HIDL interface definitions
-            # device/qcom/sepolicy
-            repopick 228572 # sepolicy: Allow system_server to 'read' qti_debugfs
-            repopick 228573 # sepolicy: Add libsdm-disp-vndapis and libsdmutils to SP-HALs
-            repopick 228578 # sepolicy: rules to allow camera daemon access to app buffer
-            repopick 228582 # sepolicy: qti_init_shell needs to read dir too
-            # packages_apps_Camera
-            repopick 224752
-            # ant
-            repopick 227260
-            repopick 227261
-}
+##############
+# Repo Picks #
+##############
+# function apply_repopicks(){
+# }
 
 # Source our universal functions script
 # source $HOME/Github/Scripts/Linux/Shells/shell_sources
 # source $HOME/Github/Scripts/Linux/Shells/shell_colors
 
 ##############
-#            #
 #   BANNER   #
-#            #
 ##############
-
 clear
 echo ${BLINK_RED}""
 echo "=============================================="
@@ -227,11 +209,8 @@ echo "=============================================="
 echo ${RST}""
 
 ################
-#              #
 #  PARAMETERS  #
-#              #
 ################
-
 export JAVA_HOME=/usr/lib/jvm/jdk8-openjdk
 ROM=CRD 
 DEVICE=dumpling
@@ -246,11 +225,8 @@ CLEAN_TARGET=true
 REPOPICK=true
 
 ###############
-#             #
 #  VARIABLES  #
-#             #
 ###############
-
 # OUT_FOLDER: Directory that holds the compiled ROM files
 # SOURCE_FOLDER: Directory that holds the ROM source
 # ZIP_MOVE: Directory to hold completed ROM zips
@@ -378,7 +354,6 @@ done
 ############
 # BUILDING #
 ############
-
 header "MAKING FILES"; echo
 
 # if [[ ${TG} ]]; then

@@ -30,9 +30,6 @@ alias gcpa='git cherry-pick --abort'
 alias gcpc='git cherry-pick --continue'
 alias grc='git reset'
 
-# Grep (Find Stuff)
-alias find='grep -rl' 
-
 # Shells (Bash & ZSH)
 alias {setzsh,set_zsh,usezsh,use_zsh}='chsh -s /bin/zsh'
 alias {setbash,set_bash,usebash,use_bash}='chsh -s /bin/bash'
@@ -50,29 +47,34 @@ alias {editbashpaths,ebp}='nano $HOME/Github/Scripts/Linux/Shells/shell_paths'		
 alias {editbashprompts,ebpr}='nano $HOME/Github/Scripts/Linux/Shells/shell_prompts'           # Edits Bash Prompts
 
 # System (Quick Launch)
-alias c="clear"                                                                                  # Clears terminal
-alias r="reset"                                                                                  # Resets terminal
+alias {c,cls}='clear && echo -en "\e[3J"'                                                        # Clears Terminal
+alias r="reset"                                                                                  # Resets Terminal
 alias e="exit"                                                                                   # Exits Terminal
 alias sp="Spotify"                                                                               # Launches Spotify
 alias hs='rehistory'                                			                                 # Recent Terminal History (Ex '!208' etc.. to repeat command)
 alias fps='ps aux | grep'                         				                                 # Displays PID (Ex 'fps terminal')
-alias 000='chmod 000'
-alias 644='chmod 644'
-alias 755='chmod 755'
-alias cls='clear && echo -en "\e[3J"'
+alias 000='chmod 000'                                                                            # Chmod Permissions
+alias 644='chmod 644'                                                                            # Chmod Permissions
+alias 755='chmod 755'                                                                            # Chmod Permissions
 alias {screenshot,ssa}="gnome-screenshot -a -i"         				                         # Screen-shot Selected Area on Gnome/KDE 
 alias {emptytrash,et}="rm -rf $HOME/Desktop/trash.desktop"                                       # Empties Trash
 alias {weather,wf}="forcast"							  				 	                     # Gives weather Report
 alias {lastroot,rr,lr}='sudo $(history | tail -n 2 | head -n 1 | sed -e "s/^[ ]*[0-9]*[ ]*//g")' # Executes the last command as root
 alias {trace,intercept}="sudo strace -ff -e trace=write -e write=1,2 -p"                         # Follow Forks With Output Into Separate Files
-#alias i='trizen -S --quiet --noconfirm --noedit --needed'                                        # Install Package
-#alias {un,remove,R}='trizen -R'                                                                  # Remove Package
-alias {u,us,uq,ud,upd,trizens,yays}='system_updater'                                             # System Update
+alias it='trizen -S'                                       # Install Package
+alias iy='yay -S'                                                   # Install Package
+alias {un,remove,R}='trizen -R'                                                                  # Remove Package
+alias {u,us,uq,ud,upd,trizens,yays}='aur_updater'                                                # System Update
 alias {banner,shell_banner}='$HOME/Github/Scripts/Linux/Shells/shell_banner'                     # Displays Banner
 alias motd='/etc/profile.d/motd.sh'                                                              # Displays Banner
-alias {wifitest,speed,speedtest}="speedtest-cli"
-alias setperf='echo "performance" | sudo tee /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor'
-alias setsave='echo "powersave" | sudo tee /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor'
+alias ping='ping google.com -c 5'                                                                # Pings Google
+alias {wifitest,speed,speedtest}="speedtest-cli"                                                 # WiFi Speed Test
+alias perf='echo "performance" | sudo tee /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor' # Sets Perfomance Governor
+alias save='echo "powersave" | sudo tee /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor'   # Sets Power Saving Governor
+alias {usage,most,mostusage,space}='du -hsx * | sort -rh | head -10' 
+alias {myip,ip,ipaddr}='myip'
+alias setfontb='setfont latarcyrheb-sun32'
+alias setfonth='setfont ter-i32n'
 
 # Development 
 alias n="nano"									                                  # Text Editor
@@ -97,6 +99,9 @@ alias {mbox,mdroidbox,mserver}='mosh killerdroid96@droidbox'                    
 alias busy="cat /dev/urandom | hexdump -C | grep 'ca fe'"          # Busy Effect
 alias matrix="cmatrix"                                             # Matrix Effect 
 alias pipes="pipes.sh"                  				           # Pipes
+alias hollywood="hollywood"                                        # Hacking Scene
+alias {rig,id}="rig"
+alias {apg,password}="apg"
 
 # Spotify (Needs AUR playerctl and spotify)
 alias st="playerctl play-pause"
@@ -119,7 +124,6 @@ alias disk5='sudo lsblk -f'                  # Displays Name, FS Type, Label, UU
 alias disk6='sudo smartctl -a /dev/sda1'     # Detailed Report & SMART Status
 alias disk7='sudo df -h --output=source,fstype,size,used,avail,pcent,target -x tmpfs -x devtmpfs'
 
-
 # Directories
 alias p="pwd"                                        # Displays File Path
 alias ls="ls -a --color=auto"                        # Adds Color
@@ -129,22 +133,23 @@ alias lf='locatef'                                   # Locates Folder/File
 alias lls='ls -a --color=auto --format=long'         # Adds Color & Lists Hidden Directories with
 alias lla='ls -la'									 # Lists Hidden Directories
 alias vls='ls -a --color=auto --format=single-colum' # Adds Color & Lists Directories Vertically
-alias tree="filetree"                                # List Directories in Tree Format 
+alias tree="filetree"                                # List Directories in Tree Format
+alias find='grep -rl'                                # Finds Stuff
 alias grep='grep --color=auto'                       # Adds Color
+alias egrep='egrep --color=auto'                     # Adds Color
+alias fgrep='fgrep --color=auto'                     # Adds Color
 alias locatef='wheres'                               # Finds Folder/File Location (Ex 'locate rom')
 alias filetree="ls -R | grep ":$" | sed -e 's/:$//' -e 's/[^-][^\/]*\//--/g' -e 's/^/   /' -e 's/-/|/'"
 
 # Arch Linux Paths
-alias build="cl $HOME/Github/DU"
-alias coding="cl $HOME/Github/C"
-alias files="cl $HOME/Github/Scripts/Linux/Files"
-alias github="cl $HOME/Github"
-alias kde="cl $HOME/Github/Scripts/Linux/KDE/"
-alias linux="cl $HOME/Github/Scripts/Linux"
-alias roms="cl $HOME/Github/Scripts/Linux/ROMs"
-alias scripts="cl $HOME/Github/Scripts"
-alias shells="clv $HOME/Github/Scripts/Linux/Shells/"
-alias {shellfiles,bashfiles}="cl $HOME/Github/Scripts/Linux/Bash/"
+alias build="clv $HOME/Github/CRD"
+alias downloads="clv $HOME/Downloads"
+alias files="clv $HOME/Github/Scripts/Linux/Files"
+alias github="clv $HOME/Github"
+alias linux="clv $HOME/Github/Scripts/Linux"
+alias roms="clv $HOME/Github/Scripts/Linux/ROMs"
+alias scripts="clv $HOME/Github/Scripts"
+alias {shells,shellfiles,bashfiles}="clv $HOME/Github/Scripts/Linux/Shells/"
 alias setups="cl $HOME/Github/Scripts/Linux/Setups"
 
 # Windows 10 Paths (Place w infront of usual commands)
