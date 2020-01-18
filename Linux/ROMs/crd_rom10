@@ -24,6 +24,7 @@ source $HOME/Github/Scripts/Linux/Shells/shell_colors
 ###############
 #  FUNCTIONS  #
 ###############
+
 # Colors
 RED="$(tput setaf 1)"
 RST="$(tput sgr0)"
@@ -141,6 +142,7 @@ function web_link() {
     fi
     #gdrive about -c /home/killerdroid96/.gdrive
     gdrive -c /home/killerdroid96/.gdrive sync upload $HOME/Github/Uploads "${GDRIVE_ID}" &> out.log
+    echo "https://bit.ly/2kAgu6b"
 }
 
 function web_link_about() {
@@ -152,27 +154,14 @@ function web_link_about() {
 ###########
 function apply_patches(){
     PATCH_LOG=$HOME/Github/CRD/patches.log 
-    # cd /home/killerdroid96/Github/CRD/frameworks/base/ #&> ${PATCH_LOG}
-    #     git am --signoff < '/home/killerdroid96/Github/CRD_Patches/android_frameworks_base/performance tweaks/0003-Let-s-cut-Max-Excape-Animation-in-Half.patch'
-    #     git am --signoff < '/home/killerdroid96/Github/CRD_Patches/android_frameworks_base/performance tweaks/0004-lowered-animations-duration.patch'
-    #     git am --signoff < '/home/killerdroid96/Github/CRD_Patches/android_frameworks_base/performance tweaks/0005-aapt-Default-to-0-compression-ratio.patch'
-    #     git am --signoff < '/home/killerdroid96/Github/CRD_Patches/android_frameworks_base/performance tweaks/0006-Guard-in-short-circuit-evaluations-for-stringSplit-m.patch'
-    #     git am --signoff < '/home/killerdroid96/Github/CRD_Patches/android_frameworks_base/performance tweaks/0007-MountService-Unmount-internal-storage-before-restart.patch'
-    #     #git am --signoff < '/home/killerdroid96/Github/CRD_Patches/android_frameworks_base/performance tweaks/0008-Clean-receivers-completely-when-forceStop-the-proces.patch'
-    #     git am --signoff < '/home/killerdroid96/Github/CRD_Patches/android_frameworks_base/performance tweaks/0009-ViewConfiguration-Set-scroll-friction-to-0.012.patch'
-    #     git am --signoff < '/home/killerdroid96/Github/CRD_Patches/android_frameworks_base/performance tweaks/0010-Factor-out-preference-in-storage-check-to-overridabl.patch'
-    #     git am --signoff < '/home/killerdroid96/Github/CRD_Patches/android_frameworks_base/performance tweaks/0012-Speed-Up-Animation-UI.patch'
-    #     git am --signoff < '/home/killerdroid96/Github/CRD_Patches/android_frameworks_base/performance tweaks/0013-Speed-up-StatusBar.patch'
-    #     git am --signoff < '/home/killerdroid96/Github/CRD_Patches/android_frameworks_base/performance tweaks/0015-SystemUI-Tiny-expanding-improvement.patch'
-    #     git am --signoff < '/home/killerdroid96/Github/CRD_Patches/android_frameworks_base/performance tweaks/0017-SystemUI-Remove-data-tile-dialog.patch'
-    # cd /home/killerdroid96/Github/CRD/packages/apps/crDroidSettings/
-    #    git am --signoff < '/home/killerdroid96/Github/CRD_Patches/android_packages_apps_crDroidSettings/Redirect-OTA.patch'
     cd /home/killerdroid96/Github/CRD/build/make/ #&> ${PATCH_LOG}
         git am --signoff < '/home/killerdroid96/Github/CRD_Patches/android_build/Update-install-graphics.patch' #&> ${PATCH_LOG}
+}
 
 ################
 # Cherry Picks #
 ################
+function apply_cherrypicks(){
     cd /home/killerdroid96/Github/CRD/frameworks/base/ 
         git cherry-pick 6000db73030542debb330fdf615cc461a5c8229f # Long press QS settings for crDroidSettings
         git cherry-pick 95a2f047dde725d26d3d5a11681dc54d15dcfc97 # Unlock keystore with fingerprint after reboot (1/2)
@@ -214,8 +203,10 @@ echo ${RST}""
 ################
 #  PARAMETERS  #
 ################
+export JAVA_HOME=/usr/lib/jvm/java-10-openjdk
 export JAVA_HOME=/usr/lib/jvm/jdk8-openjdk
-ROM=CRD 
+export JAVA_HOME=/usr/lib/jvm/jdk10-openjdk
+ROM=CRD
 DEVICE=guacamole
 VARIANT=userdebug
 ROM_FOLDER=${HOME}/Github
@@ -286,6 +277,8 @@ case ${ROM} in
         breakfast ${DEVICE} ${VARIANT} ;;
 esac
 
+function AutoBuild(){
+
 #############
 # REPO SYNC #
 #############
@@ -293,9 +286,9 @@ header "REPO SYNC"
 echo "Sync Repo?${RST}"
 select yn in "Yes" "No"; do
     case $yn in
-        Yes ) repo init -u git://github.com/crdroidandroid/android.git -b 9.0
-              time repo sync "${JOBS_FLAG}" -f --force-sync --no-clone-bundle; break;;
-              #time repo sync "${JOBS_FLAG}" --force-sync -c --no-clone-bundle --no-tags --optimized-fetch --prune --current-branch; break;;
+        Yes ) repo init -u git://github.com/crdroidandroid/android.git -b 10.0
+              #time repo sync "${JOBS_FLAG}" -f --force-sync --no-clone-bundle; break;;
+              time repo sync "${JOBS_FLAG}" --force-sync -c --no-clone-bundle --no-tags --optimized-fetch --prune --current-branch; break;;
         No ) break;;
     esac
 done
@@ -313,17 +306,29 @@ select yn in "Yes" "No"; do
     esac
 done
 
-# ############
-# # REPOPICK #
-# ############
-# header "REPO PICK"
-# echo "Do you want to apply repopicks?"crdc
-# select yn in "Yes" "No"; do
-#     case $yn in
-#         Yes ) apply_repopicks; break;;   
-#         No ) break;;
-#     esac
-# done
+############
+# REPOPICK #
+############
+header "REPO PICK"
+echo "Do you want to apply repopicks?${RST}"
+select yn in "Yes" "No"; do
+    case $yn in
+        Yes ) apply_repopicks; break;;   
+        No ) break;;
+    esac
+done
+
+##############
+# CHERRYPICK #
+##############
+header "CHERRY PICK"
+echo "Do you want to apply cherrypicks?${RST}"
+select yn in "Yes" "No"; do
+    case $yn in
+        Yes ) apply_cherrypicks; break;;   
+        No ) break;;
+    esac
+done
 
 #############
 # CHANGELOG #
@@ -336,14 +341,14 @@ fi
 
 echo "For how many days you want changelog to be generated?${RST}"
 read days
-until [[ $days =~ ^-?[0-9]+$ ]]; do
+until [[ $days =~ ^-?[0-25]+$ ]]; do
     echo "Invalid input - only numbers are allowed"
     read days
 done
 export changelog_days=$days
 
 ###############
-# Clean Build #
+# CLEAN BUILD #
 ###############
 header "CLEAN BUILD"
 echo "Make Clean Build?${RST}"
@@ -353,7 +358,22 @@ select yn in "Yes" "No"; do
         No ) break;;
     esac
 done
+}
 
+##############
+# AUTO BUILD #
+##############
+header "AUTO BUILD"
+echo "Auto Build?${RST}"
+select yn in "Yes" "No"; do
+    case $yn in
+        Yes ) repo init -u git://github.com/crdroidandroid/android.git -b 10.0
+              #time repo sync "${JOBS_FLAG}" -f --force-sync --no-clone-bundle; break;;
+              #time repo sync "${JOBS_FLAG}" --force-sync -c --no-clone-bundle --no-tags --optimized-fetch --prune --current-branch;
+              export changelog_days=10days; break;;
+         No ) AutoBuild; break;;
+    esac
+done
 
 ############
 # BUILDING #

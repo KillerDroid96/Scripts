@@ -141,51 +141,8 @@ function web_link() {
     fi
     #gdrive about -c /home/killerdroid96/.gdrive
     gdrive -c /home/killerdroid96/.gdrive sync upload $HOME/Github/Uploads "${GDRIVE_ID}" &> out.log
+    echo "https://goo.gl/piMa5s"
 }
-
-function web_link_about() {
-    gdrive about -c /home/killerdroid96/.gdrive
-}
-
-###########
-# Patches #
-###########
-function apply_patches(){
-    PATCH_LOG=$HOME/Github/CRD/patches.log 
-    # cd /home/killerdroid96/Github/CRD/frameworks/base/ #&> ${PATCH_LOG}
-    #     git am --signoff < '/home/killerdroid96/Github/CRD_Patches/android_frameworks_base/performance tweaks/0003-Let-s-cut-Max-Excape-Animation-in-Half.patch'
-    #     git am --signoff < '/home/killerdroid96/Github/CRD_Patches/android_frameworks_base/performance tweaks/0004-lowered-animations-duration.patch'
-    #     git am --signoff < '/home/killerdroid96/Github/CRD_Patches/android_frameworks_base/performance tweaks/0005-aapt-Default-to-0-compression-ratio.patch'
-    #     git am --signoff < '/home/killerdroid96/Github/CRD_Patches/android_frameworks_base/performance tweaks/0006-Guard-in-short-circuit-evaluations-for-stringSplit-m.patch'
-    #     git am --signoff < '/home/killerdroid96/Github/CRD_Patches/android_frameworks_base/performance tweaks/0007-MountService-Unmount-internal-storage-before-restart.patch'
-    #     #git am --signoff < '/home/killerdroid96/Github/CRD_Patches/android_frameworks_base/performance tweaks/0008-Clean-receivers-completely-when-forceStop-the-proces.patch'
-    #     git am --signoff < '/home/killerdroid96/Github/CRD_Patches/android_frameworks_base/performance tweaks/0009-ViewConfiguration-Set-scroll-friction-to-0.012.patch'
-    #     git am --signoff < '/home/killerdroid96/Github/CRD_Patches/android_frameworks_base/performance tweaks/0010-Factor-out-preference-in-storage-check-to-overridabl.patch'
-    #     git am --signoff < '/home/killerdroid96/Github/CRD_Patches/android_frameworks_base/performance tweaks/0012-Speed-Up-Animation-UI.patch'
-    #     git am --signoff < '/home/killerdroid96/Github/CRD_Patches/android_frameworks_base/performance tweaks/0013-Speed-up-StatusBar.patch'
-    #     git am --signoff < '/home/killerdroid96/Github/CRD_Patches/android_frameworks_base/performance tweaks/0015-SystemUI-Tiny-expanding-improvement.patch'
-    #     git am --signoff < '/home/killerdroid96/Github/CRD_Patches/android_frameworks_base/performance tweaks/0017-SystemUI-Remove-data-tile-dialog.patch'
-    # cd /home/killerdroid96/Github/CRD/packages/apps/crDroidSettings/
-    #    git am --signoff < '/home/killerdroid96/Github/CRD_Patches/android_packages_apps_crDroidSettings/Redirect-OTA.patch'
-    cd /home/killerdroid96/Github/CRD/build/make/ #&> ${PATCH_LOG}
-        git am --signoff < '/home/killerdroid96/Github/CRD_Patches/android_build/Update-install-graphics.patch' #&> ${PATCH_LOG}
-
-################
-# Cherry Picks #
-################
-    cd /home/killerdroid96/Github/CRD/frameworks/base/ 
-        git cherry-pick 6000db73030542debb330fdf615cc461a5c8229f # Long press QS settings for crDroidSettings
-        git cherry-pick 95a2f047dde725d26d3d5a11681dc54d15dcfc97 # Unlock keystore with fingerprint after reboot (1/2)
-    cd /home/killerdroid96/Github/CRD/packages/apps/crDroidSettings/ 
-        git cherry-pick edf23435ba3e13a42a8c9216537ebcfd25021648 # Moved bluetooth battery status to misc under quick settings
-        git cherry-pick 69949e1426064e7fccd8086fbaa879050705ef46 # Unlock keystore with fingerprint after reboot (2/2)
-}
-
-##############
-# Repo Picks #
-##############
-# function apply_repopicks(){
-# }
 
 # Source our universal functions script
 # source $HOME/Github/Scripts/Linux/Shells/shell_sources
@@ -197,11 +154,6 @@ function apply_patches(){
 clear
 echo ${BLINK_RED}""
 echo "=============================================="
-echo "|                  ____             _     __ |"
-echo "|       __________/ __ \_________  (_)___/ / |"
-echo "|      / ___/ ___/ / / / ___/ __ \/ / __  /  |"
-echo "|     / /__/ /  / /_/ / /  / /_/ / / /_/ /   |"
-echo "|     \___/_/  /_____/_/   \____/_/\__,_/    |"
 echo "|     ___              __           _     __ |"
 echo "|    /   |  ____  ____/ /________  (_)___/ / |"
 echo "|   / /| | / __ \/ __  / ___/ __ \/ / __  /  |"
@@ -215,7 +167,7 @@ echo ${RST}""
 #  PARAMETERS  #
 ################
 export JAVA_HOME=/usr/lib/jvm/jdk8-openjdk
-ROM=CRD 
+ROM=Havoc 
 DEVICE=guacamole
 VARIANT=userdebug
 ROM_FOLDER=${HOME}/Github
@@ -223,7 +175,7 @@ WEB_FOLDER=${HOME}/Github/Uploads
 TG=true
 TG_MSG_FILE=/tmp/tg-msg.build-rom
 SYNC=true
-MAKE_TARGET=bacon 
+MAKE_TARGET=brunch 
 CLEAN_TARGET=true
 REPOPICK=true
 
@@ -237,7 +189,7 @@ ZIP_MOVE_PARENT=${WEB_FOLDER} #/Github/Uploads
 
 # Otherwise, define them for our various ROMs
 case "${ROM}" in
-    "CRD"|"DU"|"aosp"|"du-p9x-caf"|"du-o8x-caf"|"lineage-15.1|")
+    "Havoc"|"CRD"|"DU"|"aosp|")
         SOURCE_FOLDER=${ROM_FOLDER}/${ROM}
         ZIP_MOVE=${ZIP_MOVE_PARENT}/${ROM}/${DEVICE}/ROM ;;
     *)
@@ -293,25 +245,25 @@ header "REPO SYNC"
 echo "Sync Repo?${RST}"
 select yn in "Yes" "No"; do
     case $yn in
-        Yes ) repo init -u git://github.com/crdroidandroid/android.git -b 9.0
+        Yes ) repo init -u https://github.com/Havoc-OS/android_manifest.git -b pie 
               time repo sync "${JOBS_FLAG}" -f --force-sync --no-clone-bundle; break;;
               #time repo sync "${JOBS_FLAG}" --force-sync -c --no-clone-bundle --no-tags --optimized-fetch --prune --current-branch; break;;
         No ) break;;
     esac
 done
 
-##############
-# REPO Patch #
-##############
-header "REPO PATCH"
-echo "Do you want to apply patches?${RST}"
-select yn in "Yes" "No"; do
-    case $yn in
-        Yes ) apply_patches
-              cd "${SOURCE_FOLDER}" || die "Source folder does not exist!"; break;;
-        No ) break;;
-    esac
-done
+# ##############
+# # REPO Patch #
+# ##############
+# header "REPO PATCH"
+# echo "Do you want to apply patches?${RST}"
+# select yn in "Yes" "No"; do
+#     case $yn in
+#         Yes ) apply_patches
+#               cd "${SOURCE_FOLDER}" || die "Source folder does not exist!"; break;;
+#         No ) break;;
+#     esac
+# done
 
 # ############
 # # REPOPICK #
@@ -417,11 +369,6 @@ TIME_STRING="$(format_time "${START}" "${END}")"
 
 echo ${BLINK_RED}""
 echo "=============================================="
-echo "|                  ____             _     __ |"
-echo "|       __________/ __ \_________  (_)___/ / |"
-echo "|      / ___/ ___/ / / / ___/ __ \/ / __  /  |"
-echo "|     / /__/ /  / /_/ / /  / /_/ / / /_/ /   |"
-echo "|     \___/_/  /_____/_/   \____/_/\__,_/    |"
 echo "|     ___              __           _     __ |"
 echo "|    /   |  ____  ____/ /________  (_)___/ / |"
 echo "|   / /| | / __ \/ __  / ___/ __ \/ / __  /  |"

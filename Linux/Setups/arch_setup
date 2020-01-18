@@ -179,14 +179,14 @@ elif
     echo "Enter du_rom in a Terminal to Start Build"
 elif
     tput setaf 6
-    ask "Setup Build for crDroid Android?"; then
+    ask "Setup Build for crDroid Android 10.0?"; then
     mkdir ~/Github/CRD
     cd ~/Github/CRD
     virtualenv2 venv
     source venv/bin/activate
-    repo init -u http://github.com/crdroidandroid/android_manifest.git -b 9.0
-    mkdir ~/Github/DU/.repo/local_manifests
-    cp ~/Github/Scripts/Linux/Files/crd_manifest.xml ~/Github/DU/local_manifests/roomservice.xml
+    repo init -u http://github.com/crdroidandroid/android_manifest.git -b 10.0
+    mkdir ~/Github/CRD/.repo/local_manifests
+    cp ~/Github/Scripts/Linux/Files/crd_manifest.xml ~/Github/CRD/local_manifests/roomservice.xml
     repo sync --force-sync -j$( nproc --all )
     ccache -M 50G
     echo "Enter crd_rom in a Terminal to Start Build"

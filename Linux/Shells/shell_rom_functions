@@ -34,13 +34,29 @@ function sync_repo() {
 }
 
 function gdrive_rom() {
-    #outdated use weblink
+    #outdated use weblink 
     #gdrive about -c /home/matt/.gdrive
     #gdrive -c /home/matt/.gdrive sync upload $HOME/Github/Uploads 1znWrZTRSwAvWgVNHz4hsvEEgaOcrpS8z &> out.log 
     gdrive about -c /home/matt/.gdrive-secondary #&> out.log  
-    gdrive -c /home/matt/.gdrive-secondary sync upload $HOME/Github/Uploads 1lOVVWYg_itAPwaUWbMhkvF2P51wzr46v #&> out.log  
+    gdrive -c /home/matt/.gdrive-secondary sync upload $HOME/Github/Uploads 1HTpt92v2AvjcTQtE-CUglOWH90oBiPjp #&> out.log  
     echo "https://drive.google.com/drive/folders/1lOVVWYg_itAPwaUWbMhkvF2P51wzr46v"
 }
+
+# Convert a file location to web link
+GDRIVE_ID=1K4WG6-fXphFMQORgBk8GDWfEnjn9GrHg
+function web_link() {
+    if [[ -z ${GDRIVE_ID} ]]; then
+        display_error "web_link() was called but there was no ID! ID needed to upload to Google Drive!"
+        return 1
+    fi
+    #gdrive about -c /home/killerdroid96/.gdrive
+    gdrive -c /home/killerdroid96/.gdrive sync upload $HOME/Github/Uploads "${GDRIVE_ID}" #&> out.log
+}
+
+function web_link_about() {
+    gdrive about -c /home/killerdroid96/.gdrive
+}
+
 
 ###############
 #             #
@@ -212,17 +228,6 @@ function transfer() {
     url=$(curl -# -T "${file}" https://transfer.sh/${destination})
     printf '\n'
     echo -e "Download $zipname at $url"
-}
-
-# Convert a file location to web link
-function web_link() {
-    #gdrive about -c /home/killerdroid96/.gdrive
-    gdrive -c /home/killerdroid96/.gdrive sync upload $HOME/Github/Uploads 1lOVVWYg_itAPwaUWbMhkvF2P51wzr46v &> out.log
-    echo "https://goo.gl/piMa5s"
-}
-
-function web_link_about() {
-    gdrive about -c /home/killerdroid96/.gdrive
 }
 
 # Telegram notifier function

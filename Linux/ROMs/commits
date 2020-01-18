@@ -497,10 +497,56 @@ bd49d8f1654dc1a5491bc4a55b02f445f48bc32e BoostFramework: To Enhance performance.
 163da5bcc4c3d58ea37536032f8ae59ef6ac2d24 (HEAD) Settings: refresh search index check on build change
 ac65e0f92eff8ea84ace3027ff26a06b1b65ff36 Implement Aggressive Battery [2/2]
 
+==========================================|05/08/19|===================================================
+{base}
+e3ffb329df39d07e9fe8b9fd00f8ed955bef6959 base: Add Q style to battery icon chooser [1/2]
+7275b9a637ab78484a4b6a35052c6ebb622ce4d2 core: Implement Aggressive Battery [1/2]
+2399235c4d506e20dfabd2f301193d018b495d5f Reorder boosts for quick ramp up
+1877d1aaf1076c7aa8116a95faff535dfdc6f700 Precise new activity boost.
+3bb05620d32e1f78e2370e6c8ca99f6439b6c173 Keyguard: Avoid starting FP authentication right after cancelling
 
-********************************************************************************************************
-https://github.com/JDCTeam/AromaInstaller
-https://github.com/BenzoRom/frameworks_base/commit/897f74c633c9278358b241b9da0e30ceb6fc5a9c
+68230798035482c3515cc485e45b2d62ef18b061 Support the perflock request from system/priv apps whose domain are untrusted
+a2c3ac95f2792450fdcfadff026a274b9db14e97 Fling/Pre-fling Boost: Call perf boost from System Server context
+652d752b55ef9ed48b64103f10ac0785acdd0892 Disable swipe boost and preferred apps for certain cases
+
+2bf650139a72da4b6d968516c9e0fd5f55fea001 pocket: Adjust sleep timeout for pocket lock view to 10 secs
+8cbe1545c80afb6422115df7ac5f7ae78c316b11 pocket: Add hardware acceleration and properly maintain SYSTEM_UI flags
+c62607069ebf4853453aefc5c47c4a92e025b793 pocket: Adjust light sensor rate to 400ms
+
+22ed7d7d5595cf9e8913ba0d75145b773f9eb9d8 IOP: Adding support for UXPerf Class
+80f64a3a99933ba6e37973c0deba7bc08f0e988c IOP: This change is to enable the IOP and UXE
+ba8e7e47777af021dce6244c767f546754da64c9 Add perf hint GetFeedback api support from framework
+996041e0bed087f727a32f3a4677f9165d69def6 Add perf hint for screen rotation animation
+e67292603924e12f65265bb3a7654ff2c25d47f6 Add perf hint for rotation latency
+3f68655bdc64078bd771ea6119d623a7b73f84f8 add perf service into system_process.
+0deaa7291f11cae0b769f859a87adc1d6ddc9cf3 BoostFramework: Implement asynchronous processing of perflocks
+35848fc181fbada89725fad6adfa927f6ae18d62 BoostFramework: To Enhance performance.
+
+{crdroidsettings}
+fa979881e97c44f0aa75db58aa81eba0c0da0300 (HEAD) Settings: Add Q style to battery icon chooser [2/2]
+546d91e1a3d630268f81644a69dd7e7badb9ed0e Implement Aggressive Battery [2/2]
+f295109d5b557c68a2c770fca5edfbcc4aac2f28 Settings: refresh search index check on build change
+
+==========================================|07/07/19|===================================================
+{system/sepolicy}
+89dc79935dbf2e3dcdc385a9d436f21e10b58da3 (HEAD) Remove duplicates
+3de928814a1d276001a92d6de8424a1d35f6082d (HEAD) Initial sepolicy rules for substratum service
+d6bda50c5ea5e85aa6e897e7c3b9112a0904a90b (HEAD) Introduce sepolicy exceptions for theme assets
+f85e2c4cf282bdc2690f17a99133844e0eb58410 (HEAD) SELinux: added to the policies without entries into the compatibility mapping file
+955fd72f4808add23b1399e28a6a643a2a3d61ef (HEAD) sepolicy: allow update_engine to bypass neverallows for backuptool
+73ff440f28a5ee47341c976ffc415c303b97decb (HEAD) sepolicy: Allow init to modify system_blk_device
+
+d67f8aeaf706be71bdca42d32dd50dc6ad8d4f7c
+
+==========================================|07/07/19|===================================================
+/home/killerdroid96/Github/CRD/device/oneplus/guacamole/
+5d68dbd307d599bda685b3781549a86d7fdc1491 (HEAD) SELINUX_IGNORE_NEVERALLOWS := true
+
+/home/killerdroid96/Github/CRD/device/oneplus/sm8150-common/
+2c5124b88056244b338439a4a53af3b1fdde1e8d (HEAD) remove libgui
+
+/home/killerdroid96/Github/CRD/hardware/lineage/interfaces/
+72f0b89a21774619ad82a8a24532e2b2f0275136 (HEAD) Introduce camera motor hal
 
 ********************************************************************************************************
 
@@ -516,15 +562,15 @@ repo sync --force-sync crdroidandroid/android_packages_apps_Settings
 repo sync --force-sync crdroidandroid/android_kernel_oneplus_msm8998
 repo sync --force-sync crdroidandroid/android_vendor_addons
 repo sync --force-sync crdroidandroid/android_frameworks_opt_telephony
-repo sync --force-sync crdroidandroid/android_packages_services_Telecomm
+repo sync --force-sync KillerDroidOS/android_device_crdroid_sepolicy
 *******************************************************************************************************
 grep -rl "kill"
 find strings in the rom source: grep -r "TEXTtoFIND"
 find commit msg in the history: git log --grep="<part_of_commit_message>"
 ********************************************************************************************************
 (Deletes previous commits and pushes current branch)
-git push kd HEAD:9.0-kd --force 
-git push --set-upstream kd 9.0-kd
+git push kd HEAD:9.0 --force 
+git push --set-upstream kd 9.0
 git reflog 
 ********************************************************************************************************
 gcp -m 1 

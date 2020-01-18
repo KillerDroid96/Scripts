@@ -21,7 +21,11 @@ function aur_updater(){
     select yn in "Yay" "Trizen" "Exit"; do
         case $yn in
             Yay ) header "Updating System"
-                  yay -Syyu --quiet --noconfirm --needed
+                  sudo pacman -Scc #Clears cache
+                  echo -e "";
+                  echo -e "Pacman command: yay -Syyu --needed --noconfirm --quiet";
+                  echo -e "";
+                  yay -Syyu --needed --noconfirm --quiet
                   header "System Update Complete"
                   break;;
             Trizen ) header "Updating System"
@@ -261,11 +265,12 @@ function git_tips(){
     git reflog"
 }
 
-function tips(){
+function general_tips(){
     echo '[Grep examples]
     grep -rl "kill"
     find strings in the rom source: grep -r "TEXTtoFIND"
     find commit msg in the history: git log --grep="<part_of_commit_message>"'
+    echo ""
     echo "[System shortcuts]
     CTRL-ESC           | Brings up a tast manager
     CTRL-ALT-ESC       | Point at a rogue application to kill it
@@ -273,6 +278,12 @@ function tips(){
     Ctrl-Alt-F7        | Exit's GUI
     Ctrl-Alt-F2        | Enter CLI (setfont latarcyrheb-sun32)
     CTRL-ALT-BackSpace | Kills X"
+}
+
+function tips(){
+    general_tips
+    echo ""
+    git_tips
 }
 
 ######################
@@ -458,11 +469,16 @@ function downlsppedtest (){
 }
 
 # Install yay and AUR packages
-install_yay(){
+function install_yay(){
     #cd "${MISC_FOLDER}"/building || die "wtf?"
     curl -LSs -o PKGBUILD "https://aur.archlinux.org/cgit/aur.git/plain/PKGBUILD?h=yay"
     makepkg --noconfirm -si || die "Error installing yay!"
     gpg --recv-keys 702353E0F7E48EDB
     yay -S --needed arm-linux-gnueabi-gcc lineageos-devel || die "Error running yay!"
     yay
+}
+
+function dt(){
+    date +"%m-%d-%Y"
+    date +"%T"
 }

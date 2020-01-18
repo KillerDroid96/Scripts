@@ -23,9 +23,12 @@ export LC_MESSAGES="C"
 export LC_ALL="C"
 export USE_CCACHE=1
 export USE_NINJA=false
-export EDITOR="nano";
-export BROWSER="chromium";
+export EDITOR="nano"
+export BROWSER="chromium"
 export LLVM_ENABLE_THREADS=ON
+export TEMPORARY_DISABLE_PATH_RESTRICTIONS=true
+export CCACHE_EXEC=/usr/bin/ccache
+
 #export GIT_DISCOVERY_ACROSS_FILESYSTEM=1
 
 #export PS1="\[\033[m\]|\[\033[1;35m\]\t\[\033[m\]|\[\e[1;31m\]\u\[\e[1;36m\]\[\033[m\]@\[\e[1;36m\]\h\[\033[m\]:\[\e[0m\]\[\e[1;32m\][\W]> \[\e[0m\]"
