@@ -1,0 +1,23 @@
+e video=1920x1080
+loadkeys us
+ls /sys/firmware/efi/efivars
+timedatectl set-ntp true
+wifi-menu
+ping -c 2 google.com
+fdisk -l
+mkfs.ext4 /dev/nvme0n1p5 #ROOT
+mkdir /mnt/boot
+mount /dev/nvme0n1p5 /mnt/boot
+mkdir -p /mnt/home
+mount /dev/nvme0n1p6 /mnt/home
+mkdir /mnt/boot/efi
+mount /dev/nvme0n1p3 /mnt/boot/efi
+pacstrap /mnt base base-devel grub-efi-x86_64 vim git efibootmgr dialog wpa_supplicant iw wifi-menu
+pacstrap /mnt base linux linux-firmware
+genfstab -U /mnt >> /mnt/etc/fstab
+arch-chroot /mnt
+pacman-key --init
+pacman-key --populate archlinux
+ln -sf /usr/share/zoneinfo/America/Central /etc/localtime
+hwclock --systohc
+locale-gen
