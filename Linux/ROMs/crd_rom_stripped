@@ -115,8 +115,8 @@ function display_error() {
 }
 
 # Telegram notifier function
-TOKEN=513663559:AAFltOrxX0FGsxW83jVMqProcRBCceeKHeM
-CHAT_ID=488672694
+TOKEN=
+CHAT_ID=
 function notify_id(){
     curl https://api.telegram.org/bot"${TOKEN}"/getUpdates
 }
@@ -135,7 +135,7 @@ function notify() {
 }
 
 # Convert a file location to web link
-GDRIVE_ID=1K4WG6-fXphFMQORgBk8GDWfEnjn9GrHg
+GDRIVE_ID=
 function web_link() {
     if [[ -z ${GDRIVE_ID} ]]; then
         display_error "web_link() was called but there was no ID! ID needed to upload to Google Drive!"
@@ -263,7 +263,7 @@ cd "${SOURCE_FOLDER}" || die "Source folder does not exist!"
 header "SETTING UP BUILD ENVIRONMENT"
 # Check and see if we are on Arch
 # If so, activare a virtual environment for proper Python support
-#[[ -f /etc/arch-release ]] && mkavenv
+[[ -f /etc/arch-release ]] && mkavenv
 source build/envsetup.sh
         
 ##################

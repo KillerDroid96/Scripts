@@ -51,7 +51,7 @@ function show_menus() {
     clear
     echo ""
     tput setaf 1
-    #echo "Lets Get ROM'd Up!" && sleep 2
+    echo "Lets Get ROM'd Up!" && sleep 2
     tput setaf 2
     clear
     echo "   ROM Builder  "
@@ -150,7 +150,7 @@ Install_Dependencies(){
     echo "=================="
     echo "| [1] Arch       |"
     echo "| [2] Ubuntu     |"
-    echo "| [3] Exit       |" 
+    echo "| [e] Exit       |" 
     echo "=================="
 }
 read_options(){
@@ -166,19 +166,19 @@ read_options(){
 Arch(){
         tput setaf 1; echo "Installing Dependencies for Arch"
         tput setaf 3; echo "Gettings Things Ready"
-        tput setaf 2; sudo trizen -Syyu
+        tput setaf 2; sudo yay -Syyu
         tput setaf 3; echo "Installing Android Dependencies" && sleep 3
-        tput setaf 2; sudo trizen -S  git gnupg flex bison gperf sdl wxgtk2 bash-completion \
+        tput setaf 2; sudo yay -S  git gnupg flex bison gperf sdl wxgtk2 bash-completion \
         squashfs-tools curl ncurses zlib schedtool perl-switch zip \
         unzip libxslt python2-virtualenv bc rsync  \
-        xml2 lzop pngcrush imagemagick jdk8-openjdk  jdk9-openjdk repo android-tools python-networkx 
+        xml2 lzop pngcrush imagemagick 6jdk8-openjdk  jdk9-openjdk repo android-tools python-networkx 
         tput setaf 3; echo "Installing 64 bit Dependencies" && sleep 3
-        tput setaf 2; sudo trizen -S ncurses5-compat-libs lib32-ncurses5-compat-libs lib32-zlib lib32-ncurses lib32-readline
+        tput setaf 2; sudo yay -S ncurses5-compat-libs lib32-ncurses5-compat-libs lib32-zlib lib32-ncurses lib32-readline
         tput setaf 3; echo "Installing Extra Dependencies" && sleep 3
-        tput setaf 2; sudo trizen -S ca-certificates-mozilla fakeroot make pkg-config maven tmux screen w3m ncftp yaourt
+        tput setaf 2; sudo yay -S ca-certificates-mozilla fakeroot make pkg-config maven tmux screen w3m ncftp yaourt
         tput setaf 2; yaourt -S neofetch aur/tilix 
         tput setaf 3; echo "Check & Reinstall Dependencies " && sleep 3
-        tput setaf 2; sudo trizen -S base-devel
+        tput setaf 2; sudo yay -S base-devel
         tput setaf 3; echo "Disable PGP checking from AUR" && sleep 3
         export MAKEPKG="makepkg --skippgpcheck"
         tput setaf 2;

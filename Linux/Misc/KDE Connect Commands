@@ -1,0 +1,11 @@
+------------------------
+| KDE Connect Commands |
+------------------------
+Brightness Down  || qdbus org.kde.Solid.PowerManagement /org/kde/Solid/PowerManagement/Actions/BrightnessControl org.kde.Solid.PowerManagement.Actions.BrightnessControl.setBrightness $(expr $(qdbus org.kde.Solid.PowerManagement /org/kde/Solid/PowerManagement/Actions/BrightnessControl org.kde.Solid.PowerManagement.Actions.BrightnessControl.brightness) - 375)
+Brightness Up    || qdbus org.kde.Solid.PowerManagement /org/kde/Solid/PowerManagement/Actions/BrightnessControl org.kde.Solid.PowerManagement.Actions.BrightnessControl.setBrightness $(expr $(qdbus org.kde.Solid.PowerManagement /org/kde/Solid/PowerManagement/Actions/BrightnessControl org.kde.Solid.PowerManagement.Actions.BrightnessControl.brightness) + 375)
+Build crDroid    || konsole -e '/home/matt/Github/Scripts/Linux/ROMs/crd_rom'
+Performance Mode || konsole -e 'echo "performance" | sudo tee /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor'
+Screen Lock      || loginctl lock-session
+Screen Unlock    || loginctl unlock-session
+Terminal         || konsole
+Watch Ccache     || konsole -e '/home/matt/Github/Scripts/Linux/ROMs/cache'

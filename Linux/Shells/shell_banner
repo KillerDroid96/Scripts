@@ -87,9 +87,9 @@ function cpuUsage() {
 }
 
 function diskUsage() {
-    USED=$( df -h | grep -m 1 /dev/nvme0n1p6 | awk '{print $3}' )
-    ALL=$( df -h | grep -m 1 /dev/nvme0n1p6 | awk '{print $2}' )
-    PERCENT=$( df -h | grep -m 1 /dev/nvme0n1p6 | awk '{print $5}' )
+    USED=$( df -h | grep -m 1 /dev/nvme0n1p7 | awk '{print $3}' )
+    ALL=$( df -h | grep -m 1 /dev/nvme0n1p7 | awk '{print $2}' )
+    PERCENT=$( df -h | grep -m 1 /dev/nvme0n1p7 | awk '{print $5}' )
 
     echo "${USED} / ${ALL} (${PERCENT})"
 }

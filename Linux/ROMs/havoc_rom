@@ -36,7 +36,7 @@ function mkavenv {
 
 # Remove virtual environment
 function rmvenv {
-    deactivate
+    #deactivate
     rm -rf "${HOME}/venv"
 }
 

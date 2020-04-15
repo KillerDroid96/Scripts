@@ -71,11 +71,11 @@ if ask "Update System?"; then
     tput setaf 5; echo "Updating System"
     sudo pacman -Syyu --quiet --noconfirm
     tput setaf 2; echo "Installing AUR Package Manager" 
-    cd && git clone https://aur.archlinux.org/trizen-git.git 
-    cd trizen-git && makepkg -si && cd
-    sudo rm -r trizen-git
+    cd && git clone https://aur.archlinux.org/yay-git.git 
+    cd yay-git && makepkg -si && cd
+    sudo rm -r yay-git
     clear
-    trizen -Syyu --quiet --noconfirm --noedit --needed
+    yay -Syyu --quiet --noconfirm --noeditmenumenu --needed
     tput setaf 2
     echo ""
     echo "System Update Complete"
@@ -136,7 +136,8 @@ tput setaf 31
     echo "===================================================="   
 if ask "Install My Additional Packages?"; then  
     tput setaf 31; echo "Installing Addition Packages"
-    trizen -Syyu --quiet --noconfirm --noedit --needed acpi apg alsi angrysearch auracle aview bc bcompare chromium climate cmatrix cylon figlet fsearch-git gdrive googler glances gnome-screenshot hollywood htop jp2a neofetch osc-url pamac qdirstat-git rar rig screenfetch spotify telegram-desktop tilix w3m yakuake zerofree
+    sudo pacman -S yay
+    yay -Syyu --quiet --noconfirm --noeditmenu --needed acpi apg alsi angrysearch auracle aview bc bcompare chromium climate cmatrix cylon figlet fsearch-git gdrive googler glances gnome-screenshot hollywood htop jp2a neofetch osc-url pamac qdirstat-git rar rig screenfetch spotify telegram-desktop tilix w3m yakuake zerofree
     tput setaf 2
     echo ""
     echo "Additional Packages Install Complete"
@@ -152,14 +153,14 @@ if
     tput setaf 2
     ask "Install Android Build Dependencies?"; then
     echo "Installing Android Dependencies" && sleep 3
-    trizen -S make multilib-devel --noconfirm
-    trizen -Syyu --needed --quiet --noedit --noconfirm aosp-devel base-devel lineageos-devel jdk8-openjdk
+    yay -S make multilib-devel --noconfirm
+    yay -Syyu --needed --quiet --noeditmenu --noconfirm aosp-devel base-devel lineageos-devel jdk8-openjdk
     echo "Disable PGP checking from AUR" && sleep 3
     export MAKEPKG="makepkg --skippgpcheck"
     tput setaf 2;
-    trizen -S --needed --quiet libtinfo --skipinteg --noconfirm 
-    trizen -S --needed --quiet lib32-ncurses5-compat-libs --skipinteg --noconfirm 
-    trizen -S --needed --quiet ncurses5-compat-libs --skipinteg --noconfirm
+    yay -S --needed --quiet libtinfo --skipinteg --noconfirm 
+    yay -S --needed --quiet lib32-ncurses5-compat-libs --skipinteg --noconfirm 
+    yay -S --needed --quiet ncurses5-compat-libs --skipinteg --noconfirm
     tput setaf 2
     echo ""
     echo "Android Setup Complete"
@@ -182,9 +183,10 @@ elif
     ask "Setup Build for crDroid Android 10.0?"; then
     mkdir ~/Github/CRD
     cd ~/Github/CRD
+    yay -S bc bison build-essential ccache curl flex g++-multilib gcc-multilib git gnupg gperf imagemagick lib32ncurses5-dev lib32readline-dev lib32z1-dev liblz4-tool libncurses5 libncurses5-dev libsdl1.2-dev libssl-dev libwxgtk3.0-dev libxml2 libxml2-utils lzop pngcrush rsync schedtool squashfs-tools xsltproc zip zlib1g-dev 
     virtualenv2 venv
     source venv/bin/activate
-    repo init -u http://github.com/crdroidandroid/android_manifest.git -b 10.0
+    repo init -u http://github.com/crdroidandroid/android.git -b 10.0
     mkdir ~/Github/CRD/.repo/local_manifests
     cp ~/Github/Scripts/Linux/Files/crd_manifest.xml ~/Github/CRD/local_manifests/roomservice.xml
     repo sync --force-sync -j$( nproc --all )
@@ -258,19 +260,19 @@ read display
 case $display in
 1|KDE|kde)
     echo "Installing KDE"
-    trizen -Syu --needed --quiet --noedit --noconfirm plasma plasma-desktop kde-appllications powerdevil
+    yay -Syu --needed --quiet --noeditmenu --noconfirm plasma plasma-desktop kde-applications powerdevil
     sudo systemctl enable sddm.service
     pause
 ;;
 2|Gnome)
     echo "Installing Gnome"
-    trizen -Syu --needed --quiet --noedit --noconfirm gnome gnome-extra gnome-tweak-tool
+    yay -Syu --needed --quiet --noeditmenu --noconfirm gnome gnome-extra gnome-tweak-tool
     sudo systemctl enable gdm.service
     pause
 ;;
 3|Xfce)
     echo "Installing Xfce"
-    trizen -Syu --needed --quiet --noedit --noconfirm xfce4 xfce4-goodies mousepad menulibre xfce4-pulseaudio-plugin lightdm-devel
+    yay -Syu --needed --quiet --noeditmenu --noconfirm xfce4 xfce4-goodies mousepad menulibre xfce4-pulseaudio-plugin lightdm-devel
     sudo systemctl enable lightdm.service
     pause   
 ;;
