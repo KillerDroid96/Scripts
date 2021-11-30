@@ -1,0 +1,6 @@
+#!/bin/bash
+tput setaf 2
+echo "=================="
+echo "|  Stoping SSH  |"
+echo "=================="
+sudo systemctl stop sshd.service

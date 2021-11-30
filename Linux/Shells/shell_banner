@@ -2,7 +2,7 @@
 #
 # MOTD for a server
 # 
-# Copyright (C) 2018 Matthew Keller <KillerDroid96@gmail.com>
+# Copyright (C) 2018-2022 Matthew Keller <KillerDroid96@gmail.com>
 # Weather function taken from neofetch and adapted
 #
 # Copyright (C) 2017 Nathan Chancellor
@@ -86,18 +86,18 @@ function cpuUsage() {
         echo $( grep 'cpu ' /proc/stat | awk '{usage=($2+$4)*100/($2+$4+$5)} END {printf "%.2g%\n", usage}' )
 }
 
-function diskUsage() {
-    USED=$( df -h | grep -m 1 /dev/nvme0n1p7 | awk '{print $3}' )
-    ALL=$( df -h | grep -m 1 /dev/nvme0n1p7 | awk '{print $2}' )
-    PERCENT=$( df -h | grep -m 1 /dev/nvme0n1p7 | awk '{print $5}' )
+function diskRootUsage() {
+    USED=$( df -h | grep -m 1 /dev/sda3 | awk '{print $3}' )
+    ALL=$( df -h | grep -m 1 /dev/sda3 | awk '{print $2}' )
+    PERCENT=$( df -h | grep -m 1 /dev/sda3 | awk '{print $5}' )
 
     echo "${USED} / ${ALL} (${PERCENT})"
 }
 
-function diskUsage1() {
-    USED=$( df -h | grep -m 1 /dev/nvme0n1p5 | awk '{print $3}' )
-    ALL=$( df -h | grep -m 1 /dev/nvme0n1p5 | awk '{print $2}' )
-    PERCENT=$( df -h | grep -m 1 /dev/nvme0n1p5 | awk '{print $5}' )
+function diskHomeUsage() {
+    USED=$( df -h | grep -m 1 /dev/sda1 | awk '{print $3}' )
+    ALL=$( df -h | grep -m 1 /dev/sda1 | awk '{print $2}' )
+    PERCENT=$( df -h | grep -m 1 /dev/sda1 | awk '{print $5}' )
 
     echo "${USED} / ${ALL} (${PERCENT})"
 }
@@ -110,12 +110,14 @@ function upTime() {
 
 clear && echo -en "\e[3J"
 echo -e ${RED}""
-echo -e "     _____             _     _    ______               ";
-echo -e "    (____ \           (_)   | |  (____  \              ";
-echo -e "     _   \ \ ____ ___  _  _ | |   ____)  ) ___ _   _   ";
-echo -e "    | |   | / ___/ _ \| |/ || |  |  __  ( / _ ( \ / )  ";
-echo -e "    | |__/ | |  | |_| | ( (_| |  | |__)  | |_| ) X (   ";
-echo -e "    |_____/|_|   \___/|_|\____|  |______/ \___(_/ \_)  ";
+echo -e "                                                       ";
+echo -e "     ______                         ______             ";
+echo -e "    (_____ \                       (____  \            ";
+echo -e "     _____) )   _ _____ _____ ____  ____)  ) ___ _   _ ";
+echo -e "    |  __  / | | (___  ) ___ |  _ \|  __  ( / _ ( \ / )";
+echo -e "    | |  \ \ |_| |/ __/| ____| | | | |__)  ) |_| ) X ( ";
+echo -e "    |_|   |_\__  (_____)_____)_| |_|______/ \___(_/ \_)";
+echo -e "           (____/                                      ";
 echo -e "                                                       ";
 echo -e "    Uptime:" ${WHT}"$( upTime ) sec" ${RED}
 echo -e "    Todays Date:" ${WHT}"$( ( LC_ALL=C date "+%B %d, %Y (%A)" ) )" ${RED}
@@ -124,7 +126,7 @@ echo -e "    Operating System:" ${WHT}"$( source /etc/os-release; echo -e "${PRE
 echo -e "    Kernel Version:" ${WHT}"$( uname -r )" ${RED}
 echo -e "    Processor:" ${WHT}"$( cpu )" ${RED}
 echo -e "    Memory Usage:" ${WHT}"$( memUsage )" ${RED}
-echo -e "    Home Usage:" ${WHT}"$( diskUsage )" ${RED}
-echo -e "    Root Usage:" ${WHT}"$( diskUsage1 )" ${RED}
+echo -e "    Home Usage:" ${WHT}"$( diskRootUsage )" ${RED}
+#echo -e "    Root Usage:" ${WHT}"$( diskHomeUsage )" ${RED}
 echo -e "    CPU Usage:" ${WHT}"$( cpuUsage )" ${RED}
 echo -e "\033[0m"

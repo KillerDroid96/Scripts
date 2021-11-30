@@ -4,6 +4,65 @@
 # ALIASES #
 ###########
 
+# System (Quick Launch)
+alias {c,cls}='clear && echo -en "\e[3J"'                                                        # Clears Terminal
+alias r="reset"                                                                                  # Resets Terminal
+alias e="exit"                                                                                   # Exits Terminal
+alias hs='rehistory'                                			                                 # Recent Terminal History (Ex '!208' etc.. to repeat command)
+alias 000='chmod 000'                                                                            # Chmod Permissions
+alias 644='chmod 644'                                                                            # Chmod Permissions
+alias 755='chmod 755'                                                                            # Chmod Permissions
+alias {screenshot,ssa}="gnome-screenshot -a -i"         				                         # Screen-shot Selected Area on Gnome/KDE 
+alias {emptytrash,et}="rm -rf $HOME/Desktop/trash.desktop"                                       # Empties Trash
+alias {weather,wf}="forcast"							  				 	                     # Gives weather Report
+alias {lastroot,rr,lr}='sudo $(history | tail -n 2 | head -n 1 | sed -e "s/^[ ]*[0-9]*[ ]*//g")' # Executes the last command as root
+alias {sy,ys,iy}='yay -S'                                                                        # Install Package
+alias {ry,yr,un,remove,R}='yay -R'                                                               # Remove Package
+alias {u,us,uq,ud,upd,trizens,yays}='aur_updater'                                                # System Update
+alias {banner,shell_banner}='$HOME/Github/Scripts/Linux/Shells/shell_banner'                     # Displays Banner
+alias motd='/etc/profile.d/motd.sh'                                                              # Displays Banner
+alias perf='echo "performance" | sudo tee /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor' # Sets Perfomance Governor
+alias save='echo "powersave" | sudo tee /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor'   # Sets Power Saving Governor
+alias {usage,most,mostusage,space}='du -hsx * | sort -rh | head -10' 
+alias setfontb='setfont latarcyrheb-sun32'
+alias setfonth='setfont ter-i32n'
+
+# Network
+alias pings='ping google.com -c 5'                                                                # Pings Google
+alias {wifitest,speed,speedtest}="speedtest-cli"                                                 # WiFi Speed Test
+alias {myip,ipaddr}='myip'
+#alias ipconfig='ipconfig/all'
+
+# Directories
+alias p="pwd"                                        # Displays File Path
+alias ls="ls -a --color=auto"                        # Adds Color
+alias ll="ls -a --color --format=single-colum"       # Adds Color & Lists Hidden Directories
+alias la='ls -a'									 # Lists Hidden Directories
+alias lls='ls -a --color=auto --format=long'         # Adds Color & Lists Hidden Directories with
+alias lla='ls -la'									 # Lists Hidden Directories
+alias vls='ls -a --color=auto --format=single-colum' # Adds Color & Lists Directories Vertically
+alias tree="filetree"                                # List Directories in Tree Format
+alias grep='grep --color=auto'                       # Adds Color
+alias egrep='egrep --color=auto'                     # Adds Color
+alias fgrep='fgrep --color=auto'                     # Adds Color
+alias filetree="ls -R | grep ":$" | sed -e 's/:$//' -e 's/[^-][^\/]*\//--/g' -e 's/^/   /' -e 's/-/|/'"
+
+# Searching
+alias lf='locatef'                                   # Locates Folder/File
+alias find='grep -rl'                                # Finds Stuff
+alias locatef='wheres'                               # Finds Folder/File Location (Ex 'locate rom')
+
+# Development 
+alias n="nano"									                                  # Text Editor
+alias co="climate overview"						                                  # Climate Overview
+alias {buildu,dub,dud}="cl $HOME/Github/DU && source venv/bin/activate"	          # Venv into DU Build Directory
+alias {buildurom,bdr,bdu,op5t}="du_rom"                                           # Starts DU rom script
+alias {dulog,du_log,dul}=" cat $HOME/Github/DU/du_log.txt"                        # Reads DU Build Log
+alias {out,dumpling}="cl $HOME/Github/DU/out/target/product/dumpling/"		      # Moves to Out Directory for 5T
+alias {rs,reposync}="sync_repo" 											      # Syncs DU Repo
+alias {venv,venv2}="mkavenv"			                                          # Starts Venv2
+alias {crd,CRD}="cl $HOME/Github/CRD"
+
 # Git (Quick Launch)
 alias git='git --no-pager'
 alias gs='git status'
@@ -46,60 +105,16 @@ alias {editbashfunctions,ebf}='nano $HOME/Github/Scripts/Linux/Shells/shell_func
 alias {editbashpaths,ebp}='nano $HOME/Github/Scripts/Linux/Shells/shell_paths'			      # Edits Bash Paths
 alias {editbashprompts,ebpr}='nano $HOME/Github/Scripts/Linux/Shells/shell_prompts'           # Edits Bash Prompts
 
-# System (Quick Launch)
-alias {c,cls}='clear && echo -en "\e[3J"'                                                        # Clears Terminal
-alias r="reset"                                                                                  # Resets Terminal
-alias e="exit"                                                                                   # Exits Terminal
-alias sp="Spotify"                                                                               # Launches Spotify
-alias hs='rehistory'                                			                                 # Recent Terminal History (Ex '!208' etc.. to repeat command)
-alias fps='ps aux | grep'                         				                                 # Displays PID (Ex 'fps terminal')
-alias 000='chmod 000'                                                                            # Chmod Permissions
-alias 644='chmod 644'                                                                            # Chmod Permissions
-alias 755='chmod 755'                                                                            # Chmod Permissions
-alias {screenshot,ssa}="gnome-screenshot -a -i"         				                         # Screen-shot Selected Area on Gnome/KDE 
-alias {emptytrash,et}="rm -rf $HOME/Desktop/trash.desktop"                                       # Empties Trash
-alias {weather,wf}="forcast"							  				 	                     # Gives weather Report
-alias {lastroot,rr,lr}='sudo $(history | tail -n 2 | head -n 1 | sed -e "s/^[ ]*[0-9]*[ ]*//g")' # Executes the last command as root
-alias {trace,intercept}="sudo strace -ff -e trace=write -e write=1,2 -p"                         # Follow Forks With Output Into Separate Files
-alias it='trizen -S'                                       # Install Package
-alias iy='yay -S'                                                   # Install Package
-alias {un,remove,R}='trizen -R'                                                                  # Remove Package
-alias {u,us,uq,ud,upd,trizens,yays}='aur_updater'                                                # System Update
-alias {banner,shell_banner}='$HOME/Github/Scripts/Linux/Shells/shell_banner'                     # Displays Banner
-alias motd='/etc/profile.d/motd.sh'                                                              # Displays Banner
-alias ping='ping google.com -c 5'                                                                # Pings Google
-alias {wifitest,speed,speedtest}="speedtest-cli"                                                 # WiFi Speed Test
-alias perf='echo "performance" | sudo tee /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor' # Sets Perfomance Governor
-alias save='echo "powersave" | sudo tee /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor'   # Sets Power Saving Governor
-alias {usage,most,mostusage,space}='du -hsx * | sort -rh | head -10' 
-alias {myip,ip,ipaddr}='myip'
-alias setfontb='setfont latarcyrheb-sun32'
-alias setfonth='setfont ter-i32n'
-
-# Development 
-alias n="nano"									                                  # Text Editor
-alias co="climate overview"						                                  # Climate Overview
-alias {buildu,dub,dud}="cl $HOME/Github/DU && source venv/bin/activate"	          # Venv into DU Build Directory
-alias {buildurom,bdr,bdu,op5t}="du_rom"                                           # Starts DU rom script
-alias {dulog,du_log,dul}=" cat $HOME/Github/DU/du_log.txt"                        # Reads DU Build Log
-alias {out,dumpling}="cl $HOME/Github/DU/out/target/product/dumpling/"		      # Moves to Out Directory for 5T
-alias {rs,reposync}="sync_repo" 											      # Syncs DU Repo
-alias {venv,venv2}="mkavenv"			                                          # Starts Venv2
-alias {crd,CRD}="cl $HOME/Github/CRD"
-
 # SSH & Mosh
-alias {xps15}='ssh killerdroid96@droidbox'             
+alias {xps15}='ssh matt@droidbox'             
 alias {virtualboxmosh,vboxmosh,vbm,apm,archm,moshy,apm}='mosh matt@virtualbox'  # Mosh VirtualBox
 alias {virtualbox,vbox,vb,ap,arch,sshy}='ssh matt@virtualbox'                   # SSH VirtualBox
-alias {laptop,externalssd}='mosh killerdroid96@192.168.1.97'                    # Mosh External SSD
-alias {box,droidbox,server}='ssh killerdroid96@droidbox'                        # SSH Server
-alias {mbox,mdroidbox,mserver}='mosh killerdroid96@droidbox'                    # Mosh Server
 
 # Fun
 alias busy="cat /dev/urandom | hexdump -C | grep 'ca fe'"          # Busy Effect
 alias matrix="cmatrix"                                             # Matrix Effect 
 alias pipes="pipes.sh"                  				           # Pipes
-alias hollywood="hollywood"                                        # Hacking Scene
+alias {hack,hollywood}="hollywood"                                 # Hacking Scene
 alias {rig,id}="rig"
 alias {apg,password}="apg"
 
@@ -116,30 +131,13 @@ alias io='sudo iotop'                        # Sort by Disk Writes
 alias swap='swapon --show'                   # Shows Swap Space
 alias {trim,trim_disk,disk_trim}='trim_vbox' # Trims VDI to Free Space
 alias cmount="mount | column -t"             # Displays Filesystem Mounts
-alias disk1='pydf'				             # A Better Version of df 
+alias disk1='duf'				             # A Better Version of df 
 alias disk2='df -h'				             # Displays Mounted File Systems
 alias disk3='sudo fdisk -l'                  # Checks Partiitions
-alias disk4='sudo cfdisk' 				     # Linux Partition Editor GUI
+alias disk4='pydf' 				             # A Better Version of df
 alias disk5='sudo lsblk -f'                  # Displays Name, FS Type, Label, UUID & Mountpoint
 alias disk6='sudo smartctl -a /dev/sda1'     # Detailed Report & SMART Status
 alias disk7='sudo df -h --output=source,fstype,size,used,avail,pcent,target -x tmpfs -x devtmpfs'
-
-# Directories
-alias p="pwd"                                        # Displays File Path
-alias ls="ls -a --color=auto"                        # Adds Color
-alias ll="ls -a --color --format=single-colum"       # Adds Color & Lists Hidden Directories
-alias la='ls -a'									 # Lists Hidden Directories
-alias lf='locatef'                                   # Locates Folder/File
-alias lls='ls -a --color=auto --format=long'         # Adds Color & Lists Hidden Directories with
-alias lla='ls -la'									 # Lists Hidden Directories
-alias vls='ls -a --color=auto --format=single-colum' # Adds Color & Lists Directories Vertically
-alias tree="filetree"                                # List Directories in Tree Format
-alias find='grep -rl'                                # Finds Stuff
-alias grep='grep --color=auto'                       # Adds Color
-alias egrep='egrep --color=auto'                     # Adds Color
-alias fgrep='fgrep --color=auto'                     # Adds Color
-alias locatef='wheres'                               # Finds Folder/File Location (Ex 'locate rom')
-alias filetree="ls -R | grep ":$" | sed -e 's/:$//' -e 's/[^-][^\/]*\//--/g' -e 's/^/   /' -e 's/-/|/'"
 
 # Arch Linux Paths
 alias build="clv $HOME/Github/CRD"

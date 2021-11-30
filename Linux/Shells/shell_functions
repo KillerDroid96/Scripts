@@ -9,8 +9,53 @@
 source $HOME/Github/Scripts/Linux/Shells/shell_colors
 
 #####################
-# SYSYTEM FUNCTIONS #
+# NETWORK FUNCTIONS #
 #####################
+
+function network() {
+    echo '[Network Commands]
+System:
+    ifconfig
+    nmcli (example: nmcli dev show wlp2s0)
+    ping (example: ping google.com -c 5)
+Functions:
+    ipconfig, ipconfig/all
+    myip,ip,ipaddr
+    ipif  
+    pings
+    wifitest,speed,speedtest'
+}
+
+function ipconfig/all() {
+    #nmcli --show-secrets connection show "UnknownMeshNetwork"'
+    #nmcli dev status
+    nmcli dev show enp0s3
+}
+
+function myip()
+{
+    #extIp=$(dig +short myip.opendns.com @resolver1.opendns.com)
+
+    printf "Wireless IP: "
+    MY_IP=$(/sbin/ifconfig enp0s3 | awk '/inet/ { print $2 } ' |
+      sed -e s/addr://)
+    echo ${MY_IP:-"Not connected"}
+}
+
+# lists ip, hostname, city, region, country, loc, org, postal
+function ipif() {
+    if grep -P "(([1-9]\d{0,2})\.){3}(?2)" <<< "$1"; then
+    curl ipinfo.io/"$1"
+    else
+    #ipawk=($(host "$1" | awk '/address/ { print $NF }'))
+    curl ipinfo.io/${ipawk[1]}
+    fi
+    echo
+}
+
+####################
+# SYSTEM FUNCTIONS #
+####################
 
 function infos(){
     alsi
@@ -18,24 +63,34 @@ function infos(){
 }
 
 function aur_updater(){
-    select yn in "Yay" "Trizen" "Exit"; do
-        case $yn in
-            Yay ) header "Updating System"
-                  sudo pacman -Scc #Clears cache
-                  echo -e "";
-                  echo -e "Pacman command: yay -Syyu --needed --noconfirm --quiet";
-                  echo -e "";
-                  yay -Syyu --needed --noconfirm --quiet
-                  header "System Update Complete"
-                  break;;
-            Trizen ) header "Updating System"
-                     trizen -Syyu --quiet --noconfirm --noedit --needed
-                     header "System Update Complete"
-                     break;;
-            Exit ) break;;
-        esac
-    done
+    header "Updating System"
+    sudo pacman -Scc #Clears cache
+    echo -e "";
+    echo -e "${RED}Pacman command:${WHT} yay -Syyu --needed --noconfirm --quiet";
+    echo -e "";
+    yay -Syyu --needed --noconfirm --quiet
+    header "System Update Complete"
 }
+
+#function aur_updater(){
+#    select yn in "Yay" "Trizen" "Exit"; do
+#        case $yn in
+#            Yay ) header "Updating System"
+#                  sudo pacman -Scc #Clears cache
+#                  echo -e "";
+#                  echo -e "Pacman command: yay -Syyu --needed --noconfirm --quiet";
+#                  echo -e "";
+#                  yay -Syyu --needed --noconfirm --quiet
+#                  header "System Update Complete"
+#                  break;;
+#            Trizen ) header "Updating System"
+#                     trizen -Syyu --quiet --noconfirm --noedit --needed
+#                     header "System Update Complete"
+#                     break;;
+#            Exit ) break;;
+#        esac
+#    done
+#}
 
 function prompts(){
     select yn in "clean" "fancy" "info" "simple" "new" "git" "func" "exit"; do
@@ -84,26 +139,6 @@ function extract () {
         fi
 }
 
-function myip()
-{
-    #extIp=$(dig +short myip.opendns.com @resolver1.opendns.com)
-
-    printf "Wireless IP: "
-    MY_IP=$(/sbin/ifconfig wlp2s0 | awk '/inet/ { print $2 } ' |
-      sed -e s/addr://)
-    echo ${MY_IP:-"Not connected"}
-}
-
-# lists ip, hostname, city, region, country, loc, org, postal
-function ipif() {
-    if grep -P "(([1-9]\d{0,2})\.){3}(?2)" <<< "$1"; then
-    curl ipinfo.io/"$1"
-    else
-    ipawk=($(host "$1" | awk '/address/ { print $NF }'))
-    curl ipinfo.io/${ipawk[1]}
-    fi
-    echo
-}
 
 # Will create [file].bak in the same directory
 function backup() { 
@@ -452,14 +487,14 @@ function lists() {
     alias
 }
 
-function shopts() {         # Sets Shell Options
+#function shopts() {         # Sets Shell Options
     shopt -s cdspell        # This will correct minor spelling errors in a cd command.
     shopt -s histappend     # Append to history rather than overwrite
     shopt -s checkwinsize   # Check window after each command
     shopt -s dotglob        # files beginning with . to be returned in the results of path-name expansion.
     shopt -s no_empty_cmd_completion # Disable completion when the input buffer is empty
     shopt -s 
-}
+#}
 
 # Install speedtest-cli
 function downlsppedtest (){

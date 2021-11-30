@@ -1,5 +1,5 @@
 #
-# ~/.bashrc
+# ~/.zshrc
 #
 #
 # Shell is non-interactive. Be done now!
@@ -11,9 +11,9 @@ if [ -f $HOME/Github/Scripts/Linux/Shells/shell_sources ]; then
    source $HOME/Github/Scripts/Linux/Shells/shell_sources
 fi
 
-source $HOME/Github/Scripts/Linux/Shells/.bashrc
+source $HOME/Github/Scripts/Linux/Shells/.zshrc
 #=================================================================
-# Replace .bashrc with this file and rename to .bashrc
-# Add .bashrc changes to $HOME/Github/Scripts/Linux/Shells/.bashrc 
-# This keeps script folder .bashrc changes up to date 
+# Replace .zshrc with this file and rename to .zshrc
+# Add .zshrc changes to $HOME/Github/Scripts/Linux/Shells/.zshrc 
+# This keeps script folder .zshrc changes up to date 
 #=================================================================

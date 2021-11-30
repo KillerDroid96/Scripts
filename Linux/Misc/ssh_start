@@ -3,6 +3,9 @@ tput setaf 2
 echo "=================="
 echo "|  Starting SSH  |"
 echo "=================="
-sudo systemctl start sshd.service
+#sudo systemctl start sshd.service
 #ssh matt@192.168.43.158
-ssh matt@droidbox
+#ssh matt@xpsbox
+sudo systemctl enable sshd
+sudo systemctl start sshd
+#sudo systemctl restart sshd
