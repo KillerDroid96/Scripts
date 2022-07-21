@@ -3,12 +3,12 @@
 # Scripts
 - - - -
 ## Setup 
-     mkdir $HOME/Github && cd $HOME/Github && git clone https://github.com/KillerDroid96/Scripts.git && cd Scripts
+     mkdir $HOME/Github && cd $HOME/Github && git clone git@github.com:KillerDroid96/Scripts.git && cd Scripts
   OR
   
      mkdir $HOME/Github
      cd $HOME/Github
-     git clone https://github.com/KillerDroid96/Scripts.git
+     git clone git@github.com:KillerDroid96/Scripts.git
      cd $HOME/Github/Scripts
 - - - -
 ## Installation
