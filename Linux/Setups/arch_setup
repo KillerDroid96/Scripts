@@ -217,8 +217,12 @@ fi
 6|add_zshrc)
 tput setaf 34
 if ask "Add .zshrc Changes?"; then
+    sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+    git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+    git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
     cp -b $HOME/.zshrc $HOME/.zshrc.bak
     cp -b $HOME/Github/Scripts/Linux/Shells/.zshrc_redirect $HOME/.zshrc
+    cp -b $HOME/Github/Scripts/Linux/Files/cybergnzh.zsh-theme $HOME/.oh-my-zsh/themes/
     source ~/.zshrc && touch "$HOME/.zshhrc"
     tput setaf 2
     echo ""
