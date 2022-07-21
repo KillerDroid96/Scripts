@@ -13,7 +13,7 @@ alias 000='chmod 000'                                                           
 alias 644='chmod 644'                                                                            # Chmod Permissions
 alias 755='chmod 755'                                                                            # Chmod Permissions
 alias {screenshot,ssa}="gnome-screenshot -a -i"         				                         # Screen-shot Selected Area on Gnome/KDE 
-alias {emptytrash,et}="rm -rf $HOME/Desktop/trash.desktop"                                       # Empties Trash
+alias {emptytrashosf,et}="rm -rf $HOME/Desktop/trash.desktop"                                       # Empties Trash
 alias {weather,wf}="forcast"							  				 	                     # Gives weather Report
 alias {lastroot,rr,lr}='sudo $(history | tail -n 2 | head -n 1 | sed -e "s/^[ ]*[0-9]*[ ]*//g")' # Executes the last command as root
 alias {sy,ys,iy}='yay -S'                                                                        # Install Package
@@ -29,7 +29,7 @@ alias setfonth='setfont ter-i32n'
 
 # Network
 alias pings='ping google.com -c 5'                                                                # Pings Google
-alias {wifitest,speed,speedtest}="speedtest-cli"                                                 # WiFi Speed Test
+alias {wifitest,speed,speedtest}="speedtest-cli"                                                  # WiFi Speed Test
 alias {myip,ipaddr}='myip'
 #alias ipconfig='ipconfig/all'
 

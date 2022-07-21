@@ -65,14 +65,17 @@ function infos(){
 function aur_updater(){
     header "Updating System"
     sudo pacman -Scc #Clears cache
+    sudo pacman-key --populate archlinux
     echo -e "";
-    echo -e "${RED}Pacman command:${WHT} yay -Syyu --needed --noconfirm --quiet";
+    #echo -e "${RED}Pacman command:${WHT} yay -Syyu --needed --noconfirm --quiet";
+    echo -e "${RED}Pacman command:${WHT} pacman -Syyu --needed --noconfirm --quiet";
     echo -e "";
-    yay -Syyu --needed --noconfirm --quiet
+    sudo pacman -Syyu --needed --noconfirm --quiet
+    #yay -Syyu --needed --noconfirm --quiet
     header "System Update Complete"
 }
 
-#function aur_updater(){
+# function aur_updater(){
 #    select yn in "Yay" "Trizen" "Exit"; do
 #        case $yn in
 #            Yay ) header "Updating System"
@@ -90,7 +93,7 @@ function aur_updater(){
 #            Exit ) break;;
 #        esac
 #    done
-#}
+# }
 
 function prompts(){
     select yn in "clean" "fancy" "info" "simple" "new" "git" "func" "exit"; do

@@ -54,10 +54,11 @@ tput setaf 38
     echo "|  [3] Install Packages      |"
     echo "|  [4] Setup Android         |"
     echo "|  [5] Add .bashrc Changes   |"
-    echo "|  [6] Add SSH Changes       |"
-    echo "|  [7] Add Neofetch Changes  |"
-    echo "|  [8] Install Desktop Env   |"
-    echo "|  [9] Show Display Manager  |"
+    echo "|  [6] Add .zshrc Changes    |"
+    echo "|  [7] Add SSH Changes       |"
+    echo "|  [8] Add Neofetch Changes  |"
+    echo "|  [9] Install Desktop Env   |"
+    echo "|  [10] Show Display Manager |"
     echo "|  [a] About                 |"
     echo "|  [h] Help                  |"
     echo "|  [e] Exit                  |"
@@ -213,7 +214,23 @@ else
 fi
 ;;
 
-6|add_sshd)
+6|add_zshrc)
+tput setaf 34
+if ask "Add .zshrc Changes?"; then
+    cp -b $HOME/.zshrc $HOME/.zshrc.bak
+    cp -b $HOME/Github/Scripts/Linux/Shells/.zshrc_redirect $HOME/.zshrc
+    source ~/.zshrc && touch "$HOME/.zshhrc"
+    tput setaf 2
+    echo ""
+    echo ".zshrc Changes Complete"
+    echo "" 
+    pause
+else
+    echo "No"
+fi
+;;
+
+7|add_sshd)
 tput setaf 35
 # Default to Yes if the user presses enter without giving an answer:
 if ask "Add sshd_config Changes?" Y; then
@@ -228,7 +245,7 @@ else
 fi
 ;;
 
-7|add_neofetch)
+8|add_neofetch)
 tput setaf 36
 if ask "Add Neofetch Config?" Y; then
     cp Github/Scripts/Files/neofetch ~/.config/neofetch/config
@@ -242,7 +259,7 @@ else
 fi
 ;;
 
-8|dm)
+9|dm)
 if ask "Show Desktop Environments?" Y; then
 clear
 echo "===================="
@@ -292,7 +309,7 @@ else
 fi
 ;;
 
-9|what_dm)
+10|what_dm)
 tput setaf 37
 if ask "Show Display Manager?" Y; then
 file /etc/systemd/system/display-manager.service &> $HOME/Github/arch_setup.log 

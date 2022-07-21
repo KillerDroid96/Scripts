@@ -127,7 +127,7 @@ source $ZSH/oh-my-zsh.sh
 #HISTFILE=~/.histfile
 #HISTFILE=~/.zsh_history
 #HISTSIZE=1000
-#SAVEHIST=1000
+#SAVEHIST=1000histo
 setopt SHARE_HISTORY
 setopt APPEND_HISTORY
 
