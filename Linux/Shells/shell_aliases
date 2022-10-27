@@ -7,10 +7,10 @@
 # System
 alias setfontb='setfont latarcyrheb-sun32'
 alias setfonth='setfont ter-i32n'
-alias {emptytrashosf,et}="rm -rf $HOME/Desktop/trash.desktop"                                    # Empties Trash
+alias {emptytrashosf,et}='rm -rf $HOME/Desktop/trash.desktop'                                    # Empties Trash
 alias {c,cls}='clear && echo -en "\e[3J"'                                                        # Clears Terminal
-alias r="reset"                                                                                  # Resets Terminal
-alias e="exit"                                                                                   # Exits Terminal
+alias r='reset'                                                                                  # Resets Terminal
+alias e='exit'                                                                                   # Exits Terminal
 alias hs='rehistory'                                			                                 # Recent Terminal History (Ex '!208' etc.. to repeat command)
 alias {sy,ys,iy,iyay,yayi}='yay -S'                                                              # Install Package
 alias {ry,yr}='yay -R'                                                                           # Remove Package
@@ -24,16 +24,16 @@ alias rebootsafe='sudo shutdown -r now'
 alias rebootforce='sudo shutdown -r -n now'
 
 # Tools
-alias {screenshot,ssa}="spectacle -brc"         				                                 # Screen-shot Selected Area on KDE 
-alias {weather,wf}="forcast"							  				 	                     # Gives weather Report
+alias {screenshot,ssa}='spectacle -brc'         				                                 # Screen-shot Selected Area on KDE 
+alias {weather,wf}='forcast'							  				 	                     # Gives weather Report
 alias perf='echo "performance" | sudo tee /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor' # Sets Perfomance Governor
 alias psave='echo "powersave" | sudo tee /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor'  # Sets Power Saving Governor
 alias {usage,most,mostusage,space}='du -hsx * | sort -rh | head -10'                             # Folder size
-alias co="climate overview"						                                                 # Climate Overview
+alias co='climate overview'						                                                 # Climate Overview
 
 # Network
 alias {pings,pingg}='ping google.com -c 5'                                                        # Pings Google
-alias {wifitest,speed,speedtest}="speedtest-cli"                                                  # WiFi Speed Test
+alias {wifitest,speed,speedtest}='speedtest-cli'                                                  # WiFi Speed Test
 alias {myip,ipaddr,ipinfo}='ipif'                                                                 # IP Information
 alias {ipconfig,allip,connections}='ipconfig/all'                                                 # IP Connections
 alias {vpnc,cvpn,nordc}='nordvpn connect' 													      # Connect Nord VPN
@@ -42,19 +42,18 @@ alias {vpnm,mvpn,vpnmenu}='vpn_menu'   												              # Menu Nord VPN
 alias {xps15}='ssh matt@droidbox'             													  # SSH XPS15
 alias {virtualboxmosh,vboxmosh,vbm,apm,archm,moshy,apm}='mosh matt@virtualbox'                    # Mosh VirtualBox
 alias {virtualbox,vbox,vb,ap,arch,sshy}='ssh matt@virtualbox'                                     # SSH VirtualBox
-alias ipview="netstat -anpl | grep :80 | awk {'print \$5'} | cut -d\":\" -f1 | sort | uniq -c | sort -n | sed -e 's/^ *//' -e 's/ *\$//'"
+alias ipview='netstat -anpl | grep :80 | awk {'print \$5'} | cut -d\":\" -f1 | sort | uniq -c | sort -n | sed -e 's/^ *//' -e 's/ *\$//''
 alias openports='netstat -nape --inet' # Show open ports
 
-
 # Directories
-alias p="pwd"                                        # Displays File Path
-alias ls="ls -a --color=auto"                        # Adds Color
-alias ll="ls -a --color --format=single-colum"       # Adds Color & Lists Hidden Directories
+alias p='pwd'                                        # Displays File Path
+alias ls='ls -a --color=auto'                        # Adds Color
+alias ll='ls -a --color --format=single-colum'       # Adds Color & Lists Hidden Directories
 alias la='ls -a'									 # Lists Hidden Directories
 alias lls='ls -a --color=auto --format=long'         # Adds Color & Lists Hidden Directories with
 alias lla='ls -la'									 # Lists Hidden Directories
 alias vls='ls -a --color=auto --format=single-colum' # Adds Color & Lists Directories Vertically
-alias {tree,structure}="filetree"                    # List Directories in Tree Format
+alias {tree,structure}='filetree'                    # List Directories in Tree Format
 alias {trees,treez}='sudo tree -afN'                 # List Directories & Files in Tree Format
 alias grep='grep --color=auto'                       # Adds Color To Greo
 alias egrep='egrep --color=auto'                     # Adds Color To Egrep
@@ -66,14 +65,14 @@ alias find='grep -rl'                                # Finds Stuff
 alias locatef='wheres'                               # Finds Folder/File Location (Ex 'locate rom')
 
 # Development 
-alias n="nano"									                                  # Text Editor
-alias {buildu,dub,dud}="cl $HOME/Github/DU && source venv/bin/activate"	          # Venv into DU Build Directory
-alias {buildurom,bdr,bdu,op5t}="du_rom"                                           # Starts DU rom script
-alias {dulog,du_log,dul}=" cat $HOME/Github/DU/du_log.txt"                        # Reads DU Build Log
-alias {out,dumpling}="cl $HOME/Github/DU/out/target/product/dumpling/"		      # Moves to Out Directory for 5T
-alias {rs,reposync}="sync_repo" 											      # Syncs DU Repo
-alias {venv,venv2}="mkavenv"			                                          # Starts Venv2
-alias {crd,CRD}="cl $HOME/Github/CRD"
+alias n='nano'									                                  # Text Editor
+alias {buildu,dub,dud}='cl $HOME/Github/DU && source venv/bin/activate'	          # Venv into DU Build Directory
+alias {buildurom,bdr,bdu,op5t}='du_rom'                                           # Starts DU rom script
+alias {dulog,du_log,dul}=' cat $HOME/Github/DU/du_log.txt'                        # Reads DU Build Log
+alias {out,dumpling}='cl $HOME/Github/DU/out/target/product/dumpling/'		      # Moves to Out Directory for 5T
+alias {rs,reposync}='sync_repo' 											      # Syncs DU Repo
+alias {venv,venv2}='mkavenv'			                                          # Starts Venv2
+alias {crd,CRD}='cl $HOME/Github/CRD'
 
 # Git (Quick Launch)
 alias git='git --no-pager'
@@ -86,7 +85,7 @@ alias ga='git add'
 alias gaa='git add --all'    
 alias gac='git add && git commit'
 alias gaac='git add --all && git commit'
-alias {gacp,gl,glazy}='git add --all && git commit -m update && git push'
+alias {gacp,gl,glazy}='git add --all && git commit -m Update && git push'
 alias gitlog='git log --pretty=oneline'
 alias gps='git push'
 alias gpl='git pull'
@@ -119,20 +118,20 @@ alias {editbashpaths,ebp}='nano $HOME/Github/Scripts/Linux/Shells/shell_paths'		
 alias {editbashprompts,ebpr}='nano $HOME/Github/Scripts/Linux/Shells/shell_prompts'           # Edits Bash Prompts
 
 # Fun
-alias busy="cat /dev/urandom | hexdump -C | grep 'ca fe'"          # Busy Effect
-alias matrix="cmatrix"                                             # Matrix Effect 
-alias pipes="pipes.sh"                  				           # Pipes
-alias {hack,hollywood}="hollywood"                                 # Hacking Scene
-alias {rig,id}="rig"
-alias {apg,password}="apg"
+alias busy='cat /dev/urandom | hexdump -C | grep 'ca fe''          # Busy Effect
+alias matrix='cmatrix'                                             # Matrix Effect 
+alias pipes='pipes.sh'                  				           # Pipes
+alias {hack,hollywood}='hollywood'                                 # Hacking Scene
+alias {rig,id}='rig'
+alias {apg,password}='apg'
 
 # Spotify (Needs AUR playerctl and spotify)
-alias st="playerctl play-pause"
-alias play="playerctl play"
-alias pause="playerctl pause"
-alias next="playerctl next"
-alias previous="playerctl previous"
-alias stop="playerctl stop"
+alias st='playerctl play-pause'
+alias play='playerctl play'
+alias pause='playerctl pause'
+alias next='playerctl next'
+alias previous='playerctl previous'
+alias stop='playerctl stop'
 
 # alias chmod commands
 alias mx='chmod a+x'
@@ -146,7 +145,7 @@ alias 777='chmod -R 777'
 alias io='sudo iotop'                        # Sort by Disk Writes
 alias swap='swapon --show'                   # Shows Swap Space
 alias {trim,trim_disk,disk_trim}='trim_vbox' # Trims VDI to Free Space
-alias cmount="mount | column -t"             # Displays Filesystem Mounts
+alias cmount='mount | column -t'             # Displays Filesystem Mounts
 alias disk1='duf'				             # A Better Version of df 
 alias disk2='df -h'				             # Displays Mounted File Systems
 alias disk3='sudo fdisk -l'                  # Checks Partiitions
@@ -156,23 +155,23 @@ alias disk6='sudo smartctl -a /dev/sda1'     # Detailed Report & SMART Status
 alias disk7='sudo df -h --output=source,fstype,size,used,avail,pcent,target -x tmpfs -x devtmpfs'
 
 # Arch Linux Paths
-alias build="clv $HOME/Github/CRD"
-alias downloads="clv $HOME/Downloads"
-alias files="clv $HOME/Github/Scripts/Linux/Files"
-alias github="clv $HOME/Github"
-alias linux="clv $HOME/Github/Scripts/Linux"
-alias roms="clv $HOME/Github/Scripts/Linux/ROMs"
-alias scripts="clv $HOME/Github/Scripts"
-alias {shells,shellfiles,bashfiles}="clv $HOME/Github/Scripts/Linux/Shells/"
-alias setups="cl $HOME/Github/Scripts/Linux/Setups"
+alias build='clv $HOME/Github/CRD'
+alias downloads='clv $HOME/Downloads'
+alias files='clv $HOME/Github/Scripts/Linux/Files'
+alias github='clv $HOME/Github'
+alias linux='clv $HOME/Github/Scripts/Linux'
+alias roms='clv $HOME/Github/Scripts/Linux/ROMs'
+alias scripts='clv $HOME/Github/Scripts'
+alias {shells,shellfiles,bashfiles}='clv $HOME/Github/Scripts/Linux/Shells/'
+alias setups='cl $HOME/Github/Scripts/Linux/Setups'
 
 # Windows 10 Paths (Place w infront of usual commands)
-alias cygwin="cl C:/Toolchains/cygwin64"
-alias msys="cl C:/Toolchains/msys64"
-alias code="cl C:/Users/mkell/Desktop/Coding/C_&_C++"
-alias wcoding="c C:/Users/mkell/Desktop/Coding"
-alias wscripts="c C:/Users/mkell/Desktop/Coding/Github/Scripts"
-alias wlinux="cl C:/Users/mkell/Desktop/Coding/Scripts/Github/Linux"
-alias wfiles="cl C:/Users/mkell/Desktop/Coding/Scripts/Github/Files"
-alias wroms="cl C:/Users/mkell/Desktop/Coding/Scripts/Github/ROMs"
-alias wbl="C:/Users/mkell/Desktop/Coding/Scripts/Github/Linux/bashlist"
+alias cygwin='cl C:/Toolchains/cygwin64'
+alias msys='cl C:/Toolchains/msys64'
+alias code='cl C:/Users/mkell/Desktop/Coding/C_&_C++'
+alias wcoding='c C:/Users/mkell/Desktop/Coding'
+alias wscripts='c C:/Users/mkell/Desktop/Coding/Github/Scripts'
+alias wlinux='cl C:/Users/mkell/Desktop/Coding/Scripts/Github/Linux'
+alias wfiles='cl C:/Users/mkell/Desktop/Coding/Scripts/Github/Files'
+alias wroms='cl C:/Users/mkell/Desktop/Coding/Scripts/Github/ROMs'
+alias wbl='C:/Users/mkell/Desktop/Coding/Scripts/Github/Linux/bashlist'

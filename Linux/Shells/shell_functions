@@ -315,7 +315,7 @@ function git_tips(){
     gaa='git add --all'    
     gac='git add && git commit'
     gaac='git add --all && git commit'
-    {gacp,gl,glazy}='git add --all && git commit -m update && git push'
+    {gacp,gl,glazy}='git add --all && git commit -m Update && git push'
     gitlog='git log --pretty=oneline'
     gps='git push'
     gpl='git pull'
