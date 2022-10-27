@@ -4,8 +4,7 @@ echo "=================="
 echo "|  Starting SSH  |"
 echo "=================="
 #sudo systemctl start sshd.service
-#ssh matt@192.168.43.158
-#ssh matt@xpsbox
 sudo systemctl enable sshd
 sudo systemctl start sshd
+echo "ssh user@host or user@ip"
 #sudo systemctl restart sshd

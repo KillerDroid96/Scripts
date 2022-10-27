@@ -139,8 +139,8 @@ function web_link() {
         display_error "web_link() was called but there was no ID! ID needed to upload to Google Drive!"
         return 1
     fi
-    #gdrive about -c /home/killerdroid96/.gdrive
-    gdrive -c /home/killerdroid96/.gdrive sync upload $HOME/Github/Uploads "${GDRIVE_ID}" &> out.log
+    #gdrive about -c $HOME/.gdrive
+    gdrive -c $HOME/.gdrive sync upload $HOME/Github/Uploads "${GDRIVE_ID}" &> out.log
     echo "https://goo.gl/piMa5s"
 }
 

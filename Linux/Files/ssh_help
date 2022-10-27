@@ -17,12 +17,12 @@ Advanced
 
 <---------Connecting to Host---------->
  ssh username@ip
- ssh matt@192.168.43.158
+ ssh user@host
  alias xssh='ssh username@ip'
 <------------------------------------->
 
 <----------------Mosh--------------->
-mosh matt@192.168.43.158
+mosh user@host or user@ip
 <----------------------------------->
 
 <--------Possible SSH Fix's--------->

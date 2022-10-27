@@ -1,0 +1,6 @@
+source $HOME/Github/Scripts/Linux/Files/neofetch
+#=================================================================
+# Replace neofetch.conf with this file and rename to neofetch.conf
+# Add neofetch.conf changes to $HOME/Github/Scripts/Linux/Files/neofetch 
+# This keeps source path changes up to date 
+#=================================================================

@@ -91,13 +91,13 @@ fi
 tput setaf 30
 if ask "Setup Github Login?"; then
     sudo pacman -Syyu git xclip
-    ssh-keygen -t rsa -b 4096 -C "mkeller96@gmail.com"
+    ssh-keygen -t rsa -b 4096 -C "killerdroid96@gmail.com"
     eval "$(ssh-agent -s)"
     ssh-add ~/.ssh/id_rsa
     xclip -sel clip < ~/.ssh/id_rsa.pub
     echo "Login to Github & Add SSH Key"
     git config --global user.name "KillerDroid96"
-    git config --global user.email "mkeller96@gmail.com"
+    git config --global user.email "killerdroid96@gmail.com"
     git config --global credential.helper "cache --timeout=7200"
     tput setaf 2
     echo ""
@@ -131,6 +131,7 @@ tput setaf 31
     echo "| rig             # Random ID Generator            |"
     echo "| tilix           # Split Terminal Screens         |"
     echo "| yakuake         # Drop Down Terminal             |"
+    echo "| net-tools       # Linux Networking Tools         |"
     echo "===================================================="
     echo "| gnome-screenshot                                 |"
     echo "| telegram-desktop-git                             |"
@@ -138,7 +139,7 @@ tput setaf 31
 if ask "Install My Additional Packages?"; then  
     tput setaf 31; echo "Installing Addition Packages"
     sudo pacman -S yay
-    yay -Syyu --quiet --noconfirm --noeditmenu --needed acpi apg alsi angrysearch auracle aview bc bcompare chromium climate cmatrix cylon figlet fsearch-git gdrive googler glances gnome-screenshot hollywood htop jp2a neofetch osc-url pamac qdirstat-git rar rig screenfetch spotify telegram-desktop tilix w3m yakuake zerofree
+    yay -Syyu --quiet --noconfirm --noeditmenu --needed net-tools acpi apg alsi angrysearch auracle aview bc bcompare chromium climate cmatrix cylon figlet fsearch-git gdrive googler glances gnome-screenshot hollywood htop jp2a neofetch osc-url pamac qdirstat-git rar rig screenfetch spotify telegram-desktop tilix w3m yakuake zerofree
     tput setaf 2
     echo ""
     echo "Additional Packages Install Complete"
@@ -181,15 +182,15 @@ elif
     echo "Enter du_rom in a Terminal to Start Build"
 elif
     tput setaf 6
-    ask "Setup Build for crDroid Android 10.0?"; then
+    ask "Setup Build for crDroid Android 13.0?"; then
     mkdir ~/Github/CRD
     cd ~/Github/CRD
-    yay -S bc bison build-essential ccache curl flex g++-multilib gcc-multilib git gnupg gperf imagemagick lib32ncurses5-dev lib32readline-dev lib32z1-dev liblz4-tool libncurses5 libncurses5-dev libsdl1.2-dev libssl-dev libwxgtk3.0-dev libxml2 libxml2-utils lzop pngcrush rsync schedtool squashfs-tools xsltproc zip zlib1g-dev 
-    virtualenv2 venv
-    source venv/bin/activate
-    repo init -u http://github.com/crdroidandroid/android.git -b 10.0
+    #yay -S bc bison build-essential ccache curl flex g++-multilib gcc-multilib git gnupg gperf imagemagick lib32ncurses5-dev lib32readline-dev lib32z1-dev liblz4-tool libncurses5 libncurses5-dev libsdl1.2-dev libssl-dev libwxgtk3.0-dev libxml2 libxml2-utils lzop pngcrush rsync schedtool squashfs-tools xsltproc zip zlib1g-dev 
+    #virtualenv2 venv
+    #source venv/bin/activate
+    repo init -u http://github.com/crdroidandroid/android.git -b 13.0
     mkdir ~/Github/CRD/.repo/local_manifests
-    cp ~/Github/Scripts/Linux/Files/crd_manifest.xml ~/Github/CRD/local_manifests/roomservice.xml
+    cp ~/Github/Scripts/Linux/Files/crd_manifest.xml ~/Github/CRD/.repo/local_manifests/roomservice.xml
     repo sync --force-sync -j$( nproc --all )
     ccache -M 50G
     echo "Enter crd_rom in a Terminal to Start Build"
@@ -204,6 +205,7 @@ if ask "Add .bashrc Changes?"; then
     cp -b $HOME/.bashrc $HOME/.bashrc.bak
     cp -b $HOME/Github/Scripts/Linux/Shells/.bashrc_redirect $HOME/.bashrc
     source ~/.bashrc && touch "$HOME/.bashrc"
+    chsh -s /bin/bash
     tput setaf 2
     echo ""
     echo ".bashrc Changes Complete"
@@ -252,7 +254,8 @@ fi
 8|add_neofetch)
 tput setaf 36
 if ask "Add Neofetch Config?" Y; then
-    cp Github/Scripts/Files/neofetch ~/.config/neofetch/config
+    cp -b $HOME/.config/neofetch/config.conf $HOME/.config/neofetch/config.bak
+    cp -b $HOME/Github/Scripts/Linux/Files/neofetch_conf $HOME/.config/neofetch/config.conf
     tput setaf 2
     echo ""
     echo "Neofech Changes Complete"

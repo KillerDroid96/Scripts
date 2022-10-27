@@ -141,13 +141,13 @@ function web_link() {
         display_error "web_link() was called but there was no ID! ID needed to upload to Google Drive!"
         return 1
     fi
-    #gdrive about -c /home/killerdroid96/.gdrive
-    gdrive -c /home/killerdroid96/.gdrive sync upload $HOME/Github/Uploads "${GDRIVE_ID}" &> out.log
+    #gdrive about -c $HOME/.gdrive
+    gdrive -c $HOME/.gdrive sync upload $HOME/Github/Uploads "${GDRIVE_ID}" &> out.log
     echo "https://bit.ly/2kAgu6b"
 }
 
 function web_link_about() {
-    gdrive about -c /home/killerdroid96/.gdrive
+    gdrive about -c $HOME/.gdrive
 }
 
 ###########
@@ -155,18 +155,18 @@ function web_link_about() {
 ###########
 function apply_patches(){
     PATCH_LOG=$HOME/Github/CRD/patches.log 
-    cd /home/killerdroid96/Github/CRD/build/make/ #&> ${PATCH_LOG}
-        git am --signoff < '/home/killerdroid96/Github/CRD_Patches/android_build/Update-install-graphics.patch' #&> ${PATCH_LOG}
+    cd $HOME/Github/CRD/build/make/ #&> ${PATCH_LOG}
+        git am --signoff < '$HOME/Github/CRD_Patches/android_build/Update-install-graphics.patch' #&> ${PATCH_LOG}
 }
 
 ################
 # Cherry Picks #
 ################
 function apply_cherrypicks(){
-    cd /home/killerdroid96/Github/CRD/frameworks/base/ 
+    cd $HOME/Github/CRD/frameworks/base/ 
         git cherry-pick 6000db73030542debb330fdf615cc461a5c8229f # Long press QS settings for crDroidSettings
         git cherry-pick 95a2f047dde725d26d3d5a11681dc54d15dcfc97 # Unlock keystore with fingerprint after reboot (1/2)
-    cd /home/killerdroid96/Github/CRD/packages/apps/crDroidSettings/ 
+    cd $HOME/Github/CRD/packages/apps/crDroidSettings/ 
         git cherry-pick edf23435ba3e13a42a8c9216537ebcfd25021648 # Moved bluetooth battery status to misc under quick settings
         git cherry-pick 69949e1426064e7fccd8086fbaa879050705ef46 # Unlock keystore with fingerprint after reboot (2/2)
 }

@@ -1,5 +1,112 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <manifest>
+<!--
+Grapheneos
+ <project path="device/google/gs201" remote="github" name="GrapheneOS/device_google_gs201" revision="13-pantah" />
+ <project path="device/google/gs201-sepolicy" remote="github" name="GrapheneOS/device_google_gs201-sepolicy" revision="13-pantah" />
+ <project path="device/google/gs-common" remote="github" name="GrapheneOS/device_google_gs-common" revision="13-pantah" />
+ <project path="device/google/pantah" remote="github" name="GrapheneOS/device_google_pantah" revision="13-pantah" />
+ <project path="device/google/pantah-sepolicy" remote="github" name="GrapheneOS/device_google_pantah-sepolicy" revision="13-pantah" />
+ <project path="device/google/pantah-kernel" remote="github" name="GrapheneOS/device_google_pantah-kernel" revision="13-pantah" />
+ <project path="hardware/google/graphics/gs201" remote="github" name="GrapheneOS/platform_hardware_google_graphics_gs201" revision="13-pantah" />
+ <project path="hardware/google/interfaces" remote="github" name="GrapheneOS/platform_hardware_google_interface" revision="13-pantah" />
+ <project path="hardware/google/pixel" remote="github" name="GrapheneOS/platform_hardware_google_pixel" revision="13-pantah" />
+ <project path="hardware/google/pixel-sepolicy" remote="github" name="GrapheneOS/platform_hardware_google_pixel-sepolicy" revision="13-pantah" />
+ <project path="vendor/carriersettings-extractor" remote="github" name="GrapheneOS/carriersettings-extractor" revision="13-pantah" />
+
+ <project path="" remote="github" name="GrapheneOS/" revision="13-pantah" />
+
+export -n TEMPORARY_DISABLE_PATH_RESTRICTIONS=true
+m vendorbootimage vendorkernelbootimage target-files-package
+
+
+LineageOS
+  <project path="device/google/panther" remote="github" name="LineageOS/android_device_google_panther" revision="lineage-20" />
+  <project path="device/google/pantah" remote="github" name="LineageOS/android_device_google_pantah" revision="lineage-20" />
+  <project path="device/google/gs201" remote="github" name="LineageOS/android_device_google_gs201" revision="lineage-20" />
+  <project path="device/google/gs101" remote="github" name="LineageOS/android_device_google_gs101" revision="lineage-20" />
+  <project path="kernel/google/gs201" remote="github" name="LineageOS/android_kernel_google_gs201" revision="lineage-20" />
+  <project path="kernel/google/gs101" remote="github" name="LineageOS/android_kernel_google_gs101" revision="lineage-20" />
+
+  <project path="hardware/google/pixel" remote="github" name="LineageOS/android_hardware_google_pixel" revision="lineage-20.0" />
+  <project path="hardware/google/pixel-sepolicy" remote="github" name="LineageOS/android_hardware_google_pixel-sepolicy" revision="lineage-20.0" />
+  <project path="hardware/google/graphics_common" remote="github" name="LineageOS/android_hardware_google_graphics_common" revision="lineage-20.0" />
+  <project path="hardware/google/gchips" remote="github" name="LineageOS/android_hardware_google_gchips" revision="lineage-20.0" />
+  <project path="device/google/atv" remote="github" name="LineageOS/android_device_google_atv" revision="lineage-20.0" />
+
+  
+  <project path="" remote="github" name="" revision="lineage-20" />
+  <project path="" remote="github" name="" revision="lineage-20" />
+  
+
+<project path="device/google/panther" remote="github" name="LineageOS/android_device_google_panther" revision="lineage-20" />
+  <project path="device/google/pantah" remote="github" name="LineageOS/android_device_google_pantah" revision="lineage-20" />
+  <project path="device/google/gs201" remote="github" name="LineageOS/android_device_google_gs201" revision="lineage-20" />
+  <project path="device/google/gs101" remote="github" name="LineageOS/android_device_google_gs101" revision="lineage-20" />
+  <project path="kernel/google/gs201" remote="github" name="LineageOS/android_kernel_google_gs201" revision="lineage-20" />
+  <project path="kernel/google/gs101" remote="github" name="LineageOS/android_kernel_google_gs101" revision="lineage-20" />
+  <project path="device/google/oriole" remote="github" name="LineageOS/android_device_google_oriole" revision="lineage-20" />
+  <project path="device/google/raviole" remote="github" name="LineageOS/android_device_google_raviole" revision="lineage-20" />
+  <project path="kernel/google/gs101/private/gs-google" remote="github" name="LineageOS/android_kernel_google_gs101" revision="lineage-20" />
+
+AOSP
+  <project path="device/google/gs201" name="device/google/gs201" remote="aosp" revision="refs/tags/android-13.0.0_r11" />
+  <project path="device/google/gs201-sepolicy" name="device/google/gs201-sepolicy" remote="aosp" revision="refs/tags/android-13.0.0_r11" />
+  <project path="device/google/gs-common" name="device/google/gs-common" remote="aosp" revision="refs/tags/android-13.0.0_r11" />
+  <project path="device/google/pantah" name="device/google/pantah" remote="aosp" revision="refs/tags/android-13.0.0_r11" />
+  <project path="device/google/pantah-kernel" name="device/google/pantah-kernel" remote="aosp" revision="refs/tags/android-13.0.0_r11" />
+  <project path="device/google/pantah-sepolicy" name="device/google/pantah-sepolicy" remote="aosp" revision="refs/tags/android-13.0.0_r11" />
+
+AOSPA
+  <project path="device/google/gs201" remote="github" name="AOSPA/android_device_google_gs201" revision="topaz" />
+  <project path="device/google/gs201-sepolicy" remote="github" name="AOSPA/android_device_google_gs201-sepolicy" revision="topaz" />
+  <project path="device/google/gs-common" remote="github" name="AOSPA/android_device_google_gs-common" revision="topaz" />
+  <project path="device/google/pantah" remote="github" name="AOSPA/android_device_google_pantah" revision="topaz" />
+  <project path="device/google/pantah-kernel" remote="github" name="AOSPA/android_device_google_pantah-kernel" revision="topaz" />
+-->
+
+<!-- Pixel 7/7 Pro -->
+  <project path="device/google/panther" remote="github" name="LineageOS/android_device_google_panther" revision="lineage-20.0" />
+  <project path="device/google/pantah" remote="github" name="LineageOS/android_device_google_pantah" revision="lineage-20.0" />
+  <project path="device/google/gs201" remote="github" name="LineageOS/android_device_google_gs201" revision="lineage-20.0" />
+  <project path="kernel/google/gs201" remote="github" name="LineageOS/android_kernel_google_gs201" revision="lineage-20.0" />
+
+  <project path="hardware/google/pixel" remote="github" name="LineageOS/android_hardware_google_pixel" revision="lineage-20.0" />
+  <project path="hardware/google/pixel-sepolicy" remote="github" name="LineageOS/android_hardware_google_pixel-sepolicy" revision="lineage-20.0" />
+  <project path="hardware/google/graphics_common" remote="github" name="LineageOS/android_hardware_google_graphics_common" revision="lineage-20.0" />
+  <project path="hardware/google/gchips" remote="github" name="LineageOS/android_hardware_google_gchips" revision="lineage-20.0" />
+  <project path="device/google/atv" remote="github" name="LineageOS/android_device_google_atv" revision="lineage-20.0" />
+  
+  
+
+<!-- Pixel 7/7 Pro Kernel Modules -->
+  <project path="kernel/google/gs201/private/google-modules/amplifiers" name="kernel/google-modules/amplifiers" remote="aosp" revision="refs/tags/android-13.0.0_r0.32" />
+  <project path="kernel/google/gs201/private/google-modules/aoc" name="kernel/google-modules/aoc" remote="aosp" revision="refs/tags/android-13.0.0_r0.32" />
+  <project path="kernel/google/gs201/private/google-modules/aoc_ipc" name="kernel/google-modules/aoc-ipc" remote="aosp" revision="refs/tags/android-13.0.0_r0.32" />
+  <project path="kernel/google/gs201/private/google-modules/bluetooth/broadcom" name="kernel/google-modules/bluetooth/broadcom" remote="aosp" revision="refs/tags/android-13.0.0_r0.32" />
+  <project path="kernel/google/gs201/private/google-modules/bms" name="kernel/google-modules/bms" remote="aosp" revision="refs/tags/android-13.0.0_r0.32" />
+  <project path="kernel/google/gs201/private/google-modules/display" name="kernel/google-modules/display" remote="aosp" revision="refs/tags/android-13.0.0_r0.32" />
+  <project path="kernel/google/gs201/private/google-modules/edgetpu/janeiro" name="kernel/google-modules/edgetpu/janeiro" remote="aosp" revision="refs/tags/android-13.0.0_r0.32" />
+  <!--<project path="kernel/google/gs201/private/google-modules/fingerprint/fpc" name="kernel/google-modules/fingerprint/fpc" remote="aosp" revision="refs/tags/android-13.0.0_r0.32" />-->
+  <project path="kernel/google/gs201/private/google-modules/gpu" name="kernel/google-modules/gpu" remote="aosp" revision="refs/tags/android-13.0.0_r0.32" />
+  <project path="kernel/google/gs201/private/google-modules/gxp/gs201" name="kernel/google-modules/gxp/gs201" remote="aosp" revision="refs/tags/android-13.0.0_r0.32" />
+  <project path="kernel/google/gs201/private/google-modules/lwis" name="kernel/google-modules/lwis" remote="aosp" revision="refs/tags/android-13.0.0_r0.32" />
+  <project path="kernel/google/gs201/private/google-modules/misc" name="kernel/google-modules/misc" remote="aosp" revision="refs/tags/android-13.0.0_r0.32" />
+  <project path="kernel/google/gs201/private/google-modules/nfc" name="kernel/google-modules/nfc" remote="aosp" revision="refs/tags/android-13.0.0_r0.32" />
+  <project path="kernel/google/gs201/private/google-modules/power/reset" name="kernel/google-modules/power/reset" remote="aosp" revision="refs/tags/android-13.0.0_r0.32" />
+  <!--<project path="kernel/google/gs201/private/google-modules/sensors/hall_sensor" name="kernel/google-modules/sensors/hall_sensor" remote="aosp" revision="refs/tags/android-13.0.0_r0.32" />-->
+  <project path="kernel/google/gs201/private/google-modules/touch/common" name="kernel/google-modules/touch/common" remote="aosp" revision="refs/tags/android-13.0.0_r0.32" />
+  <!--<project path="kernel/google/gs201/private/google-modules/touch/focaltech_touch" name="kernel/google-modules/touch/focaltech_touch/common" remote="aosp" revision="refs/tags/android-13.0.0_r0.32" /> -->
+  <!--<project path="kernel/google/gs201/private/google-modules/touch/fts" name="kernel/google-modules/touch/fts_touch" remote="aosp" revision="refs/tags/android-13.0.0_r0.32" />-->
+  <project path="kernel/google/gs201/private/google-modules/touch/sec" name="kernel/google-modules/touch/sec_touch" remote="aosp" revision="refs/tags/android-13.0.0_r0.32" />
+  <project path="kernel/google/gs201/private/google-modules/touch/synaptics_touch" name="kernel/google-modules/touch/synaptics_touch" remote="aosp" revision="refs/tags/android-13.0.0_r0.32" />
+  <project path="kernel/google/gs201/private/google-modules/uwb" name="kernel/google-modules/uwb" remote="aosp" revision="refs/tags/android-13.0.0_r0.32" />
+  <project path="kernel/google/gs201/private/google-modules/uwb-diags" name="kernel/google-modules/uwb-diags" remote="aosp" revision="refs/tags/android-13.0.0_r0.32" />
+  <project path="kernel/google/gs201/private/google-modules/video/gchips" name="kernel/google-modules/video/gchips" remote="aosp" revision="refs/tags/android-13.0.0_r0.32" />
+  <project path="kernel/google/gs201/private/google-modules/wlan/bcmdhd4389" name="kernel/google-modules/wlan/bcmdhd/bcm4389" remote="aosp" revision="refs/tags/android-13.0.0_r0.32" />
+
+
+<!--
   <project name="crdroidandroid/android_device_oneplus_sm8150-common" path="device/oneplus/sm8150-common" remote="github" revision="10.0" />
   <project name="crdroidandroid/android_kernel_oneplus_sm8150" path="kernel/oneplus/sm8150" remote="github" revision="10.0" />
   <project name="crdroidandroid/proprietary_vendor_oneplus" path="vendor/oneplus" remote="github" revision="10.0" />
@@ -8,7 +115,7 @@
   <project name="crdroidandroid/android_packages_resources_devicesettings" path="packages/resources/devicesettings" remote="github" revision="10.0" />
   <project name="KillerDroid96/android_vendor_crDroidOTA" path="vendor/crDroidOTA" remote="github" revision="10.0" />
 </manifest>
-<!--
+
 | OnePlus 7 Pro | 9.0 |
   <project name="crdroidandroid/android_device_oneplus_sm8150-common" path="device/oneplus/sm8150-common" remote="github" revision="9.0" />
   <project name="crdroidandroid/android_kernel_oneplus_sm8150" path="kernel/oneplus/sm8150" remote="github" revision="9.0" />

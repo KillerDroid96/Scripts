@@ -260,7 +260,7 @@ alias et="rm -rf $HOME/.local/share/Trash/files" #Emptys Trash
 alias edt="rm -rf /home/matt/Desktop/trash.desktop"
 alias edt="rm -rf /home/killerdroid96/Desktop/trash.desktop"
 alias p="pwd" #Displays File Path
-alias AP='ssh matt@192.168.43.39' #Android Hotspot
+alias AP='ssh user@host' #SSH
 alias sp="Spotify"
 
 #Fun

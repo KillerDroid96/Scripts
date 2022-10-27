@@ -1,0 +1,32 @@
+Install Betaflight and BLHELISuite32
+
+    yay -S blhelisuite32-bin, betaflight-configurator-bin
+
+Gain USB Access For Betaflight On Arch Linux
+
+    Gain Access to COM Port:
+
+        1. sudo usermod -a -G uucp $USER
+
+        2. Create file /etc/udev/rules.d/50-usbtinyisp.rules and add the rule to this file
+        SUBSYSTEMS=="usb", ATTRS{idVendor}=="(your vendor)", ATTRS{idProduct}=="(your idProduct)", GROUP="users", MODE="0777"
+
+            Example To Find COM Port:
+                sudo lsusb
+                Locate Line With COM Port or Similar: ID 0483:5740 STMicroelectronics Virtual COM Port
+                ID format is Vendor:Product
+                SUBSYSTEMS=="usb", ATTRS{idVendor}=="0483", ATTRS{idProduct}=="5740", GROUP="users", MODE="0777"
+
+        3. sudo udevadm control --reload
+
+    Gain Access to DFU:
+
+        1. In BF CLI type bl
+
+        2. Example To Find DFU Device
+            sudo lsusb
+            Locate Line With COM Port or Similar: ID 0483:df11 STMicroelectronics STM Device in DFU Mode
+            ID format is Vendor:Product
+            SUBSYSTEMS=="usb", ATTRS{idVendor}=="0483", ATTRS{idProduct}=="df11", GROUP="users", MODE="0777"
+
+        3. sudo udevadm control --reload

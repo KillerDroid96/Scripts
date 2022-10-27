@@ -27,19 +27,10 @@ Functions:
 }
 
 function ipconfig/all() {
-    #nmcli --show-secrets connection show "UnknownMeshNetwork"'
-    #nmcli dev status
-    nmcli dev show enp0s3
-}
-
-function myip()
-{
-    #extIp=$(dig +short myip.opendns.com @resolver1.opendns.com)
-
-    printf "Wireless IP: "
-    MY_IP=$(/sbin/ifconfig enp0s3 | awk '/inet/ { print $2 } ' |
-      sed -e s/addr://)
-    echo ${MY_IP:-"Not connected"}
+    nmcli dev status
+    nmcli connection show
+    nmcli -p -m multiline -f all con show
+    nmcli device show
 }
 
 # lists ip, hostname, city, region, country, loc, org, postal
@@ -53,6 +44,48 @@ function ipif() {
     echo
 }
 
+# Show current network information
+netinfo ()
+{
+    echo "--------------- Network Information ---------------"
+    'ip link' | awk /'inet addr/ {print $2}'
+    echo ""
+    /sbin/ifconfig | awk /'Bcast/ {print $3}'
+    echo ""
+    /sbin/ifconfig | awk /'inet addr/ {print $4}'
+
+    /sbin/ifconfig | awk /'HWaddr/ {print $4,$5}'
+    echo "---------------------------------------------------"
+}
+
+function vpn_menu(){
+    header "VPN Menu"
+    select yn in "Auto" "Japan" "Australia" "Switzerland" "United Kingdom" "Disconnect" "Exit"; do
+        case $yn in
+            Auto ) 
+                nordvpn connect
+                break;;
+            Japan ) 
+                nordvpn connect JP
+                break;;
+            Australia ) 
+                nordvpn connect AU
+                break;;
+            Switzerland ) 
+                nordvpn connect Switzerland
+                break;;
+            "United Kingdom" ) 
+                nordvpn connect UK
+                break;;
+            Disconnect ) 
+                nordvpn disconnect 
+                break;;
+            Exit ) 
+                break;;
+        esac
+    done
+}
+
 ####################
 # SYSTEM FUNCTIONS #
 ####################
@@ -62,38 +95,58 @@ function infos(){
     nf
 }
 
-function aur_updater(){
+function pacman_updater(){
     header "Updating System"
     sudo pacman -Scc #Clears cache
     sudo pacman-key --populate archlinux
     echo -e "";
-    #echo -e "${RED}Pacman command:${WHT} yay -Syyu --needed --noconfirm --quiet";
     echo -e "${RED}Pacman command:${WHT} pacman -Syyu --needed --noconfirm --quiet";
     echo -e "";
     sudo pacman -Syyu --needed --noconfirm --quiet
-    #yay -Syyu --needed --noconfirm --quiet
     header "System Update Complete"
 }
 
-# function aur_updater(){
-#    select yn in "Yay" "Trizen" "Exit"; do
-#        case $yn in
-#            Yay ) header "Updating System"
-#                  sudo pacman -Scc #Clears cache
-#                  echo -e "";
-#                  echo -e "Pacman command: yay -Syyu --needed --noconfirm --quiet";
-#                  echo -e "";
-#                  yay -Syyu --needed --noconfirm --quiet
-#                  header "System Update Complete"
-#                  break;;
-#            Trizen ) header "Updating System"
-#                     trizen -Syyu --quiet --noconfirm --noedit --needed
-#                     header "System Update Complete"
-#                     break;;
-#            Exit ) break;;
-#        esac
-#    done
-# }
+function yay_updater(){
+    header "Updating System"
+    yay -Scc #Clears cache
+    sudo pacman-key --populate archlinux
+    echo -e "";
+    echo -e "${RED}Pacman command:${WHT} yay -Syyu --needed --noconfirm --quiet";
+    echo -e "";
+    yay -Syyu --needed --noconfirm --quiet
+    yay -P --stats
+    header "System Update Complete"
+}
+
+ function aur_updaters(){
+    header "System Updater"
+    select yn in "Yay" "Pacman" "Exit"; do
+        case $yn in
+            Yay )   
+                header "Updating System"
+                yay -Scc #Clears cache
+                sudo pacman-key --populate archlinux
+                echo -e "";
+                echo -e "${RED}Pacman command:${WHT} yay -Syyu --needed --noconfirm --quiet";
+                echo -e "";
+                yay -Syyu --needed --noconfirm --quiet
+                yay -P --stats
+                header "System Update Complete"
+                break;;
+            Pacman ) 
+                header "Updating System"
+                sudo pacman -Scc #Clears cache
+                sudo pacman-key --populate archlinux
+                echo -e "";
+                echo -e "${RED}Pacman command:${WHT} pacman -Syyu --needed --noconfirm --quiet";
+                echo -e "";
+                sudo pacman -Syyu --needed --noconfirm --quiet
+                header "System Update Complete"
+                break;;
+            Exit ) break;;
+        esac
+    done
+ }
 
 function prompts(){
     select yn in "clean" "fancy" "info" "simple" "new" "git" "func" "exit"; do
@@ -170,6 +223,10 @@ function numfiles() {
     echo "$N files in $1";
 }
 
+function filetree() {
+    ls -R | grep ":$" | sed -e 's/:$//' -e 's/[^-][^\/]*\//--/g' -e 's/^/   /' -e 's/-/|/'
+}
+
 # cd and ls in one
 function cl() { 
     local dir="$1"
@@ -213,7 +270,7 @@ function wheres (){
 }
 
 function git_config() {
-    git config --global user.email "mkeller96@gmail.com"
+    git config --global user.email "killerdroid96@gmail.com"
     git config --global user.name "KillerDroid96"
     git config --global credential.helper "cache --timeout=7200"
     git config -l
@@ -327,6 +384,20 @@ function tips(){
 ######################
 # QUESTION FUNCTIONS #
 ######################
+
+# Prints a formatted header to point out what is being done to the user
+function header() {
+    if [[ -n ${2} ]]; then
+        COLOR=${2}
+    else
+        COLOR=${RED}
+    fi
+    echo "${COLOR}"
+    echo "====$(for i in $(seq ${#1}); do echo "=\c"; done)===="
+    echo "|   ${1}   |"
+    echo "====$(for i in $(seq ${#1}); do echo "=\c"; done)===="
+    echo "${RST}"
+}
 
 confirm() {
     local answer
@@ -490,7 +561,7 @@ function lists() {
     alias
 }
 
-#function shopts() {         # Sets Shell Options
+#function shopts() {        # Sets Shell Options
     shopt -s cdspell        # This will correct minor spelling errors in a cd command.
     shopt -s histappend     # Append to history rather than overwrite
     shopt -s checkwinsize   # Check window after each command
@@ -519,4 +590,9 @@ function install_yay(){
 function dt(){
     date +"%m-%d-%Y"
     date +"%T"
+}
+
+# Alias for echo to print escape codes
+function echo() {
+    command echo -e "$@"
 }
