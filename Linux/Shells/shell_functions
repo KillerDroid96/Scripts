@@ -44,20 +44,6 @@ function ipif() {
     echo
 }
 
-# Show current network information
-netinfo ()
-{
-    echo "--------------- Network Information ---------------"
-    'ip link' | awk /'inet addr/ {print $2}'
-    echo ""
-    /sbin/ifconfig | awk /'Bcast/ {print $3}'
-    echo ""
-    /sbin/ifconfig | awk /'inet addr/ {print $4}'
-
-    /sbin/ifconfig | awk /'HWaddr/ {print $4,$5}'
-    echo "---------------------------------------------------"
-}
-
 function vpn_menu(){
     header "VPN Menu"
     select yn in "Auto" "Japan" "Australia" "Switzerland" "United Kingdom" "Disconnect" "Exit"; do
